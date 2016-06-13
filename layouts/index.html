@@ -1,0 +1,22 @@
+{{ partial "head.html" . }}
+
+<h3>About</h3>
+<p>
+  I am a Data Scientist at Harvard
+  Business School. Want to work together? Connect with me
+  on <a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a>.
+</p>
+
+<h3>Notes</h3>
+
+<table class="u-full-width" style="margin-top: -20px">
+  <tr><td></td><td></td></tr>
+  {{ range .Data.Pages }}
+  <tr>
+    <td>{{ .Date.Format "2006-01-02" }}</td>
+    <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+  </tr>
+{{ end }}
+</table>
+
+{{ partial "tail.html" . }}
