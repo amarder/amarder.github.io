@@ -11,4 +11,4 @@ deploy: clean
 	cd public; git push origin master
 
 serve:
-	sudo hugo server --watch --baseUrl=http://amarder.github.io/ --port=80 --bind=localhost
+	hugo server --watch
