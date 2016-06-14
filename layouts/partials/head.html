@@ -35,6 +35,9 @@
   <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   <!-- https://piwik.org/ -->
+  <!-- Don't load Piwik if we're developing locally -->
+  {{ $matches := findRE "amarder.github.io" .Site.BaseURL }}
+  {{ if gt (len $matches) 0 }}
   <script type="text/javascript">
     var _paq = _paq || [];
     _paq.push(['trackPageView']);
@@ -48,6 +51,7 @@
     })();
   </script>
   <noscript><p><img src="https://piwik.hbs-rcs.org/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+  {{ end }}
 </head>
 
 <body>
