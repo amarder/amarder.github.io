@@ -7,7 +7,7 @@
 
   <script type="text/javascript" src="/js/jquery.js"></script>
 
-  <!-- http://getskeleton.com/examples/landing/ -->
+  <!-- http://getskeleton.com/ -->
   <link rel="stylesheet" type="text/css" href="/css/raleway.css">
   <link rel="stylesheet" type="text/css" href="/css/normalize.css">
   <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
@@ -22,6 +22,32 @@
   <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
   <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
   <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  <!-- https://www.mathjax.org/ -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <!-- https://piwik.org/ -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="https://piwik.hbs-rcs.org/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', 1]);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <noscript><p><img src="https://piwik.hbs-rcs.org/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 </head>
 
 <body>
