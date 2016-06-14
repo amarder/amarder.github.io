@@ -3,13 +3,13 @@ title: Statistical Power Analysis
 date: 2016-05-02
 ---
 
-<link rel="stylesheet" type="text/css" href="/power-analysis/power.css">
-<script src="/power-analysis/angularjs/angular.min.js"></script>
-<script src="/power-analysis/angularjs-slider/dist/rzslider.js"></script>
-<link rel="stylesheet" type="text/css" href="/power-analysis/angularjs-slider/dist/rzslider.css">
-<script src="//cdn.jsdelivr.net/jstat/1.5.2/jstat.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="/power-analysis/power.js"></script>
+<link rel="stylesheet" type="text/css" href="./power.css">
+<script src="./angular.min.js"></script>
+<script src="./angularjs-slider/rzslider.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./angularjs-slider/rzslider.min.css">
+<script src="./jstat.min.js"></script>
+<script src="/js/d3.min.js"></script>
+<script src="./power.js"></script>
 
 <div ng-app="myapp">
 <div ng-controller="TestController as vm">
