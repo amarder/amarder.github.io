@@ -13,7 +13,7 @@ Using [D3.js](https://d3js.org/), [Zoom Behavior](https://github.com/mbostock/d3
 
 If I were designing this graph for use on a computer only, I would do things a bit differently. I would make the tooltips appear on mouseover events and disappear on mouseout events. Instead of having the link to the book's Amazon page in the tooltip, I would make the point itself the link. I would also make the radius of each point a bit smaller. These changes would make navigating the graph much faster on a computer, but the reliance on mouseover events would make the graph unfriendly to mobile users.
 
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="/books/d3.tip.v0.6.3.js"></script>
-<script src="/books/scatter.js"></script>
-<link rel="stylesheet" href="/books/scatter.css">
+<script src="/js/d3.min.js" charset="utf-8"></script>
+<script src="./d3.tip.v0.6.3.js"></script>
+<script src="./scatter.js"></script>
+<link rel="stylesheet" href="./scatter.css">
