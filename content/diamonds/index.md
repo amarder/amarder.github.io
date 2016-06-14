@@ -42,7 +42,7 @@ On November 6, 2015, I downloaded data on all
 98,886 round diamonds on Blue Nile. Below is a
 plot of diamond price versus carat weight (both on log scales).
 
-![plot of chunk big](/images/diamonds/big-1.png) 
+![plot of chunk big](./big-1.png) 
 
 # Modeling Price
 
@@ -68,7 +68,7 @@ the relationship between $\log(price\_i)$ and $\log(carat\_i)$ is
 remarkably linear, with diamond color shifting the intercept but not
 the slope of the relationship.
 
-![plot of chunk zoomed-in](/images/diamonds/zoomed-in-1.png) 
+![plot of chunk zoomed-in](./zoomed-in-1.png) 
 
 Below is a summary of the fitted linear model. Generally, I put very
 little weight on R-squared values, but this model explains 91.5% of
@@ -121,7 +121,7 @@ multipliers of 1. Is a G-color diamond worth
 1.51 times the price of a J-color
 diamond with the same cut, clarity, and carat weight?
 
-![plot of chunk coefplot](/images/diamonds/coefplot-1.png) 
+![plot of chunk coefplot](./coefplot-1.png) 
 
 # Identifying Deals
 
@@ -149,7 +149,7 @@ $$
 \alpha + \beta \log(carat\_i) - \log(p\_i) = -\epsilon\_i.
 $$
 
-![plot of chunk deals](/images/diamonds/deals-1.png) 
+![plot of chunk deals](./deals-1.png) 
 
 The table below describes the top 10 diamonds found using my
 criteria. All of these diamonds have an ideal cut and H-color.

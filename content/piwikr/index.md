@@ -43,7 +43,7 @@ piwikr also comes with functions for creating graphs. How much traffic has the s
 graph_visitors_vs_date(days)
 ```
 
-![plot of chunk traffic](/images/piwikr/traffic-1.png) 
+![plot of chunk traffic](./traffic-1.png) 
 
 ```r
 nvisitors <- nrow(visitors)
@@ -120,7 +120,7 @@ How important is mobile / how large are the visitors' browser windows?
 graph_browser_resolutions(visits)
 ```
 
-![plot of chunk resolutions](/images/piwikr/resolutions-1.png) 
+![plot of chunk resolutions](./resolutions-1.png) 
 
 # Graphing Site Structure
 
@@ -136,7 +136,7 @@ actions_on_big_pages <- actions %>%
 graph_site_structure(actions_on_big_pages)
 ```
 
-![plot of chunk structure](/images/piwikr/structure-1.png) 
+![plot of chunk structure](./structure-1.png) 
 
 [piwik]: http://piwik.org/
 [piwikr]: https://github.com/amarder/piwikr

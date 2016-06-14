@@ -10,7 +10,7 @@ This is a love story. In stage 1, I fall in love with [Google Analytics][google-
 
 The [Sales Acceleration Formula][sales-acceleration] by Mark Roberge piqued my interest in inbound marketing. So, I decided to experiment with my blog. I set up Google Analytics and started making content to drive traffic to the site. On November 11, 2015, I posted [How to Buy a Diamond][diamonds]. On November 23, Hadley Wickham and Edward Tufte retweeted a link to my post, and traffic to my blog spiked!
 
-![plot of chunk pageviews](/images/analytics/pageviews-1.png) 
+![plot of chunk pageviews](./pageviews-1.png) 
 
 The high I felt when the site's pageviews peaked was great. The attraction to web analytics was clear.
 
@@ -18,7 +18,7 @@ The high I felt when the site's pageviews peaked was great. The attraction to we
 
 Since January 14, 2016, I have collected pageview data using both Google Analytics and Piwik. A comparison of the two data sources illustrates my frustration with referral spam on Google Analytics.
 
-![plot of chunk comparison](/images/analytics/comparison-1.png) 
+![plot of chunk comparison](./comparison-1.png) 
 
 According to Piwik, my blog has drawn at most 11 pageviews each day of the two and a half weeks under observation. Google Analytics, on the other hand, reports three days with almost 50 pageviews! These are extremely different stories about how much traffic is being generated. When I compare of proportion of sessions by referrer across platforms, the issue becomes clearer.
 
@@ -55,7 +55,7 @@ I am less concerned by spam when using Piwik because I have full access to the M
 
 A [Google Trends search][trends] shows the search volume for "google analytics spam" peaked in mid 2015 and is on the rise again.
 
-![plot of chunk trends](/images/analytics/trends-1.png) 
+![plot of chunk trends](./trends-1.png) 
 
 If you're tired of spam on Google Analytics, or you like free open-source software and 100% data ownership, definitely check out [Piwik][piwik].
 
