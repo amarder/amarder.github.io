@@ -3,6 +3,7 @@ title: SSH Key Bindings
 date: 2012-03-22
 aliases:
   - /post/2012-03-22-ssh-key-bindings/
+description: "When the button you press on your keyboard doesn't match the behavior of the remote host..."
 ---
 
 Recently, I was asked how to set up an SSH client so that Ctrl-right

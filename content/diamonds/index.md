@@ -3,6 +3,7 @@ title: How to Buy a Diamond
 date: 2015-11-11
 aliases:
   - /post/diamonds/
+description: "How to buy a diamond like a data nerd."
 ---
 
 Looking to buy a diamond? This how-to guide describes three

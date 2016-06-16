@@ -1,6 +1,7 @@
 ---
 layout: post
 title: How to Ask Good Questions
+description: "A step-by-step guide to asking good questions."
 date: 2012-04-05
 ---
 

@@ -7,8 +7,9 @@
   {{ end }}
 
   <meta name="twitter:title" content="{{ .Title }}"/>
-  <meta name="twitter:description" content="{{ with .Params.description }}{{ . }}{{ end }}"/>
-  <meta name="twitter:site" content="{{ with .Site.Params }}@{{ .twitter.site }}{{ end }}"/>
+  <!-- TODO: There has to be a cleaner way to throw an error. -->
+  <meta name="twitter:description" content="{{ if isset .Params "description" }}{{ .Params.description }}{{ else }}{{ index .Params.throw "error" }}{{ end }}"/>
+  <meta name="twitter:site" content="@{{ .Site.Params.twitter.site }}"/>
   
   <!-- TODO: This should be post-specific. -->
   {{ range .Site.Author }}

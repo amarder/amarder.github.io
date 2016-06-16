@@ -1,5 +1,6 @@
 ---
 title: Statistical Power Analysis
+description: "An interactive visualization of how statistical power analyses are performed."
 date: 2016-05-02
 ---
 

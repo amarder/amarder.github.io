@@ -1,6 +1,7 @@
 ---
 title: Responsive D3.js
 date: 2016-04-02
+description: "A D3.js scatter plot that works well at multiple screen resolutions."
 ---
 
 Q: Is it possible to create a scatter plot that is a pleasure to navigate on both a phone and a computer?

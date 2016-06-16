@@ -4,6 +4,7 @@ title: "Stata: Clustered Standard Errors"
 date: 2013-03-29
 aliases:
   - /2013/03/29/clustered-standard-errors.html
+description: "A note on how Stata calculates standard errors when estimating a fixed effects model using `xtreg fe`."
 ---
 
 I have been implementing a fixed-effects estimator in Python so I can

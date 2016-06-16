@@ -4,6 +4,7 @@ title: Anatomy of a Python Package
 date: 2012-09-19
 aliases:
   - /post/2012-09-19-anatomy-of-a-python-package/
+description: "Using network graphs to better understand how software is constructed."
 ---
 
 > If all subsystems can communicate with all other subsystems, you

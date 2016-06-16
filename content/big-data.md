@@ -1,6 +1,7 @@
 ---
 title: Big Data Tips for Social Science
 date: 2015-10-23
+description: "Some thoughts on working with big data in the social sciences."
 ---
 
 > "The real problem is that programmers have spent far too much time

@@ -1,7 +1,7 @@
 ---
 title: "Custom Web Analytics"
+description: "Introducing piwikr: an R package for the analyis of raw pageview data."
 date: "2016-02-17"
-description: "Extending Piwik with R."
 twitter:
   image: /piwikr/resolutions-1.png
 ---

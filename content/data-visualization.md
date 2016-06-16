@@ -2,6 +2,7 @@
 layout: post
 title: Data Visualization
 date: 2012-05-10
+description: "Minimizing Tufte's principles of data graphics."
 ---
 
 Edward Tufte's [The Visual Display of Quantitative Information][1] is
