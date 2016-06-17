@@ -1,9 +1,20 @@
 ---
 title: "Custom Web Analytics"
-description: "Introducing piwikr: an R package for the analyis of raw pageview data."
-date: "2016-02-17"
+description: "Introducing piwikr: an R package for the analysis of raw page view data."
+author: "Andrew Marder"
+date: "2016-06-16"
+output:
+  html_document:
+    toc: true
+  md_document:
+    preserve_yaml: true
+    variant: "markdown_strict"
+vignette: >
+  %\VignetteIndexEntry{Custom Web Analytics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 twitter:
-  image: /piwikr/resolutions-1.png
+  image: "./piwikr_files/figure-markdown_strict/resolutions-1.png"
 ---
 
 
@@ -14,7 +25,12 @@ twitter:
 ```r
 library(piwikr)
 
-my_db <- src_mysql(host='host.com', user='root', password='pass', dbname='piwik')
+my_db <- src_mysql(
+    host = "host.com",
+    user = "andrew",
+    password = "xxxxx",
+    dbname = "piwik"
+)
 ```
 
 
@@ -33,7 +49,7 @@ piwikr comes with functions to compute new tables from the primary tables. The f
 ```r
 visitors <- compute_visitors(actions)
 days <- compute_days(actions)
-pages <- compute_pages(actions)
+pages <- compute_pages(actions, base_url = "amarder.github.io")
 sources <- compute_sources(visits)
 ```
 
@@ -46,15 +62,15 @@ piwikr also comes with functions for creating graphs. How much traffic has the s
 graph_visitors_vs_date(days)
 ```
 
-![plot of chunk traffic](./traffic-1.png) 
+![](piwikr_files/figure-markdown_strict/traffic-1.png)
 
 ```r
 nvisitors <- nrow(visitors)
 ndays <- as.numeric(max(actions$day) - min(actions$day))
-arrival_rate <- round(nvisitors / ndays, 2)
+arrival_rate <- nvisitors / ndays
 ```
 
-The site has attracted 488 visitors over 86 days. The overall arrival rate was 5.67 visitors per day.
+The site has attracted 3076 visitors over 155 days. The overall arrival rate was 19.85 visitors per day.
 
 # Popular Content
 
@@ -66,26 +82,26 @@ library(dplyr)
 library(pander)
 
 pages %>%
-    select(Page, Visitors) %>%
-    mutate(Page=paste0('<a href="', Page, '">', Page, '</a>')) %>%
+    mutate(Page = paste0('<a href="https://amarder.github.io', page, '">', page, "</a>")) %>%
+    select(Page, Visitors = visitors) %>%
     head(10) %>%
-    pandoc.table(style='rmarkdown', split.table=Inf, justify='ll')
+    pandoc.table(style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
 
 
-| Page                                                                  | Visitors   |
-|:----------------------------------------------------------------------|:-----------|
-| <a href="/responsive-d3js/">/responsive-d3js/</a>                     | 204        |
-| <a href="/clustered-standard-errors/">/clustered-standard-errors/</a> | 188        |
-| <a href="/">/</a>                                                     | 46         |
-| <a href="/analytics/">/analytics/</a>                                 | 23         |
-| <a href="/piwikr/">/piwikr/</a>                                       | 23         |
-| <a href="/diamonds/">/diamonds/</a>                                   | 22         |
-| <a href="/books/">/books/</a>                                         | 16         |
-| <a href="/ssh-key-bindings/">/ssh-key-bindings/</a>                   | 7          |
-| <a href="/big-data/">/big-data/</a>                                   | 5          |
-| <a href="/data-visualization/">/data-visualization/</a>               | 3          |
+| Page                                                                                           | Visitors   |
+|:-----------------------------------------------------------------------------------------------|:-----------|
+| <a href="https://amarder.github.io/power-analysis/">/power-analysis/</a>                       | 2363       |
+| <a href="https://amarder.github.io/clustered-standard-errors/">/clustered-standard-errors/</a> | 320        |
+| <a href="https://amarder.github.io/responsive-d3js/">/responsive-d3js/</a>                     | 280        |
+| <a href="https://amarder.github.io/">/</a>                                                     | 147        |
+| <a href="https://amarder.github.io/analytics/">/analytics/</a>                                 | 61         |
+| <a href="https://amarder.github.io/piwikr/">/piwikr/</a>                                       | 50         |
+| <a href="https://amarder.github.io/diamonds/">/diamonds/</a>                                   | 48         |
+| <a href="https://amarder.github.io/books/">/books/</a>                                         | 43         |
+| <a href="https://amarder.github.io/big-data/">/big-data/</a>                                   | 17         |
+| <a href="https://amarder.github.io/data-visualization/">/data-visualization/</a>               | 17         |
 
 # Referrals
 
@@ -94,7 +110,7 @@ How are visitors finding the site?
 
 ```r
 sources %>%
-    select(Source, Visitors) %>%
+    select(Source = source, Visitors = visitors) %>%
     head(10) %>%
     pandoc.table(style='rmarkdown', justify='ll')
 ```
@@ -103,16 +119,16 @@ sources %>%
 
 | Source                    | Visitors   |
 |:--------------------------|:-----------|
-| (direct)                  | 230        |
-| Google                    | 186        |
-| t.co                      | 52         |
-| us6.campaign-archive2.com | 4          |
-| www.statalist.org         | 4          |
-| flipboard.com             | 3          |
-| scholar.google.com        | 2          |
-| Baidu                     | 1          |
-| disq.us                   | 1          |
-| mail.yandex.ru            | 1          |
+| (direct)                  | 2338       |
+| Google                    | 327        |
+| t.co                      | 155        |
+| feedly.com                | 52         |
+| flipboard.com             | 43         |
+| news.ycombinator.com      | 40         |
+| popurls.com               | 10         |
+| post.oreilly.com          | 9          |
+| us3.campaign-archive1.com | 8          |
+| us6.campaign-archive2.com | 8          |
 
 # Browser Resolutions
 
@@ -123,23 +139,25 @@ How important is mobile / how large are the visitors' browser windows?
 graph_browser_resolutions(visits)
 ```
 
-![plot of chunk resolutions](./resolutions-1.png) 
+![](piwikr_files/figure-markdown_strict/resolutions-1.png)
 
-# Graphing Site Structure
+```r
+pct_mobile <- 100 * mean(visits$screen_width < 800, na.rm = TRUE)
+```
 
-piwikr can also visualize how users navigate from page to page on the site. Each node in the graph below represents a page on the site, the size of a node is proportional to the number of visitors who have viewed the page. The width of each edge is proportional to the number of visitors that traveled from the source page to the destination page.
+14.6% of visits were performed on a screen with width less than 800 pixels.
+
+# Site Structure
+
+piwikr can also visualize how users navigate from page to page on the site. Each node in the graph below represents a page on the site, the size of a node is proportional to the number of visitors who have viewed the page. The width of each edge is proportional to the number of visitors that traveled between the two pages.
 
 
 ```r
-actions_on_big_pages <- actions %>%
-    group_by(url) %>%
-    mutate(visitors = n_distinct(visitor_id)) %>%
-    filter(visitors > 3) %>%
-    ungroup()
-graph_site_structure(actions_on_big_pages)
+set.seed(2)
+graph_site_structure(actions, base_url = "amarder.github.io", n = 14)
 ```
 
-![plot of chunk structure](./structure-1.png) 
+![](piwikr_files/figure-markdown_strict/structure-1.png)
 
 [piwik]: http://piwik.org/
 [piwikr]: https://github.com/amarder/piwikr
