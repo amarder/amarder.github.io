@@ -14,7 +14,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 twitter:
-  image: "./piwikr_files/figure-markdown_strict/resolutions-1.png"
+  image: "/piwikr/piwikr_files/figure-markdown_strict/resolutions-1.png"
 ---
 
 
@@ -96,7 +96,7 @@ pages %>%
 | <a href="https://amarder.github.io/clustered-standard-errors/">/clustered-standard-errors/</a> | 320        |
 | <a href="https://amarder.github.io/responsive-d3js/">/responsive-d3js/</a>                     | 280        |
 | <a href="https://amarder.github.io/">/</a>                                                     | 147        |
-| <a href="https://amarder.github.io/analytics/">/analytics/</a>                                 | 61         |
+| <a href="https://amarder.github.io/analytics/">/analytics/</a>                                 | 62         |
 | <a href="https://amarder.github.io/piwikr/">/piwikr/</a>                                       | 50         |
 | <a href="https://amarder.github.io/diamonds/">/diamonds/</a>                                   | 48         |
 | <a href="https://amarder.github.io/books/">/books/</a>                                         | 43         |
