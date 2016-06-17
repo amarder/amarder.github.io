@@ -1,6 +1,6 @@
 ---
 title: "Custom Web Analytics"
-description: "Introducing piwikr: an R package for the analysis of raw page view data."
+description: "piwikr: an R package for analyzing pageviews."
 author: "Andrew Marder"
 date: "2016-06-16"
 output:
@@ -14,7 +14,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 twitter:
-  image: "/piwikr/piwikr_files/figure-markdown_strict/resolutions-1.png"
+  image: "/piwikr/piwikr_files/figure-markdown_strict/twitter-1.png"
 ---
 
 
@@ -92,7 +92,7 @@ pages %>%
 
 | Page                                                                                           | Visitors   |
 |:-----------------------------------------------------------------------------------------------|:-----------|
-| <a href="https://amarder.github.io/power-analysis/">/power-analysis/</a>                       | 2363       |
+| <a href="https://amarder.github.io/power-analysis/">/power-analysis/</a>                       | 2364       |
 | <a href="https://amarder.github.io/clustered-standard-errors/">/clustered-standard-errors/</a> | 320        |
 | <a href="https://amarder.github.io/responsive-d3js/">/responsive-d3js/</a>                     | 280        |
 | <a href="https://amarder.github.io/">/</a>                                                     | 147        |
@@ -158,6 +158,8 @@ graph_site_structure(actions, base_url = "amarder.github.io", n = 14)
 ```
 
 ![](piwikr_files/figure-markdown_strict/structure-1.png)
+
+
 
 [piwik]: http://piwik.org/
 [piwikr]: https://github.com/amarder/piwikr
