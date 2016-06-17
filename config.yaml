@@ -12,4 +12,5 @@ author:
 params:
   twitter:
     site: "andrewmarder"
+    image: "/images/emacs.png"
 ...

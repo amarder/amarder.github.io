@@ -4,6 +4,7 @@
     <meta name="twitter:image" content="{{ . | absURL }}"/>
   {{ else }}
     <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:image" content="{{ .Site.Params.twitter.image | absURL }}"/>
   {{ end }}
 
   <meta name="twitter:title" content="{{ .Title }}"/>
