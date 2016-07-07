@@ -19,10 +19,8 @@ helpful answers is an adaptation of
 
     Read the manual.  Read the FAQ.  Search the archives of the forum
     where you might ask for help.  Search the Web.  Ask a skilled
-    friend.
-
-    > Take your time.  Do not expect to be able to solve a complicated
-    > problem with a few seconds of Googling.
+    friend. "Take your time.  Do not expect to be able to solve a
+    complicated problem with a few seconds of Googling."
 
 3.  Ask for help.
 
@@ -42,12 +40,13 @@ helpful answers is an adaptation of
     Be explicit about your question.  Focus your respondent's effort
     and put a bound on the time and energy necessary to help you.
 
-4.  If you get a helpful response, give thanks.  Follow up with a
-    brief note on the solution.  Modify the subject of the mail to be
-    "Subject - FIXED".  Say what action solved the problem, do not
-    repeat the problem's history.  Name those who helped.  Mention
-    blind alleys at the end of the message to inform those who might
-    be curious.
+4.  If you get a helpful response, give thanks.
+
+    Follow up with a brief note on the solution.  Modify the subject
+    of the mail to be "Subject - FIXED".  Say what action solved the
+    problem, do not repeat the problem's history.  Name those who
+    helped.  Mention blind alleys at the end of the message to inform
+    those who might be curious.
 
     If you don't get the response you were hoping for, don't react
     like a loser.  When someone let's you know you've asked a stupid
@@ -59,8 +58,7 @@ helpful answers is an adaptation of
     get an answer, don't repost your question instead consider paying
     for support.
 
-How To Answer Questions in a Helpful Way
-========================================
+# How To Answer Questions in a Helpful Way
 
 "Be gentle. Problem-related stress can make people seem rude or
 stupid."  Ask probing questions to elicit more details.  "If you're
