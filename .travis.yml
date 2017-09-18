@@ -10,6 +10,7 @@ before_install:
   - mkdir -p ~/bin
   - wget --no-check-certificate https://github.com/gohugoio/hugo/releases/download/v0.23/hugo_0.23_Linux-64bit.tar.gz
   - tar xf hugo_0.23_Linux-64bit.tar.gz
+  - ls -a
   - mv hugo ~/bin
 
 script:
