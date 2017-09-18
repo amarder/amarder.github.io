@@ -1,0 +1,35 @@
+baseurl = "https://amarder.github.io/"
+languageCode = "en-us"
+title = "Andrew Marder"
+theme = "hugo-lithium-theme"
+googleAnalytics = "UA-68782208-1"
+disqusShortname = "amarder-github-pages"
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
+
+[[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/amarder"
+[[menu.main]]
+    name = "Twitter"
+    url = "https://twitter.com/andrewmarder"
+
+[params]
+    description = "A website built through Hugo and blogdown."
+
+    # options for highlight.js (version, additional languages, and theme)
+    highlightjsVersion = "9.11.0"
+    highlightjsCDN = "//cdn.bootcss.com"
+    highlightjsLang = ["r", "yaml"]
+    highlightjsTheme = "github"
+
+    MathJaxCDN = "//cdn.bootcss.com"
+    MathJaxVersion = "2.7.1"
+
+    [params.logo]
+    url = "logo.png"
+    width = 50
+    height = 50
+    alt = "Logo"
