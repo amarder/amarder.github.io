@@ -1,14 +1,17 @@
-clean:
-	mv public/.git _temp
-	rm -r public
-	mkdir public
-	mv _temp public/.git
+clean: 
+	rm -rf public
 
-deploy: clean
-	hugo
-	cd public; git add -A
-	cd public; git commit -m "site updated"
-	cd public; git push origin master
+#######################################
+# Serve site locally, includes drafts #
+#######################################
 
 serve:
-	hugo server --watch
+	R -e "blogdown::serve_site()"
+
+#########################################
+# Build the site, no drafts             #
+# To preview the site use `hugo server` #
+#########################################
+
+build:
+	R -e "library(blogdown)" -e "build_site(local = TRUE)" -e "hugo_build(local = FALSE)"
