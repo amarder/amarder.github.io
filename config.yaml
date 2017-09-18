@@ -1,4 +1,3 @@
----
 baseurl: "https://amarder.github.io/"
 languageCode: "en-us"
 title: "Andrew Marder"
@@ -13,4 +12,3 @@ params:
   twitter:
     site: "andrewmarder"
     image: "/images/emacs.png"
-...

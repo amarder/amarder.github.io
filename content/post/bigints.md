@@ -1,3 +1,8 @@
+---
+title: 64-bit Integers in R
+date: 2017-09-18
+---
+
 What is best practice when working with large integers (requiring more
 then 32-bits) and `readr`?
 
