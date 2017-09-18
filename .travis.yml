@@ -13,6 +13,7 @@ before_install:
   - mv hugo ~/bin
 
 script:
+  - R -e "blogdown::install_theme('yihui/hugo-lithium-theme')"
   - make build
   - cp .travis.yml public
   - ls -a public
