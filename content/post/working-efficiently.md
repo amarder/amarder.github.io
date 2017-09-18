@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Working Efficiently
 date: 2013-04-17
 draft: true

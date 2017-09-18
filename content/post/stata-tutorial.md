@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Stata Tutorial
 date: 2012-09-17
 description: "A quick introduction to the statistical software package Stata."

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Harvard's Odyssey Cluster
 date: 2013-05-31
 draft: true

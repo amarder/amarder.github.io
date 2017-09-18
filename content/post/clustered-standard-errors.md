@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Stata: Clustered Standard Errors"
 date: 2013-03-29
 aliases:
