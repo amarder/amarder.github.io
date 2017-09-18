@@ -1,0 +1,126 @@
+What is best practice when working with large integers (requiring more
+then 32-bits) and `readr`?
+
+Out of the box, the largest integer R can handle is 2147483647.
+
+    # Make a character string that cannot be stored in a 32-bit integer
+    s <- paste0(as.character(.Machine$integer.max), "0")
+
+    # Show that R cannot store this character string as an integer
+    as.integer(s)
+
+    ## [1] NA
+
+Reading
+=======
+
+Like `R`, `readr::read_csv` cannot parse integers larger than
+2147483647:
+
+    library(readr)
+
+    parse_integer(s)
+
+    ## [1] NA
+    ## attr(,"problems")
+    ## # A tibble: 1 x 4
+    ##     row   col   expected      actual
+    ##   <int> <int>      <chr>       <chr>
+    ## 1     1    NA an integer 21474836470
+
+Following the advice of
+[Win-Vector](http://www.win-vector.com/blog/2015/06/r-in-a-64-bit-world/),
+we can read large integers as character vectors.
+
+    # Write a test file
+    command <- paste0("echo 'big\n", s, "' > in.csv")
+    system(command)
+
+    # Read the integer data as character
+    my_data <- read_csv(
+        "in.csv",
+        col_types = cols(
+            big = col_character()
+        )
+    )
+
+    # Show we got the right value
+    my_data$big[1] == s
+
+    ## [1] TRUE
+
+Writing
+=======
+
+The `bit64` library facilitates working with 64-bit integers in R.
+
+    library(bit64)
+
+    # We can store `s` as a 64-bit integer
+    i <- as.integer64(s)
+    as.character(i) == s
+
+    ## [1] TRUE
+
+It looks like `readr::write_csv` can handle `integer64` objects:
+
+    # Write out an integer64 object
+    my_data$big <- as.integer64(my_data$big)
+    write_csv(my_data, "out.csv")
+
+    # Make sure it was written properly
+    text <- system("cat out.csv", intern = TRUE)
+    text[2] == s
+
+    ## [1] TRUE
+
+Conclusion
+==========
+
+-   The safest approach seems to be reading and writing string
+    representations when integers cannot be stored in 32-bits.
+
+-   `readr::write_csv` appears capable of writing `integer64` objects,
+    can we be certain this will always work?
+
+Related questions
+=================
+
+-   [big integers when reading file with readr in
+    r](http://stackoverflow.com/questions/38894729/big-integers-when-reading-file-with-readr-in-r)
+
+-   [readr : Turn off scientific notation in
+    write\_csv](http://stackoverflow.com/questions/30341140/readr-turn-off-scientific-notation-in-write-csv)
+    
+Answer
+======
+
+Thanks to [Hadley Wickham](https://twitter.com/hadleywickham/status/781878063814414336) for a pragmatic answer: "use doubles"
+
+There is an important caveat associated with using doubles. [Win-Vector](http://www.win-vector.com/blog/2015/06/r-in-a-64-bit-world/) notes:
+
+> IEEE 754 doubles define a 53 bit mantissa (separate from the sign and exponent), so with a proper floating point implementation we expect a double can faithfully represent an integer range of -2^53 through 2^53. But only as long as you don’t accidentally convert to or round-trip through a string/character type.
+
+Here is an example where using doubles can get one into trouble:
+
+    > library(bit64)
+    > library(readr)
+    
+    > # Set up CSV
+    > a <- as.integer64(2) ^ 53
+    > b <- a + 1
+    > text <- paste0("x\n", a, "\n", b, "\n")
+    > cat(text)
+    x
+    9007199254740992
+    9007199254740993
+    
+    > # Read CSV
+    > data <- read_csv(text, col_types = cols(x = col_double()))
+    
+    > # Show that b was not read properly
+    > as.integer64(data$x)
+    integer64
+    [1] 9007199254740992 9007199254740992
+
+My plan moving forward is to use doubles and check that `abs(x) <= as.integer64(2) ^ 53`.
