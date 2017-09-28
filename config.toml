@@ -1,7 +1,7 @@
 baseurl = "https://amarder.github.io/"
 languageCode = "en-us"
 title = "Andrew Marder"
-theme = "hugo-lithium-theme"
+theme = "marder"
 googleAnalytics = "UA-68782208-1"
 disqusShortname = "amarder-github-pages"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
@@ -33,3 +33,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     width = 50
     height = 50
     alt = "Logo"
+
+    [params.twitter]
+    site = "andrewmarder"
+    image = "/images/emacs.png"

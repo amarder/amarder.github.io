@@ -3,6 +3,7 @@
 <head>
   <title>{{ .Title }}</title>
 
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <script type="text/javascript" src="/js/jquery.js"></script>
@@ -33,9 +34,6 @@
     });
   </script>
   <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  <!-- https://piwik.org/ -->
-  {{ partial "piwik.html" . }}
 
   <!-- https://dev.twitter.com/cards/overview -->
   {{ partial "twitter.html" . }}
