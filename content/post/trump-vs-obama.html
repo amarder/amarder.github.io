@@ -1,0 +1,126 @@
+---
+title: Trump vs Obama - a Battle of Words
+slug: trump-vs-obama
+author: Andrew Marder
+date: 2017-09-29
+twitter:
+  card: summary_large_image
+  site: "@andrewmarder"
+  creator: "@andrewmarder"
+  title: Trump vs Obama - a Battle of Words
+  description: Using R to explore word usage by Donald Trump and Barack Obama.
+  image: "/post/trump-vs-obama_files/figure-html/twitter-1.png"
+---
+
+
+
+<p>This post applies natural language processing, machine learning, and data visualization to examine how word usage differs between Donald Trump and Barack Obama. I employ a number of excellent R libraries to download tweets, clean the associated text, and predict authorship based on word choice.</p>
+<div id="downloading-data" class="section level2">
+<h2>Downloading Data</h2>
+<p>The <a href="https://cran.r-project.org/web/packages/twitteR/">twitteR</a> library makes it easy to download tweets through the Twitter API. To access Twitter’s API you need to create a new app using <a href="https://apps.twitter.com/">Twitter Application Management</a>. Once you have created an app, you can find the needed credentials in the “Keys and Access Tokens” tab. Now we can connect to the Twitter API using twitteR:</p>
+<pre class="r"><code>library(twitteR)
+
+setup_twitter_oauth(
+    consumer_key = Sys.getenv(&quot;TWITTER_CONSUMER_KEY&quot;),
+    consumer_secret = Sys.getenv(&quot;TWITTER_CONSUMER_SECRET&quot;),
+    access_token = Sys.getenv(&quot;TWITTER_ACCESS_TOKEN&quot;),
+    access_secret = Sys.getenv(&quot;TWITTER_ACCESS_SECRET&quot;)
+)</code></pre>
+<pre><code>## [1] &quot;Using direct authentication&quot;</code></pre>
+<p>After connecting to the API, downloading a user’s most recent tweets is a snap:</p>
+<pre class="r"><code>trump &lt;- userTimeline(&#39;realDonaldTrump&#39;, n = 3200)
+obama &lt;- userTimeline(&#39;BarackObama&#39;, n = 3200)</code></pre>
+<p>Under the hood, the <code>userTimeline()</code> function is hitting the <a href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html">statuses/user_timeline</a> API endpoint. “This method can only return up to 3,200 of a user’s most recent Tweets. Native retweets of other statuses by the user is included in this total, regardless of whether <code>include_rts</code> is set to <code>false</code> when requesting this resource.”</p>
+</div>
+<div id="cleaning-data" class="section level2">
+<h2>Cleaning Data</h2>
+<p>To start let’s create a data frame containing tweets by Donald Trump and Barack Obama.</p>
+<pre class="r"><code>library(tidyverse)
+
+raw_tweets &lt;- bind_rows(twListToDF(trump), twListToDF(obama))</code></pre>
+<p>The <a href="https://cran.r-project.org/web/packages/tidytext/">tidytext</a> library makes cleaning text data a breeze. Let’s create a long data set with one row for each word from each tweet:</p>
+<pre class="r"><code>library(tidytext)
+
+words &lt;- raw_tweets %&gt;%
+    unnest_tokens(word, text)</code></pre>
+<p>Let’s remove common stop words:</p>
+<pre class="r"><code>data(&quot;stop_words&quot;)
+
+words &lt;- words %&gt;%
+    anti_join(stop_words, by = &quot;word&quot;)</code></pre>
+<p>Let’s also remove some additional words I’d like to ignore:</p>
+<pre class="r"><code>options(stringsAsFactors = FALSE)
+
+words_to_ignore &lt;- data.frame(word = c(&quot;https&quot;, &quot;amp&quot;, &quot;t.co&quot;))
+
+words &lt;- words %&gt;%
+    anti_join(words_to_ignore, by = &quot;word&quot;)</code></pre>
+<p>Now let’s create a wide data set that has one row for each tweet and a column for each word. We will use this data to see which words best predict authorship.</p>
+<pre class="r"><code>tweets &lt;- words %&gt;%
+    group_by(screenName, id, word) %&gt;%
+    summarise(contains = 1) %&gt;%
+    ungroup() %&gt;%
+    spread(key = word, value = contains, fill = 0) %&gt;%
+    mutate(tweet_by_trump = as.integer(screenName == &quot;realDonaldTrump&quot;)) %&gt;%
+    select(-screenName, -id)</code></pre>
+</div>
+<div id="modeling-authorship" class="section level2">
+<h2>Modeling Authorship</h2>
+<p>Our data set has 594 rows (tweets) and 2213 columns (1 column indicating the author of the tweet and 2212 additional columns indicating whether a particular word was used in this tweet). Which words are most useful in predicting who authored a tweet? <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)">Lasso regression</a> can help us determine which words are most predictive. The <a href="https://cran.r-project.org/web/packages/glmnet/index.html">glmnet</a> library makes it super easy to perform lasso regression:</p>
+<pre class="r"><code>library(glmnet)
+
+fit &lt;- cv.glmnet(
+    x = tweets %&gt;% select(-tweet_by_trump) %&gt;% as.matrix(),
+    y = tweets$tweet_by_trump,
+    family = &quot;binomial&quot;
+)</code></pre>
+<p>Let’s see which words have the largest coefficients:</p>
+<pre class="r"><code>temp &lt;- coef(fit, s = exp(-3)) %&gt;% as.matrix()
+coefficients &lt;- data.frame(word = row.names(temp), beta = temp[, 1])
+data &lt;- coefficients %&gt;%
+    filter(beta != 0) %&gt;%
+    filter(word != &quot;(Intercept)&quot;) %&gt;%
+    arrange(desc(beta)) %&gt;%
+    mutate(i = row_number())
+
+ggplot(data, aes(x = i, y = beta, fill = ifelse(beta &gt; 0, &quot;Trump&quot;, &quot;Obama&quot;))) +
+    geom_bar(stat = &quot;identity&quot;, alpha = 0.75) +
+    scale_x_continuous(breaks = data$i, labels = data$word, minor_breaks = NULL) +
+    xlab(&quot;&quot;) +
+    ylab(&quot;Coefficient Estimate&quot;) +
+    coord_flip() +
+    scale_fill_manual(
+        guide = guide_legend(title = &quot;Word typically used by:&quot;),
+        values = c(&quot;#446093&quot;, &quot;#bc3939&quot;)
+    ) +
+    theme_bw() +
+    theme(legend.position = &quot;top&quot;)</code></pre>
+<p><img src="/post/trump-vs-obama_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="word-clouds" class="section level2">
+<h2>Word Clouds</h2>
+<p>The <a href="https://cran.r-project.org/web/packages/wordcloud/index.html">wordcloud</a> library makes it super easy to make word clouds! Let’s make one for Trump:</p>
+<pre class="r"><code>library(wordcloud)
+
+words %&gt;%
+    filter(screenName == &quot;realDonaldTrump&quot;) %&gt;%
+    count(word) %&gt;%
+    with(wordcloud(word, n, max.words = 20))</code></pre>
+<p><img src="/post/trump-vs-obama_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>And one for Obama:</p>
+<pre class="r"><code>words %&gt;%
+    filter(screenName == &quot;BarackObama&quot;) %&gt;%
+    count(word) %&gt;%
+    with(wordcloud(word, n, max.words = 20))</code></pre>
+<p><img src="/post/trump-vs-obama_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="warning" class="section level2">
+<h2>Warning</h2>
+<p>It looks like most of Barack Obama’s tweets are from 2016, while Donald Trump’s tweets have been more recent:</p>
+<pre class="r"><code>ggplot(raw_tweets, aes(x = created, y = screenName)) +
+    geom_jitter(width = 0) +
+    theme_bw() +
+    ylab(&quot;&quot;) +
+    xlab(&quot;&quot;)</code></pre>
+<p><img src="/post/trump-vs-obama_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
