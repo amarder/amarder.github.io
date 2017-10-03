@@ -7,7 +7,7 @@ disqusShortname = "amarder-github-pages"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [permalinks]
-    post = "/:year/:month/:day/:slug/"
+    post = "/:slug/"
 
 [[menu.main]]
     name = "GitHub"
