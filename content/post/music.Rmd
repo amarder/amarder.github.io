@@ -1,0 +1,28 @@
+---
+title: Use R to make a Music Video
+draft: true
+---
+
+[digital audio](https://en.wikipedia.org/wiki/Digital_audio)
+
+http://csh.bz/highticket/
+
+```{r, eval = FALSE}
+library(tuneR)
+library(ggplot2)
+
+temp <- readMP3("~/Downloads/SoundHelix-Song-1.mp3")
+
+wave <- data.frame(
+    left = temp@left,
+    right = temp@right
+)
+wave$second <- (1:nrow(wave)) / temp@samp.rate
+
+## Let's only look at the beginning of the data
+wave <- wave[100000:101000, ]
+
+ggplot(wave, aes(x = second, y = left)) +
+    geom_point(size = 0.1) +
+    geom_smooth(method = 'loess', se = FALSE, span = 0.01, n = 1000)
+```
