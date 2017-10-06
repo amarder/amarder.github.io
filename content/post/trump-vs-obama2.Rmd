@@ -1,6 +1,6 @@
 ---
-title: Trump vs Obama - Finding Middle Ground
-slug: trump-vs-obama2
+title: Trump vs Sanders - Finding Middle Ground
+slug: trump-vs-sanders2
 author: Andrew Marder
 date: 2017-10-06
 output: pdf_document
@@ -8,8 +8,8 @@ twitter:
   card: summary_large_image
   site: "@andrewmarder"
   creator: "@andrewmarder"
-  title: Trump vs Obama - Finding Middle Ground
-  description: Using R to identify centrist statements by Donald Trump and Barack Obama.
+  title: Trump vs Sanders - Finding Middle Ground
+  description: Using R to identify centrist statements by Donald Trump and Bernie Sanders.
   image: "?"
 ---
 
@@ -18,7 +18,6 @@ library(knitr)
 
 opts_chunk$set(warning = FALSE, message = FALSE)
 ```
-
 
 
 ## Downloading Data
@@ -38,12 +37,12 @@ read_tweets <- function() {
         access_secret = Sys.getenv("TWITTER_ACCESS_SECRET")
     ))
 
-    # Download tweets by Trump and Obama
+    # Download tweets by Trump and Sanders
     trump <- userTimeline('realDonaldTrump', n = 3200)
-    obama <- userTimeline('BarackObama', n = 3200)
+    sanders <- userTimeline('SenSanders', n = 3200)
 
     # Create a data frame of tweets
-    tweets <- bind_rows(twListToDF(trump), twListToDF(obama))
+    tweets <- bind_rows(twListToDF(trump), twListToDF(sanders))
     return(tweets)
 }
 
@@ -109,76 +108,41 @@ tweets <- words %>%
     ungroup() %>%
     spread(key = word, value = contains, fill = 0) %>%
     mutate(tweet_by_trump = as.integer(screenName == "realDonaldTrump")) %>%
-    select(-screenName, -id)
+    select(-screenName)
 ```
 
 
 ## Modeling Authorship
 
-Our data set has `r nrow(tweets)` rows (tweets) and `r ncol(tweets)` columns (1 column indicating the author of the tweet and `r ncol(tweets) - 1` additional columns indicating whether a particular word was used in this tweet). Which words are most useful in predicting who authored a tweet? [Lasso regression](https://en.wikipedia.org/wiki/Lasso_(statistics)) can help us determine which words are most predictive. The [glmnet](https://cran.r-project.org/web/packages/glmnet/index.html) library makes it super easy to perform lasso regression:
+I want to build a neural network to predict authorship.
 
 ```{r}
-library(glmnet)
+library(nnet)
 
-fit <- cv.glmnet(
-    x = tweets %>% select(-tweet_by_trump) %>% as.matrix(),
+fit <- nnet(
+    x = tweets %>% select(-id, -tweet_by_trump) %>% as.matrix(),
     y = tweets$tweet_by_trump,
-    family = "binomial"
+    size = 2
 )
-```
 
-Let's see which words have the largest coefficients:
+tweets$yhat <- predict(fit)[, 1]
 
-```{r, fig.height = 10}
-temp <- coef(fit, s = exp(-4)) %>% as.matrix()
-coefficients <- data.frame(word = row.names(temp), beta = temp[, 1])
-data <- coefficients %>%
-    filter(beta != 0) %>%
-    filter(word != "(Intercept)") %>%
-    arrange(desc(beta)) %>%
-    mutate(i = row_number())
+centrist <- tweets %>%
+    select(id, yhat) %>%
+    mutate(d = abs(yhat - 0.5)) %>%
+    arrange(d) %>%
+    left_join(raw_tweets %>% select(id, screenName, text), by = "id")
 
-ggplot(data, aes(x = i, y = beta, fill = ifelse(beta > 0, "Trump", "Obama"))) +
-    geom_bar(stat = "identity", alpha = 0.75) +
-    scale_x_continuous(breaks = data$i, labels = data$word, minor_breaks = NULL) +
-    xlab("") +
-    ylab("Coefficient Estimate") +
-    coord_flip() +
-    scale_fill_manual(
-        guide = guide_legend(title = "Word typically used by:"),
-        values = c("#446093", "#bc3939")
-    ) +
-    theme_bw() +
-    theme(legend.position = "top")
+centrist %>%
+    select(yhat, screenName, text) %>%
+    head(10) %>%
+    as.data.frame()
 ```
 
 
-## Word Clouds
+## Time Period
 
-The [wordcloud](https://cran.r-project.org/web/packages/wordcloud/index.html) library makes it super easy to make word clouds! Let's make one for Trump:
-
-```{r}
-library(wordcloud)
-
-words %>%
-    filter(screenName == "realDonaldTrump") %>%
-    count(word) %>%
-    with(wordcloud(word, n, max.words = 20))
-```
-
-And one for Obama:
-
-```{r}
-words %>%
-    filter(screenName == "BarackObama") %>%
-    count(word) %>%
-    with(wordcloud(word, n, max.words = 20))
-```
-
-
-## Warning
-
-It looks like most of Barack Obama's tweets are from 2016, while Donald Trump's tweets have been more recent:
+It looks like most of Bernie Sanders's tweets are from 2016, while Donald Trump's tweets have been more recent:
 
 ```{r}
 ggplot(raw_tweets, aes(x = created, y = screenName)) +
