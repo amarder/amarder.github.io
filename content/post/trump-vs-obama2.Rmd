@@ -1,0 +1,197 @@
+---
+title: Trump vs Obama - Finding Middle Ground
+slug: trump-vs-obama2
+author: Andrew Marder
+date: 2017-10-06
+output: pdf_document
+twitter:
+  card: summary_large_image
+  site: "@andrewmarder"
+  creator: "@andrewmarder"
+  title: Trump vs Obama - Finding Middle Ground
+  description: Using R to identify centrist statements by Donald Trump and Barack Obama.
+  image: "?"
+---
+
+```{r, echo = FALSE}
+library(knitr)
+
+opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+
+
+## Downloading Data
+
+Link to last week.
+
+```{r}
+library(twitteR)
+library(tidyverse)
+
+read_tweets <- function() {
+    # Connect to the Twitter API
+    capture.output(setup_twitter_oauth(
+        consumer_key = Sys.getenv("TWITTER_CONSUMER_KEY"),
+        consumer_secret = Sys.getenv("TWITTER_CONSUMER_SECRET"),
+        access_token = Sys.getenv("TWITTER_ACCESS_TOKEN"),
+        access_secret = Sys.getenv("TWITTER_ACCESS_SECRET")
+    ))
+
+    # Download tweets by Trump and Obama
+    trump <- userTimeline('realDonaldTrump', n = 3200)
+    obama <- userTimeline('BarackObama', n = 3200)
+
+    # Create a data frame of tweets
+    tweets <- bind_rows(twListToDF(trump), twListToDF(obama))
+    return(tweets)
+}
+
+raw_tweets <- read_tweets()
+```
+
+
+## Cleaning Data
+
+Set up a table with a row for each word in each tweet (ignoring common
+stop words):
+
+```{r}
+library(tidytext)
+
+data("stop_words")
+
+options(stringsAsFactors = FALSE)
+words_to_ignore <- data.frame(word = c("https", "amp", "t.co"))
+
+words <- raw_tweets %>%
+    unnest_tokens(word, text) %>%
+    anti_join(stop_words, by = "word") %>%
+    anti_join(words_to_ignore, by = "word")
+```
+
+Let's restrict our analysis to words that appear in at least 1 out of
+100 tweets for each author.
+
+```{r}
+author_words <- words %>%
+    group_by(screenName, word) %>%
+    summarise(nword = length(unique(id)))
+
+authors <- raw_tweets %>%
+    group_by(screenName) %>%
+    summarise(ntweet = length(unique(id)))
+
+author_words <- author_words %>%
+    left_join(authors, by = "screenName")
+
+filtered <- author_words %>%
+    filter(nword / ntweet >= 0.01) %>%
+    group_by(word) %>%
+    summarise(nauthors = n()) %>%
+    filter(nauthors == 2)
+```
+
+There are only `r nrow(filtered)` words that meet this criteria!
+
+```{r}
+words <- words %>%
+    inner_join(filtered, by = "word")
+```
+
+
+Now let's create a wide data set that has one row for each tweet and a column for each word. We will use this data to see which words best predict authorship.
+
+```{r}
+tweets <- words %>%
+    group_by(screenName, id, word) %>%
+    summarise(contains = 1) %>%
+    ungroup() %>%
+    spread(key = word, value = contains, fill = 0) %>%
+    mutate(tweet_by_trump = as.integer(screenName == "realDonaldTrump")) %>%
+    select(-screenName, -id)
+```
+
+
+## Modeling Authorship
+
+Our data set has `r nrow(tweets)` rows (tweets) and `r ncol(tweets)` columns (1 column indicating the author of the tweet and `r ncol(tweets) - 1` additional columns indicating whether a particular word was used in this tweet). Which words are most useful in predicting who authored a tweet? [Lasso regression](https://en.wikipedia.org/wiki/Lasso_(statistics)) can help us determine which words are most predictive. The [glmnet](https://cran.r-project.org/web/packages/glmnet/index.html) library makes it super easy to perform lasso regression:
+
+```{r}
+library(glmnet)
+
+fit <- cv.glmnet(
+    x = tweets %>% select(-tweet_by_trump) %>% as.matrix(),
+    y = tweets$tweet_by_trump,
+    family = "binomial"
+)
+```
+
+Let's see which words have the largest coefficients:
+
+```{r, fig.height = 10}
+temp <- coef(fit, s = exp(-4)) %>% as.matrix()
+coefficients <- data.frame(word = row.names(temp), beta = temp[, 1])
+data <- coefficients %>%
+    filter(beta != 0) %>%
+    filter(word != "(Intercept)") %>%
+    arrange(desc(beta)) %>%
+    mutate(i = row_number())
+
+ggplot(data, aes(x = i, y = beta, fill = ifelse(beta > 0, "Trump", "Obama"))) +
+    geom_bar(stat = "identity", alpha = 0.75) +
+    scale_x_continuous(breaks = data$i, labels = data$word, minor_breaks = NULL) +
+    xlab("") +
+    ylab("Coefficient Estimate") +
+    coord_flip() +
+    scale_fill_manual(
+        guide = guide_legend(title = "Word typically used by:"),
+        values = c("#446093", "#bc3939")
+    ) +
+    theme_bw() +
+    theme(legend.position = "top")
+```
+
+
+## Word Clouds
+
+The [wordcloud](https://cran.r-project.org/web/packages/wordcloud/index.html) library makes it super easy to make word clouds! Let's make one for Trump:
+
+```{r}
+library(wordcloud)
+
+words %>%
+    filter(screenName == "realDonaldTrump") %>%
+    count(word) %>%
+    with(wordcloud(word, n, max.words = 20))
+```
+
+And one for Obama:
+
+```{r}
+words %>%
+    filter(screenName == "BarackObama") %>%
+    count(word) %>%
+    with(wordcloud(word, n, max.words = 20))
+```
+
+
+## Warning
+
+It looks like most of Barack Obama's tweets are from 2016, while Donald Trump's tweets have been more recent:
+
+```{r}
+ggplot(raw_tweets, aes(x = created, y = screenName)) +
+    geom_jitter(width = 0) +
+    theme_bw() +
+    ylab("") +
+    xlab("")
+```
+
+
+```{r twitter, fig.height = 3.5, echo = FALSE, fig.show = "hide", dpi = 300}
+words %>%
+    filter(screenName == "realDonaldTrump") %>%
+    count(word) %>%
+    with(wordcloud(word, n, max.words = 20))
+```
