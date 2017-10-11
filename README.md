@@ -1,4 +1,6 @@
-# My Website
+# My Blog
+
+[![Build Status](https://travis-ci.org/amarder/amarder.github.io.svg?branch=source)](https://travis-ci.org/amarder/amarder.github.io)
 
 I have used [Jekyll](https://jekyllrb.com/) and
 [Octopress](http://octopress.org/) to build blogs. Unfortunately, I
