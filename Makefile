@@ -14,4 +14,4 @@ serve:
 #########################################
 
 build:
-	R -e "library(blogdown)" -e "build_site(local = FALSE)" -e "hugo_build(local = FALSE)"
+	R -e "library(blogdown)" -e "build_site(local = TRUE)" -e "hugo_build(local = FALSE)"

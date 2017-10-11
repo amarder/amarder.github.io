@@ -1,0 +1,155 @@
+---
+title: Trump vs Sanders - Finding Middle Ground
+slug: trump-vs-sanders2
+author: Andrew Marder
+date: 2017-10-06
+draft: true
+twitter:
+  card: summary_large_image
+  site: "@andrewmarder"
+  creator: "@andrewmarder"
+  title: Trump vs Sanders - Finding Middle Ground
+  description: Using R to identify centrist statements by Donald Trump and Bernie Sanders.
+  image: "?"
+---
+
+
+
+<div id="downloading-data" class="section level2">
+<h2>Downloading Data</h2>
+<p>Link to last week.</p>
+<pre class="r"><code>library(twitteR)
+library(tidyverse)
+
+read_tweets &lt;- function() {
+    # Connect to the Twitter API
+    capture.output(setup_twitter_oauth(
+        consumer_key = Sys.getenv(&quot;TWITTER_CONSUMER_KEY&quot;),
+        consumer_secret = Sys.getenv(&quot;TWITTER_CONSUMER_SECRET&quot;),
+        access_token = Sys.getenv(&quot;TWITTER_ACCESS_TOKEN&quot;),
+        access_secret = Sys.getenv(&quot;TWITTER_ACCESS_SECRET&quot;)
+    ))
+
+    # Download tweets by Trump and Sanders
+    trump &lt;- userTimeline(&#39;realDonaldTrump&#39;, n = 3200)
+    sanders &lt;- userTimeline(&#39;SenSanders&#39;, n = 3200)
+
+    # Create a data frame of tweets
+    tweets &lt;- bind_rows(twListToDF(trump), twListToDF(sanders))
+    return(tweets)
+}
+
+raw_tweets &lt;- read_tweets()</code></pre>
+</div>
+<div id="cleaning-data" class="section level2">
+<h2>Cleaning Data</h2>
+<p>Set up a table with a row for each word in each tweet (ignoring common stop words):</p>
+<pre class="r"><code>library(tidytext)
+
+data(&quot;stop_words&quot;)
+
+options(stringsAsFactors = FALSE)
+words_to_ignore &lt;- data.frame(word = c(&quot;https&quot;, &quot;amp&quot;, &quot;t.co&quot;))
+
+words &lt;- raw_tweets %&gt;%
+    unnest_tokens(word, text) %&gt;%
+    anti_join(stop_words, by = &quot;word&quot;) %&gt;%
+    anti_join(words_to_ignore, by = &quot;word&quot;)</code></pre>
+<p>Let’s restrict our analysis to words that appear in at least 1 out of 100 tweets for each author.</p>
+<pre class="r"><code>author_words &lt;- words %&gt;%
+    group_by(screenName, word) %&gt;%
+    summarise(nword = length(unique(id)))
+
+authors &lt;- raw_tweets %&gt;%
+    group_by(screenName) %&gt;%
+    summarise(ntweet = length(unique(id)))
+
+author_words &lt;- author_words %&gt;%
+    left_join(authors, by = &quot;screenName&quot;)
+
+filtered &lt;- author_words %&gt;%
+    filter(nword / ntweet &gt;= 0.01) %&gt;%
+    group_by(word) %&gt;%
+    summarise(nauthors = n()) %&gt;%
+    filter(nauthors == 2)</code></pre>
+<p>There are only 36 words that meet this criteria!</p>
+<pre class="r"><code>words &lt;- words %&gt;%
+    inner_join(filtered, by = &quot;word&quot;)</code></pre>
+<p>Now let’s create a wide data set that has one row for each tweet and a column for each word. We will use this data to see which words best predict authorship.</p>
+<pre class="r"><code>tweets &lt;- words %&gt;%
+    group_by(screenName, id, word) %&gt;%
+    summarise(contains = 1) %&gt;%
+    ungroup() %&gt;%
+    spread(key = word, value = contains, fill = 0) %&gt;%
+    mutate(tweet_by_trump = as.integer(screenName == &quot;realDonaldTrump&quot;)) %&gt;%
+    select(-screenName)</code></pre>
+</div>
+<div id="modeling-authorship" class="section level2">
+<h2>Modeling Authorship</h2>
+<p>I want to build a neural network to predict authorship.</p>
+<pre class="r"><code>library(nnet)
+
+fit &lt;- nnet(
+    x = tweets %&gt;% select(-id, -tweet_by_trump) %&gt;% as.matrix(),
+    y = tweets$tweet_by_trump,
+    size = 2
+)</code></pre>
+<pre><code>## # weights:  77
+## initial  value 62.264057 
+## iter  10 value 44.073338
+## iter  20 value 37.557298
+## iter  30 value 35.075913
+## iter  40 value 34.342857
+## iter  50 value 34.215418
+## iter  60 value 34.159000
+## iter  70 value 34.136964
+## iter  80 value 34.097085
+## iter  90 value 33.940407
+## iter 100 value 33.902177
+## final  value 33.902177 
+## stopped after 100 iterations</code></pre>
+<pre class="r"><code>tweets$yhat &lt;- predict(fit)[, 1]
+
+centrist &lt;- tweets %&gt;%
+    select(id, yhat) %&gt;%
+    mutate(d = abs(yhat - 0.5)) %&gt;%
+    arrange(d) %&gt;%
+    left_join(raw_tweets %&gt;% select(id, screenName, text), by = &quot;id&quot;)
+
+centrist %&gt;%
+    select(yhat, screenName, text) %&gt;%
+    head(10) %&gt;%
+    as.data.frame()</code></pre>
+<pre><code>##         yhat      screenName
+## 1  0.5000251 realDonaldTrump
+## 2  0.5000251 realDonaldTrump
+## 3  0.5000251      SenSanders
+## 4  0.5000251      SenSanders
+## 5  0.5023825 realDonaldTrump
+## 6  0.5023825 realDonaldTrump
+## 7  0.5023825 realDonaldTrump
+## 8  0.5023825 realDonaldTrump
+## 9  0.5023825 realDonaldTrump
+## 10 0.5023825      SenSanders
+##                                                                                                                                                text
+## 1        The travel ban into the United States should be far larger, tougher and more specific-but stupidly, that would not be politically correct!
+## 2                 Big day at the United Nations - many good things, and some tricky ones, happening. We have a great team. Big speech at 10:00 A.M.
+## 3                   Why does the United States pay twice as much per capita on health care than any other nation on Earth?… https://t.co/eioCY9vT7H
+## 4         Watch this Canadian doctor discuss the difference between practicing medicine in Canada versus the United States. https://t.co/8tGzzJNPkP
+## 5  70 years ago today, the National Security Council met for the first time. Great history of advising Presidents-then &amp;amp; now! Thanks NSC Staff!
+## 6      Even Usain Bolt from Jamaica, one of the greatest runners and athletes of all time, showed RESPECT for our National… https://t.co/9qg8sjf4t8
+## 7      Spoke to Roy Moore of Alabama last night for the first time. Sounds like a really great guy who ran a fantastic race. He will help to #MAGA!
+## 8                 I told Rex Tillerson, our wonderful Secretary of State, that he is wasting his time trying to negotiate with Little Rocket Man...
+## 9           Stock Market hits an ALL-TIME high! Unemployment lowest in 16 years! Business and manufacturing enthusiasm at highest level in decades!
+## 10        With the collapse of the effort to repeal the ACA, it’s time to try a different approach — let’s expand coverage. https://t.co/BqvvCoy7Pr</code></pre>
+</div>
+<div id="time-period" class="section level2">
+<h2>Time Period</h2>
+<p>It looks like most of Bernie Sanders’s tweets are from 2016, while Donald Trump’s tweets have been more recent:</p>
+<pre class="r"><code>ggplot(raw_tweets, aes(x = created, y = screenName)) +
+    geom_jitter(width = 0) +
+    theme_bw() +
+    ylab(&quot;&quot;) +
+    xlab(&quot;&quot;)</code></pre>
+<p><img src="/post/trump-vs-obama2_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
