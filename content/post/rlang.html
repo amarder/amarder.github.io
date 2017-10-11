@@ -1,0 +1,66 @@
+---
+title: "rlang - Quasiquotation Confusion"
+date: 2017-10-11
+slug: rlang
+twitter:
+  card: summary_large_image
+  site: "@andrewmarder"
+  creator: "@andrewmarder"
+  title: "rlang - Quasiquotation Confusion"
+  description: "How does !! work?"
+  image: "/images/Rlogo.svg"
+---
+
+
+
+<p>I’ve been trying to wrap my head around <a href="https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html">Programming with dplyr</a>. This post describes what I perceive to be a disconnect between the documentation and the source code of the <code>rlang</code> package. I think understanding this disconnect may help me understand how <code>rlang</code> works under the hood.</p>
+<p>First let’s take a look at the documentation:</p>
+<pre><code>##      Quasiquotation is the combination of quoting an expression while
+##      allowing immediate evaluation (unquoting) of part of that
+##      expression. We provide both syntactic operators and functional
+##      forms for unquoting.
+## 
+##         • &#39;UQ()&#39; and the &#39;!!&#39; operator unquote their argument. It gets
+##           evaluated immediately in the surrounding context.
+## 
+##         • &#39;UQE()&#39; is like &#39;UQ()&#39; but retrieves the expression of
+##           quosureish objects. It is a shortcut for &#39;!! get_expr(x)&#39;.
+##           Use this with care: it is potentially unsafe to discard the
+##           environment of the quosure.</code></pre>
+<p>Now let’s look at the source code for <code>UQ()</code>, <code>!!</code>, and <code>UQE()</code>:</p>
+<pre class="r"><code>library(rlang)
+
+UQ</code></pre>
+<pre><code>## function (x) 
+## {
+##     x
+## }
+## &lt;bytecode: 0x7fe5125afff0&gt;
+## &lt;environment: namespace:rlang&gt;</code></pre>
+<pre class="r"><code>`!!`</code></pre>
+<pre><code>## function (x) 
+## {
+##     if (is_quosureish(x)) {
+##         get_expr(x)
+##     }
+##     else {
+##         x
+##     }
+## }
+## &lt;bytecode: 0x7fe5124ffab0&gt;
+## &lt;environment: namespace:rlang&gt;</code></pre>
+<pre class="r"><code>UQE</code></pre>
+<pre><code>## function (x) 
+## {
+##     if (is_quosureish(x)) {
+##         get_expr(x)
+##     }
+##     else {
+##         x
+##     }
+## }
+## &lt;bytecode: 0x7fe50f75d238&gt;
+## &lt;environment: namespace:rlang&gt;</code></pre>
+<p>It’s weird to me that the <code>!!</code> operator is identical to the <code>UQE()</code> function and not identical to the <code>UQ()</code> function. I’m not the only one confused by this, check out this <a href="https://github.com/tidyverse/rlang/issues/256">GitHub issue</a>.</p>
+<p>Here’s my question, where in the <code>rlang</code> source should I be looking to understand how the <code>!!</code> operator is evaluated in a quoting context?</p>
+<p>PS I’m not posting this question on Stack Overflow because it’s more of a discussion question than a programming question.</p>
