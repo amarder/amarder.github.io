@@ -1,44 +1,14 @@
 ---
-title: Programming with dplyr
+title: "rlang - Quasiquotation Confusion"
 date: 2017-10-11
-slug: tidyeval
+slug: rlang
 ---
 
-If you haven't read the [Programming with
-dplyr
-vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html)
-definitely start there. This post describes how I got comfortable
-working with quosures.
+I've been trying to wrap my head around [Programming with dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html). This post describes what I perceive to be a disconnect between the documentation and the source code of the `rlang` package. I think understanding this disconnect may help me understand how `rlang` works under the hood.
 
-dplyr verbs are "referentially transparent" when dealing with the
-data.
+First let's take a look at the documentation:
 
-Take-aways:
-
-1.  When writing dplyr-like verbs use the `.data` pronoun.
-
-The `quo()` function creates quosures.
-
-Use the `unquote()` function to evaluate quosures. `!!`
-
-enquo() uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a promise.)
-
-(If you’re familiar with quote() and substitute() in base R, quo() is equivalent to quote() and enquo() is equivalent to substitute().)
-
-
-libraries: rlang, tidyeval
-
-Use `!!!` to replace `do.call()`.
-
-When an object keeps track of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:
-
-There are three types of unquoting:
-
-1.  basic `UQ()`, `!!` (`UQE()` looks in global environment)
-2.  unquote splicing, `UQS()`, `!!!`
-3.  unquoting names `:=`
-
-```{r}
+```{r, echo = FALSE}
 library(rlang)
 
 get_help <- function(...) {
@@ -49,9 +19,10 @@ get_help <- function(...) {
 }
 
 lines <- get_help(UQ)
-cat(lines[5:28], sep = "\n")
+cat(lines[10:22], sep = "\n")
 ```
 
+Now let's look at the source code for `UQ()`, `!!`, and `UQE()`:
 
 ```{r}
 library(rlang)
@@ -61,6 +32,8 @@ UQ
 UQE
 ```
 
-I'm not the only one who's confused by this disconnect between the documentation and the code:
+It's weird to me that the `!!` operator is identical to the `UQE()` function and not identical to the `UQ()` function. I'm not the only one confused by this, check out this [GitHub issue](https://github.com/tidyverse/rlang/issues/256).
 
-https://github.com/tidyverse/rlang/issues/256
+Here's my question, where in the `rlang` source should I be looking to understand how the `!!` operator is evaluated in a quoting context?
+
+PS I'm not posting this question on Stack Overflow because it's more of a discussion question than a programming question.
