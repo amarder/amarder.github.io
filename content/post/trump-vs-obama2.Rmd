@@ -3,7 +3,7 @@ title: Trump vs Sanders - Finding Middle Ground
 slug: trump-vs-sanders2
 author: Andrew Marder
 date: 2017-10-06
-output: pdf_document
+draft: true
 twitter:
   card: summary_large_image
   site: "@andrewmarder"
@@ -150,12 +150,4 @@ ggplot(raw_tweets, aes(x = created, y = screenName)) +
     theme_bw() +
     ylab("") +
     xlab("")
-```
-
-
-```{r twitter, fig.height = 3.5, echo = FALSE, fig.show = "hide", dpi = 300}
-words %>%
-    filter(screenName == "realDonaldTrump") %>%
-    count(word) %>%
-    with(wordcloud(word, n, max.words = 20))
 ```
