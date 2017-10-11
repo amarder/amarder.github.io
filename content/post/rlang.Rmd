@@ -8,7 +8,7 @@ twitter:
   creator: "@andrewmarder"
   title: "rlang - Quasiquotation Confusion"
   description: "How does !! work?"
-  image: "/images/Rlogo.svg"
+  image: "/images/Rlogo.png"
 ---
 
 I've been trying to wrap my head around [Programming with dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html). This post describes what I perceive to be a disconnect between the documentation and the source code of the `rlang` package. I think understanding this disconnect may help me understand how `rlang` works under the hood.

@@ -8,7 +8,7 @@ twitter:
   creator: "@andrewmarder"
   title: "rlang - Quasiquotation Confusion"
   description: "How does !! work?"
-  image: "/images/Rlogo.svg"
+  image: "/images/Rlogo.png"
 ---
 
 
@@ -35,7 +35,7 @@ UQ</code></pre>
 ## {
 ##     x
 ## }
-## &lt;bytecode: 0x7fe5125afff0&gt;
+## &lt;bytecode: 0x7f9a24c87a98&gt;
 ## &lt;environment: namespace:rlang&gt;</code></pre>
 <pre class="r"><code>`!!`</code></pre>
 <pre><code>## function (x) 
@@ -47,7 +47,7 @@ UQ</code></pre>
 ##         x
 ##     }
 ## }
-## &lt;bytecode: 0x7fe5124ffab0&gt;
+## &lt;bytecode: 0x7f9a24ca2148&gt;
 ## &lt;environment: namespace:rlang&gt;</code></pre>
 <pre class="r"><code>UQE</code></pre>
 <pre><code>## function (x) 
@@ -59,7 +59,7 @@ UQ</code></pre>
 ##         x
 ##     }
 ## }
-## &lt;bytecode: 0x7fe50f75d238&gt;
+## &lt;bytecode: 0x7f9a2634de98&gt;
 ## &lt;environment: namespace:rlang&gt;</code></pre>
 <p>It’s weird to me that the <code>!!</code> operator is identical to the <code>UQE()</code> function and not identical to the <code>UQ()</code> function. I’m not the only one confused by this, check out this <a href="https://github.com/tidyverse/rlang/issues/256">GitHub issue</a>.</p>
 <p>Here’s my question, where in the <code>rlang</code> source should I be looking to understand how the <code>!!</code> operator is evaluated in a quoting context?</p>
