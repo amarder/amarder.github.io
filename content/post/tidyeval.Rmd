@@ -1,0 +1,66 @@
+---
+title: Programming with dplyr
+date: 2017-10-11
+slug: tidyeval
+---
+
+If you haven't read the [Programming with
+dplyr
+vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html)
+definitely start there. This post describes how I got comfortable
+working with quosures.
+
+dplyr verbs are "referentially transparent" when dealing with the
+data.
+
+Take-aways:
+
+1.  When writing dplyr-like verbs use the `.data` pronoun.
+
+The `quo()` function creates quosures.
+
+Use the `unquote()` function to evaluate quosures. `!!`
+
+enquo() uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a promise.)
+
+(If you’re familiar with quote() and substitute() in base R, quo() is equivalent to quote() and enquo() is equivalent to substitute().)
+
+
+libraries: rlang, tidyeval
+
+Use `!!!` to replace `do.call()`.
+
+When an object keeps track of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:
+
+There are three types of unquoting:
+
+1.  basic `UQ()`, `!!` (`UQE()` looks in global environment)
+2.  unquote splicing, `UQS()`, `!!!`
+3.  unquoting names `:=`
+
+```{r}
+library(rlang)
+
+get_help <- function(...) {
+    h <- help(...)
+    f <- utils:::.getHelpFile(h)
+    lines <- capture.output(tools::Rd2txt(f))
+    return(lines)
+}
+
+lines <- get_help(UQ)
+cat(lines[5:28], sep = "\n")
+```
+
+
+```{r}
+library(rlang)
+
+UQ
+`!!`
+UQE
+```
+
+I'm not the only one who's confused by this disconnect between the documentation and the code:
+
+https://github.com/tidyverse/rlang/issues/256
