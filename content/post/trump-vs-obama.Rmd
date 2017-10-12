@@ -3,6 +3,7 @@ title: Trump vs Obama - a Battle of Words
 slug: trump-vs-obama
 author: Andrew Marder
 date: 2017-09-29
+tags: [R]
 twitter:
   card: summary_large_image
   site: "@andrewmarder"

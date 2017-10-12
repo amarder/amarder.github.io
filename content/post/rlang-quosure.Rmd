@@ -2,6 +2,7 @@
 title: rlang - Working with Quosures
 date: 2017-10-12
 slug: rlang-quosure
+tags: [R]
 twitter:
   card: summary
   site: "@andrewmarder"

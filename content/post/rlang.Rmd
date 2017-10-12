@@ -2,6 +2,7 @@
 title: "rlang - Quasiquotation Confusion"
 date: 2017-10-11
 slug: rlang
+tags: [R]
 twitter:
   card: summary
   site: "@andrewmarder"

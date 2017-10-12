@@ -3,16 +3,7 @@ title: "Custom Web Analytics"
 description: "piwikr: an R package for analyzing pageviews."
 author: "Andrew Marder"
 date: "2016-06-16"
-output:
-  html_document:
-    toc: true
-  md_document:
-    preserve_yaml: true
-    variant: "markdown_strict"
-vignette: >
-  %\VignetteIndexEntry{Custom Web Analytics}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+tags: [R]
 twitter:
   image: "/piwikr/piwikr_files/figure-markdown_strict/twitter-1.png"
 ---
