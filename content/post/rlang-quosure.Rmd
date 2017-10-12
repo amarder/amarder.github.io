@@ -1,0 +1,113 @@
+---
+title: rlang - Working with Quosures
+date: 2017-10-12
+slug: rlang-quosure
+twitter:
+  card: summary
+  site: "@andrewmarder"
+  creator: "@andrewmarder"
+  title: "rlang - Working with Quosures"
+  description: "An example of how to work with the tidy evaluation framework."
+  image: "/images/Rlogo.png"
+---
+
+If you haven't read [programming with dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html) or [tidy evaluation](https://cran.r-project.org/web/packages/rlang/vignettes/tidy-evaluation.html) yet, definitely start there; they give an excellent overview of working with the tidy evaluation framework. This post aims to give a simple example of how to work with quasiquotation as implemented by [rlang](https://cran.r-project.org/web/packages/rlang/).
+
+Imagine I want to create a domain specific language (DSL) for arithmetic. Let's write two functions that I will use as verbs in this DSL.
+
+```{r}
+add <- function(a, b) a + b
+multiply <- function(a, b) a * b
+```
+
+Suppose I'm really interested in linear functions in general, and $f(x) = 2x + 1$ specifically. Let's take two different approaches to creating linear functions using these `add()` and `multiply()` verbs...
+
+
+## Closure Approach
+
+One approach to creating linear functions is to use [closures](https://en.wikipedia.org/wiki/Closure_(computer_programming)). "Operationally, a closure is a record storing a function together with an environment." Let's write a function to create new closures:
+
+```{r}
+create_linear_closure <- function(slope, intercept) {
+    function(x) {
+        add(multiply(slope, x), intercept)
+    }
+}
+```
+
+`create_linear_closure()` takes two parameters (`slope` and `intercept`) and returns a new anonymous function that takes one parameter (`x`) and returns the `slope` times `x` plus the `intercept`.
+
+Let's create a new closure and inspect it:
+
+```{r}
+f <- create_linear_closure(slope = 2, intercept = 1)
+f
+```
+
+Notice that `f` has a function definition **and** an environment. The environment stores the value of the slope and intercept.
+
+Finally, let's evaluate the function `f` at $x = 1$:
+
+```{r}
+f(x = 1)
+```
+
+Looking good!
+
+
+## Quosure Approach
+
+How would one rewrite `create_linear_closure()` using the tidy evaluation framework?
+
+```{r}
+library(rlang)
+
+create_linear_quosure <- function(slope, intercept) {
+    quo(add(multiply(!!slope, x), !!intercept))
+}
+```
+
+This new function takes two parameters (`slope` and `intercept`) and returns a quosure.
+
+Let's create a new quosure and inspect it:
+
+```{r}
+f <- create_linear_quosure(slope = 2, intercept = 1)
+f
+```
+
+Like a closure, a quosure has an expression **and** an environment. One nice aspect of this approach is the values of the slope and intercept have been unquoted in the expression (working with the closure in the previous section we would have to inspect its environment to see those values).
+
+Finally, let's evaluate `f` at $x = 1$:
+
+```{r}
+eval_tidy(f, list(x = 1))
+```
+
+Huzzah!
+
+
+## Conclusion
+
+The tidy evaluation framework has three key components:
+
+1.  **Unquoting** is done using the following functions and syntactic operators:
+
+    *   `UQ()` and `!!`
+    *   `UQE()`
+    *   `UQS()` and `!!!`.
+    
+    For more information see `help(quasiquotation)`.
+
+2.  **Quoting** is done using the following functions:
+
+    *   `quo()`
+    *   `enquo()`
+    *   `quos()`
+    *   `new_quosure()`.
+    
+    See `help(quosure)` for more info.
+
+3.  **Evaluation** is performed using `eval_tidy()`, see `help(eval_tidy)`.
+
+Writing this post helped me understand how to work with quosures (using all three components of the tidy evaluation framework). But, I'm not convinced it's a great example of a domain specific language. If you have ideas for a better DSL example definitely let me know.
