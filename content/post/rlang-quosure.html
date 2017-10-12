@@ -2,6 +2,7 @@
 title: rlang - Working with Quosures
 date: 2017-10-12
 slug: rlang-quosure
+tags: [R]
 twitter:
   card: summary
   site: "@andrewmarder"
@@ -33,7 +34,7 @@ f</code></pre>
 <pre><code>## function(x) {
 ##         add(multiply(slope, x), intercept)
 ##     }
-## &lt;environment: 0x7fb930c55b80&gt;</code></pre>
+## &lt;environment: 0x7f8d476ac758&gt;</code></pre>
 <p>Notice that <code>f</code> has a function definition <strong>and</strong> an environment. The environment stores the value of the slope and intercept.</p>
 <p>Finally, let’s evaluate the function <code>f</code> at <span class="math inline">\(x = 1\)</span>:</p>
 <pre class="r"><code>f(x = 1)</code></pre>
