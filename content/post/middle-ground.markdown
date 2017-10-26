@@ -9,7 +9,7 @@ twitter:
   creator: "@andrewmarder"
   title: Republican vs Democrat - Searching for Middle Ground
   description: Using R to identify centrist statements by Democrats and Republicans.
-  image: "/post/middle-ground_files/figure-html/unnamed-chunk-9-1.png"
+  image: "/post/middle-ground_files/figure-html/unnamed-chunk-11-1.png"
 ---
 
 
