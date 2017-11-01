@@ -1,28 +1,64 @@
 ---
-title: Use R to make a Music Video
-draft: true
+title: Visualizing Sound
+date: 2017-11-01
+tags: [R]
 ---
+
+My sister's boyfriend's band, [Vertigo Drift](https://www.vertigodrift.com/), recently came out with a new EP called _Phase 3_. It seemed like the perfect excuse for me to play around with [gganimate](https://github.com/dgrtwo/gganimate) to create a music video.
+
+
+## Reading Audio Files
+
+The [tuneR](https://cran.r-project.org/web/packages/tuneR/) package provides excellent functions for reading audio files.
+
+Let's download an example wave file.
+
+```{r, eval = FALSE}
+url <- "http://freewavesamples.com/files/Alesis-Fusion-Acoustic-Bass-C2.wav"
+command <- paste("wget", url)
+system(command)
+```
+
+Let's use `tuneR` to read the file.
+
+```{r}
+library(tuneR)
+
+wave <- readWave("Alesis-Fusion-Acoustic-Bass-C2.wav")
+wave
+```
+
+This particular file is 2.9 seconds long. It is recorded in stereo (it has a left and right channel). There are 44,100 samples per second. In total there are 127,782 samples.
+
+
+## Visualizing Audio Files
+
+
+```{r, fig.height = 4, fig.width = 8, message = FALSE, warning = FALSE}
+library(tidyverse)
+
+data <- data.frame(
+    Left = wave@left,
+    Right = wave@right
+)
+data$second <- (1:nrow(data)) / wave@samp.rate
+data <- data %>%
+    filter(second <= 0.01)
+
+head(data)
+
+data %>%
+    gather(key = "Channel", value = "y", Left, Right) %>%
+    ggplot(aes(x = second, y = y, color = Channel)) +
+    geom_point(size = 0.1) +
+    ylab("Relative Amplitude") +
+    xlab("Time (Seconds)") +
+    theme_bw()
+```
+
+
+# References
 
 [digital audio](https://en.wikipedia.org/wiki/Digital_audio)
 
-http://csh.bz/highticket/
-
-```{r, eval = FALSE}
-library(tuneR)
-library(ggplot2)
-
-temp <- readMP3("~/Downloads/SoundHelix-Song-1.mp3")
-
-wave <- data.frame(
-    left = temp@left,
-    right = temp@right
-)
-wave$second <- (1:nrow(wave)) / temp@samp.rate
-
-## Let's only look at the beginning of the data
-wave <- wave[100000:101000, ]
-
-ggplot(wave, aes(x = second, y = left)) +
-    geom_point(size = 0.1) +
-    geom_smooth(method = 'loess', se = FALSE, span = 0.01, n = 1000)
-```
+<!-- video to checkout: http://csh.bz/highticket/ -->
