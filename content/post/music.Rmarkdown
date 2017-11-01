@@ -42,7 +42,7 @@ This particular file is 2.9 seconds long. It is recorded in stereo (it has a lef
 
 Let's put the audio data into a data frame.
 
-```{r, fig.height = 4, fig.width = 8, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE}
 library(tidyverse)
 
 data <- data.frame(
@@ -63,7 +63,7 @@ nrow(data)
 
 Now let's plot this 24th of a second.
 
-```{r graph}
+```{r graph, fig.height = 4, fig.width = 8}
 data %>%
     gather(key = "Channel", value = "y", Left, Right) %>%
     mutate(y = y / max(abs(y))) %>%

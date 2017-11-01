@@ -106,7 +106,7 @@ data %>%
     theme_bw()
 ```
 
-<img src="/post/music_files/figure-html/graph-1.png" width="672" />
+<img src="/post/music_files/figure-html/graph-1.png" width="768" />
 
 
 ## Animating Plots
