@@ -2,6 +2,13 @@
 title: Visualizing Sound
 date: 2017-11-01
 tags: [R]
+twitter:
+  card: summary_large_image
+  site: "@andrewmarder"
+  creator: "@andrewmarder"
+  title: Visualizing Sound
+  description: Using R to see the data beneath the music.
+  image: "/post/music_files/figure-html/graph-1.png"
 ---
 
 My sister's boyfriend's band, [Vertigo Drift](https://www.vertigodrift.com/), recently came out with a new EP called _Phase 3_. It seemed like the perfect excuse for me to play around with [gganimate](https://github.com/dgrtwo/gganimate) to create a music video.
