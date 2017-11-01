@@ -63,7 +63,7 @@ nrow(data)
 
 Now let's plot this 24th of a second.
 
-```{r graph, fig.height = 4, fig.width = 8}
+```{r graph, fig.width = 6.75, fig.height = (314 / 600) * 6.75}
 data %>%
     gather(key = "Channel", value = "y", Left, Right) %>%
     mutate(y = y / max(abs(y))) %>%
