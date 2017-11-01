@@ -19,7 +19,7 @@ command <- paste("wget", url)
 system(command)
 ```
 
-Let's use `tuneR` to read the file.
+Let's use tuneR to read the file.
 
 ```{r}
 library(tuneR)
@@ -28,11 +28,12 @@ wave <- readWave("Alesis-Fusion-Acoustic-Bass-C2.wav")
 wave
 ```
 
-This particular file is 2.9 seconds long. It is recorded in stereo (it has a left and right channel). There are 44,100 samples per second. In total there are 127,782 samples.
+This particular file is 2.9 seconds long. It is recorded in stereo (it has a left and right channel). There are 44,100 samples per second. In total there are 127,782 samples. I found Wikipedia's page on [digital audio](https://en.wikipedia.org/wiki/Digital_audio) to be pretty helpful in understanding this data.
 
 
-## Visualizing Audio Files
+## Plotting Audio Files
 
+Let's put the audio data into a data frame.
 
 ```{r, fig.height = 4, fig.width = 8, message = FALSE, warning = FALSE}
 library(tidyverse)
@@ -42,23 +43,39 @@ data <- data.frame(
     Right = wave@right
 )
 data$second <- (1:nrow(data)) / wave@samp.rate
-data <- data %>%
-    filter(second <= 0.01)
-
 head(data)
+```
 
+Typical video contains 24 frames per second. Let's focus on the first 24th of a second of this audio file.
+
+```{r}
+data <- data %>%
+    filter(second <= 1 / 24)
+nrow(data)
+```
+
+Now let's plot this 24th of a second.
+
+```{r graph}
 data %>%
     gather(key = "Channel", value = "y", Left, Right) %>%
-    ggplot(aes(x = second, y = y, color = Channel)) +
+    mutate(y = y / max(abs(y))) %>%
+    ggplot(aes(x = second, y = y)) +
     geom_point(size = 0.1) +
     ylab("Relative Amplitude") +
     xlab("Time (Seconds)") +
+    ylim(-1, 1) +
+    facet_grid(Channel ~ .) +
     theme_bw()
 ```
 
 
-# References
+## Animating Plots
 
-[digital audio](https://en.wikipedia.org/wiki/Digital_audio)
+I used gganimate to create the following music video. The song is 2 minutes and 46 seconds long so the video stitches together (2 * 60 + 46) * 24 = `r (2 * 60 + 46) * 24` plots. If I watch it for too long it starts to hurt my eyes.
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/YACyTCegGG8?rel=0" frameborder="0" allowfullscreen></iframe>
+
+Let me know if you're interested in the code. I haven't posted it on GitHub yet, but I'd be happy to.
 
 <!-- video to checkout: http://csh.bz/highticket/ -->
