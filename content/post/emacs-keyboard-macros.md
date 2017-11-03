@@ -1,6 +1,5 @@
 ---
 title: Emacs Keyboard Macros - Use Caution
-date: 2012-05-31
 draft: true
 ---
 

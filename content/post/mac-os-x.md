@@ -1,6 +1,5 @@
 ---
 title: Mac OS X for Social Science
-date: 2013-08-13
 draft: true
 ---
 

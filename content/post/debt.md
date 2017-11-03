@@ -1,6 +1,5 @@
 ---
 title: "Optimal Debt: Finding Balance"
-date: "2016-02-23"
 draft: true
 ---
 

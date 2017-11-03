@@ -1,6 +1,5 @@
 ---
 title: 64-bit Integers in R
-date: 2017-09-18
 draft: true
 ---
 
