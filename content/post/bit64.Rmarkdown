@@ -1,23 +1,23 @@
 ---
-title: 64-bit Integers in R
+title: Working with 64-bit Integers in R
+slug: bit64
 draft: true
 ---
 
-What is best practice when working with large integers (requiring more
-then 32-bits) and `readr`?
+Integers in R are stored in 32-bits. Out of the box, the largest integer R can handle is 2147483647. Sometimes this isn't enough space. I've run into this issue a few times when dealing with large ID numbers. Here's an example ID from Twitter 912411948163137536, let's see if it's larger than R can handle:
 
-Out of the box, the largest integer R can handle is 2147483647.
+```{r}
+912411948163137536 > .Machine$integer.max
+```
 
-    # Make a character string that cannot be stored in a 32-bit integer
-    s <- paste0(as.character(.Machine$integer.max), "0")
+If we try to store this number as an integer, R warns us that it does not fit within the 32-bit integer range and it returns `NA` as this integer value is not available.
 
-    # Show that R cannot store this character string as an integer
-    as.integer(s)
+```{r}
+as.integer(912411948163137536)
+```
 
-    ## [1] NA
 
-Reading
-=======
+## Reading
 
 Like `R`, `readr::read_csv` cannot parse integers larger than
 2147483647:
@@ -54,8 +54,8 @@ we can read large integers as character vectors.
 
     ## [1] TRUE
 
-Writing
-=======
+
+## Writing
 
 The `bit64` library facilitates working with 64-bit integers in R.
 
@@ -79,26 +79,8 @@ It looks like `readr::write_csv` can handle `integer64` objects:
 
     ## [1] TRUE
 
-Conclusion
-==========
 
--   The safest approach seems to be reading and writing string
-    representations when integers cannot be stored in 32-bits.
-
--   `readr::write_csv` appears capable of writing `integer64` objects,
-    can we be certain this will always work?
-
-Related questions
-=================
-
--   [big integers when reading file with readr in
-    r](http://stackoverflow.com/questions/38894729/big-integers-when-reading-file-with-readr-in-r)
-
--   [readr : Turn off scientific notation in
-    write\_csv](http://stackoverflow.com/questions/30341140/readr-turn-off-scientific-notation-in-write-csv)
-    
-Answer
-======
+## Answer
 
 Thanks to [Hadley Wickham](https://twitter.com/hadleywickham/status/781878063814414336) for a pragmatic answer: "use doubles"
 
@@ -129,3 +111,21 @@ Here is an example where using doubles can get one into trouble:
     [1] 9007199254740992 9007199254740992
 
 My plan moving forward is to use doubles and check that `abs(x) <= as.integer64(2) ^ 53`.
+
+
+## Conclusion
+
+The safest approach seems to be reading and writing string
+representations when integers cannot be stored in 32-bits.
+
+`readr::write_csv` appears capable of writing `integer64` objects,
+can we be certain this will always work?
+
+
+## References
+
+-   [big integers when reading file with readr in
+    r](http://stackoverflow.com/questions/38894729/big-integers-when-reading-file-with-readr-in-r)
+
+-   [readr : Turn off scientific notation in
+    write\_csv](http://stackoverflow.com/questions/30341140/readr-turn-off-scientific-notation-in-write-csv)
