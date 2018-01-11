@@ -21,7 +21,7 @@ script:
   # Use Sphinx to make the html docs
   - make html
   # Tell GitHub not to use jekyll to compile the docs
-  - touch _build/.nojekyll
+  - touch _build/html/.nojekyll
 
 # Tell Travis CI to copy the documentation to the gh-pages branch of
 # your GitHub repository.
