@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>rlang - Quasiquotation Confusion</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+  
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:site" content="@andrewmarder"/>
+  <meta name="twitter:creator" content="@andrewmarder"/>
+  <meta name="twitter:title" content="rlang - Quasiquotation Confusion"/>
+  <meta name="twitter:description" content="How does `!!` work?"/>
+  <meta name="twitter:image" content="https://amarder.github.io/images/Rlogo.png"/>
+
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>rlang - Quasiquotation Confusion</h1>
+<p>I’ve been trying to wrap my head around <a href="https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html">Programming with dplyr</a>. This post describes what I perceive to be a disconnect between the documentation and the source code of the <code>rlang</code> package. I think understanding this disconnect may help me understand how <code>rlang</code> works under the hood.</p>
+<p>First let’s take a look at the documentation:</p>
+<pre><code>##      Quasiquotation is the combination of quoting an expression while
+##      allowing immediate evaluation (unquoting) of part of that
+##      expression. We provide both syntactic operators and functional
+##      forms for unquoting.
+## 
+##         • &#39;UQ()&#39; and the &#39;!!&#39; operator unquote their argument. It gets
+##           evaluated immediately in the surrounding context.
+## 
+##         • &#39;UQE()&#39; is like &#39;UQ()&#39; but retrieves the expression of
+##           quosureish objects. It is a shortcut for &#39;!! get_expr(x)&#39;.
+##           Use this with care: it is potentially unsafe to discard the
+##           environment of the quosure.</code></pre>
+<p>Now let’s look at the source code for <code>UQ()</code>, <code>!!</code>, and <code>UQE()</code>:</p>
+<pre class="r"><code>library(rlang)
+
+UQ</code></pre>
+<pre><code>## function (x) 
+## {
+##     x
+## }
+## &lt;bytecode: 0x7fe329231c60&gt;
+## &lt;environment: namespace:rlang&gt;</code></pre>
+<pre class="r"><code>`!!`</code></pre>
+<pre><code>## function (x) 
+## {
+##     if (is_quosureish(x)) {
+##         get_expr(x)
+##     }
+##     else {
+##         x
+##     }
+## }
+## &lt;bytecode: 0x7fe32924c2a0&gt;
+## &lt;environment: namespace:rlang&gt;</code></pre>
+<pre class="r"><code>UQE</code></pre>
+<pre><code>## function (x) 
+## {
+##     if (is_quosureish(x)) {
+##         get_expr(x)
+##     }
+##     else {
+##         x
+##     }
+## }
+## &lt;bytecode: 0x7fe328ee4b08&gt;
+## &lt;environment: namespace:rlang&gt;</code></pre>
+<p>It’s weird to me that the <code>!!</code> operator is identical to the <code>UQE()</code> function and not identical to the <code>UQ()</code> function. I’m not the only one confused by this, check out this <a href="https://github.com/tidyverse/rlang/issues/256">GitHub issue</a>.</p>
+<p>Here’s my question, where in the <code>rlang</code> source should I be looking to understand how the <code>!!</code> operator is evaluated in a quoting context?</p>
+<p>PS I’m not posting this question on Stack Overflow because it’s more of a discussion question than a programming question.</p>
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = 'https:\/\/amarder.github.io\/rlang\/';
+    this.page.identifier = 'https:\/\/amarder.github.io\/rlang\/';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+

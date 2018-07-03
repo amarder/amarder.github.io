@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Statistical Power Analysis</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>Statistical Power Analysis</h1>
+<p><link rel="stylesheet" type="text/css" href="./power.css">
+<script src="./angular.min.js"></script>
+<script src="./angularjs-slider/rzslider.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./angularjs-slider/rzslider.min.css">
+<script src="./jstat.min.js"></script>
+<script src="/js/d3.min.js"></script>
+<script src="./power.js"></script></p>
+
+<div ng-app="myapp">
+<div ng-controller="TestController as vm">
+
+<div id="plot"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Control Group $(Y_0)$</th>
+      <th>Treatment Group $(Y_1)$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="tall">
+      <td style="width: 236px;">Mean $(\mu)$</td>
+      <td><rzslider rz-slider-model="vm.mu0.value" rz-slider-options="vm.mu0.options" id="mu0" class="slider"></rzslider></td>
+      <td><rzslider rz-slider-model="vm.mu1.value" rz-slider-options="vm.mu1.options" id="mu1" class="slider"></rzslider></td>
+    </tr>
+    <tr class="tall">
+      <td>Standard Deviation $(\sigma)$</td>
+      <td><rzslider rz-slider-model="vm.sigma0.value" rz-slider-options="vm.sigma0.options" id="sigma0" class="slider"></rzslider></td>
+      <td><rzslider rz-slider-model="vm.sigma1.value" rz-slider-options="vm.sigma1.options" id="sigma1" class="slider"></rzslider></td>
+    </tr>
+    <tr class="tall">
+      <td>Number of Observations $(n)$</td>
+      <td><rzslider rz-slider-model="vm.n0.value" rz-slider-options="vm.n0.options" id="n0" class="slider"></rzslider></td>
+      <td><rzslider rz-slider-model="vm.n1.value" rz-slider-options="vm.n1.options" id="n1" class="slider"></rzslider></td>
+    </tr>
+    <tr>
+      <td>Significance Level $(\alpha)$</td>
+      <td colspan="2">
+        <rzslider rz-slider-model="vm.alpha.value" rz-slider-options="vm.alpha.options" id="alpha" class="slider"></rzslider>
+      </td>
+    </tr>
+    <tr class="divider"><td colspan="3"></td></tr>
+    <tr>
+      <td>Critical t = {{ vm.graph.info.xcrit[1] | number : 3 }}</td>
+      <td>Noncentrality Parameter = {{ vm.graph.info.ncp | number : 3 }}</td>
+      <td>Degrees of Freedom = {{ vm.graph.info.dof | number : 3 }}</td>
+    </tr>
+    <tr>
+      <td colspan="3">Power = {{ vm.graph.info.power | number : 3 }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Imagine a scientist planning to run an experiment. A power analysis can help answer questions like:</p>
+
+<ul>
+<li>Will this experiment work - how likely is it to detect a statistically significant effect?</li>
+<li>How much data needs to be collected?</li>
+<li>What is the smallest effect this experiment can measure?</li>
+</ul>
+
+<p>This visualization illustrates how assumptions about the data generating process affect the likelihood of detecting a significant effect.</p>
+
+<p>This power analysis assumes each outcome for the control group is distributed normally with mean {{ vm.graph.params.mu0 | number : 2 }} and standard deviation {{ vm.graph.params.sigma0 | number : 1 }}, and each outcome for the treatment group is distributed normally with mean {{ vm.graph.params.mu1 | number : 2 }} and standard deviation {{ vm.graph.params.sigma1 | number : 1 }}. If {{ vm.graph.params.n0 | number : 0 }} observations are collected from the control group and {{ vm.graph.params.n1 | number : 0 }} observations are collected from the treatment group, what is the probability of rejecting the null hypothesis, allowing for false rejections at a rate of {{ vm.graph.params.alpha | number : 3 }}? The probability of rejecting the null hypothesis that the expected outcomes for the two groups are equal is {{ vm.graph.info.power | number : 3 }}.</p>
+
+<p>After running the experiment, the researcher would perform a t-test. The t-statistic is the difference in the mean outcomes for the two groups, divided by its standard error. Under the null hypothesis, the t-statistic follows the Student&rsquo;s t-distribution with {{ vm.graph.info.dof | number : 3 }} degrees of freedom, this is the black distribution above. Under the alternative hypothesis, the t-statistic follows a noncentral t-distribution with the same degrees of freedom and noncentrality parameter of {{ vm.graph.info.ncp | number : 3 }}, this is the red distribution above. The null hypothesis is rejected if the experiment generates a t-statistic with magnitude greater than {{ vm.graph.info.xcrit[1] | number : 3 }}. The power of this hypothesis test equals the area under the curve of the alternative hypothesis with t-values of magnitude greater than the critical value, this area is highlighted in red.</p>
+
+<p>Interested in how to perform this power calculation? Check out <a href="http://ageconsearch.umn.edu/bitstream/116234/2/sjart_st0062.pdf">Harrison and Brady (2004)</a>. Note, I used Satterthwaite&rsquo;s formula to approximate the degrees of freedom for the t-distributions.</p>
+
+<p>Interested in building a similar visualization? Check out <a href="https://github.com/jstat/jstat">jStat</a>, <a href="https://github.com/mbostock/d3">D3.js</a>, <a href="https://github.com/angular/angular.js">AngularJS</a>, and <a href="https://github.com/angular-slider/angularjs-slider">AngularJS Slider</a>.</p>
+
+<p></div>
+</div></p>
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = 'https:\/\/amarder.github.io\/statistical-power-analysis.html';
+    this.page.identifier = 'https:\/\/amarder.github.io\/statistical-power-analysis.html';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+

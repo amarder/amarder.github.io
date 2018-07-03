@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Custom Web Analytics</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+  
+  <meta name="twitter:card" content=""/>
+  <meta name="twitter:site" content=""/>
+  <meta name="twitter:creator" content=""/>
+  <meta name="twitter:title" content=""/>
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:image" content="https://amarder.github.io/piwikr/piwikr_files/figure-markdown_strict/twitter-1.png"/>
+
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>Custom Web Analytics</h1>
+
+
+<p><a href="http://piwik.org/">Piwik</a> is the web analytics framework for hackers. By providing access to raw page view data, Piwik allows analysts to use general purpose tools for analysis. Piwik stores all of its data in a MySQL database. I&rsquo;ve written an R library <a href="https://github.com/amarder/piwikr">piwikr</a> to download and clean the tables stored in Piwik&rsquo;s database. To get started let&rsquo;s connect to the database:</p>
+
+<pre><code class="language-r">library(piwikr)
+
+my_db &lt;- src_mysql(
+    host = &quot;host.com&quot;,
+    user = &quot;andrew&quot;,
+    password = &quot;xxxxx&quot;,
+    dbname = &quot;piwik&quot;
+)
+</code></pre>
+
+<p>Below I retrieve tables describing all visits to the site and all actions taken by visitors to the site.</p>
+
+<pre><code class="language-r">visits &lt;- get_visits(my_db)
+actions &lt;- get_actions(my_db)
+</code></pre>
+
+<p>piwikr comes with functions to compute new tables from the primary tables. The four tables constructed below describe visitors to the site, days the site was actively collecting data, pages on the site, and sources of traffic to the site.</p>
+
+<pre><code class="language-r">visitors &lt;- compute_visitors(actions)
+days &lt;- compute_days(actions)
+pages &lt;- compute_pages(actions, base_url = &quot;amarder.github.io&quot;)
+sources &lt;- compute_sources(visits)
+</code></pre>
+
+<h1 id="traffic-over-time">Traffic Over Time</h1>
+
+<p>piwikr also comes with functions for creating graphs. How much traffic has the site generated over time?</p>
+
+<pre><code class="language-r">graph_visitors_vs_date(days)
+</code></pre>
+
+<p><img src="piwikr_files/figure-markdown_strict/traffic-1.png" alt="" /></p>
+
+<pre><code class="language-r">nvisitors &lt;- nrow(visitors)
+ndays &lt;- as.numeric(max(actions$day) - min(actions$day))
+arrival_rate &lt;- nvisitors / ndays
+</code></pre>
+
+<p>The site has attracted 3076 visitors over 155 days. The overall arrival rate was 19.85 visitors per day.</p>
+
+<h1 id="popular-content">Popular Content</h1>
+
+<p>What pages on the site have been viewed by the most visitors?</p>
+
+<pre><code class="language-r">library(dplyr)
+library(pander)
+
+pages %&gt;%
+    mutate(Page = paste0('&lt;a href=&quot;https://amarder.github.io', page, '&quot;&gt;', page, &quot;&lt;/a&gt;&quot;)) %&gt;%
+    select(Page, Visitors = visitors) %&gt;%
+    head(10) %&gt;%
+    pandoc.table(style = &quot;rmarkdown&quot;, split.table = Inf, justify = &quot;ll&quot;)
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="left">Page</th>
+<th align="left">Visitors</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><a href="https://amarder.github.io/power-analysis/">/power-analysis/</a></td>
+<td align="left">2364</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://amarder.github.io/clustered-standard-errors/">/clustered-standard-errors/</a></td>
+<td align="left">320</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://amarder.github.io/responsive-d3js/">/responsive-d3js/</a></td>
+<td align="left">280</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://amarder.github.io/">/</a></td>
+<td align="left">147</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://amarder.github.io/analytics/">/analytics/</a></td>
+<td align="left">62</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://amarder.github.io/piwikr/">/piwikr/</a></td>
+<td align="left">50</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://amarder.github.io/diamonds/">/diamonds/</a></td>
+<td align="left">48</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://amarder.github.io/books/">/books/</a></td>
+<td align="left">43</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://amarder.github.io/big-data/">/big-data/</a></td>
+<td align="left">17</td>
+</tr>
+
+<tr>
+<td align="left"><a href="https://amarder.github.io/data-visualization/">/data-visualization/</a></td>
+<td align="left">17</td>
+</tr>
+</tbody>
+</table>
+
+<h1 id="referrals">Referrals</h1>
+
+<p>How are visitors finding the site?</p>
+
+<pre><code class="language-r">sources %&gt;%
+    select(Source = source, Visitors = visitors) %&gt;%
+    head(10) %&gt;%
+    pandoc.table(style='rmarkdown', justify='ll')
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="left">Source</th>
+<th align="left">Visitors</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">(direct)</td>
+<td align="left">2338</td>
+</tr>
+
+<tr>
+<td align="left">Google</td>
+<td align="left">327</td>
+</tr>
+
+<tr>
+<td align="left">t.co</td>
+<td align="left">155</td>
+</tr>
+
+<tr>
+<td align="left">feedly.com</td>
+<td align="left">52</td>
+</tr>
+
+<tr>
+<td align="left">flipboard.com</td>
+<td align="left">43</td>
+</tr>
+
+<tr>
+<td align="left">news.ycombinator.com</td>
+<td align="left">40</td>
+</tr>
+
+<tr>
+<td align="left">popurls.com</td>
+<td align="left">10</td>
+</tr>
+
+<tr>
+<td align="left">post.oreilly.com</td>
+<td align="left">9</td>
+</tr>
+
+<tr>
+<td align="left">us3.campaign-archive1.com</td>
+<td align="left">8</td>
+</tr>
+
+<tr>
+<td align="left">us6.campaign-archive2.com</td>
+<td align="left">8</td>
+</tr>
+</tbody>
+</table>
+
+<h1 id="browser-resolutions">Browser Resolutions</h1>
+
+<p>How important is mobile / how large are the visitors&rsquo; browser windows?</p>
+
+<pre><code class="language-r">graph_browser_resolutions(visits)
+</code></pre>
+
+<p><img src="piwikr_files/figure-markdown_strict/resolutions-1.png" alt="" /></p>
+
+<pre><code class="language-r">pct_mobile &lt;- 100 * mean(visits$screen_width &lt; 800, na.rm = TRUE)
+</code></pre>
+
+<p>14.6% of visits were performed on a screen with width less than 800 pixels.</p>
+
+<h1 id="site-structure">Site Structure</h1>
+
+<p>piwikr can also visualize how users navigate from page to page on the site. Each node in the graph below represents a page on the site, the size of a node is proportional to the number of visitors who have viewed the page. The width of each edge is proportional to the number of visitors that traveled between the two pages.</p>
+
+<pre><code class="language-r">set.seed(2)
+graph_site_structure(actions, base_url = &quot;amarder.github.io&quot;, n = 14)
+</code></pre>
+
+<p><img src="piwikr_files/figure-markdown_strict/structure-1.png" alt="" /></p>
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = 'https:\/\/amarder.github.io\/custom-web-analytics.html';
+    this.page.identifier = 'https:\/\/amarder.github.io\/custom-web-analytics.html';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+

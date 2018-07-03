@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Working with 64-bit Integers in R</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>Working with 64-bit Integers in R</h1>
+
+
+<p>Integers in R are stored in 32-bits. Out of the box, the largest integer R can handle is 2147483647. Sometimes this isn&rsquo;t enough space. I&rsquo;ve run into this issue a few times when dealing with large ID numbers. Here&rsquo;s an example ID from Twitter 912411948163137536, let&rsquo;s see if it&rsquo;s larger than R can handle:</p>
+
+<pre><code class="language-r">912411948163137536 &gt; .Machine$integer.max
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<p>If we try to store this number as an integer, R warns us that it does not fit within the 32-bit integer range and it returns <code>NA</code> as this integer value is not available.</p>
+
+<pre><code class="language-r">as.integer(912411948163137536)
+</code></pre>
+
+<pre><code>## Warning: NAs introduced by coercion to integer range
+</code></pre>
+
+<pre><code>## [1] NA
+</code></pre>
+
+<h2 id="reading">Reading</h2>
+
+<p>Like <code>R</code>, <code>readr::read_csv</code> cannot parse integers larger than
+2147483647:</p>
+
+<pre><code>library(readr)
+
+parse_integer(s)
+
+## [1] NA
+## attr(,&quot;problems&quot;)
+## # A tibble: 1 x 4
+##     row   col   expected      actual
+##   &lt;int&gt; &lt;int&gt;      &lt;chr&gt;       &lt;chr&gt;
+## 1     1    NA an integer 21474836470
+</code></pre>
+
+<p>Following the advice of
+<a href="http://www.win-vector.com/blog/2015/06/r-in-a-64-bit-world/">Win-Vector</a>,
+we can read large integers as character vectors.</p>
+
+<pre><code># Write a test file
+command &lt;- paste0(&quot;echo 'big\n&quot;, s, &quot;' &gt; in.csv&quot;)
+system(command)
+
+# Read the integer data as character
+my_data &lt;- read_csv(
+    &quot;in.csv&quot;,
+    col_types = cols(
+        big = col_character()
+    )
+)
+
+# Show we got the right value
+my_data$big[1] == s
+
+## [1] TRUE
+</code></pre>
+
+<h2 id="writing">Writing</h2>
+
+<p>The <code>bit64</code> library facilitates working with 64-bit integers in R.</p>
+
+<pre><code>library(bit64)
+
+# We can store `s` as a 64-bit integer
+i &lt;- as.integer64(s)
+as.character(i) == s
+
+## [1] TRUE
+</code></pre>
+
+<p>It looks like <code>readr::write_csv</code> can handle <code>integer64</code> objects:</p>
+
+<pre><code># Write out an integer64 object
+my_data$big &lt;- as.integer64(my_data$big)
+write_csv(my_data, &quot;out.csv&quot;)
+
+# Make sure it was written properly
+text &lt;- system(&quot;cat out.csv&quot;, intern = TRUE)
+text[2] == s
+
+## [1] TRUE
+</code></pre>
+
+<h2 id="answer">Answer</h2>
+
+<p>Thanks to <a href="https://twitter.com/hadleywickham/status/781878063814414336">Hadley Wickham</a> for a pragmatic answer: &ldquo;use doubles&rdquo;</p>
+
+<p>There is an important caveat associated with using doubles. <a href="http://www.win-vector.com/blog/2015/06/r-in-a-64-bit-world/">Win-Vector</a> notes:</p>
+
+<blockquote>
+<p>IEEE 754 doubles define a 53 bit mantissa (separate from the sign and exponent), so with a proper floating point implementation we expect a double can faithfully represent an integer range of -2^53 through 2^53. But only as long as you don’t accidentally convert to or round-trip through a string/character type.</p>
+</blockquote>
+
+<p>Here is an example where using doubles can get one into trouble:</p>
+
+<pre><code>&gt; library(bit64)
+&gt; library(readr)
+
+&gt; # Set up CSV
+&gt; a &lt;- as.integer64(2) ^ 53
+&gt; b &lt;- a + 1
+&gt; text &lt;- paste0(&quot;x\n&quot;, a, &quot;\n&quot;, b, &quot;\n&quot;)
+&gt; cat(text)
+x
+9007199254740992
+9007199254740993
+
+&gt; # Read CSV
+&gt; data &lt;- read_csv(text, col_types = cols(x = col_double()))
+
+&gt; # Show that b was not read properly
+&gt; as.integer64(data$x)
+integer64
+[1] 9007199254740992 9007199254740992
+</code></pre>
+
+<p>My plan moving forward is to use doubles and check that <code>abs(x) &lt;= as.integer64(2) ^ 53</code>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The safest approach seems to be reading and writing string
+representations when integers cannot be stored in 32-bits.</p>
+
+<p><code>readr::write_csv</code> appears capable of writing <code>integer64</code> objects,
+can we be certain this will always work?</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><p><a href="http://stackoverflow.com/questions/38894729/big-integers-when-reading-file-with-readr-in-r">big integers when reading file with readr in
+r</a></p></li>
+
+<li><p><a href="http://stackoverflow.com/questions/30341140/readr-turn-off-scientific-notation-in-write-csv">readr : Turn off scientific notation in
+write_csv</a></p></li>
+</ul>
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = '\/bit64\/';
+    this.page.identifier = '\/bit64\/';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+

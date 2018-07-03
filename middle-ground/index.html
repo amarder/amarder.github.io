@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Republican vs Democrat - Searching for Middle Ground</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+  
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@andrewmarder"/>
+  <meta name="twitter:creator" content="@andrewmarder"/>
+  <meta name="twitter:title" content="Republican vs Democrat - Searching for Middle Ground"/>
+  <meta name="twitter:description" content="Using R to identify centrist statements by Democrats and Republicans."/>
+  <meta name="twitter:image" content="https://amarder.github.io/post/middle-ground_files/figure-html/unnamed-chunk-11-1.png"/>
+
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>Republican vs Democrat - Searching for Middle Ground</h1>
+
+
+<p>Can we find topics where Democrats and Republicans agree? This post
+aims to find political middle ground using natural language processing
+and machine learning. Examining tweets by party leaders in the House
+and Senate, I fit a neural network
+based on the words used in each tweet to predict the political party of
+each tweet&rsquo;s author. By examining tweets where the neural network has
+a hard time predicting the author&rsquo;s political party I hope to identify a
+political middle ground (tweets where the word choice is not obviously
+partisan).</p>
+
+<h1 id="download-data">Download Data</h1>
+
+<p>Let&rsquo;s download the most recent tweets by the party leaders in Congress.</p>
+
+<pre><code class="language-r">library(twitteR)
+library(tidyverse)
+
+party_leaders &lt;- read_csv(trimws('
+name            , party , position , chamber , username
+Kevin McCarthy  , R     , Leader   , House   , GOPLeader
+Nancy Pelosi    , D     , Leader   , House   , NancyPelosi
+Steve Scalise   , R     , Whip     , House   , SteveScalise
+Steny Hoyer     , D     , Whip     , House   , WhipHoyer
+Mitch McConnell , R     , Leader   , Senate  , SenateMajLdr
+Chuck Schumer   , D     , Leader   , Senate  , SenSchumer
+John Cornyn     , R     , Whip     , Senate  , JohnCornyn
+Dick Durbin     , D     , Whip     , Senate  , SenatorDurbin
+'))
+
+read_tweets &lt;- function(users) {
+    # Connect to the Twitter API
+    capture.output(setup_twitter_oauth(
+        consumer_key = Sys.getenv(&quot;TWITTER_CONSUMER_KEY&quot;),
+        consumer_secret = Sys.getenv(&quot;TWITTER_CONSUMER_SECRET&quot;),
+        access_token = Sys.getenv(&quot;TWITTER_ACCESS_TOKEN&quot;),
+        access_secret = Sys.getenv(&quot;TWITTER_ACCESS_SECRET&quot;)
+    ))
+
+    # Download tweets
+    l &lt;- lapply(users, function(user) twListToDF(userTimeline(user, n = 3200)))
+
+    # Create a data frame of tweets
+    tweets &lt;- do.call(bind_rows, l)
+    return(tweets)
+}
+
+tweets &lt;- read_tweets(party_leaders$username)
+tweets &lt;- tweets %&gt;%
+    left_join(party_leaders, by = c(&quot;screenName&quot; = &quot;username&quot;)) %&gt;%
+    mutate(republican = as.integer(party == &quot;R&quot;))
+</code></pre>
+
+<h1 id="clean-data">Clean Data</h1>
+
+<h2 id="select-time-period">Select Time Period</h2>
+
+<p>Twitter&rsquo;s API let&rsquo;s us download a user&rsquo;s most recent tweets (3,200
+minus retweets). The graph below illustrates when each tweet in our
+dataset was posted.</p>
+
+<pre><code class="language-r">ggplot(tweets, aes(x = created, y = paste0(name, &quot; (&quot;, party, &quot;)&quot;))) +
+    geom_jitter(width = 0, size = 0.5) +
+    theme_bw() +
+    ylab(&quot;&quot;) +
+    xlab(&quot;&quot;)
+</code></pre>
+
+<p><img src="/post/middle-ground_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+
+<p>I want to make sure we focus on an overlapping time period so our
+model doesn&rsquo;t pick up on unique words in Mitch McConnell&rsquo;s early
+tweets.</p>
+
+<pre><code class="language-r">common_time_period &lt;- function(tweets) {
+    x &lt;- tweets %&gt;%
+        group_by(republican) %&gt;%
+        summarise(first = min(created))
+    start &lt;- max(x$first)
+    cat(&quot;I restrict the analysis to tweets since &quot;, as.character(start), &quot;.&quot;, sep = &quot;&quot;)
+
+    tweets %&gt;%
+        filter(created &gt;= start)
+}
+
+tweets &lt;- common_time_period(tweets)
+</code></pre>
+
+<p>I restrict the analysis to tweets since 2017-03-30 01:06:54.</p>
+
+<h2 id="convert-text-to-numbers">Convert Text to Numbers</h2>
+
+<p>I use the <a href="https://cran.r-project.org/web/packages/tidytext/index.html">tidytext</a> library to create dummy variables indicating whether a word was used in a given tweet.</p>
+
+<pre><code class="language-r">library(tidytext)
+library(rlang)
+
+expand_text_into_dummy_variables &lt;- function(.data, text_column, id_column, cutoff, ignore) {
+    id_column &lt;- enquo(id_column)
+    text_column &lt;- enquo(text_column)
+
+    .data &lt;- .data %&gt;% select(-starts_with(&quot;word_&quot;))
+
+    data(&quot;stop_words&quot;)
+    words_to_ignore &lt;- data.frame(word = ignore, stringsAsFactors = FALSE)
+
+    words &lt;- .data %&gt;%
+        unnest_tokens(output = word, input = !!text_column) %&gt;%
+        anti_join(stop_words, by = &quot;word&quot;) %&gt;%
+        anti_join(words_to_ignore, by = &quot;word&quot;)
+
+    N &lt;- nrow(.data)
+    freq &lt;- words %&gt;%
+        group_by(word) %&gt;%
+        summarise(n = length(unique(!!id_column))) %&gt;%
+        mutate(pct = n / N)
+
+    filtered &lt;- freq %&gt;%
+        filter(pct &gt;= cutoff)
+
+    words &lt;- words %&gt;%
+        inner_join(filtered, by = &quot;word&quot;)
+
+    dummies &lt;- words %&gt;%
+        group_by(!!id_column, word) %&gt;%
+        summarise(contains = 1) %&gt;%
+        ungroup() %&gt;%
+        spread(key = word, value = contains, fill = 0, sep = &quot;_&quot;)
+
+    l &lt;- sapply(colnames(dummies), function(i) 0)
+
+    .data %&gt;%
+        full_join(dummies, by = f_text(id_column)) %&gt;%
+        replace_na(replace = as.list(l))
+}
+
+tweets &lt;- tweets %&gt;%
+    expand_text_into_dummy_variables(
+        text_column = text, id_column = id, cutoff = 0.015,
+        ignore = c(&quot;https&quot;, &quot;t.co&quot;, &quot;amp&quot;, &quot;1&quot;, &quot;2&quot;, &quot;2015&quot;, &quot;it’s&quot;)
+    )
+</code></pre>
+
+<p>After dropping stop words and focusing on words that appear in at least 1.5% of
+all tweets, we&rsquo;re left with 68
+words. For each of these 68 words I&rsquo;ve created
+a new dummy variable indicating which tweets contain this word.</p>
+
+<h1 id="model-authorship">Model Authorship</h1>
+
+<p>I want to build a neural network to predict the political party of a
+tweet&rsquo;s author. Let&rsquo;s fit a neural network with two hidden states.</p>
+
+<pre><code class="language-r">library(nnet)
+
+tweets &lt;- tweets %&gt;%
+    group_by(screenName) %&gt;%
+    mutate(weight = 1 / n()) %&gt;%
+    ungroup()
+
+expvars &lt;- function(data) {
+    data %&gt;%
+        select(starts_with(&quot;word_&quot;)) %&gt;%
+        as.matrix()
+}
+
+set.seed(1)
+fit &lt;- nnet(
+    y = tweets$republican,
+    x = expvars(tweets),
+    weights = tweets$weight,
+    size = 2,
+    maxit = 5000
+)
+</code></pre>
+
+<p>And save its predictions in a variable named <code>yhat</code>.</p>
+
+<pre><code class="language-r">tweets$yhat &lt;- predict(fit, expvars(tweets))[, 1]
+</code></pre>
+
+<h2 id="evaluate-predictions">Evaluate Predictions</h2>
+
+<p>Let&rsquo;s see how well our neural network predicts the political party
+associated with each tweet based on the words used.</p>
+
+<pre><code class="language-r">tweets %&gt;%
+    ggplot(aes(x = yhat)) +
+    geom_histogram(binwidth = 0.01) +
+    facet_grid(party + name ~ ., scales = &quot;free_y&quot;) +
+    theme_bw() +
+    xlab(&quot;Estimated Probability Tweet is by a Republican&quot;) +
+    ylab(&quot;Number of Tweets&quot;)
+</code></pre>
+
+<p><img src="/post/middle-ground_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+
+<pre><code class="language-r">tweets &lt;- tweets %&gt;%
+    mutate(correct = (republican &amp; (yhat &gt; 0.5)) | (!republican &amp; (yhat &lt; 0.5)))
+</code></pre>
+
+<p>The model accurately predicts the political party of 78% of tweets.</p>
+
+<h2 id="interpret-neural-network">Interpret Neural Network</h2>
+
+<p>The plot below embeds the 68 words extracted
+from the 1823 tweets in a two-dimensional space. The x- and
+y-coordinates are edge weights from the neural network. The
+x-coordinate reports the weight from the node indicating the word was
+included in the tweet to the first hidden node. The y-coordinate
+reports the weight from the input word to the second hidden node. I
+have colored each word based on the probability a tweet containing
+only that word would be authored by a Republican. A tweet about &ldquo;obamacare&rdquo;
+is likely written by a Republican, while a tweet about &ldquo;dreamers&rdquo; is
+likely written by a Democrat.</p>
+
+<pre><code class="language-r">library(ggrepel)
+
+my_coef &lt;- function(object) {
+    x &lt;- data.frame(coefficient = coef(object))
+    x$edge &lt;- row.names(x)
+    row.names(x) &lt;- NULL
+    x %&gt;%
+        separate(col = &quot;edge&quot;, into = c(&quot;source&quot;, &quot;destination&quot;), sep = &quot;-&gt;&quot;)
+}
+
+plot_nnet &lt;- function(fit, tweets) {
+    beta &lt;- my_coef(fit)
+
+    words &lt;- grep(&quot;word_&quot;, colnames(tweets), value = TRUE)
+    labels &lt;- data.frame(
+        source = paste0(&quot;i&quot;, 1:length(words)),
+        label = sub(&quot;word_&quot;, &quot;&quot;, words)
+    )
+    x &lt;- data.frame(variable = words, i = 1:length(words), value = 1) %&gt;%
+        spread(variable, value, fill = 0)
+
+    labels$yhat &lt;- predict(fit, newdata = x %&gt;% select(starts_with(&quot;word_&quot;)))
+
+    beta2 &lt;- beta %&gt;% inner_join(labels, by = &quot;source&quot;) %&gt;%
+        select(-source) %&gt;%
+        spread(key = destination, value = coefficient)
+
+    ggplot(beta2, aes(x = h1, y = h2, label = label, color = yhat)) +
+        geom_point() +
+        geom_text_repel() +
+        scale_colour_gradientn(colours = c(&quot;blue&quot;, &quot;white&quot;, &quot;red&quot;),
+                               values = c(0, 0.5, 1), name = &quot;Predicted Probability\nRepublican Author&quot;) +
+        theme_bw() +
+        xlab(expression(beta[1])) +
+        ylab(expression(beta[2]))
+}
+
+plot_nnet(fit, tweets)
+</code></pre>
+
+<p><img src="/post/middle-ground_files/figure-html/unnamed-chunk-11-1.png" width="864" /></p>
+
+<h2 id="inspect-middle-ground">Inspect Middle Ground</h2>
+
+<p>For each of the eight politicians studied let&rsquo;s look at his or her most central
+tweet (a tweet is central when its predicted probability is close to 50%).</p>
+
+<pre><code class="language-r">middle_ground &lt;- tweets %&gt;%
+    mutate(d = abs(yhat - 0.5)) %&gt;%
+    group_by(screenName) %&gt;%
+    arrange(d) %&gt;%
+    do(head(., 1)) %&gt;%
+    mutate(shortcodes = paste0(&quot;{{&quot;, &quot;&lt; tweet &quot;, id, &quot; &gt;&quot;, &quot;}}&quot;))
+
+for (shortcode in middle_ground$shortcodes) {
+    cat(&quot;1.  &quot;, shortcode, &quot;\n\n&quot;)
+}
+</code></pre>
+
+<ol>
+<li><blockquote class="twitter-tweet"><p lang="en" dir="ltr">.<a href="https://twitter.com/POTUS?ref_src=twsrc%5Etfw">@POTUS</a> &amp; <a href="https://twitter.com/IvankaTrump?ref_src=twsrc%5Etfw">@IvankaTrump</a>&#39;s <a href="https://twitter.com/hashtag/STEM?src=hash&amp;ref_src=twsrc%5Etfw">#STEM</a> initiative will help ensure future generations of American workers are job-ready on day one. 🇺🇸 <a href="https://t.co/9ahbDpeGH2">pic.twitter.com/9ahbDpeGH2</a></p>&mdash; Kevin McCarthy (@GOPLeader) <a href="https://twitter.com/GOPLeader/status/912411948163137536?ref_src=twsrc%5Etfw">September 25, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</li>
+
+<li><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Why should federal taxpayers subsidize high-tax states? <a href="https://t.co/JteXqlk9cx">https://t.co/JteXqlk9cx</a> via <a href="https://twitter.com/WSJ?ref_src=twsrc%5Etfw">@WSJ</a></p>&mdash; Senator John Cornyn (@JohnCornyn) <a href="https://twitter.com/JohnCornyn/status/922771975210196994?ref_src=twsrc%5Etfw">October 24, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</li>
+
+<li><blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/GOPBudget?src=hash&amp;ref_src=twsrc%5Etfw">#GOPBudget</a> borrows from our children&#39;s future to give massive tax cuts to the rich.</p>&mdash; Nancy Pelosi (@NancyPelosi) <a href="https://twitter.com/NancyPelosi/status/923291704869789696?ref_src=twsrc%5Etfw">October 25, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</li>
+
+<li><blockquote class="twitter-tweet"><p lang="en" dir="ltr">.<a href="https://twitter.com/POTUS?ref_src=twsrc%5Etfw">@POTUS</a> is not getting nearly enough credit for the work he is doing to reshape our courts and commissions. <a href="https://t.co/UsMTJQYvv3">pic.twitter.com/UsMTJQYvv3</a></p>&mdash; Leader McConnell (@SenateMajLdr) <a href="https://twitter.com/SenateMajLdr/status/922518739802820609?ref_src=twsrc%5Etfw">October 23, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</li>
+
+<li><blockquote class="twitter-tweet"><p lang="en" dir="ltr">.<a href="https://twitter.com/POTUS?ref_src=twsrc%5Etfw">@POTUS</a> playing politics with contraceptive coverage is an attack on American women, plain and simple. <a href="https://t.co/s5g5sx9Gv1">https://t.co/s5g5sx9Gv1</a></p>&mdash; Senator Dick Durbin (@SenatorDurbin) <a href="https://twitter.com/SenatorDurbin/status/916336198817341440?ref_src=twsrc%5Etfw">October 6, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</li>
+
+<li><blockquote class="twitter-tweet"><p lang="en" dir="ltr">.<a href="https://twitter.com/POTUS?ref_src=twsrc%5Etfw">@POTUS</a> promised to crackdown on China - so far it&#39;s been a lot of talk. <a href="https://twitter.com/SenateDems?ref_src=twsrc%5Etfw">@SenateDems</a> say enough. Let&#39;s put US steel &amp; aluminium jobs first. <a href="https://t.co/4uvey9gCbp">pic.twitter.com/4uvey9gCbp</a></p>&mdash; Chuck Schumer (@SenSchumer) <a href="https://twitter.com/SenSchumer/status/922572093207625728?ref_src=twsrc%5Etfw">October 23, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</li>
+
+<li><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Today, <a href="https://twitter.com/POTUS?ref_src=twsrc%5Etfw">@POTUS</a> awarded the Medal of Valor to the heroes who saved the lives of everyone at the baseball field on June 14. <a href="https://t.co/xgOV32fp7c">pic.twitter.com/xgOV32fp7c</a></p>&mdash; Rep. Steve Scalise (@SteveScalise) <a href="https://twitter.com/SteveScalise/status/890664826397220864?ref_src=twsrc%5Etfw">July 27, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</li>
+
+<li><blockquote class="twitter-tweet"><p lang="en" dir="ltr">.<a href="https://twitter.com/POTUS?ref_src=twsrc%5Etfw">@POTUS</a> is shortening open enrollment—be sure to visit <a href="https://t.co/OqCEr7DFhC">https://t.co/OqCEr7DFhC</a> between Nov. 1-Dec. 15 to sign up for coverage. RT to share. <a href="https://t.co/ops0LtDKQ7">pic.twitter.com/ops0LtDKQ7</a></p>&mdash; Steny Hoyer (@WhipHoyer) <a href="https://twitter.com/WhipHoyer/status/923217715933929473?ref_src=twsrc%5Etfw">October 25, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</li>
+</ol>
+
+<p>I wouldn&rsquo;t classify this as a resounding success, but I think it shows
+some promise. The tweets by Kevin McCarthy and Steve Scalise seem
+close to a middle ground where the party of the author is not
+completely obvious to a human reader. I think the next step would be
+to improve the predictive model - make the robot better at reading
+political tweets.</p>
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = 'https:\/\/amarder.github.io\/middle-ground\/';
+    this.page.identifier = 'https:\/\/amarder.github.io\/middle-ground\/';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+

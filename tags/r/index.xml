@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on Andrew Marder</title>
+    <link>https://amarder.github.io/tags/r/</link>
+    <description>Recent content in R on Andrew Marder</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Nov 2017 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://amarder.github.io/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Visualizing Sound</title>
+      <link>https://amarder.github.io/visualizing-sound/</link>
+      <pubDate>Wed, 01 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/visualizing-sound/</guid>
+      <description>
+
+&lt;p&gt;My sister&amp;rsquo;s boyfriend&amp;rsquo;s band, &lt;a href=&#34;https://www.vertigodrift.com/&#34;&gt;Vertigo Drift&lt;/a&gt;, recently came out with a new EP called &lt;em&gt;Phase 3&lt;/em&gt;. It seemed like the perfect excuse for me to play around with &lt;a href=&#34;https://github.com/dgrtwo/gganimate&#34;&gt;gganimate&lt;/a&gt; to create a music video.&lt;/p&gt;
+
+&lt;h2 id=&#34;reading-audio-files&#34;&gt;Reading Audio Files&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://cran.r-project.org/web/packages/tuneR/&#34;&gt;tuneR&lt;/a&gt; package provides excellent functions for reading audio files.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s download an example wave file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;url &amp;lt;- &amp;quot;http://freewavesamples.com/files/Alesis-Fusion-Acoustic-Bass-C2.wav&amp;quot;
+command &amp;lt;- paste(&amp;quot;wget&amp;quot;, url)
+system(command)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let&amp;rsquo;s use tuneR to read the file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(tuneR)
+
+wave &amp;lt;- readWave(&amp;quot;Alesis-Fusion-Acoustic-Bass-C2.wav&amp;quot;)
+wave
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## 
+## Wave Object
+## 	Number of Samples:      127782
+## 	Duration (seconds):     2.9
+## 	Samplingrate (Hertz):   44100
+## 	Channels (Mono/Stereo): Stereo
+## 	PCM (integer format):   TRUE
+## 	Bit (8/16/24/32/64):    16
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This particular file is 2.9 seconds long. It is recorded in stereo (it has a left and right channel). There are 44,100 samples per second. In total there are 127,782 samples. I found Wikipedia&amp;rsquo;s page on &lt;a href=&#34;https://en.wikipedia.org/wiki/Digital_audio&#34;&gt;digital audio&lt;/a&gt; to be pretty helpful in understanding this data.&lt;/p&gt;
+
+&lt;h2 id=&#34;plotting-audio-files&#34;&gt;Plotting Audio Files&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s put the audio data into a data frame.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(tidyverse)
+
+data &amp;lt;- data.frame(
+    Left = wave@left,
+    Right = wave@right
+)
+data$second &amp;lt;- (1:nrow(data)) / wave@samp.rate
+head(data)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;##   Left Right       second
+## 1 -127  -145 2.267574e-05
+## 2 -126  -135 4.535147e-05
+## 3 -149  -176 6.802721e-05
+## 4 -175  -213 9.070295e-05
+## 5 -165  -200 1.133787e-04
+## 6 -143  -161 1.360544e-04
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Typical video contains 24 frames per second. Let&amp;rsquo;s focus on the first 24th of a second of this audio file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;data &amp;lt;- data %&amp;gt;%
+    filter(second &amp;lt;= 1 / 24)
+nrow(data)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] 1837
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now let&amp;rsquo;s plot this 24th of a second.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;data %&amp;gt;%
+    gather(key = &amp;quot;Channel&amp;quot;, value = &amp;quot;y&amp;quot;, Left, Right) %&amp;gt;%
+    mutate(y = y / max(abs(y))) %&amp;gt;%
+    ggplot(aes(x = second, y = y)) +
+    geom_point(size = 0.1) +
+    ylab(&amp;quot;Relative Amplitude&amp;quot;) +
+    xlab(&amp;quot;Time (Seconds)&amp;quot;) +
+    ylim(-1, 1) +
+    facet_grid(Channel ~ .) +
+    theme_bw()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/music_files/figure-html/graph-1.png&#34; width=&#34;648&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;animating-plots&#34;&gt;Animating Plots&lt;/h2&gt;
+
+&lt;p&gt;I used gganimate to create the following music video. The song is 2 minutes and 46 seconds long so the video stitches together (2 * 60 + 46) * 24 = 3984 plots. If I watch it for too long it starts to hurt my eyes.&lt;/p&gt;
+
+&lt;iframe width=&#34;640&#34; height=&#34;360&#34; src=&#34;https://www.youtube.com/embed/YACyTCegGG8?rel=0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;Let me know if you&amp;rsquo;re interested in the code. I haven&amp;rsquo;t posted it on GitHub yet, but I&amp;rsquo;d be happy to.&lt;/p&gt;
+
+&lt;!-- video to checkout: http://csh.bz/highticket/ --&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>rlang - Working with Quosures</title>
+      <link>https://amarder.github.io/rlang-quosure/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/rlang-quosure/</guid>
+      <description>&lt;p&gt;If you haven’t read &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html&#34;&gt;programming with dplyr&lt;/a&gt; or &lt;a href=&#34;https://cran.r-project.org/web/packages/rlang/vignettes/tidy-evaluation.html&#34;&gt;tidy evaluation&lt;/a&gt; yet, definitely start there; they give an excellent overview of working with the tidy evaluation framework. This post aims to give a simple example of how to work with quasiquotation as implemented by &lt;a href=&#34;https://cran.r-project.org/web/packages/rlang/&#34;&gt;rlang&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Imagine I want to create a domain specific language (DSL) for arithmetic. Let’s write two functions that I will use as verbs in this DSL.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;add &amp;lt;- function(a, b) a + b
+multiply &amp;lt;- function(a, b) a * b&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Suppose I’m really interested in linear functions in general, and &lt;span class=&#34;math inline&#34;&gt;\(f(x) = 2x + 1\)&lt;/span&gt; specifically. Let’s take two different approaches to creating linear functions using these &lt;code&gt;add()&lt;/code&gt; and &lt;code&gt;multiply()&lt;/code&gt; verbs…&lt;/p&gt;
+&lt;div id=&#34;closure-approach&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Closure Approach&lt;/h2&gt;
+&lt;p&gt;One approach to creating linear functions is to use &lt;a href=&#34;https://en.wikipedia.org/wiki/Closure_(computer_programming)&#34;&gt;closures&lt;/a&gt;. “Operationally, a closure is a record storing a function together with an environment.” Let’s write a function to create new closures:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;create_linear_closure &amp;lt;- function(slope, intercept) {
+    function(x) {
+        add(multiply(slope, x), intercept)
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;create_linear_closure()&lt;/code&gt; takes two parameters (&lt;code&gt;slope&lt;/code&gt; and &lt;code&gt;intercept&lt;/code&gt;) and returns a new anonymous function that takes one parameter (&lt;code&gt;x&lt;/code&gt;) and returns the &lt;code&gt;slope&lt;/code&gt; times &lt;code&gt;x&lt;/code&gt; plus the &lt;code&gt;intercept&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Let’s create a new closure and inspect it:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;f &amp;lt;- create_linear_closure(slope = 2, intercept = 1)
+f&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## function(x) {
+##         add(multiply(slope, x), intercept)
+##     }
+## &amp;lt;environment: 0x7f8d476ac758&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice that &lt;code&gt;f&lt;/code&gt; has a function definition &lt;strong&gt;and&lt;/strong&gt; an environment. The environment stores the value of the slope and intercept.&lt;/p&gt;
+&lt;p&gt;Finally, let’s evaluate the function &lt;code&gt;f&lt;/code&gt; at &lt;span class=&#34;math inline&#34;&gt;\(x = 1\)&lt;/span&gt;:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;f(x = 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 3&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Looking good!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;quosure-approach&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Quosure Approach&lt;/h2&gt;
+&lt;p&gt;How would one rewrite &lt;code&gt;create_linear_closure()&lt;/code&gt; using the tidy evaluation framework?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rlang)
+
+create_linear_quosure &amp;lt;- function(slope, intercept) {
+    quo(add(multiply(!!slope, x), !!intercept))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This new function takes two parameters (&lt;code&gt;slope&lt;/code&gt; and &lt;code&gt;intercept&lt;/code&gt;) and returns a quosure.&lt;/p&gt;
+&lt;p&gt;Let’s create a new quosure and inspect it:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;f &amp;lt;- create_linear_quosure(slope = 2, intercept = 1)
+f&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## &amp;lt;quosure: local&amp;gt;
+## ~add(multiply(2, x), 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Like a closure, a quosure has an expression &lt;strong&gt;and&lt;/strong&gt; an environment. One nice aspect of this approach is the values of the slope and intercept have been unquoted in the expression (working with the closure in the previous section we would have to inspect its environment to see those values).&lt;/p&gt;
+&lt;p&gt;Finally, let’s evaluate &lt;code&gt;f&lt;/code&gt; at &lt;span class=&#34;math inline&#34;&gt;\(x = 1\)&lt;/span&gt;:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;eval_tidy(f, list(x = 1))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 3&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Huzzah!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusion&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The tidy evaluation framework has three key components:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Unquoting&lt;/strong&gt; is done using the following functions and syntactic operators:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;UQ()&lt;/code&gt; and &lt;code&gt;!!&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UQE()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UQS()&lt;/code&gt; and &lt;code&gt;!!!&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For more information see &lt;code&gt;help(quasiquotation)&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Quoting&lt;/strong&gt; is done using the following functions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;quo()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;enquo()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;quos()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;new_quosure()&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;See &lt;code&gt;help(quosure)&lt;/code&gt; for more info.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Evaluation&lt;/strong&gt; is performed using &lt;code&gt;eval_tidy()&lt;/code&gt;, see &lt;code&gt;help(eval_tidy)&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Writing this post helped me understand how to work with quosures (using all three components of the tidy evaluation framework). But, I’m not convinced it’s a great example of a domain specific language. If you have ideas for a better DSL example definitely let me know.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>rlang - Quasiquotation Confusion</title>
+      <link>https://amarder.github.io/rlang/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/rlang/</guid>
+      <description>&lt;p&gt;I’ve been trying to wrap my head around &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html&#34;&gt;Programming with dplyr&lt;/a&gt;. This post describes what I perceive to be a disconnect between the documentation and the source code of the &lt;code&gt;rlang&lt;/code&gt; package. I think understanding this disconnect may help me understand how &lt;code&gt;rlang&lt;/code&gt; works under the hood.&lt;/p&gt;
+&lt;p&gt;First let’s take a look at the documentation:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;##      Quasiquotation is the combination of quoting an expression while
+##      allowing immediate evaluation (unquoting) of part of that
+##      expression. We provide both syntactic operators and functional
+##      forms for unquoting.
+## 
+##         • &amp;#39;UQ()&amp;#39; and the &amp;#39;!!&amp;#39; operator unquote their argument. It gets
+##           evaluated immediately in the surrounding context.
+## 
+##         • &amp;#39;UQE()&amp;#39; is like &amp;#39;UQ()&amp;#39; but retrieves the expression of
+##           quosureish objects. It is a shortcut for &amp;#39;!! get_expr(x)&amp;#39;.
+##           Use this with care: it is potentially unsafe to discard the
+##           environment of the quosure.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now let’s look at the source code for &lt;code&gt;UQ()&lt;/code&gt;, &lt;code&gt;!!&lt;/code&gt;, and &lt;code&gt;UQE()&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rlang)
+
+UQ&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## function (x) 
+## {
+##     x
+## }
+## &amp;lt;bytecode: 0x7fe329231c60&amp;gt;
+## &amp;lt;environment: namespace:rlang&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;`!!`&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## function (x) 
+## {
+##     if (is_quosureish(x)) {
+##         get_expr(x)
+##     }
+##     else {
+##         x
+##     }
+## }
+## &amp;lt;bytecode: 0x7fe32924c2a0&amp;gt;
+## &amp;lt;environment: namespace:rlang&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;UQE&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## function (x) 
+## {
+##     if (is_quosureish(x)) {
+##         get_expr(x)
+##     }
+##     else {
+##         x
+##     }
+## }
+## &amp;lt;bytecode: 0x7fe328ee4b08&amp;gt;
+## &amp;lt;environment: namespace:rlang&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It’s weird to me that the &lt;code&gt;!!&lt;/code&gt; operator is identical to the &lt;code&gt;UQE()&lt;/code&gt; function and not identical to the &lt;code&gt;UQ()&lt;/code&gt; function. I’m not the only one confused by this, check out this &lt;a href=&#34;https://github.com/tidyverse/rlang/issues/256&#34;&gt;GitHub issue&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Here’s my question, where in the &lt;code&gt;rlang&lt;/code&gt; source should I be looking to understand how the &lt;code&gt;!!&lt;/code&gt; operator is evaluated in a quoting context?&lt;/p&gt;
+&lt;p&gt;PS I’m not posting this question on Stack Overflow because it’s more of a discussion question than a programming question.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Trump vs Obama - a Battle of Words</title>
+      <link>https://amarder.github.io/trump-vs-obama/</link>
+      <pubDate>Fri, 29 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/trump-vs-obama/</guid>
+      <description>&lt;p&gt;This post applies natural language processing, machine learning, and data visualization to examine how word usage differs between Donald Trump and Barack Obama. I employ a number of excellent R libraries to download tweets, clean the associated text, and predict authorship based on word choice.&lt;/p&gt;
+&lt;div id=&#34;downloading-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Downloading Data&lt;/h2&gt;
+&lt;p&gt;The &lt;a href=&#34;https://cran.r-project.org/web/packages/twitteR/&#34;&gt;twitteR&lt;/a&gt; library makes it easy to download tweets through the Twitter API. To access Twitter’s API you need to create a new app using &lt;a href=&#34;https://apps.twitter.com/&#34;&gt;Twitter Application Management&lt;/a&gt;. Once you have created an app, you can find the needed credentials in the “Keys and Access Tokens” tab. Now we can connect to the Twitter API using twitteR:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(twitteR)
+
+setup_twitter_oauth(
+    consumer_key = Sys.getenv(&amp;quot;TWITTER_CONSUMER_KEY&amp;quot;),
+    consumer_secret = Sys.getenv(&amp;quot;TWITTER_CONSUMER_SECRET&amp;quot;),
+    access_token = Sys.getenv(&amp;quot;TWITTER_ACCESS_TOKEN&amp;quot;),
+    access_secret = Sys.getenv(&amp;quot;TWITTER_ACCESS_SECRET&amp;quot;)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Using direct authentication&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After connecting to the API, downloading a user’s most recent tweets is a snap:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;trump &amp;lt;- userTimeline(&amp;#39;realDonaldTrump&amp;#39;, n = 3200)
+obama &amp;lt;- userTimeline(&amp;#39;BarackObama&amp;#39;, n = 3200)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Under the hood, the &lt;code&gt;userTimeline()&lt;/code&gt; function is hitting the &lt;a href=&#34;https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html&#34;&gt;statuses/user_timeline&lt;/a&gt; API endpoint. “This method can only return up to 3,200 of a user’s most recent Tweets. Native retweets of other statuses by the user is included in this total, regardless of whether &lt;code&gt;include_rts&lt;/code&gt; is set to &lt;code&gt;false&lt;/code&gt; when requesting this resource.”&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;cleaning-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Cleaning Data&lt;/h2&gt;
+&lt;p&gt;To start let’s create a data frame containing tweets by Donald Trump and Barack Obama.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+
+raw_tweets &amp;lt;- bind_rows(twListToDF(trump), twListToDF(obama))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;a href=&#34;https://cran.r-project.org/web/packages/tidytext/&#34;&gt;tidytext&lt;/a&gt; library makes cleaning text data a breeze. Let’s create a long data set with one row for each word from each tweet:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidytext)
+
+words &amp;lt;- raw_tweets %&amp;gt;%
+    unnest_tokens(word, text)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s remove common stop words:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data(&amp;quot;stop_words&amp;quot;)
+
+words &amp;lt;- words %&amp;gt;%
+    anti_join(stop_words, by = &amp;quot;word&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s also remove some additional words I’d like to ignore:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;options(stringsAsFactors = FALSE)
+
+words_to_ignore &amp;lt;- data.frame(word = c(&amp;quot;https&amp;quot;, &amp;quot;amp&amp;quot;, &amp;quot;t.co&amp;quot;))
+
+words &amp;lt;- words %&amp;gt;%
+    anti_join(words_to_ignore, by = &amp;quot;word&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now let’s create a wide data set that has one row for each tweet and a column for each word. We will use this data to see which words best predict authorship.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets &amp;lt;- words %&amp;gt;%
+    group_by(screenName, id, word) %&amp;gt;%
+    summarise(contains = 1) %&amp;gt;%
+    ungroup() %&amp;gt;%
+    spread(key = word, value = contains, fill = 0) %&amp;gt;%
+    mutate(tweet_by_trump = as.integer(screenName == &amp;quot;realDonaldTrump&amp;quot;)) %&amp;gt;%
+    select(-screenName, -id)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;modeling-authorship&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Modeling Authorship&lt;/h2&gt;
+&lt;p&gt;Our data set has 594 rows (tweets) and 2213 columns (1 column indicating the author of the tweet and 2212 additional columns indicating whether a particular word was used in this tweet). Which words are most useful in predicting who authored a tweet? &lt;a href=&#34;https://en.wikipedia.org/wiki/Lasso_(statistics)&#34;&gt;Lasso regression&lt;/a&gt; can help us determine which words are most predictive. The &lt;a href=&#34;https://cran.r-project.org/web/packages/glmnet/index.html&#34;&gt;glmnet&lt;/a&gt; library makes it super easy to perform lasso regression:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(glmnet)
+
+fit &amp;lt;- cv.glmnet(
+    x = tweets %&amp;gt;% select(-tweet_by_trump) %&amp;gt;% as.matrix(),
+    y = tweets$tweet_by_trump,
+    family = &amp;quot;binomial&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s see which words have the largest coefficients:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;temp &amp;lt;- coef(fit, s = exp(-3)) %&amp;gt;% as.matrix()
+coefficients &amp;lt;- data.frame(word = row.names(temp), beta = temp[, 1])
+data &amp;lt;- coefficients %&amp;gt;%
+    filter(beta != 0) %&amp;gt;%
+    filter(word != &amp;quot;(Intercept)&amp;quot;) %&amp;gt;%
+    arrange(desc(beta)) %&amp;gt;%
+    mutate(i = row_number())
+
+ggplot(data, aes(x = i, y = beta, fill = ifelse(beta &amp;gt; 0, &amp;quot;Trump&amp;quot;, &amp;quot;Obama&amp;quot;))) +
+    geom_bar(stat = &amp;quot;identity&amp;quot;, alpha = 0.75) +
+    scale_x_continuous(breaks = data$i, labels = data$word, minor_breaks = NULL) +
+    xlab(&amp;quot;&amp;quot;) +
+    ylab(&amp;quot;Coefficient Estimate&amp;quot;) +
+    coord_flip() +
+    scale_fill_manual(
+        guide = guide_legend(title = &amp;quot;Word typically used by:&amp;quot;),
+        values = c(&amp;quot;#446093&amp;quot;, &amp;quot;#bc3939&amp;quot;)
+    ) +
+    theme_bw() +
+    theme(legend.position = &amp;quot;top&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/trump-vs-obama_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;word-clouds&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Word Clouds&lt;/h2&gt;
+&lt;p&gt;The &lt;a href=&#34;https://cran.r-project.org/web/packages/wordcloud/index.html&#34;&gt;wordcloud&lt;/a&gt; library makes it super easy to make word clouds! Let’s make one for Trump:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(wordcloud)
+
+words %&amp;gt;%
+    filter(screenName == &amp;quot;realDonaldTrump&amp;quot;) %&amp;gt;%
+    count(word) %&amp;gt;%
+    with(wordcloud(word, n, max.words = 20))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/trump-vs-obama_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;And one for Obama:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;words %&amp;gt;%
+    filter(screenName == &amp;quot;BarackObama&amp;quot;) %&amp;gt;%
+    count(word) %&amp;gt;%
+    with(wordcloud(word, n, max.words = 20))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/trump-vs-obama_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;warning&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Warning&lt;/h2&gt;
+&lt;p&gt;It looks like most of Barack Obama’s tweets are from 2016, while Donald Trump’s tweets have been more recent:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(raw_tweets, aes(x = created, y = screenName)) +
+    geom_jitter(width = 0) +
+    theme_bw() +
+    ylab(&amp;quot;&amp;quot;) +
+    xlab(&amp;quot;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/trump-vs-obama_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Custom Web Analytics</title>
+      <link>https://amarder.github.io/custom-web-analytics.html</link>
+      <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/custom-web-analytics.html</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://piwik.org/&#34;&gt;Piwik&lt;/a&gt; is the web analytics framework for hackers. By providing access to raw page view data, Piwik allows analysts to use general purpose tools for analysis. Piwik stores all of its data in a MySQL database. I&amp;rsquo;ve written an R library &lt;a href=&#34;https://github.com/amarder/piwikr&#34;&gt;piwikr&lt;/a&gt; to download and clean the tables stored in Piwik&amp;rsquo;s database. To get started let&amp;rsquo;s connect to the database:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(piwikr)
+
+my_db &amp;lt;- src_mysql(
+    host = &amp;quot;host.com&amp;quot;,
+    user = &amp;quot;andrew&amp;quot;,
+    password = &amp;quot;xxxxx&amp;quot;,
+    dbname = &amp;quot;piwik&amp;quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Below I retrieve tables describing all visits to the site and all actions taken by visitors to the site.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;visits &amp;lt;- get_visits(my_db)
+actions &amp;lt;- get_actions(my_db)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;piwikr comes with functions to compute new tables from the primary tables. The four tables constructed below describe visitors to the site, days the site was actively collecting data, pages on the site, and sources of traffic to the site.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;visitors &amp;lt;- compute_visitors(actions)
+days &amp;lt;- compute_days(actions)
+pages &amp;lt;- compute_pages(actions, base_url = &amp;quot;amarder.github.io&amp;quot;)
+sources &amp;lt;- compute_sources(visits)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;traffic-over-time&#34;&gt;Traffic Over Time&lt;/h1&gt;
+
+&lt;p&gt;piwikr also comes with functions for creating graphs. How much traffic has the site generated over time?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;graph_visitors_vs_date(days)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;piwikr_files/figure-markdown_strict/traffic-1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;nvisitors &amp;lt;- nrow(visitors)
+ndays &amp;lt;- as.numeric(max(actions$day) - min(actions$day))
+arrival_rate &amp;lt;- nvisitors / ndays
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The site has attracted 3076 visitors over 155 days. The overall arrival rate was 19.85 visitors per day.&lt;/p&gt;
+
+&lt;h1 id=&#34;popular-content&#34;&gt;Popular Content&lt;/h1&gt;
+
+&lt;p&gt;What pages on the site have been viewed by the most visitors?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(dplyr)
+library(pander)
+
+pages %&amp;gt;%
+    mutate(Page = paste0(&#39;&amp;lt;a href=&amp;quot;https://amarder.github.io&#39;, page, &#39;&amp;quot;&amp;gt;&#39;, page, &amp;quot;&amp;lt;/a&amp;gt;&amp;quot;)) %&amp;gt;%
+    select(Page, Visitors = visitors) %&amp;gt;%
+    head(10) %&amp;gt;%
+    pandoc.table(style = &amp;quot;rmarkdown&amp;quot;, split.table = Inf, justify = &amp;quot;ll&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;Page&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Visitors&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/power-analysis/&#34;&gt;/power-analysis/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2364&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/clustered-standard-errors/&#34;&gt;/clustered-standard-errors/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;320&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/responsive-d3js/&#34;&gt;/responsive-d3js/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;280&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/&#34;&gt;/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;147&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/analytics/&#34;&gt;/analytics/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;62&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/piwikr/&#34;&gt;/piwikr/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;50&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/diamonds/&#34;&gt;/diamonds/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;48&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/books/&#34;&gt;/books/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;43&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/big-data/&#34;&gt;/big-data/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;17&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/data-visualization/&#34;&gt;/data-visualization/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;17&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&#34;referrals&#34;&gt;Referrals&lt;/h1&gt;
+
+&lt;p&gt;How are visitors finding the site?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sources %&amp;gt;%
+    select(Source = source, Visitors = visitors) %&amp;gt;%
+    head(10) %&amp;gt;%
+    pandoc.table(style=&#39;rmarkdown&#39;, justify=&#39;ll&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;Source&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Visitors&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;(direct)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2338&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Google&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;327&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;t.co&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;155&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;feedly.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;52&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;flipboard.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;43&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;news.ycombinator.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;40&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;popurls.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;post.oreilly.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;us3.campaign-archive1.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;us6.campaign-archive2.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&#34;browser-resolutions&#34;&gt;Browser Resolutions&lt;/h1&gt;
+
+&lt;p&gt;How important is mobile / how large are the visitors&amp;rsquo; browser windows?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;graph_browser_resolutions(visits)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;piwikr_files/figure-markdown_strict/resolutions-1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pct_mobile &amp;lt;- 100 * mean(visits$screen_width &amp;lt; 800, na.rm = TRUE)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;14.6% of visits were performed on a screen with width less than 800 pixels.&lt;/p&gt;
+
+&lt;h1 id=&#34;site-structure&#34;&gt;Site Structure&lt;/h1&gt;
+
+&lt;p&gt;piwikr can also visualize how users navigate from page to page on the site. Each node in the graph below represents a page on the site, the size of a node is proportional to the number of visitors who have viewed the page. The width of each edge is proportional to the number of visitors that traveled between the two pages.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;set.seed(2)
+graph_site_structure(actions, base_url = &amp;quot;amarder.github.io&amp;quot;, n = 14)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;piwikr_files/figure-markdown_strict/structure-1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

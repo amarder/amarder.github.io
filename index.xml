@@ -1,0 +1,2439 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Andrew Marder</title>
+    <link>https://amarder.github.io/</link>
+    <description>Recent content on Andrew Marder</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 11 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://amarder.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using Travis CI to Build Sphinx Docs</title>
+      <link>https://amarder.github.io/using-travis-ci-to-build-sphinx-docs/</link>
+      <pubDate>Thu, 11 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/using-travis-ci-to-build-sphinx-docs/</guid>
+      <description>&lt;p&gt;If you want a simple way to automate building your documentation, then this post is for you. We will be using &lt;a href=&#34;http://www.sphinx-doc.org/en/stable/&#34;&gt;Sphinx&lt;/a&gt;, &lt;a href=&#34;https://travis-ci.org/&#34;&gt;Travis CI&lt;/a&gt;, and &lt;a href=&#34;https://github.com/&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Create a public repository on GitHub. &lt;a href=&#34;https://help.github.com/articles/create-a-repo/&#34;&gt;#&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Get Sphinx working on your local copy of the repository. &lt;a href=&#34;http://www.sphinx-doc.org/en/stable/tutorial.html&#34;&gt;#&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Synchronize your GitHub repositories with Travis CI, and tell Travis CI to build your new repo. &lt;a href=&#34;https://docs.travis-ci.com/user/getting-started/&#34;&gt;#&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Create a personal access token on GitHub and copy it over to Travis. &lt;a href=&#34;https://docs.travis-ci.com/user/deployment/pages/#Setting-the-GitHub-token&#34;&gt;#&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Add the following code to your &lt;code&gt;.travis.yml&lt;/code&gt; file in the root directory of your repository. &lt;a href=&#34;https://docs.travis-ci.com/user/deployment/pages/&#34;&gt;#&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yml&#34;&gt;language: python
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  # Use Sphinx to make the html docs
+  - make html
+  # Tell GitHub not to use jekyll to compile the docs
+  - touch _build/html/.nojekyll
+
+# Tell Travis CI to copy the documentation to the gh-pages branch of
+# your GitHub repository.
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
+  keep-history: true
+  on:
+    branch: master
+  local_dir: _build/html/
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Visualizing Sound</title>
+      <link>https://amarder.github.io/visualizing-sound/</link>
+      <pubDate>Wed, 01 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/visualizing-sound/</guid>
+      <description>
+
+&lt;p&gt;My sister&amp;rsquo;s boyfriend&amp;rsquo;s band, &lt;a href=&#34;https://www.vertigodrift.com/&#34;&gt;Vertigo Drift&lt;/a&gt;, recently came out with a new EP called &lt;em&gt;Phase 3&lt;/em&gt;. It seemed like the perfect excuse for me to play around with &lt;a href=&#34;https://github.com/dgrtwo/gganimate&#34;&gt;gganimate&lt;/a&gt; to create a music video.&lt;/p&gt;
+
+&lt;h2 id=&#34;reading-audio-files&#34;&gt;Reading Audio Files&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://cran.r-project.org/web/packages/tuneR/&#34;&gt;tuneR&lt;/a&gt; package provides excellent functions for reading audio files.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s download an example wave file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;url &amp;lt;- &amp;quot;http://freewavesamples.com/files/Alesis-Fusion-Acoustic-Bass-C2.wav&amp;quot;
+command &amp;lt;- paste(&amp;quot;wget&amp;quot;, url)
+system(command)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let&amp;rsquo;s use tuneR to read the file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(tuneR)
+
+wave &amp;lt;- readWave(&amp;quot;Alesis-Fusion-Acoustic-Bass-C2.wav&amp;quot;)
+wave
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## 
+## Wave Object
+## 	Number of Samples:      127782
+## 	Duration (seconds):     2.9
+## 	Samplingrate (Hertz):   44100
+## 	Channels (Mono/Stereo): Stereo
+## 	PCM (integer format):   TRUE
+## 	Bit (8/16/24/32/64):    16
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This particular file is 2.9 seconds long. It is recorded in stereo (it has a left and right channel). There are 44,100 samples per second. In total there are 127,782 samples. I found Wikipedia&amp;rsquo;s page on &lt;a href=&#34;https://en.wikipedia.org/wiki/Digital_audio&#34;&gt;digital audio&lt;/a&gt; to be pretty helpful in understanding this data.&lt;/p&gt;
+
+&lt;h2 id=&#34;plotting-audio-files&#34;&gt;Plotting Audio Files&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s put the audio data into a data frame.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(tidyverse)
+
+data &amp;lt;- data.frame(
+    Left = wave@left,
+    Right = wave@right
+)
+data$second &amp;lt;- (1:nrow(data)) / wave@samp.rate
+head(data)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;##   Left Right       second
+## 1 -127  -145 2.267574e-05
+## 2 -126  -135 4.535147e-05
+## 3 -149  -176 6.802721e-05
+## 4 -175  -213 9.070295e-05
+## 5 -165  -200 1.133787e-04
+## 6 -143  -161 1.360544e-04
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Typical video contains 24 frames per second. Let&amp;rsquo;s focus on the first 24th of a second of this audio file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;data &amp;lt;- data %&amp;gt;%
+    filter(second &amp;lt;= 1 / 24)
+nrow(data)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] 1837
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now let&amp;rsquo;s plot this 24th of a second.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;data %&amp;gt;%
+    gather(key = &amp;quot;Channel&amp;quot;, value = &amp;quot;y&amp;quot;, Left, Right) %&amp;gt;%
+    mutate(y = y / max(abs(y))) %&amp;gt;%
+    ggplot(aes(x = second, y = y)) +
+    geom_point(size = 0.1) +
+    ylab(&amp;quot;Relative Amplitude&amp;quot;) +
+    xlab(&amp;quot;Time (Seconds)&amp;quot;) +
+    ylim(-1, 1) +
+    facet_grid(Channel ~ .) +
+    theme_bw()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/music_files/figure-html/graph-1.png&#34; width=&#34;648&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;animating-plots&#34;&gt;Animating Plots&lt;/h2&gt;
+
+&lt;p&gt;I used gganimate to create the following music video. The song is 2 minutes and 46 seconds long so the video stitches together (2 * 60 + 46) * 24 = 3984 plots. If I watch it for too long it starts to hurt my eyes.&lt;/p&gt;
+
+&lt;iframe width=&#34;640&#34; height=&#34;360&#34; src=&#34;https://www.youtube.com/embed/YACyTCegGG8?rel=0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;Let me know if you&amp;rsquo;re interested in the code. I haven&amp;rsquo;t posted it on GitHub yet, but I&amp;rsquo;d be happy to.&lt;/p&gt;
+
+&lt;!-- video to checkout: http://csh.bz/highticket/ --&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Republican vs Democrat - Searching for Middle Ground</title>
+      <link>https://amarder.github.io/middle-ground/</link>
+      <pubDate>Wed, 25 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/middle-ground/</guid>
+      <description>
+
+&lt;p&gt;Can we find topics where Democrats and Republicans agree? This post
+aims to find political middle ground using natural language processing
+and machine learning. Examining tweets by party leaders in the House
+and Senate, I fit a neural network
+based on the words used in each tweet to predict the political party of
+each tweet&amp;rsquo;s author. By examining tweets where the neural network has
+a hard time predicting the author&amp;rsquo;s political party I hope to identify a
+political middle ground (tweets where the word choice is not obviously
+partisan).&lt;/p&gt;
+
+&lt;h1 id=&#34;download-data&#34;&gt;Download Data&lt;/h1&gt;
+
+&lt;p&gt;Let&amp;rsquo;s download the most recent tweets by the party leaders in Congress.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(twitteR)
+library(tidyverse)
+
+party_leaders &amp;lt;- read_csv(trimws(&#39;
+name            , party , position , chamber , username
+Kevin McCarthy  , R     , Leader   , House   , GOPLeader
+Nancy Pelosi    , D     , Leader   , House   , NancyPelosi
+Steve Scalise   , R     , Whip     , House   , SteveScalise
+Steny Hoyer     , D     , Whip     , House   , WhipHoyer
+Mitch McConnell , R     , Leader   , Senate  , SenateMajLdr
+Chuck Schumer   , D     , Leader   , Senate  , SenSchumer
+John Cornyn     , R     , Whip     , Senate  , JohnCornyn
+Dick Durbin     , D     , Whip     , Senate  , SenatorDurbin
+&#39;))
+
+read_tweets &amp;lt;- function(users) {
+    # Connect to the Twitter API
+    capture.output(setup_twitter_oauth(
+        consumer_key = Sys.getenv(&amp;quot;TWITTER_CONSUMER_KEY&amp;quot;),
+        consumer_secret = Sys.getenv(&amp;quot;TWITTER_CONSUMER_SECRET&amp;quot;),
+        access_token = Sys.getenv(&amp;quot;TWITTER_ACCESS_TOKEN&amp;quot;),
+        access_secret = Sys.getenv(&amp;quot;TWITTER_ACCESS_SECRET&amp;quot;)
+    ))
+
+    # Download tweets
+    l &amp;lt;- lapply(users, function(user) twListToDF(userTimeline(user, n = 3200)))
+
+    # Create a data frame of tweets
+    tweets &amp;lt;- do.call(bind_rows, l)
+    return(tweets)
+}
+
+tweets &amp;lt;- read_tweets(party_leaders$username)
+tweets &amp;lt;- tweets %&amp;gt;%
+    left_join(party_leaders, by = c(&amp;quot;screenName&amp;quot; = &amp;quot;username&amp;quot;)) %&amp;gt;%
+    mutate(republican = as.integer(party == &amp;quot;R&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;clean-data&#34;&gt;Clean Data&lt;/h1&gt;
+
+&lt;h2 id=&#34;select-time-period&#34;&gt;Select Time Period&lt;/h2&gt;
+
+&lt;p&gt;Twitter&amp;rsquo;s API let&amp;rsquo;s us download a user&amp;rsquo;s most recent tweets (3,200
+minus retweets). The graph below illustrates when each tweet in our
+dataset was posted.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggplot(tweets, aes(x = created, y = paste0(name, &amp;quot; (&amp;quot;, party, &amp;quot;)&amp;quot;))) +
+    geom_jitter(width = 0, size = 0.5) +
+    theme_bw() +
+    ylab(&amp;quot;&amp;quot;) +
+    xlab(&amp;quot;&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/middle-ground_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I want to make sure we focus on an overlapping time period so our
+model doesn&amp;rsquo;t pick up on unique words in Mitch McConnell&amp;rsquo;s early
+tweets.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;common_time_period &amp;lt;- function(tweets) {
+    x &amp;lt;- tweets %&amp;gt;%
+        group_by(republican) %&amp;gt;%
+        summarise(first = min(created))
+    start &amp;lt;- max(x$first)
+    cat(&amp;quot;I restrict the analysis to tweets since &amp;quot;, as.character(start), &amp;quot;.&amp;quot;, sep = &amp;quot;&amp;quot;)
+
+    tweets %&amp;gt;%
+        filter(created &amp;gt;= start)
+}
+
+tweets &amp;lt;- common_time_period(tweets)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I restrict the analysis to tweets since 2017-03-30 01:06:54.&lt;/p&gt;
+
+&lt;h2 id=&#34;convert-text-to-numbers&#34;&gt;Convert Text to Numbers&lt;/h2&gt;
+
+&lt;p&gt;I use the &lt;a href=&#34;https://cran.r-project.org/web/packages/tidytext/index.html&#34;&gt;tidytext&lt;/a&gt; library to create dummy variables indicating whether a word was used in a given tweet.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(tidytext)
+library(rlang)
+
+expand_text_into_dummy_variables &amp;lt;- function(.data, text_column, id_column, cutoff, ignore) {
+    id_column &amp;lt;- enquo(id_column)
+    text_column &amp;lt;- enquo(text_column)
+
+    .data &amp;lt;- .data %&amp;gt;% select(-starts_with(&amp;quot;word_&amp;quot;))
+
+    data(&amp;quot;stop_words&amp;quot;)
+    words_to_ignore &amp;lt;- data.frame(word = ignore, stringsAsFactors = FALSE)
+
+    words &amp;lt;- .data %&amp;gt;%
+        unnest_tokens(output = word, input = !!text_column) %&amp;gt;%
+        anti_join(stop_words, by = &amp;quot;word&amp;quot;) %&amp;gt;%
+        anti_join(words_to_ignore, by = &amp;quot;word&amp;quot;)
+
+    N &amp;lt;- nrow(.data)
+    freq &amp;lt;- words %&amp;gt;%
+        group_by(word) %&amp;gt;%
+        summarise(n = length(unique(!!id_column))) %&amp;gt;%
+        mutate(pct = n / N)
+
+    filtered &amp;lt;- freq %&amp;gt;%
+        filter(pct &amp;gt;= cutoff)
+
+    words &amp;lt;- words %&amp;gt;%
+        inner_join(filtered, by = &amp;quot;word&amp;quot;)
+
+    dummies &amp;lt;- words %&amp;gt;%
+        group_by(!!id_column, word) %&amp;gt;%
+        summarise(contains = 1) %&amp;gt;%
+        ungroup() %&amp;gt;%
+        spread(key = word, value = contains, fill = 0, sep = &amp;quot;_&amp;quot;)
+
+    l &amp;lt;- sapply(colnames(dummies), function(i) 0)
+
+    .data %&amp;gt;%
+        full_join(dummies, by = f_text(id_column)) %&amp;gt;%
+        replace_na(replace = as.list(l))
+}
+
+tweets &amp;lt;- tweets %&amp;gt;%
+    expand_text_into_dummy_variables(
+        text_column = text, id_column = id, cutoff = 0.015,
+        ignore = c(&amp;quot;https&amp;quot;, &amp;quot;t.co&amp;quot;, &amp;quot;amp&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;2&amp;quot;, &amp;quot;2015&amp;quot;, &amp;quot;it’s&amp;quot;)
+    )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After dropping stop words and focusing on words that appear in at least 1.5% of
+all tweets, we&amp;rsquo;re left with 68
+words. For each of these 68 words I&amp;rsquo;ve created
+a new dummy variable indicating which tweets contain this word.&lt;/p&gt;
+
+&lt;h1 id=&#34;model-authorship&#34;&gt;Model Authorship&lt;/h1&gt;
+
+&lt;p&gt;I want to build a neural network to predict the political party of a
+tweet&amp;rsquo;s author. Let&amp;rsquo;s fit a neural network with two hidden states.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(nnet)
+
+tweets &amp;lt;- tweets %&amp;gt;%
+    group_by(screenName) %&amp;gt;%
+    mutate(weight = 1 / n()) %&amp;gt;%
+    ungroup()
+
+expvars &amp;lt;- function(data) {
+    data %&amp;gt;%
+        select(starts_with(&amp;quot;word_&amp;quot;)) %&amp;gt;%
+        as.matrix()
+}
+
+set.seed(1)
+fit &amp;lt;- nnet(
+    y = tweets$republican,
+    x = expvars(tweets),
+    weights = tweets$weight,
+    size = 2,
+    maxit = 5000
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And save its predictions in a variable named &lt;code&gt;yhat&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tweets$yhat &amp;lt;- predict(fit, expvars(tweets))[, 1]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;evaluate-predictions&#34;&gt;Evaluate Predictions&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s see how well our neural network predicts the political party
+associated with each tweet based on the words used.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tweets %&amp;gt;%
+    ggplot(aes(x = yhat)) +
+    geom_histogram(binwidth = 0.01) +
+    facet_grid(party + name ~ ., scales = &amp;quot;free_y&amp;quot;) +
+    theme_bw() +
+    xlab(&amp;quot;Estimated Probability Tweet is by a Republican&amp;quot;) +
+    ylab(&amp;quot;Number of Tweets&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/middle-ground_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tweets &amp;lt;- tweets %&amp;gt;%
+    mutate(correct = (republican &amp;amp; (yhat &amp;gt; 0.5)) | (!republican &amp;amp; (yhat &amp;lt; 0.5)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The model accurately predicts the political party of 78% of tweets.&lt;/p&gt;
+
+&lt;h2 id=&#34;interpret-neural-network&#34;&gt;Interpret Neural Network&lt;/h2&gt;
+
+&lt;p&gt;The plot below embeds the 68 words extracted
+from the 1823 tweets in a two-dimensional space. The x- and
+y-coordinates are edge weights from the neural network. The
+x-coordinate reports the weight from the node indicating the word was
+included in the tweet to the first hidden node. The y-coordinate
+reports the weight from the input word to the second hidden node. I
+have colored each word based on the probability a tweet containing
+only that word would be authored by a Republican. A tweet about &amp;ldquo;obamacare&amp;rdquo;
+is likely written by a Republican, while a tweet about &amp;ldquo;dreamers&amp;rdquo; is
+likely written by a Democrat.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(ggrepel)
+
+my_coef &amp;lt;- function(object) {
+    x &amp;lt;- data.frame(coefficient = coef(object))
+    x$edge &amp;lt;- row.names(x)
+    row.names(x) &amp;lt;- NULL
+    x %&amp;gt;%
+        separate(col = &amp;quot;edge&amp;quot;, into = c(&amp;quot;source&amp;quot;, &amp;quot;destination&amp;quot;), sep = &amp;quot;-&amp;gt;&amp;quot;)
+}
+
+plot_nnet &amp;lt;- function(fit, tweets) {
+    beta &amp;lt;- my_coef(fit)
+
+    words &amp;lt;- grep(&amp;quot;word_&amp;quot;, colnames(tweets), value = TRUE)
+    labels &amp;lt;- data.frame(
+        source = paste0(&amp;quot;i&amp;quot;, 1:length(words)),
+        label = sub(&amp;quot;word_&amp;quot;, &amp;quot;&amp;quot;, words)
+    )
+    x &amp;lt;- data.frame(variable = words, i = 1:length(words), value = 1) %&amp;gt;%
+        spread(variable, value, fill = 0)
+
+    labels$yhat &amp;lt;- predict(fit, newdata = x %&amp;gt;% select(starts_with(&amp;quot;word_&amp;quot;)))
+
+    beta2 &amp;lt;- beta %&amp;gt;% inner_join(labels, by = &amp;quot;source&amp;quot;) %&amp;gt;%
+        select(-source) %&amp;gt;%
+        spread(key = destination, value = coefficient)
+
+    ggplot(beta2, aes(x = h1, y = h2, label = label, color = yhat)) +
+        geom_point() +
+        geom_text_repel() +
+        scale_colour_gradientn(colours = c(&amp;quot;blue&amp;quot;, &amp;quot;white&amp;quot;, &amp;quot;red&amp;quot;),
+                               values = c(0, 0.5, 1), name = &amp;quot;Predicted Probability\nRepublican Author&amp;quot;) +
+        theme_bw() +
+        xlab(expression(beta[1])) +
+        ylab(expression(beta[2]))
+}
+
+plot_nnet(fit, tweets)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/middle-ground_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;inspect-middle-ground&#34;&gt;Inspect Middle Ground&lt;/h2&gt;
+
+&lt;p&gt;For each of the eight politicians studied let&amp;rsquo;s look at his or her most central
+tweet (a tweet is central when its predicted probability is close to 50%).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;middle_ground &amp;lt;- tweets %&amp;gt;%
+    mutate(d = abs(yhat - 0.5)) %&amp;gt;%
+    group_by(screenName) %&amp;gt;%
+    arrange(d) %&amp;gt;%
+    do(head(., 1)) %&amp;gt;%
+    mutate(shortcodes = paste0(&amp;quot;{{&amp;quot;, &amp;quot;&amp;lt; tweet &amp;quot;, id, &amp;quot; &amp;gt;&amp;quot;, &amp;quot;}}&amp;quot;))
+
+for (shortcode in middle_ground$shortcodes) {
+    cat(&amp;quot;1.  &amp;quot;, shortcode, &amp;quot;\n\n&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;.&lt;a href=&#34;https://twitter.com/POTUS?ref_src=twsrc%5Etfw&#34;&gt;@POTUS&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://twitter.com/IvankaTrump?ref_src=twsrc%5Etfw&#34;&gt;@IvankaTrump&lt;/a&gt;&amp;#39;s &lt;a href=&#34;https://twitter.com/hashtag/STEM?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#STEM&lt;/a&gt; initiative will help ensure future generations of American workers are job-ready on day one. 🇺🇸 &lt;a href=&#34;https://t.co/9ahbDpeGH2&#34;&gt;pic.twitter.com/9ahbDpeGH2&lt;/a&gt;&lt;/p&gt;&amp;mdash; Kevin McCarthy (@GOPLeader) &lt;a href=&#34;https://twitter.com/GOPLeader/status/912411948163137536?ref_src=twsrc%5Etfw&#34;&gt;September 25, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Why should federal taxpayers subsidize high-tax states? &lt;a href=&#34;https://t.co/JteXqlk9cx&#34;&gt;https://t.co/JteXqlk9cx&lt;/a&gt; via &lt;a href=&#34;https://twitter.com/WSJ?ref_src=twsrc%5Etfw&#34;&gt;@WSJ&lt;/a&gt;&lt;/p&gt;&amp;mdash; Senator John Cornyn (@JohnCornyn) &lt;a href=&#34;https://twitter.com/JohnCornyn/status/922771975210196994?ref_src=twsrc%5Etfw&#34;&gt;October 24, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;&lt;a href=&#34;https://twitter.com/hashtag/GOPBudget?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#GOPBudget&lt;/a&gt; borrows from our children&amp;#39;s future to give massive tax cuts to the rich.&lt;/p&gt;&amp;mdash; Nancy Pelosi (@NancyPelosi) &lt;a href=&#34;https://twitter.com/NancyPelosi/status/923291704869789696?ref_src=twsrc%5Etfw&#34;&gt;October 25, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;.&lt;a href=&#34;https://twitter.com/POTUS?ref_src=twsrc%5Etfw&#34;&gt;@POTUS&lt;/a&gt; is not getting nearly enough credit for the work he is doing to reshape our courts and commissions. &lt;a href=&#34;https://t.co/UsMTJQYvv3&#34;&gt;pic.twitter.com/UsMTJQYvv3&lt;/a&gt;&lt;/p&gt;&amp;mdash; Leader McConnell (@SenateMajLdr) &lt;a href=&#34;https://twitter.com/SenateMajLdr/status/922518739802820609?ref_src=twsrc%5Etfw&#34;&gt;October 23, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;.&lt;a href=&#34;https://twitter.com/POTUS?ref_src=twsrc%5Etfw&#34;&gt;@POTUS&lt;/a&gt; playing politics with contraceptive coverage is an attack on American women, plain and simple. &lt;a href=&#34;https://t.co/s5g5sx9Gv1&#34;&gt;https://t.co/s5g5sx9Gv1&lt;/a&gt;&lt;/p&gt;&amp;mdash; Senator Dick Durbin (@SenatorDurbin) &lt;a href=&#34;https://twitter.com/SenatorDurbin/status/916336198817341440?ref_src=twsrc%5Etfw&#34;&gt;October 6, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;.&lt;a href=&#34;https://twitter.com/POTUS?ref_src=twsrc%5Etfw&#34;&gt;@POTUS&lt;/a&gt; promised to crackdown on China - so far it&amp;#39;s been a lot of talk. &lt;a href=&#34;https://twitter.com/SenateDems?ref_src=twsrc%5Etfw&#34;&gt;@SenateDems&lt;/a&gt; say enough. Let&amp;#39;s put US steel &amp;amp; aluminium jobs first. &lt;a href=&#34;https://t.co/4uvey9gCbp&#34;&gt;pic.twitter.com/4uvey9gCbp&lt;/a&gt;&lt;/p&gt;&amp;mdash; Chuck Schumer (@SenSchumer) &lt;a href=&#34;https://twitter.com/SenSchumer/status/922572093207625728?ref_src=twsrc%5Etfw&#34;&gt;October 23, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Today, &lt;a href=&#34;https://twitter.com/POTUS?ref_src=twsrc%5Etfw&#34;&gt;@POTUS&lt;/a&gt; awarded the Medal of Valor to the heroes who saved the lives of everyone at the baseball field on June 14. &lt;a href=&#34;https://t.co/xgOV32fp7c&#34;&gt;pic.twitter.com/xgOV32fp7c&lt;/a&gt;&lt;/p&gt;&amp;mdash; Rep. Steve Scalise (@SteveScalise) &lt;a href=&#34;https://twitter.com/SteveScalise/status/890664826397220864?ref_src=twsrc%5Etfw&#34;&gt;July 27, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;.&lt;a href=&#34;https://twitter.com/POTUS?ref_src=twsrc%5Etfw&#34;&gt;@POTUS&lt;/a&gt; is shortening open enrollment—be sure to visit &lt;a href=&#34;https://t.co/OqCEr7DFhC&#34;&gt;https://t.co/OqCEr7DFhC&lt;/a&gt; between Nov. 1-Dec. 15 to sign up for coverage. RT to share. &lt;a href=&#34;https://t.co/ops0LtDKQ7&#34;&gt;pic.twitter.com/ops0LtDKQ7&lt;/a&gt;&lt;/p&gt;&amp;mdash; Steny Hoyer (@WhipHoyer) &lt;a href=&#34;https://twitter.com/WhipHoyer/status/923217715933929473?ref_src=twsrc%5Etfw&#34;&gt;October 25, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I wouldn&amp;rsquo;t classify this as a resounding success, but I think it shows
+some promise. The tweets by Kevin McCarthy and Steve Scalise seem
+close to a middle ground where the party of the author is not
+completely obvious to a human reader. I think the next step would be
+to improve the predictive model - make the robot better at reading
+political tweets.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>rlang - Working with Quosures</title>
+      <link>https://amarder.github.io/rlang-quosure/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/rlang-quosure/</guid>
+      <description>&lt;p&gt;If you haven’t read &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html&#34;&gt;programming with dplyr&lt;/a&gt; or &lt;a href=&#34;https://cran.r-project.org/web/packages/rlang/vignettes/tidy-evaluation.html&#34;&gt;tidy evaluation&lt;/a&gt; yet, definitely start there; they give an excellent overview of working with the tidy evaluation framework. This post aims to give a simple example of how to work with quasiquotation as implemented by &lt;a href=&#34;https://cran.r-project.org/web/packages/rlang/&#34;&gt;rlang&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Imagine I want to create a domain specific language (DSL) for arithmetic. Let’s write two functions that I will use as verbs in this DSL.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;add &amp;lt;- function(a, b) a + b
+multiply &amp;lt;- function(a, b) a * b&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Suppose I’m really interested in linear functions in general, and &lt;span class=&#34;math inline&#34;&gt;\(f(x) = 2x + 1\)&lt;/span&gt; specifically. Let’s take two different approaches to creating linear functions using these &lt;code&gt;add()&lt;/code&gt; and &lt;code&gt;multiply()&lt;/code&gt; verbs…&lt;/p&gt;
+&lt;div id=&#34;closure-approach&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Closure Approach&lt;/h2&gt;
+&lt;p&gt;One approach to creating linear functions is to use &lt;a href=&#34;https://en.wikipedia.org/wiki/Closure_(computer_programming)&#34;&gt;closures&lt;/a&gt;. “Operationally, a closure is a record storing a function together with an environment.” Let’s write a function to create new closures:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;create_linear_closure &amp;lt;- function(slope, intercept) {
+    function(x) {
+        add(multiply(slope, x), intercept)
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;create_linear_closure()&lt;/code&gt; takes two parameters (&lt;code&gt;slope&lt;/code&gt; and &lt;code&gt;intercept&lt;/code&gt;) and returns a new anonymous function that takes one parameter (&lt;code&gt;x&lt;/code&gt;) and returns the &lt;code&gt;slope&lt;/code&gt; times &lt;code&gt;x&lt;/code&gt; plus the &lt;code&gt;intercept&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Let’s create a new closure and inspect it:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;f &amp;lt;- create_linear_closure(slope = 2, intercept = 1)
+f&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## function(x) {
+##         add(multiply(slope, x), intercept)
+##     }
+## &amp;lt;environment: 0x7f8d476ac758&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice that &lt;code&gt;f&lt;/code&gt; has a function definition &lt;strong&gt;and&lt;/strong&gt; an environment. The environment stores the value of the slope and intercept.&lt;/p&gt;
+&lt;p&gt;Finally, let’s evaluate the function &lt;code&gt;f&lt;/code&gt; at &lt;span class=&#34;math inline&#34;&gt;\(x = 1\)&lt;/span&gt;:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;f(x = 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 3&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Looking good!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;quosure-approach&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Quosure Approach&lt;/h2&gt;
+&lt;p&gt;How would one rewrite &lt;code&gt;create_linear_closure()&lt;/code&gt; using the tidy evaluation framework?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rlang)
+
+create_linear_quosure &amp;lt;- function(slope, intercept) {
+    quo(add(multiply(!!slope, x), !!intercept))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This new function takes two parameters (&lt;code&gt;slope&lt;/code&gt; and &lt;code&gt;intercept&lt;/code&gt;) and returns a quosure.&lt;/p&gt;
+&lt;p&gt;Let’s create a new quosure and inspect it:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;f &amp;lt;- create_linear_quosure(slope = 2, intercept = 1)
+f&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## &amp;lt;quosure: local&amp;gt;
+## ~add(multiply(2, x), 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Like a closure, a quosure has an expression &lt;strong&gt;and&lt;/strong&gt; an environment. One nice aspect of this approach is the values of the slope and intercept have been unquoted in the expression (working with the closure in the previous section we would have to inspect its environment to see those values).&lt;/p&gt;
+&lt;p&gt;Finally, let’s evaluate &lt;code&gt;f&lt;/code&gt; at &lt;span class=&#34;math inline&#34;&gt;\(x = 1\)&lt;/span&gt;:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;eval_tidy(f, list(x = 1))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 3&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Huzzah!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusion&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The tidy evaluation framework has three key components:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Unquoting&lt;/strong&gt; is done using the following functions and syntactic operators:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;UQ()&lt;/code&gt; and &lt;code&gt;!!&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UQE()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UQS()&lt;/code&gt; and &lt;code&gt;!!!&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For more information see &lt;code&gt;help(quasiquotation)&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Quoting&lt;/strong&gt; is done using the following functions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;quo()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;enquo()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;quos()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;new_quosure()&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;See &lt;code&gt;help(quosure)&lt;/code&gt; for more info.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Evaluation&lt;/strong&gt; is performed using &lt;code&gt;eval_tidy()&lt;/code&gt;, see &lt;code&gt;help(eval_tidy)&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Writing this post helped me understand how to work with quosures (using all three components of the tidy evaluation framework). But, I’m not convinced it’s a great example of a domain specific language. If you have ideas for a better DSL example definitely let me know.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>rlang - Quasiquotation Confusion</title>
+      <link>https://amarder.github.io/rlang/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/rlang/</guid>
+      <description>&lt;p&gt;I’ve been trying to wrap my head around &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html&#34;&gt;Programming with dplyr&lt;/a&gt;. This post describes what I perceive to be a disconnect between the documentation and the source code of the &lt;code&gt;rlang&lt;/code&gt; package. I think understanding this disconnect may help me understand how &lt;code&gt;rlang&lt;/code&gt; works under the hood.&lt;/p&gt;
+&lt;p&gt;First let’s take a look at the documentation:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;##      Quasiquotation is the combination of quoting an expression while
+##      allowing immediate evaluation (unquoting) of part of that
+##      expression. We provide both syntactic operators and functional
+##      forms for unquoting.
+## 
+##         • &amp;#39;UQ()&amp;#39; and the &amp;#39;!!&amp;#39; operator unquote their argument. It gets
+##           evaluated immediately in the surrounding context.
+## 
+##         • &amp;#39;UQE()&amp;#39; is like &amp;#39;UQ()&amp;#39; but retrieves the expression of
+##           quosureish objects. It is a shortcut for &amp;#39;!! get_expr(x)&amp;#39;.
+##           Use this with care: it is potentially unsafe to discard the
+##           environment of the quosure.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now let’s look at the source code for &lt;code&gt;UQ()&lt;/code&gt;, &lt;code&gt;!!&lt;/code&gt;, and &lt;code&gt;UQE()&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rlang)
+
+UQ&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## function (x) 
+## {
+##     x
+## }
+## &amp;lt;bytecode: 0x7fe329231c60&amp;gt;
+## &amp;lt;environment: namespace:rlang&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;`!!`&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## function (x) 
+## {
+##     if (is_quosureish(x)) {
+##         get_expr(x)
+##     }
+##     else {
+##         x
+##     }
+## }
+## &amp;lt;bytecode: 0x7fe32924c2a0&amp;gt;
+## &amp;lt;environment: namespace:rlang&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;UQE&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## function (x) 
+## {
+##     if (is_quosureish(x)) {
+##         get_expr(x)
+##     }
+##     else {
+##         x
+##     }
+## }
+## &amp;lt;bytecode: 0x7fe328ee4b08&amp;gt;
+## &amp;lt;environment: namespace:rlang&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It’s weird to me that the &lt;code&gt;!!&lt;/code&gt; operator is identical to the &lt;code&gt;UQE()&lt;/code&gt; function and not identical to the &lt;code&gt;UQ()&lt;/code&gt; function. I’m not the only one confused by this, check out this &lt;a href=&#34;https://github.com/tidyverse/rlang/issues/256&#34;&gt;GitHub issue&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Here’s my question, where in the &lt;code&gt;rlang&lt;/code&gt; source should I be looking to understand how the &lt;code&gt;!!&lt;/code&gt; operator is evaluated in a quoting context?&lt;/p&gt;
+&lt;p&gt;PS I’m not posting this question on Stack Overflow because it’s more of a discussion question than a programming question.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Trump vs Obama - a Battle of Words</title>
+      <link>https://amarder.github.io/trump-vs-obama/</link>
+      <pubDate>Fri, 29 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/trump-vs-obama/</guid>
+      <description>&lt;p&gt;This post applies natural language processing, machine learning, and data visualization to examine how word usage differs between Donald Trump and Barack Obama. I employ a number of excellent R libraries to download tweets, clean the associated text, and predict authorship based on word choice.&lt;/p&gt;
+&lt;div id=&#34;downloading-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Downloading Data&lt;/h2&gt;
+&lt;p&gt;The &lt;a href=&#34;https://cran.r-project.org/web/packages/twitteR/&#34;&gt;twitteR&lt;/a&gt; library makes it easy to download tweets through the Twitter API. To access Twitter’s API you need to create a new app using &lt;a href=&#34;https://apps.twitter.com/&#34;&gt;Twitter Application Management&lt;/a&gt;. Once you have created an app, you can find the needed credentials in the “Keys and Access Tokens” tab. Now we can connect to the Twitter API using twitteR:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(twitteR)
+
+setup_twitter_oauth(
+    consumer_key = Sys.getenv(&amp;quot;TWITTER_CONSUMER_KEY&amp;quot;),
+    consumer_secret = Sys.getenv(&amp;quot;TWITTER_CONSUMER_SECRET&amp;quot;),
+    access_token = Sys.getenv(&amp;quot;TWITTER_ACCESS_TOKEN&amp;quot;),
+    access_secret = Sys.getenv(&amp;quot;TWITTER_ACCESS_SECRET&amp;quot;)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Using direct authentication&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After connecting to the API, downloading a user’s most recent tweets is a snap:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;trump &amp;lt;- userTimeline(&amp;#39;realDonaldTrump&amp;#39;, n = 3200)
+obama &amp;lt;- userTimeline(&amp;#39;BarackObama&amp;#39;, n = 3200)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Under the hood, the &lt;code&gt;userTimeline()&lt;/code&gt; function is hitting the &lt;a href=&#34;https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html&#34;&gt;statuses/user_timeline&lt;/a&gt; API endpoint. “This method can only return up to 3,200 of a user’s most recent Tweets. Native retweets of other statuses by the user is included in this total, regardless of whether &lt;code&gt;include_rts&lt;/code&gt; is set to &lt;code&gt;false&lt;/code&gt; when requesting this resource.”&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;cleaning-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Cleaning Data&lt;/h2&gt;
+&lt;p&gt;To start let’s create a data frame containing tweets by Donald Trump and Barack Obama.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+
+raw_tweets &amp;lt;- bind_rows(twListToDF(trump), twListToDF(obama))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;a href=&#34;https://cran.r-project.org/web/packages/tidytext/&#34;&gt;tidytext&lt;/a&gt; library makes cleaning text data a breeze. Let’s create a long data set with one row for each word from each tweet:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidytext)
+
+words &amp;lt;- raw_tweets %&amp;gt;%
+    unnest_tokens(word, text)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s remove common stop words:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data(&amp;quot;stop_words&amp;quot;)
+
+words &amp;lt;- words %&amp;gt;%
+    anti_join(stop_words, by = &amp;quot;word&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s also remove some additional words I’d like to ignore:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;options(stringsAsFactors = FALSE)
+
+words_to_ignore &amp;lt;- data.frame(word = c(&amp;quot;https&amp;quot;, &amp;quot;amp&amp;quot;, &amp;quot;t.co&amp;quot;))
+
+words &amp;lt;- words %&amp;gt;%
+    anti_join(words_to_ignore, by = &amp;quot;word&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now let’s create a wide data set that has one row for each tweet and a column for each word. We will use this data to see which words best predict authorship.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets &amp;lt;- words %&amp;gt;%
+    group_by(screenName, id, word) %&amp;gt;%
+    summarise(contains = 1) %&amp;gt;%
+    ungroup() %&amp;gt;%
+    spread(key = word, value = contains, fill = 0) %&amp;gt;%
+    mutate(tweet_by_trump = as.integer(screenName == &amp;quot;realDonaldTrump&amp;quot;)) %&amp;gt;%
+    select(-screenName, -id)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;modeling-authorship&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Modeling Authorship&lt;/h2&gt;
+&lt;p&gt;Our data set has 594 rows (tweets) and 2213 columns (1 column indicating the author of the tweet and 2212 additional columns indicating whether a particular word was used in this tweet). Which words are most useful in predicting who authored a tweet? &lt;a href=&#34;https://en.wikipedia.org/wiki/Lasso_(statistics)&#34;&gt;Lasso regression&lt;/a&gt; can help us determine which words are most predictive. The &lt;a href=&#34;https://cran.r-project.org/web/packages/glmnet/index.html&#34;&gt;glmnet&lt;/a&gt; library makes it super easy to perform lasso regression:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(glmnet)
+
+fit &amp;lt;- cv.glmnet(
+    x = tweets %&amp;gt;% select(-tweet_by_trump) %&amp;gt;% as.matrix(),
+    y = tweets$tweet_by_trump,
+    family = &amp;quot;binomial&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s see which words have the largest coefficients:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;temp &amp;lt;- coef(fit, s = exp(-3)) %&amp;gt;% as.matrix()
+coefficients &amp;lt;- data.frame(word = row.names(temp), beta = temp[, 1])
+data &amp;lt;- coefficients %&amp;gt;%
+    filter(beta != 0) %&amp;gt;%
+    filter(word != &amp;quot;(Intercept)&amp;quot;) %&amp;gt;%
+    arrange(desc(beta)) %&amp;gt;%
+    mutate(i = row_number())
+
+ggplot(data, aes(x = i, y = beta, fill = ifelse(beta &amp;gt; 0, &amp;quot;Trump&amp;quot;, &amp;quot;Obama&amp;quot;))) +
+    geom_bar(stat = &amp;quot;identity&amp;quot;, alpha = 0.75) +
+    scale_x_continuous(breaks = data$i, labels = data$word, minor_breaks = NULL) +
+    xlab(&amp;quot;&amp;quot;) +
+    ylab(&amp;quot;Coefficient Estimate&amp;quot;) +
+    coord_flip() +
+    scale_fill_manual(
+        guide = guide_legend(title = &amp;quot;Word typically used by:&amp;quot;),
+        values = c(&amp;quot;#446093&amp;quot;, &amp;quot;#bc3939&amp;quot;)
+    ) +
+    theme_bw() +
+    theme(legend.position = &amp;quot;top&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/trump-vs-obama_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;word-clouds&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Word Clouds&lt;/h2&gt;
+&lt;p&gt;The &lt;a href=&#34;https://cran.r-project.org/web/packages/wordcloud/index.html&#34;&gt;wordcloud&lt;/a&gt; library makes it super easy to make word clouds! Let’s make one for Trump:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(wordcloud)
+
+words %&amp;gt;%
+    filter(screenName == &amp;quot;realDonaldTrump&amp;quot;) %&amp;gt;%
+    count(word) %&amp;gt;%
+    with(wordcloud(word, n, max.words = 20))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/trump-vs-obama_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;And one for Obama:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;words %&amp;gt;%
+    filter(screenName == &amp;quot;BarackObama&amp;quot;) %&amp;gt;%
+    count(word) %&amp;gt;%
+    with(wordcloud(word, n, max.words = 20))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/trump-vs-obama_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;warning&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Warning&lt;/h2&gt;
+&lt;p&gt;It looks like most of Barack Obama’s tweets are from 2016, while Donald Trump’s tweets have been more recent:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(raw_tweets, aes(x = created, y = screenName)) +
+    geom_jitter(width = 0) +
+    theme_bw() +
+    ylab(&amp;quot;&amp;quot;) +
+    xlab(&amp;quot;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://amarder.github.io/post/trump-vs-obama_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Custom Web Analytics</title>
+      <link>https://amarder.github.io/custom-web-analytics.html</link>
+      <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/custom-web-analytics.html</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://piwik.org/&#34;&gt;Piwik&lt;/a&gt; is the web analytics framework for hackers. By providing access to raw page view data, Piwik allows analysts to use general purpose tools for analysis. Piwik stores all of its data in a MySQL database. I&amp;rsquo;ve written an R library &lt;a href=&#34;https://github.com/amarder/piwikr&#34;&gt;piwikr&lt;/a&gt; to download and clean the tables stored in Piwik&amp;rsquo;s database. To get started let&amp;rsquo;s connect to the database:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(piwikr)
+
+my_db &amp;lt;- src_mysql(
+    host = &amp;quot;host.com&amp;quot;,
+    user = &amp;quot;andrew&amp;quot;,
+    password = &amp;quot;xxxxx&amp;quot;,
+    dbname = &amp;quot;piwik&amp;quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Below I retrieve tables describing all visits to the site and all actions taken by visitors to the site.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;visits &amp;lt;- get_visits(my_db)
+actions &amp;lt;- get_actions(my_db)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;piwikr comes with functions to compute new tables from the primary tables. The four tables constructed below describe visitors to the site, days the site was actively collecting data, pages on the site, and sources of traffic to the site.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;visitors &amp;lt;- compute_visitors(actions)
+days &amp;lt;- compute_days(actions)
+pages &amp;lt;- compute_pages(actions, base_url = &amp;quot;amarder.github.io&amp;quot;)
+sources &amp;lt;- compute_sources(visits)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;traffic-over-time&#34;&gt;Traffic Over Time&lt;/h1&gt;
+
+&lt;p&gt;piwikr also comes with functions for creating graphs. How much traffic has the site generated over time?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;graph_visitors_vs_date(days)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;piwikr_files/figure-markdown_strict/traffic-1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;nvisitors &amp;lt;- nrow(visitors)
+ndays &amp;lt;- as.numeric(max(actions$day) - min(actions$day))
+arrival_rate &amp;lt;- nvisitors / ndays
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The site has attracted 3076 visitors over 155 days. The overall arrival rate was 19.85 visitors per day.&lt;/p&gt;
+
+&lt;h1 id=&#34;popular-content&#34;&gt;Popular Content&lt;/h1&gt;
+
+&lt;p&gt;What pages on the site have been viewed by the most visitors?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(dplyr)
+library(pander)
+
+pages %&amp;gt;%
+    mutate(Page = paste0(&#39;&amp;lt;a href=&amp;quot;https://amarder.github.io&#39;, page, &#39;&amp;quot;&amp;gt;&#39;, page, &amp;quot;&amp;lt;/a&amp;gt;&amp;quot;)) %&amp;gt;%
+    select(Page, Visitors = visitors) %&amp;gt;%
+    head(10) %&amp;gt;%
+    pandoc.table(style = &amp;quot;rmarkdown&amp;quot;, split.table = Inf, justify = &amp;quot;ll&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;Page&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Visitors&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/power-analysis/&#34;&gt;/power-analysis/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2364&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/clustered-standard-errors/&#34;&gt;/clustered-standard-errors/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;320&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/responsive-d3js/&#34;&gt;/responsive-d3js/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;280&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/&#34;&gt;/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;147&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/analytics/&#34;&gt;/analytics/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;62&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/piwikr/&#34;&gt;/piwikr/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;50&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/diamonds/&#34;&gt;/diamonds/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;48&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/books/&#34;&gt;/books/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;43&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/big-data/&#34;&gt;/big-data/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;17&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a href=&#34;https://amarder.github.io/data-visualization/&#34;&gt;/data-visualization/&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;17&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&#34;referrals&#34;&gt;Referrals&lt;/h1&gt;
+
+&lt;p&gt;How are visitors finding the site?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sources %&amp;gt;%
+    select(Source = source, Visitors = visitors) %&amp;gt;%
+    head(10) %&amp;gt;%
+    pandoc.table(style=&#39;rmarkdown&#39;, justify=&#39;ll&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;Source&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Visitors&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;(direct)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2338&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Google&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;327&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;t.co&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;155&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;feedly.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;52&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;flipboard.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;43&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;news.ycombinator.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;40&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;popurls.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;post.oreilly.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;us3.campaign-archive1.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;us6.campaign-archive2.com&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&#34;browser-resolutions&#34;&gt;Browser Resolutions&lt;/h1&gt;
+
+&lt;p&gt;How important is mobile / how large are the visitors&amp;rsquo; browser windows?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;graph_browser_resolutions(visits)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;piwikr_files/figure-markdown_strict/resolutions-1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pct_mobile &amp;lt;- 100 * mean(visits$screen_width &amp;lt; 800, na.rm = TRUE)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;14.6% of visits were performed on a screen with width less than 800 pixels.&lt;/p&gt;
+
+&lt;h1 id=&#34;site-structure&#34;&gt;Site Structure&lt;/h1&gt;
+
+&lt;p&gt;piwikr can also visualize how users navigate from page to page on the site. Each node in the graph below represents a page on the site, the size of a node is proportional to the number of visitors who have viewed the page. The width of each edge is proportional to the number of visitors that traveled between the two pages.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;set.seed(2)
+graph_site_structure(actions, base_url = &amp;quot;amarder.github.io&amp;quot;, n = 14)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;piwikr_files/figure-markdown_strict/structure-1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Statistical Power Analysis</title>
+      <link>https://amarder.github.io/statistical-power-analysis.html</link>
+      <pubDate>Mon, 02 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/statistical-power-analysis.html</guid>
+      <description>&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;./power.css&#34;&gt;
+&lt;script src=&#34;./angular.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;./angularjs-slider/rzslider.min.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;./angularjs-slider/rzslider.min.css&#34;&gt;
+&lt;script src=&#34;./jstat.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://amarder.github.io/js/d3.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;./power.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;div ng-app=&#34;myapp&#34;&gt;
+&lt;div ng-controller=&#34;TestController as vm&#34;&gt;
+
+&lt;div id=&#34;plot&#34;&gt;&lt;/div&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Control Group $(Y_0)$&lt;/th&gt;
+      &lt;th&gt;Treatment Group $(Y_1)$&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr class=&#34;tall&#34;&gt;
+      &lt;td style=&#34;width: 236px;&#34;&gt;Mean $(\mu)$&lt;/td&gt;
+      &lt;td&gt;&lt;rzslider rz-slider-model=&#34;vm.mu0.value&#34; rz-slider-options=&#34;vm.mu0.options&#34; id=&#34;mu0&#34; class=&#34;slider&#34;&gt;&lt;/rzslider&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;rzslider rz-slider-model=&#34;vm.mu1.value&#34; rz-slider-options=&#34;vm.mu1.options&#34; id=&#34;mu1&#34; class=&#34;slider&#34;&gt;&lt;/rzslider&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;tall&#34;&gt;
+      &lt;td&gt;Standard Deviation $(\sigma)$&lt;/td&gt;
+      &lt;td&gt;&lt;rzslider rz-slider-model=&#34;vm.sigma0.value&#34; rz-slider-options=&#34;vm.sigma0.options&#34; id=&#34;sigma0&#34; class=&#34;slider&#34;&gt;&lt;/rzslider&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;rzslider rz-slider-model=&#34;vm.sigma1.value&#34; rz-slider-options=&#34;vm.sigma1.options&#34; id=&#34;sigma1&#34; class=&#34;slider&#34;&gt;&lt;/rzslider&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;tall&#34;&gt;
+      &lt;td&gt;Number of Observations $(n)$&lt;/td&gt;
+      &lt;td&gt;&lt;rzslider rz-slider-model=&#34;vm.n0.value&#34; rz-slider-options=&#34;vm.n0.options&#34; id=&#34;n0&#34; class=&#34;slider&#34;&gt;&lt;/rzslider&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;rzslider rz-slider-model=&#34;vm.n1.value&#34; rz-slider-options=&#34;vm.n1.options&#34; id=&#34;n1&#34; class=&#34;slider&#34;&gt;&lt;/rzslider&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Significance Level $(\alpha)$&lt;/td&gt;
+      &lt;td colspan=&#34;2&#34;&gt;
+        &lt;rzslider rz-slider-model=&#34;vm.alpha.value&#34; rz-slider-options=&#34;vm.alpha.options&#34; id=&#34;alpha&#34; class=&#34;slider&#34;&gt;&lt;/rzslider&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;divider&#34;&gt;&lt;td colspan=&#34;3&#34;&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Critical t = {{ vm.graph.info.xcrit[1] | number : 3 }}&lt;/td&gt;
+      &lt;td&gt;Noncentrality Parameter = {{ vm.graph.info.ncp | number : 3 }}&lt;/td&gt;
+      &lt;td&gt;Degrees of Freedom = {{ vm.graph.info.dof | number : 3 }}&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td colspan=&#34;3&#34;&gt;Power = {{ vm.graph.info.power | number : 3 }}&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Imagine a scientist planning to run an experiment. A power analysis can help answer questions like:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Will this experiment work - how likely is it to detect a statistically significant effect?&lt;/li&gt;
+&lt;li&gt;How much data needs to be collected?&lt;/li&gt;
+&lt;li&gt;What is the smallest effect this experiment can measure?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This visualization illustrates how assumptions about the data generating process affect the likelihood of detecting a significant effect.&lt;/p&gt;
+
+&lt;p&gt;This power analysis assumes each outcome for the control group is distributed normally with mean {{ vm.graph.params.mu0 | number : 2 }} and standard deviation {{ vm.graph.params.sigma0 | number : 1 }}, and each outcome for the treatment group is distributed normally with mean {{ vm.graph.params.mu1 | number : 2 }} and standard deviation {{ vm.graph.params.sigma1 | number : 1 }}. If {{ vm.graph.params.n0 | number : 0 }} observations are collected from the control group and {{ vm.graph.params.n1 | number : 0 }} observations are collected from the treatment group, what is the probability of rejecting the null hypothesis, allowing for false rejections at a rate of {{ vm.graph.params.alpha | number : 3 }}? The probability of rejecting the null hypothesis that the expected outcomes for the two groups are equal is {{ vm.graph.info.power | number : 3 }}.&lt;/p&gt;
+
+&lt;p&gt;After running the experiment, the researcher would perform a t-test. The t-statistic is the difference in the mean outcomes for the two groups, divided by its standard error. Under the null hypothesis, the t-statistic follows the Student&amp;rsquo;s t-distribution with {{ vm.graph.info.dof | number : 3 }} degrees of freedom, this is the black distribution above. Under the alternative hypothesis, the t-statistic follows a noncentral t-distribution with the same degrees of freedom and noncentrality parameter of {{ vm.graph.info.ncp | number : 3 }}, this is the red distribution above. The null hypothesis is rejected if the experiment generates a t-statistic with magnitude greater than {{ vm.graph.info.xcrit[1] | number : 3 }}. The power of this hypothesis test equals the area under the curve of the alternative hypothesis with t-values of magnitude greater than the critical value, this area is highlighted in red.&lt;/p&gt;
+
+&lt;p&gt;Interested in how to perform this power calculation? Check out &lt;a href=&#34;http://ageconsearch.umn.edu/bitstream/116234/2/sjart_st0062.pdf&#34;&gt;Harrison and Brady (2004)&lt;/a&gt;. Note, I used Satterthwaite&amp;rsquo;s formula to approximate the degrees of freedom for the t-distributions.&lt;/p&gt;
+
+&lt;p&gt;Interested in building a similar visualization? Check out &lt;a href=&#34;https://github.com/jstat/jstat&#34;&gt;jStat&lt;/a&gt;, &lt;a href=&#34;https://github.com/mbostock/d3&#34;&gt;D3.js&lt;/a&gt;, &lt;a href=&#34;https://github.com/angular/angular.js&#34;&gt;AngularJS&lt;/a&gt;, and &lt;a href=&#34;https://github.com/angular-slider/angularjs-slider&#34;&gt;AngularJS Slider&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Responsive D3.js</title>
+      <link>https://amarder.github.io/responsive-d3.js.html</link>
+      <pubDate>Sat, 02 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/responsive-d3.js.html</guid>
+      <description>&lt;p&gt;Q: Is it possible to create a scatter plot that is a pleasure to navigate on both a phone and a computer?&lt;/p&gt;
+
+&lt;p&gt;A: Yes, with some caveats.&lt;/p&gt;
+
+&lt;p&gt;Using &lt;a href=&#34;https://d3js.org/&#34;&gt;D3.js&lt;/a&gt;, &lt;a href=&#34;https://github.com/mbostock/d3/wiki/Zoom-Behavior&#34;&gt;Zoom Behavior&lt;/a&gt;, and &lt;a href=&#34;http://labratrevenge.com/d3-tip/&#34;&gt;D3-tip&lt;/a&gt;, I&amp;rsquo;ve created a graph that works reasonably well on both a phone and a computer. Each point in the graph is a book from &lt;a href=&#34;http://apps.npr.org/best-books-2015/&#34;&gt;NPR&amp;rsquo;s Best Books of 2015&lt;/a&gt;. Clicking a point brings up a tooltip describing the book. The tooltip lists the book&amp;rsquo;s title, author, Amazon sales rank, number of pages, and provides a link to the book on Amazon. Clicking the point again closes the tooltip.&lt;/p&gt;
+
+&lt;div id=&#34;scatter&#34;&gt;&lt;/div&gt;
+
+&lt;p&gt;If I were designing this graph for use on a computer only, I would do things a bit differently. I would make the tooltips appear on mouseover events and disappear on mouseout events. Instead of having the link to the book&amp;rsquo;s Amazon page in the tooltip, I would make the point itself the link. I would also make the radius of each point a bit smaller. These changes would make navigating the graph much faster on a computer, but the reliance on mouseover events would make the graph unfriendly to mobile users.&lt;/p&gt;
+
+&lt;p&gt;&lt;script src=&#34;https://amarder.github.io/js/d3.min.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;./d3.tip.v0.6.3.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;./scatter.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;./scatter.css&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Book Recommendations</title>
+      <link>https://amarder.github.io/book-recommendations.html</link>
+      <pubDate>Tue, 01 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/book-recommendations.html</guid>
+      <description>&lt;p&gt;I like good books. I like short books. But, finding good short books isn&amp;rsquo;t easy. For most needs, sorting Amazon search results by sales rank or average customer review works well. But, there&amp;rsquo;s no easy way to filter or sort by book length.&lt;/p&gt;
+
+&lt;p&gt;Given a book&amp;rsquo;s ISBN, Amazon&amp;rsquo;s Product API allows one to download the following characteristics of a book: number of pages, sales rank, price, title, author, etc. I have downloaded this information for the books on NPR&amp;rsquo;s list of Best Books for &lt;a href=&#34;http://apps.npr.org/best-books-2013/&#34;&gt;2013&lt;/a&gt;, &lt;a href=&#34;http://apps.npr.org/best-books-2014/&#34;&gt;2014&lt;/a&gt;, and &lt;a href=&#34;http://apps.npr.org/best-books-2015/&#34;&gt;2015&lt;/a&gt;. The table below is designed to accommodate custom sort orders. Each book is assigned a score, which is a weighted sum of &lt;a href=&#34;https://en.wikipedia.org/wiki/Normalization_(statistics)&#34;&gt;normalized&lt;/a&gt; book attributes:&lt;/p&gt;
+
+&lt;p&gt;$$
+\text{Score} = \sum_{k} w_k \frac{x_{k} - \bar{x}_{k}}{s_{k}}
+$$&lt;/p&gt;
+
+&lt;p&gt;The table is sorted with the ten highest scores at the top. As a
+default sort order, I have set $w = (-1, 0, 0)$ so the table shows the
+books with the lowest sales rank (bestsellers) first. Setting
+$w = (0, -1, 0)$ and updating the table will present the shortest books first.&lt;/p&gt;
+
+&lt;table id=&#34;books&#34; class=&#34;tablesaw&#34; data-tablesaw-mode=&#34;swipe&#34; data-tablesaw-minimap&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th data-tablesaw-priority=&#34;persist&#34;&gt;Title&lt;/th&gt;
+      &lt;th&gt;Author&lt;/th&gt;
+      &lt;th&gt;Sales Rank&lt;/th&gt;
+      &lt;th&gt;# Pages&lt;/th&gt;
+      &lt;th&gt;List Price&lt;/th&gt;
+      &lt;th&gt;Score&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody id=&#34;data&#34;&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;form id=&#34;form&#34; style=&#34;margin-top: 40px;&#34;&gt;
+
+  &lt;div class=&#34;row&#34;&gt;
+    &lt;div class=&#34;three columns&#34;&gt;
+      &lt;label for=&#34;select&#34;&gt;List&lt;/label&gt;
+      &lt;select id=&#34;select&#34; onchange=&#34;init($(&#39;#select&#39;).val());&#34;&gt;
+        &lt;option value=&#34;/books/npr-2015.json&#34;&gt;NPR 2015&lt;/option&gt;
+        &lt;option value=&#34;/books/npr-2014.json&#34;&gt;NPR 2014&lt;/option&gt;
+        &lt;option value=&#34;/books/npr-2013.json&#34;&gt;NPR 2013&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&#34;row&#34;&gt;
+    &lt;div class=&#34;three columns&#34;&gt;
+      &lt;label for=&#34;sale_rank&#34;&gt;Sales Rank&lt;/label&gt;
+      &lt;input id=&#34;sales_rank&#34; name=&#34;sales_rank&#34; value=&#34;-1&#34; size=&#34;8&#34;&gt;&lt;/input&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;three columns&#34;&gt;
+      &lt;label for=&#34;pages&#34;&gt;# Pages&lt;/label&gt;
+      &lt;input id=&#34;pages&#34; name=&#34;pages&#34; value=&#34;0&#34; size=&#34;8&#34;&gt;&lt;/input&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;three columns&#34;&gt;
+      &lt;label for=&#34;price&#34;&gt;List Price&lt;/label&gt;
+      &lt;input id=&#34;price&#34; name=&#34;price&#34; value=&#34;0&#34; size=&#34;8&#34;&gt;&lt;/input&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;three columns&#34;&gt;
+      &lt;label for=&#34;price&#34;&gt;Table&lt;/label&gt;
+      &lt;button type=&#34;button&#34; onclick=&#34;populate();&#34;&gt;Update&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/form&gt;
+
+&lt;p&gt;PS I wish Amazon&amp;rsquo;s Product API provided customer ratings for each book. This &lt;a href=&#34;http://stackoverflow.com/a/31329604/3756632&#34;&gt;Stack Overflow answer&lt;/a&gt; describes a potential work-around.&lt;/p&gt;
+
+&lt;script src=&#34;https://amarder.github.io/books/alasql.min.js&#34;&gt;&lt;/script&gt; 
+&lt;script src=&#34;https://amarder.github.io/books/math.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://amarder.github.io/books/numeral.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://amarder.github.io/books/books.js&#34;&gt;&lt;/script&gt;
+&lt;script&gt;
+  var url = $(&#39;#select&#39;).val();
+  init(url);
+&lt;/script&gt;
+
+&lt;!-- TableSaw --&gt;
+
+&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://amarder.github.io/books/tablesaw.css&#34;&gt;&lt;/p&gt;
+
+&lt;!--[if lt IE 9]&gt;&lt;script src=&#34;https://amarder.github.io/books/respond.js&#34;&gt;&lt;/script&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;script src=&#34;https://amarder.github.io/books/tablesaw.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://amarder.github.io/books/tablesaw-init.js&#34;&gt;&lt;/script&gt;
+
+&lt;style&gt;
+  #books * {
+    font-size: 0.95em;
+  }
+  td:nth-last-child(-n+4), th:nth-last-child(-n+4) {
+    text-align: right;
+    max-width: 75px;
+  }
+  td:nth-child(-n+2), th:nth-child(-n+2) {
+    max-width: 150px;
+  }
+  #form select, input, button {
+    border-width: 1px;
+    padding: 0px 5px 0px 5px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 38px;
+  }
+&lt;/style&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Piwik vs. Google Analytics</title>
+      <link>https://amarder.github.io/piwik-vs.-google-analytics.html</link>
+      <pubDate>Mon, 01 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/piwik-vs.-google-analytics.html</guid>
+      <description>
+
+&lt;p&gt;This is a love story. In stage 1, I fall in love with &lt;a href=&#34;http://www.google.com/analytics/&#34;&gt;Google Analytics&lt;/a&gt; because it gives me the positive reinforcement I&amp;rsquo;m looking for. In stage 2, I fall out of love with Google Analytics because its insights are distorted by unreliable data. In stage 3, I begin a long-term relationship with &lt;a href=&#34;http://piwik.org/&#34;&gt;Piwik&lt;/a&gt; for its open and accurate feedback.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-high-of-web-analytics&#34;&gt;The High of Web Analytics&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&#34;http://www.amazon.com/gp/product/B00T7Q9E2S&#34;&gt;Sales Acceleration Formula&lt;/a&gt; by Mark Roberge piqued my interest in inbound marketing. So, I decided to experiment with my blog. I set up Google Analytics and started making content to drive traffic to the site. On November 11, 2015, I posted &lt;a href=&#34;http://amarder.github.io/diamonds&#34;&gt;How to Buy a Diamond&lt;/a&gt;. On November 23, Hadley Wickham and Edward Tufte retweeted a link to my post, and traffic to my blog spiked!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;./pageviews-1.png&#34; alt=&#34;plot of chunk pageviews&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The high I felt when the site&amp;rsquo;s pageviews peaked was great. The attraction to web analytics was clear.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-data-from-google-analytics-needs-cleaning&#34;&gt;The Data from Google Analytics Needs Cleaning&lt;/h2&gt;
+
+&lt;p&gt;Since January 14, 2016, I have collected pageview data using both Google Analytics and Piwik. A comparison of the two data sources illustrates my frustration with referral spam on Google Analytics.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;./comparison-1.png&#34; alt=&#34;plot of chunk comparison&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;According to Piwik, my blog has drawn at most 11 pageviews each day of the two and a half weeks under observation. Google Analytics, on the other hand, reports three days with almost 50 pageviews! These are extremely different stories about how much traffic is being generated. When I compare of proportion of sessions by referrer across platforms, the issue becomes clearer.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;Source&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Google&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Piwik&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;с.новым.годом.рф&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;39.2%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0%&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Google&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;23.4%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;55.9%&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;social-widget.xyz&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10.4%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0%&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;free-social-buttons.xyz&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9.0%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0%&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;traffic-cash.xyz&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6.8%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0%&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;ilikevitaly.com&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5.9%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0%&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;(direct)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4.5%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;40.7%&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;scholar.google.com.sg&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.7%&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;www.statalist.org&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.7%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Google Analytics claims 71.2% of the traffic to my site came from с.новым.годом.рф, social-widget.xyz, free-social-buttons.xyz, traffic-cash.xyz, and ilikevitaly.com, which is unadulterated spam! The data coming out of Piwik isn&amp;rsquo;t perfect. I am using a redirect on one of my posts so &lt;a href=&#34;http://piwik.org/faq/troubleshooting/faq_51/&#34;&gt;some browsers are losing referrer information&lt;/a&gt; and inflating the direct traffic numbers. If I wanted to fix this issue with Piwik I could remove that redirect, but fixing Google Analytics is much harder.&lt;/p&gt;
+
+&lt;h2 id=&#34;removing-google-analytics-spam-should-be-easier&#34;&gt;Removing Google Analytics Spam Should be Easier&lt;/h2&gt;
+
+&lt;p&gt;The top result from a Google search for &amp;ldquo;google analytics spam&amp;rdquo; is the &lt;a href=&#34;http://help.analyticsedge.com/spam-filter/definitive-guide-to-removing-google-analytics-spam/&#34;&gt;Definitive Guide to Removing Google Analytics Spam&lt;/a&gt;. The executive summary quoted from that guide:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;new website? Use a &amp;ldquo;-2&amp;rdquo; or higher property&lt;/li&gt;
+&lt;li&gt;implement a Valid Hostname Filter to eliminate ghost visits&lt;/li&gt;
+&lt;li&gt;implement Spam Crawler Filters to eliminate the targeted spam visits&lt;/li&gt;
+&lt;li&gt;create a Custom Segment with these filters to use for reporting&lt;/li&gt;
+&lt;li&gt;turn on Google&amp;rsquo;s bot &amp;amp; spider filter option&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I found tip #4 the most helpful. Creating a custom segment allows one to clean the data already collected by Google Analytics. The downside of this approach is it requires replacing the default &amp;ldquo;All Sessions&amp;rdquo; segment with the new custom segment in all reports of interest.&lt;/p&gt;
+
+&lt;p&gt;I am less concerned by spam when using Piwik because I have full access to the MySQL database containing the raw pageview data. If spam becomes an issue in the future, I can write my own data cleaning scripts to deal with it.&lt;/p&gt;
+
+&lt;h2 id=&#34;i-m-not-the-only-one&#34;&gt;I&amp;rsquo;m Not the Only One&lt;/h2&gt;
+
+&lt;p&gt;A &lt;a href=&#34;http://www.google.com/trends/explore#q=google%20analytics%20spam&#34;&gt;Google Trends search&lt;/a&gt; shows the search volume for &amp;ldquo;google analytics spam&amp;rdquo; peaked in mid 2015 and is on the rise again.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;./trends-1.png&#34; alt=&#34;plot of chunk trends&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you&amp;rsquo;re tired of spam on Google Analytics, or you like free open-source software and 100% data ownership, definitely check out &lt;a href=&#34;http://piwik.org/&#34;&gt;Piwik&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>How to Buy a Diamond</title>
+      <link>https://amarder.github.io/diamonds/</link>
+      <pubDate>Wed, 11 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/diamonds/</guid>
+      <description>
+
+&lt;p&gt;Looking to buy a diamond? This how-to guide describes three
+steps I took to identify great deals on &lt;a href=&#34;http://www.bluenile.com/&#34;&gt;Blue
+Nile&lt;/a&gt;. &amp;ldquo;Founded in 1999, Blue Nile has grown to become the
+largest online retailer of certified diamonds and fine jewelry.&amp;rdquo; The
+code used in this analysis is available on &lt;a href=&#34;https://github.com/amarder/diamonds&#34;&gt;GitHub&lt;/a&gt;. This guide
+proceeds as follows:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;download data from Blue Nile,&lt;/li&gt;
+&lt;li&gt;model price as a function of diamond characteristics, and&lt;/li&gt;
+&lt;li&gt;identify diamonds with extra low prices.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&#34;downloading-data&#34;&gt;Downloading Data&lt;/h1&gt;
+
+&lt;p&gt;I&amp;rsquo;ve written a Python script to make downloading data from Blue Nile
+easy. The script has been posted &lt;a href=&#34;https://github.com/amarder/diamonds/blob/master/download.py&#34;&gt;here&lt;/a&gt;. To download data
+on all round diamonds on Blue Nile use the following command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;python download.py --shape RD &amp;gt; my-diamonds.csv
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For more information on the optional arguments the script accepts use:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;python download.py --help
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Most of the download script is pretty easy to follow. Blue Nile is
+using Apache Solr to serve JSON documents describing diamonds on
+the site. The trickiest part is you can only get information on the
+first 1,000 diamonds for each query; Blue Nile has limited how far we
+can page through results. To work around this constraint, the download
+script pages through results based on price. I only mention this if
+you want to dig deeper into the download script.&lt;/p&gt;
+
+&lt;p&gt;On November 6, 2015, I downloaded data on all
+98,886 round diamonds on Blue Nile. Below is a
+plot of diamond price versus carat weight (both on log scales).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;./big-1.png&#34; alt=&#34;plot of chunk big&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;modeling-price&#34;&gt;Modeling Price&lt;/h1&gt;
+
+&lt;p&gt;Blue Nile&amp;rsquo;s &lt;a href=&#34;http://www.bluenile.com/education/diamonds/&#34;&gt;buying guide&lt;/a&gt; describes how the four C&amp;rsquo;s
+(cut, color, clarity, and carat weight) are the most important
+characteristics when buying a diamond. It seems reasonable to model
+price as a function of those four characteristics. Having played
+around with the data bit, a multiplicative model seems like a good
+choice. I model price as a product of carat weight raised to the power
+$\beta$ times multipliers for the cut, color, and clarity of the
+diamond
+$$
+price_i \propto carat_i^\beta \cdot cut_i \cdot color_i \cdot clarity_i.
+$$
+Taking $\log$&amp;rsquo;s of both sides allows this model to be estimated using
+a linear regression
+$$
+\log(price_i) = \alpha + \beta \log(carat_i) + \delta_{cut_i} +
+\delta_{color_i} + \delta_{clarity_i} + \epsilon_i.
+$$
+Focusing on diamonds weighing between 1.00 and 1.99 carats, we can see
+the relationship between $\log(price_i)$ and $\log(carat_i)$ is
+remarkably linear, with diamond color shifting the intercept but not
+the slope of the relationship.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;./zoomed-in-1.png&#34; alt=&#34;plot of chunk zoomed-in&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Below is a summary of the fitted linear model. Generally, I put very
+little weight on R-squared values, but this model explains 91.5% of
+the observed variance in log price!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = fstring, data = diamonds)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.58043 -0.09121  0.00130  0.08608  0.62971 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept) 7.904912   0.004815 1641.74   &amp;lt;2e-16 ***
+## log(carat)  1.695256   0.005421  312.69   &amp;lt;2e-16 ***
+## cut2        0.067069   0.003694   18.16   &amp;lt;2e-16 ***
+## cut3        0.135940   0.003307   41.11   &amp;lt;2e-16 ***
+## cut4        0.352969   0.005307   66.51   &amp;lt;2e-16 ***
+## color2      0.161501   0.003914   41.26   &amp;lt;2e-16 ***
+## color3      0.300675   0.003900   77.10   &amp;lt;2e-16 ***
+## color4      0.409028   0.003890  105.16   &amp;lt;2e-16 ***
+## color5      0.505657   0.003945  128.16   &amp;lt;2e-16 ***
+## color6      0.587193   0.003949  148.71   &amp;lt;2e-16 ***
+## color7      0.739886   0.004113  179.90   &amp;lt;2e-16 ***
+## clarity2    0.155532   0.003710   41.92   &amp;lt;2e-16 ***
+## clarity3    0.275004   0.003591   76.58   &amp;lt;2e-16 ***
+## clarity4    0.341406   0.003642   93.74   &amp;lt;2e-16 ***
+## clarity5    0.400936   0.003921  102.26   &amp;lt;2e-16 ***
+## clarity6    0.498296   0.004064  122.61   &amp;lt;2e-16 ***
+## clarity7    0.642261   0.005277  121.70   &amp;lt;2e-16 ***
+## clarity8    0.952975   0.021096   45.17   &amp;lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1408 on 19997 degrees of freedom
+## Multiple R-squared:  0.9153,	Adjusted R-squared:  0.9152 
+## F-statistic: 1.27e+04 on 17 and 19997 DF,  p-value: &amp;lt; 2.2e-16
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Exponentiating the coefficients from the regression model gives
+estimates of the price multipliers associated with different diamond
+characteristics. These multipliers can help a shopper decide what type
+of diamond to consider. The omitted categories (cut = Good, color = J,
+and clarity = SI2) have implicit coefficients of 0 and price
+multipliers of 1. Is a G-color diamond worth
+1.51 times the price of a J-color
+diamond with the same cut, clarity, and carat weight?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;./coefplot-1.png&#34; alt=&#34;plot of chunk coefplot&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;identifying-deals&#34;&gt;Identifying Deals&lt;/h1&gt;
+
+&lt;p&gt;Having read Blue Nile&amp;rsquo;s buying guide a few times, they&amp;rsquo;ve convinced me
+to care about all four of the four C&amp;rsquo;s. When purchasing a diamond, the
+following cut, color, and clarity are my baseline:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;$cut_i \ge$ Ideal: Represents roughly the top 3% of diamond quality
+based on cut. Reflects nearly all light that enters the diamond. An
+exquisite and rare cut.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;$color_i \ge$ H: Near-colorless. Color difficult to detect unless
+compared side-by-side against diamonds of better grades. An
+excellent value.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;$clarity_i \ge$ VS1: Very Slightly Included: Imperfections are not
+typically visible to the unaided eye. Less expensive than the VVS1
+or VVS2 grades.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Below I plot the diamonds that meet my baseline. Fitting a linear
+relationship between $\log(price_i)$ and $\log(carat_i)$, I highlight
+the best 1% of deals, the diamonds where the difference between
+expected and actual price is greatest
+$$
+\alpha + \beta \log(carat_i) - \log(p_i) = -\epsilon_i.
+$$&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;./deals-1.png&#34; alt=&#34;plot of chunk deals&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The table below describes the top 10 diamonds found using my
+criteria. All of these diamonds have an ideal cut and H-color.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;right&#34;&gt;Residual&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Clarity&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Carat&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Price&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;right&#34;&gt;-0.63&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;VS1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.32&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7,238&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;right&#34;&gt;-0.61&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;VS1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.15&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5,830&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;right&#34;&gt;-0.59&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;VS1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.30&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7,344&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;right&#34;&gt;-0.59&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;VS1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.30&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7,346&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;right&#34;&gt;-0.59&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;VVS2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.62&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10,866&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;right&#34;&gt;-0.59&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;VS1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.11&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5,575&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;right&#34;&gt;-0.58&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;VS1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.22&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6,623&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;right&#34;&gt;-0.58&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;VS1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.15&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5,999&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;right&#34;&gt;-0.58&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;VS1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.21&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6,566&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;right&#34;&gt;-0.57&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;VVS2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.32&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7,691&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Disclaimer: This is one way to identify deals. A more general solution
+would allow shoppers to enter preference parameters similar to the
+regression coefficients found above. Taking preference parameters
+$\beta$, the best deals would maximize the shopper&amp;rsquo;s utility
+$$
+u(X_i, p_i) = X_i \beta - p_i.
+$$&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Big Data Tips for Social Science</title>
+      <link>https://amarder.github.io/big-data-tips-for-social-science/</link>
+      <pubDate>Fri, 23 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/big-data-tips-for-social-science/</guid>
+      <description>
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;The real problem is that programmers have spent far too much time
+worrying about efficiency in the wrong places and at the wrong
+times; premature optimization is the root of all evil (or at least
+most of it) in programming.&amp;rdquo; - &lt;a href=&#34;http://dx.doi.org/10.1145/361604.361612&#34;&gt;Donald Knuth (1974)&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;ldquo;At Google, for example, I have found that random samples on the
+order of 0.1 percent work fine for analysis of business data.&amp;rdquo;
+- &lt;a href=&#34;http://www.jstor.org/stable/23723482&#34;&gt;Hal Varian (2014)&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;You have data. You want to analyze that data. But, this is the largest
+data you&amp;rsquo;ve worked with and you&amp;rsquo;re having problems because it&amp;rsquo;s so
+big. This post has some actionable advice to help you analyze your
+data. First, let me describe how I classify data by size:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Small data is easy to work with. You can hold all the data in
+memory and do all your analysis in memory. The size of the data
+isn&amp;rsquo;t getting in your way.&lt;/li&gt;
+&lt;li&gt;Medium data is hard to work with. You cannot hold all the data in
+memory, but you can hold all the data on one machine&amp;rsquo;s hard
+drive. You would benefit from a database to store and query your
+data.&lt;/li&gt;
+&lt;li&gt;Large data is hardest to work with. You need multiple machines to
+store all your data. To deal with this you need a distributed file
+system like the Hadoop Distributed File System.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I have a few suggestions for working with medium data.&lt;/p&gt;
+
+&lt;h1 id=&#34;use-a-database&#34;&gt;Use a database&lt;/h1&gt;
+
+&lt;p&gt;SQL databases (PostgreSQL, MySQL, MariaDB, SQLite) are extremely
+helpful for working with data on disk rather than in memory. The
+different flavors of SQL databases have different advantages. The main
+advantage to SQLite is it does not rely on a server-client setup. On
+machines where you don&amp;rsquo;t have root access to set up a database server
+you can still use SQLite to work with data on disk. If you are working
+in &lt;code&gt;R&lt;/code&gt; the library &lt;a href=&#34;https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html&#34;&gt;dplyr&lt;/a&gt; is amazing for working with tables
+stored in SQL databases.&lt;/p&gt;
+
+&lt;h1 id=&#34;use-random-samples&#34;&gt;Use random samples&lt;/h1&gt;
+
+&lt;p&gt;By taking a small enough random sample of your data you can work with
+the data in memory and get results quickly. This approach speeds up
+each iteration of the (edit code)-(run code)-(evaluate results)
+loop. Data where observations are independent and identically
+distributed (IID) are perfectly suited for random sampling. When
+working with large panel data sets, individuals should be sampled
+keeping all observations for a selected individual in the resulting
+data set.&lt;/p&gt;
+
+&lt;p&gt;When observations are not IID then random sampling may not work for
+you. For instance, sampling data from an online data site where each
+observation is a potential date between two users is more
+complicated. &lt;a href=&#34;http://www.jstor.org/stable/27804924&#34;&gt;Hitsch, Hortaçsu and Ariely (2010)&lt;/a&gt; address this
+issue by focusing on one connected subgraph at a time (they looked at
+one subgraph of users based in Boston and another subgraph based in
+San Diego).&lt;/p&gt;
+
+&lt;h1 id=&#34;don-t-optimize-prematurely&#34;&gt;Don&amp;rsquo;t optimize prematurely&lt;/h1&gt;
+
+&lt;p&gt;If you start out of the gates designing your code around MapReduce
+when your research question doesn&amp;rsquo;t require it, you&amp;rsquo;ll end up wasting
+a lot of time programming. If you can answer your research question
+using a random sample, do it, it will save you a lot of time. If a
+random sample won&amp;rsquo;t work with your data is there another method you
+could use to shrink the data and answer the question of interest?
+Finally, if you&amp;rsquo;re certain you need to use a large data set, can you
+use &lt;a href=&#34;https://www.mapr.com/why-hadoop/sql-hadoop/sql-hadoop-details&#34;&gt;SQL on Hadoop&lt;/a&gt;?&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Stata: Clustered Standard Errors</title>
+      <link>https://amarder.github.io/stata-clustered-standard-errors/</link>
+      <pubDate>Fri, 29 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/stata-clustered-standard-errors/</guid>
+      <description>&lt;p&gt;I have been implementing a fixed-effects estimator in Python so I can
+work with data that is too large to hold in memory.  To make sure I
+was calculating my coefficients and standard errors correctly I have
+been comparing the calculations of my Python code to results from
+Stata.  This lead me to find a surprising inconsistency in Stata&amp;rsquo;s
+calculation of standard errors.  I illustrate the issue by comparing
+standard errors computed by Stata&amp;rsquo;s &lt;code&gt;xtreg fe&lt;/code&gt; command to those
+computed by the standard &lt;code&gt;regress&lt;/code&gt; command.  To start, I use the first
+hundred observations of the &lt;code&gt;nlswork&lt;/code&gt; dataset:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. webuse nlswork, clear
+(National Longitudinal Survey.  Young Women 14-26 years of age in 1968)
+
+. keep if _n &amp;lt;= 100
+(28434 observations deleted)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I then estimate a fixed-effects model using regress:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. regress ln_w age tenure i.idcode, vce(cluster idcode)
+
+Linear regression                                      Number of obs =      99
+                                                       F(  1,     8) =       .
+                                                       Prob &amp;gt; F      =       .
+                                                       R-squared     =  0.5172
+                                                       Root MSE      =  .26493
+
+                                 (Std. Err. adjusted for 9 clusters in idcode)
+------------------------------------------------------------------------------
+             |               Robust
+     ln_wage |      Coef.   Std. Err.      t    P&amp;gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         age |   .0025964   .0159834     0.16   0.875    -.0342613    .0394541
+      tenure |   .0356595      .0165     2.16   0.063    -.0023896    .0737086
+             |
+      idcode |
+          2  |  -.4282753   .0207949   -20.60   0.000    -.4762285   -.3803222
+          3  |  -.5313624   .0531705    -9.99   0.000    -.6539738    -.408751
+          4  |  -.1054791   .0862957    -1.22   0.256    -.3044774    .0935192
+          5  |  -.1976049   .0275788    -7.17   0.000    -.2612016   -.1340081
+          6  |  -.4590234   .0484582    -9.47   0.000    -.5707681   -.3472787
+          7  |  -.7201447   .0362701   -19.86   0.000    -.8037837   -.6365058
+          9  |  -.2538001   .1237821    -2.05   0.074    -.5392421     .031642
+         10  |  -.5417859   .1337093    -4.05   0.004    -.8501201   -.2334518
+             |
+       _cons |   1.922783   .4005497     4.80   0.001     .9991134    2.846452
+------------------------------------------------------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For comparison, I estimate the same model using &lt;code&gt;xtreg fe&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. xtset idcode
+       panel variable:  idcode (unbalanced)
+
+. xtreg ln_w age tenure, fe vce(cluster idcode)
+
+Fixed-effects (within) regression               Number of obs      =        99
+Group variable: idcode                          Number of groups   =         9
+
+R-sq:  within  = 0.2358                         Obs per group: min =         3
+       between = 0.1373                                        avg =      11.0
+       overall = 0.1740                                        max =        15
+
+                                                F(2,8)             =     14.98
+corr(u_i, Xb)  = -0.0963                        Prob &amp;gt; F           =    0.0020
+
+                                 (Std. Err. adjusted for 9 clusters in idcode)
+------------------------------------------------------------------------------
+             |               Robust
+     ln_wage |      Coef.   Std. Err.      t    P&amp;gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         age |   .0025964   .0153029     0.17   0.869    -.0326922    .0378849
+      tenure |   .0356595   .0157976     2.26   0.054    -.0007698    .0720888
+       _cons |   1.583834   .3793026     4.18   0.003     .7091607    2.458508
+-------------+----------------------------------------------------------------
+     sigma_u |  .23415096
+     sigma_e |  .26492811
+         rho |  .43856575   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Notice that the coefficients on age and tenure match perfectly across
+the two regressions, but the standard errors calculated by &lt;code&gt;xtreg fe&lt;/code&gt;
+are smaller.  This is due to a difference in the degrees of freedom
+adjustment used.  &lt;code&gt;regress&lt;/code&gt; counts the fixed effects as coefficients
+estimated, while &lt;code&gt;xtreg fe&lt;/code&gt; by default does not.  As Kevin Goulding
+explains
+&lt;a href=&#34;http://thetarzan.wordpress.com/2011/06/11/clustered-standard-errors-in-r/&#34;&gt;here&lt;/a&gt;,
+clustered standard errors are generally computed by multiplying the
+estimated asymptotic variance by (M / (M - 1)) ((N - 1) / (N - K)).  M
+is the number of individuals, N is the number of observations, and K
+is the number of parameters estimated.  The standard &lt;code&gt;regress&lt;/code&gt; command
+correctly sets K = 12, &lt;code&gt;xtreg fe&lt;/code&gt; sets K = 3.  Making the asymptotic
+variance (99 - 12) / (99 - 3) = 0.90625 times the correct value.&lt;/p&gt;
+
+&lt;p&gt;To get the correct standard errors from &lt;code&gt;xtreg fe&lt;/code&gt; use the &lt;code&gt;dfadj&lt;/code&gt;
+option:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. xtreg ln_w age tenure, fe vce(cluster idcode) dfadj
+
+Fixed-effects (within) regression               Number of obs      =        99
+Group variable: idcode                          Number of groups   =         9
+
+R-sq:  within  = 0.2358                         Obs per group: min =         3
+       between = 0.1373                                        avg =      11.0
+       overall = 0.1740                                        max =        15
+
+                                                F(2,8)             =     13.73
+corr(u_i, Xb)  = -0.0963                        Prob &amp;gt; F           =    0.0026
+
+                                 (Std. Err. adjusted for 9 clusters in idcode)
+------------------------------------------------------------------------------
+             |               Robust
+     ln_wage |      Coef.   Std. Err.      t    P&amp;gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         age |   .0025964   .0159834     0.16   0.875    -.0342613    .0394541
+      tenure |   .0356595      .0165     2.16   0.063    -.0023896    .0737086
+       _cons |   1.583834   .3961687     4.00   0.004     .6702675    2.497401
+-------------+----------------------------------------------------------------
+     sigma_u |  .23415096
+     sigma_e |  .26492811
+         rho |  .43856575   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This seems like an option that could be missed easily.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Anatomy of a Python Package</title>
+      <link>https://amarder.github.io/anatomy-of-a-python-package/</link>
+      <pubDate>Wed, 19 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/anatomy-of-a-python-package/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;If all subsystems can communicate with all other subsystems, you
+lose the benefit of separating them at all.  Make each subsystem
+meaningful by restricting communications.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670&#34;&gt;Steve McConnell&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Below is a tool for examining how modules in a Python package
+communicate with each other.&lt;/p&gt;
+
+&lt;p&gt;&lt;select id=&#34;module&#34;&gt;
+  &lt;option value=&#34;&#34;&gt;Select a Python Package&lt;/option&gt;
+  &lt;option value=&#34;flask&#34;&gt;flask&lt;/option&gt;
+  &lt;option value=&#34;git&#34;&gt;git&lt;/option&gt;
+  &lt;option value=&#34;jinja2&#34;&gt;jinja2&lt;/option&gt;
+  &lt;option value=&#34;numpy&#34;&gt;numpy&lt;/option&gt;
+&lt;/select&gt;&lt;/p&gt;
+
+&lt;div class=&#34;row&#34; style=&#34;margin-bottom: 20px;&#34;&gt;
+  &lt;div class=&#34;six columns&#34;&gt;
+    &lt;svg id=&#34;module-graph&#34; height=340 width=340 /&gt;
+  &lt;/div&gt;
+  &lt;div class=&#34;six columns&#34;&gt;
+  &lt;h3&gt;Module Graph&lt;/h3&gt;
+  &lt;p&gt;
+    Each node in this graph is a module in the selected package.
+    Edges indicate imports.  Placing the mouse over a node
+    selects that module and all of its dependencies.
+  &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;row&#34; style=&#34;margin-bottom: 20px;&#34;&gt;
+  &lt;div class=&#34;six columns&#34;&gt;
+    &lt;svg id=&#34;adjacency-matrix&#34; height=340 width=340 /&gt;
+  &lt;/div&gt;
+  &lt;div class=&#34;six columns&#34;&gt;
+  &lt;h3&gt;Adjacency Matrix&lt;/h3&gt;
+  &lt;p&gt;
+    This is another way to represent the graph above.  In the
+    adjacency matrix if cell &lt;i&gt;(i, j)&lt;/i&gt; is black this means
+    module &lt;i&gt;i&lt;/i&gt; directly imports module &lt;i&gt;j&lt;/i&gt;.  If the
+    cell is dark gray this means module &lt;i&gt;i&lt;/i&gt; indirectly
+    imports module &lt;i&gt;j&lt;/i&gt;.
+  &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;row&#34;&gt;
+  &lt;div class=&#34;six columns&#34;&gt;
+    &lt;svg id=&#34;propagation-cost&#34; height=200 width=340 /&gt;
+  &lt;/div&gt;
+  &lt;div class=&#34;six columns&#34;&gt;
+  &lt;h3&gt;Propagation Cost&lt;/h3&gt;
+  &lt;p&gt;
+    This value is the total number of direct and indirect
+    dependencies in a project divided by the total number of
+    modules.  This is a measure of how difficult it can be to
+    modify a module in this package.
+  &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script type=&#34;text/javascript&#34; src=&#34;http://module-graph.herokuapp.com/static/d3/d3.v2.js&#34;&gt;&lt;/script&gt;
+&lt;script type=&#34;text/javascript&#34; src=&#34;http://module-graph.herokuapp.com/static/d3/lib/jquery/jquery.min.js&#34;&gt;&lt;/script&gt;
+&lt;script type=&#34;text/javascript&#34; src=&#34;http://module-graph.herokuapp.com/static/module-graph.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;http://module-graph.herokuapp.com/static/module-graph.css&#34; /&gt;
+&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;http://module-graph.herokuapp.com/static/adjacency-matrix.css&#34; /&gt;
+
+&lt;script type=&#34;text/javascript&#34;&gt;
+  function load(module) {
+    var root = &#34;http://module-graph.herokuapp.com/&#34;;
+
+    var url = root + module + &#34;-to_list.json&#34;;
+    module_graph(&#34;#module-graph&#34;, url);
+
+    var url = root + module + &#34;-adjacency_matrix.json&#34;
+    adjacencyMatrix(&#34;#adjacency-matrix&#34;, url);
+
+    var url = root + module + &#34;-propagation_cost.json&#34;;
+    propogation_cost(&#34;#propagation-cost&#34;, url);
+  }
+
+  var start = window.location.hash.replace(&#39;#&#39;, &#39;&#39;);
+  if(start) {
+    load(start);
+  }
+
+  $(&#34;#module&#34;).change(function() {
+    var module = $(this).val();
+    window.location.hash = &#39;#&#39; + module;
+    load(module);
+  });
+&lt;/script&gt;
+
+&lt;p&gt;The source code for this project is available on
+&lt;a href=&#34;https://github.com/amarder/module-graph&#34;&gt;github&lt;/a&gt;.  This project uses Python&amp;rsquo;s
+&lt;a href=&#34;http://docs.python.org/2/library/inspect.html&#34;&gt;inspect&lt;/a&gt; module,
+&lt;a href=&#34;http://flask.pocoo.org/&#34;&gt;flask&lt;/a&gt;, and &lt;a href=&#34;http://d3js.org/&#34;&gt;d3&lt;/a&gt;, all of
+which are awesome.  Thanks to &lt;a href=&#34;http://www.people.hbs.edu/cbaldwin/DR2/MRBDesignStructure10-1-05.pdf&#34;&gt;Alan MacCormack&lt;/a&gt; for
+highlighting the usefulness of examining a package&amp;rsquo;s adjacency matrix
+and using propagation cost to measure modularity.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Stata Tutorial</title>
+      <link>https://amarder.github.io/stata-tutorial/</link>
+      <pubDate>Mon, 17 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/stata-tutorial/</guid>
+      <description>
+
+&lt;p&gt;Stata is a commonly used tool for empirical research.  Stata comes
+with an extensive library of statistical methods, and there are
+additional user written methods that extend the functionality of Stata
+even further.&lt;/p&gt;
+
+&lt;p&gt;Stata stores data in memory as a single matrix.  If you are familiar
+with Microsoft Excel Workbooks, Stata stores a single Worksheet in
+memory where each column has a name and each row is numbered from 1 to
+the total number of rows in the dataset.&lt;/p&gt;
+
+&lt;p&gt;This tutorial aims to introduce you to the key features of Stata and
+its documentation so you can start your own empirical work.&lt;/p&gt;
+
+&lt;h2 id=&#34;typing-commands&#34;&gt;Typing Commands&lt;/h2&gt;
+
+&lt;p&gt;The &lt;code&gt;display&lt;/code&gt; command is useful for showing values at the command
+line.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. display 1 + 2
+3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Use the &lt;code&gt;Page Up&lt;/code&gt; key to recall the previous command evaluated.  This
+is particularly useful if you need to fix a typo.&lt;/p&gt;
+
+&lt;p&gt;Commands can be abbreviated, &lt;code&gt;di&lt;/code&gt; is equivalent to &lt;code&gt;display&lt;/code&gt;.  I
+prefer to use the whole command name because it makes code explicit.&lt;/p&gt;
+
+&lt;h2 id=&#34;getting-help&#34;&gt;Getting Help&lt;/h2&gt;
+
+&lt;p&gt;Use the &lt;code&gt;help&lt;/code&gt; command if you know the name of the function and want
+more details.  Use the &lt;code&gt;findit&lt;/code&gt; command if you want to find a
+function.  I end up using Google more than &lt;code&gt;findit&lt;/code&gt;, but this may be a
+mistake.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately the help command opens a new window each time you use
+it, use the &lt;code&gt;nonew&lt;/code&gt; option to prevent this behavior,
+&lt;code&gt;help help, nonew&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;reading-data-into-stata&#34;&gt;Reading Data Into Stata&lt;/h2&gt;
+
+&lt;p&gt;There are many different ways to read data into Stata.  To get a good
+overview of how to import data into Stata type &lt;code&gt;help import&lt;/code&gt; in
+Stata&amp;rsquo;s Command window.  The functions I use most are &lt;code&gt;import excel&lt;/code&gt;
+and &lt;code&gt;insheet&lt;/code&gt;.  &lt;code&gt;import excel&lt;/code&gt; is great if you are working with an
+Excel workbook, while &lt;code&gt;insheet&lt;/code&gt; is great if you have a comma-separated
+values (csv) file.&lt;/p&gt;
+
+&lt;p&gt;Stata datasets are generally stored in files with a &lt;code&gt;.dta&lt;/code&gt; extension.
+To read a Stata dataset use the &lt;code&gt;use&lt;/code&gt; command.  For the purpose of
+this tutorial we will use a dataset shipped with Stata about
+automobiles.  Type in &lt;code&gt;sysuse auto&lt;/code&gt; to load the dataset into memory.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. sysuse auto, clear
+(1978 Automobile Data)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;descriptive-statistics&#34;&gt;Descriptive Statistics&lt;/h2&gt;
+
+&lt;p&gt;The &lt;code&gt;describe&lt;/code&gt; command gives useful information about the variables in
+the dataset and the number of rows in the dataset.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. describe
+
+Contains data from /Applications/Stata/ado/base/a/auto.dta
+  obs:            74                          1978 Automobile Data
+ vars:            12                          13 Apr 2011 17:45
+ size:         3,182                          (_dta has notes)
+--------------------------------------------------------------------------------------------------------
+              storage  display     value
+variable name   type   format      label      variable label
+--------------------------------------------------------------------------------------------------------
+make            str18  %-18s                  Make and Model
+price           int    %8.0gc                 Price
+mpg             int    %8.0g                  Mileage (mpg)
+rep78           int    %8.0g                  Repair Record 1978
+headroom        float  %6.1f                  Headroom (in.)
+trunk           int    %8.0g                  Trunk space (cu. ft.)
+weight          int    %8.0gc                 Weight (lbs.)
+length          int    %8.0g                  Length (in.)
+turn            int    %8.0g                  Turn Circle (ft.)
+displacement    int    %8.0g                  Displacement (cu. in.)
+gear_ratio      float  %6.2f                  Gear Ratio
+foreign         byte   %8.0g       origin     Car type
+--------------------------------------------------------------------------------------------------------
+Sorted by:  foreign
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;summarize&lt;/code&gt; command gives some useful summary statistics for each
+variable.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. summarize
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+        make |         0
+       price |        74    6165.257    2949.496       3291      15906
+         mpg |        74     21.2973    5.785503         12         41
+       rep78 |        69    3.405797    .9899323          1          5
+    headroom |        74    2.993243    .8459948        1.5          5
+-------------+--------------------------------------------------------
+       trunk |        74    13.75676    4.277404          5         23
+      weight |        74    3019.459    777.1936       1760       4840
+      length |        74    187.9324    22.26634        142        233
+        turn |        74    39.64865    4.399354         31         51
+displacement |        74    197.2973    91.83722         79        425
+-------------+--------------------------------------------------------
+  gear_ratio |        74    3.014865    .4562871       2.19       3.89
+     foreign |        74    .2972973    .4601885          0          1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You&amp;rsquo;ll notice that 11 of 12 variables in the auto dataset are numeric
+and the &lt;code&gt;make&lt;/code&gt; variable is a string.  To see what the make variable
+looks like, we can list the first few observations.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. list make if _n &amp;lt;= 5
+
+     +---------------+
+     | make          |
+     |---------------|
+  1. | AMC Concord   |
+  2. | AMC Pacer     |
+  3. | AMC Spirit    |
+  4. | Buick Century |
+  5. | Buick Electra |
+     +---------------+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To see if &lt;code&gt;make&lt;/code&gt; uniquely identifies each row in the dataset we can
+use the &lt;code&gt;isid&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. isid make
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When &lt;code&gt;isid&lt;/code&gt; says nothing the variable list does uniquely identify each
+row.  Are cars uniquely identified by their weight and length?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. duplicates report make
+
+Duplicates in terms of make
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |           74             0
+--------------------------------------
+
+. duplicates report weight length
+
+Duplicates in terms of weight length
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |           70             0
+        2 |            4             2
+--------------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Imagine we are interested in looking at how foreign and domestic cars
+differ.  As a first step, it would be good to examine some summary
+statistics for foreign and domestic cars, the &lt;code&gt;tabstat&lt;/code&gt; command makes
+this fairly easy.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. tabstat price mpg weight length, by(foreign) stat(mean sd)
+
+Summary statistics: mean, sd
+  by categories of: foreign (Car type)
+
+ foreign |     price       mpg    weight    length
+---------+----------------------------------------
+Domestic |  6072.423  19.82692  3317.115  196.1346
+         |  3097.104  4.743297  695.3637  20.04605
+---------+----------------------------------------
+ Foreign |  6384.682  24.77273  2315.909  168.5455
+         |  2621.915  6.611187  433.0035  13.68255
+---------+----------------------------------------
+   Total |  6165.257   21.2973  3019.459  187.9324
+         |  2949.496  5.785503  777.1936  22.26634
+--------------------------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You may have noticed from the output of the &lt;code&gt;summarize&lt;/code&gt; command that
+&lt;code&gt;rep78&lt;/code&gt; has 5 missing values.  We can look at those observations using
+the list command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. list if missing(rep78)
+
+     +---------------------------------------------------------------------------------------------+
+  3. | make          |  price | mpg | rep78 | headroom | trunk | weight | length | turn | displa~t |
+     | AMC Spirit    |  3,799 |  22 |     . |      3.0 |    12 |  2,640 |    168 |   35 |      121 |
+     |---------------------------------------------------------------------------------------------|
+     |                   gear_r~o                   |                    foreign                   |
+     |                       3.08                   |                   Domestic                   |
+     +---------------------------------------------------------------------------------------------+
+
+     +---------------------------------------------------------------------------------------------+
+  7. | make          |  price | mpg | rep78 | headroom | trunk | weight | length | turn | displa~t |
+     | Buick Opel    |  4,453 |  26 |     . |      3.0 |    10 |  2,230 |    170 |   34 |      304 |
+     |---------------------------------------------------------------------------------------------|
+     |                   gear_r~o                   |                    foreign                   |
+     |                       2.87                   |                   Domestic                   |
+     +---------------------------------------------------------------------------------------------+
+
+     +---------------------------------------------------------------------------------------------+
+ 45. | make          |  price | mpg | rep78 | headroom | trunk | weight | length | turn | displa~t |
+     | Plym. Sapporo |  6,486 |  26 |     . |      1.5 |     8 |  2,520 |    182 |   38 |      119 |
+     |---------------------------------------------------------------------------------------------|
+     |                   gear_r~o                   |                    foreign                   |
+     |                       3.54                   |                   Domestic                   |
+     +---------------------------------------------------------------------------------------------+
+
+     +---------------------------------------------------------------------------------------------+
+ 51. | make          |  price | mpg | rep78 | headroom | trunk | weight | length | turn | displa~t |
+     | Pont. Phoenix |  4,424 |  19 |     . |      3.5 |    13 |  3,420 |    203 |   43 |      231 |
+     |---------------------------------------------------------------------------------------------|
+     |                   gear_r~o                   |                    foreign                   |
+     |                       3.08                   |                   Domestic                   |
+     +---------------------------------------------------------------------------------------------+
+
+     +---------------------------------------------------------------------------------------------+
+ 64. | make          |  price | mpg | rep78 | headroom | trunk | weight | length | turn | displa~t |
+     | Peugeot 604   | 12,990 |  14 |     . |      3.5 |    14 |  3,420 |    192 |   38 |      163 |
+     |---------------------------------------------------------------------------------------------|
+     |                   gear_r~o                   |                    foreign                   |
+     |                       3.58                   |                    Foreign                   |
+     +---------------------------------------------------------------------------------------------+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;graphs&#34;&gt;Graphs&lt;/h2&gt;
+
+&lt;p&gt;There are good graph galleries provided by &lt;a href=&#34;http://www.stata.com/support/faqs/graphics/gph/statagraphs.html&#34;&gt;StataCorp&lt;/a&gt;,
+&lt;a href=&#34;http://www.ats.ucla.edu/stat/Stata/library/GraphExamples/default.htm&#34;&gt;UCLA&lt;/a&gt;, and &lt;a href=&#34;http://www.survey-design.com.au/Usergraphs.html&#34;&gt;Survey Design and Analysis Services&lt;/a&gt;.
+Below is a simple scatter plot of weight versus length:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. graph twoway scatter weight length
+
+. graph export scatter.png, replace
+(file scatter.png written in PNG format)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.github.com/amarder/stata-tutorial/master/scatter.png&#34; alt=&#34;Scatter Plot&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;creating-new-variables&#34;&gt;Creating New Variables&lt;/h2&gt;
+
+&lt;p&gt;There are a number of ways to create new variables or modifying
+existing variables.  The most important command in this section is the
+&lt;code&gt;generate&lt;/code&gt; command.  Imagine we are curious about cars that are heavy
+for their length we could create a new variable&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. generate weight_per_length = weight / length
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This creates a new column in the dataset, for each car we have
+calculated the ratio of that car&amp;rsquo;s weight to its length.  Let&amp;rsquo;s take a
+look at the top five heaviest cars per length.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. gsort -weight_per_length
+
+. list make weight_per_length if _n &amp;lt;= 5
+
+     +------------------------------+
+     | make                weight~h |
+     |------------------------------|
+  1. | Cad. Seville        21.02941 |
+  2. | Linc. Continental   20.77253 |
+  3. | Linc. Mark V        20.52174 |
+  4. | Cad. Deville        19.59276 |
+  5. | Olds Toronado       19.56311 |
+     +------------------------------+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Another very useful command for generating new variables is the &lt;code&gt;egen&lt;/code&gt;
+command.  This is particularly useful is you want to merge summary
+statistics for groups of cars back into the larger dataset.  For
+instance, we might be curious to see how a car&amp;rsquo;s price compares to the
+average price among foreign or domestic cars.  We can find the average
+price for foreign and domestic cars using tabstat, but how do we make
+a column in the dataset with these values?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. tabstat price, by(foreign)
+
+Summary for variables: price
+     by categories of: foreign (Car type)
+
+ foreign |      mean
+---------+----------
+Domestic |  6072.423
+ Foreign |  6384.682
+---------+----------
+   Total |  6165.257
+--------------------
+
+. egen ave_price = mean(price), by(foreign)
+
+. list foreign ave_price
+
+     +---------------------+
+     |  foreign   ave_pr~e |
+     |---------------------|
+  1. | Domestic   6072.423 |
+  2. | Domestic   6072.423 |
+  3. | Domestic   6072.423 |
+  4. | Domestic   6072.423 |
+  5. | Domestic   6072.423 |
+     |---------------------|
+  6. | Domestic   6072.423 |
+  7. | Domestic   6072.423 |
+  8. | Domestic   6072.423 |
+  9. | Domestic   6072.423 |
+ 10. | Domestic   6072.423 |
+     |---------------------|
+ 11. | Domestic   6072.423 |
+ 12. | Domestic   6072.423 |
+ 13. | Domestic   6072.423 |
+ 14. | Domestic   6072.423 |
+ 15. |  Foreign   6384.682 |
+     |---------------------|
+ 16. | Domestic   6072.423 |
+ 17. | Domestic   6072.423 |
+ 18. | Domestic   6072.423 |
+ 19. | Domestic   6072.423 |
+ 20. | Domestic   6072.423 |
+     |---------------------|
+ 21. | Domestic   6072.423 |
+ 22. | Domestic   6072.423 |
+ 23. | Domestic   6072.423 |
+ 24. | Domestic   6072.423 |
+ 25. | Domestic   6072.423 |
+     |---------------------|
+ 26. | Domestic   6072.423 |
+ 27. | Domestic   6072.423 |
+ 28. | Domestic   6072.423 |
+ 29. | Domestic   6072.423 |
+ 30. | Domestic   6072.423 |
+     |---------------------|
+ 31. | Domestic   6072.423 |
+ 32. | Domestic   6072.423 |
+ 33. | Domestic   6072.423 |
+ 34. | Domestic   6072.423 |
+ 35. |  Foreign   6384.682 |
+     |---------------------|
+ 36. | Domestic   6072.423 |
+ 37. | Domestic   6072.423 |
+ 38. | Domestic   6072.423 |
+ 39. | Domestic   6072.423 |
+ 40. | Domestic   6072.423 |
+     |---------------------|
+ 41. | Domestic   6072.423 |
+ 42. | Domestic   6072.423 |
+ 43. | Domestic   6072.423 |
+ 44. |  Foreign   6384.682 |
+ 45. | Domestic   6072.423 |
+     |---------------------|
+ 46. | Domestic   6072.423 |
+ 47. |  Foreign   6384.682 |
+ 48. |  Foreign   6384.682 |
+ 49. |  Foreign   6384.682 |
+ 50. | Domestic   6072.423 |
+     |---------------------|
+ 51. | Domestic   6072.423 |
+ 52. |  Foreign   6384.682 |
+ 53. |  Foreign   6384.682 |
+ 54. | Domestic   6072.423 |
+ 55. |  Foreign   6384.682 |
+     |---------------------|
+ 56. | Domestic   6072.423 |
+ 57. |  Foreign   6384.682 |
+ 58. |  Foreign   6384.682 |
+ 59. |  Foreign   6384.682 |
+ 60. | Domestic   6072.423 |
+     |---------------------|
+ 61. |  Foreign   6384.682 |
+ 62. | Domestic   6072.423 |
+ 63. | Domestic   6072.423 |
+ 64. |  Foreign   6384.682 |
+ 65. |  Foreign   6384.682 |
+     |---------------------|
+ 66. |  Foreign   6384.682 |
+ 67. |  Foreign   6384.682 |
+ 68. |  Foreign   6384.682 |
+ 69. |  Foreign   6384.682 |
+ 70. | Domestic   6072.423 |
+     |---------------------|
+ 71. |  Foreign   6384.682 |
+ 72. |  Foreign   6384.682 |
+ 73. |  Foreign   6384.682 |
+ 74. | Domestic   6072.423 |
+     +---------------------+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;regressions&#34;&gt;Regressions&lt;/h2&gt;
+
+&lt;p&gt;To further explore the relationship between weight and length we can
+run a regression.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. regress weight length
+
+      Source |       SS       df       MS              Number of obs =      74
+-------------+------------------------------           F(  1,    72) =  613.27
+       Model |  39461306.8     1  39461306.8           Prob &amp;gt; F      =  0.0000
+    Residual |  4632871.55    72  64345.4382           R-squared     =  0.8949
+-------------+------------------------------           Adj R-squared =  0.8935
+       Total |  44094178.4    73  604029.841           Root MSE      =  253.66
+
+------------------------------------------------------------------------------
+      weight |      Coef.   Std. Err.      t    P&amp;gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      length |   33.01988   1.333364    24.76   0.000     30.36187    35.67789
+       _cons |  -3186.047   252.3113   -12.63   0.000     -3689.02   -2683.073
+------------------------------------------------------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We see that on average, each additional inch is associated with 33
+pounds.  We can plot the predicted values from the regression on the
+scatter plot from above.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;. graph twoway (scatter weight length) (lfit weight length)
+
+. graph export scatter_lfit.png, replace
+(file scatter_lfit.png written in PNG format)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.github.com/amarder/stata-tutorial/master/scatter_lfit.png&#34; alt=&#34;Scatter Plot&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;further-reading&#34;&gt;Further Reading&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://data.princeton.edu/stata/&#34;&gt;Germán Rodríguez&amp;rsquo;s Stata Tutorial&lt;/a&gt; is an excellent introduction to
+Stata..&lt;/p&gt;
+
+&lt;p&gt;These &lt;a href=&#34;http://faculty.chicagobooth.edu/matthew.gentzkow/research/ra_manual_coding.pdf&#34;&gt;notes on writing code&lt;/a&gt; by Matthew Gentzkow and Jesse
+Shapiro have excellent suggestions on how to program with Stata.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>How to Ask Good Questions</title>
+      <link>https://amarder.github.io/how-to-ask-good-questions/</link>
+      <pubDate>Thu, 05 Apr 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/how-to-ask-good-questions/</guid>
+      <description>
+
+&lt;blockquote&gt;
+&lt;p&gt;Good questions are a stimulus and a gift.  Good questions help us
+develop our understanding, and often reveal problems we might not
+have noticed or thought about.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This step-by-step procedure for asking good questions and giving
+helpful answers is an adaptation of
+&lt;a href=&#34;http://www.catb.org/~esr/faqs/smart-questions.html&#34;&gt;How To Ask Questions The Smart Way&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Define the problem.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Try to solve the problem.&lt;/p&gt;
+
+&lt;p&gt;Read the manual.  Read the FAQ.  Search the archives of the forum
+where you might ask for help.  Search the Web.  Ask a skilled
+friend. &amp;ldquo;Take your time.  Do not expect to be able to solve a
+complicated problem with a few seconds of Googling.&amp;rdquo;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Ask for help.&lt;/p&gt;
+
+&lt;p&gt;When asking for help, clearly communicate the original problem,
+and how your attempted solutions failed.  Display what you have
+learned in trying to solve the problem.  If you are posting to a
+public forum, read through some archived messages to get a sense
+of the forum.  Use meaningful and specific subject headers.  If
+you are asking a new question, change the subject of the
+conversation to reflect the new question.  This will facilitate
+future searches of the archive.  Send plain text mail, with line
+lengths of at most 80 characters.  Never send closed proprietary
+formats like Microsoft Word or Excel.  Provide a reliable way to
+reproduce the problem.  Describe the problem symptoms
+chronologically, not your hunches as to what causes the problem.
+Don&amp;rsquo;t ask yes-or-no questions unless you want a yes-or-no answer.
+Be explicit about your question.  Focus your respondent&amp;rsquo;s effort
+and put a bound on the time and energy necessary to help you.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If you get a helpful response, give thanks.&lt;/p&gt;
+
+&lt;p&gt;Follow up with a brief note on the solution.  Modify the subject
+of the mail to be &amp;ldquo;Subject - FIXED&amp;rdquo;.  Say what action solved the
+problem, do not repeat the problem&amp;rsquo;s history.  Name those who
+helped.  Mention blind alleys at the end of the message to inform
+those who might be curious.&lt;/p&gt;
+
+&lt;p&gt;If you don&amp;rsquo;t get the response you were hoping for, don&amp;rsquo;t react
+like a loser.  When someone let&amp;rsquo;s you know you&amp;rsquo;ve asked a stupid
+question, he is acting out of concern for you and his community.
+&amp;ldquo;If you can&amp;rsquo;t manage to be grateful, at least have a little
+dignity, don&amp;rsquo;t whine, and don&amp;rsquo;t expect to be treated like a
+fragile doll just because you&amp;rsquo;re a newcomer with a theatrically
+hypersensitive soul and delusions of entitlement.&amp;rdquo;  If you didn&amp;rsquo;t
+get an answer, don&amp;rsquo;t repost your question instead consider paying
+for support.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&#34;how-to-answer-questions-in-a-helpful-way&#34;&gt;How To Answer Questions in a Helpful Way&lt;/h1&gt;
+
+&lt;p&gt;&amp;ldquo;Be gentle. Problem-related stress can make people seem rude or
+stupid.&amp;rdquo;  Ask probing questions to elicit more details.  &amp;ldquo;If you&amp;rsquo;re
+going to answer the question at all, give good value.  Don&amp;rsquo;t suggest
+kludgy workarounds when somebody is using the wrong tool or approach.
+Suggest good tools.  Reframe the question.  Help your community learn
+from the question.  Improve the documentation and FAQ so nobody has to
+answer this question again.  Describe how you arrived at your
+solution, teach a man to fish.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>SSH Key Bindings</title>
+      <link>https://amarder.github.io/ssh-key-bindings/</link>
+      <pubDate>Thu, 22 Mar 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://amarder.github.io/ssh-key-bindings/</guid>
+      <description>&lt;p&gt;Recently, I was asked how to set up an SSH client so that Ctrl-right
+would move forward a word.  Here are some things I learned along the
+way.&lt;/p&gt;
+
+&lt;p&gt;It turns out different SSH clients send different keycodes for the
+same keys!  &lt;a href=&#34;http://www.ibb.net/~anne/keyboard/troubleshooting.html&#34;&gt;Anne Baretta&lt;/a&gt; describes an easy way to see what your
+client is sending to the terminal:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The best way to trouble-shoot is using Ctrl-v key. Press Control
+and v simultaneously, release them, and then type one of the special
+keys, e.g. Delete. It will tell you which sequence will be sent to
+the terminal (console or xterm).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;When SSH&amp;rsquo;ing into my server using PuTTY Ctrl-v Ctrl-right produced&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;^[OC
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Using SecureCRT Ctrl-v Ctrl-right produced nothing.  Regardless of
+which client I used, Ctrl-right did not move me forward a word.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.ibb.net/~anne/keyboard/troubleshooting.html&#34;&gt;Anne Baretta&lt;/a&gt; notes, &amp;ldquo;\e means ESC.&amp;rdquo;  In SecureCRT I mapped the
+key combination Ctrl-right to \ef.  I knew that ESC-f would move
+forward a word in bash since most Emacs shortcuts also work in bash.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

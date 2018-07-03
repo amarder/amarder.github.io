@@ -1,0 +1,49 @@
+/* side bar */
+html, body {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+ul.pushy {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#container {
+    position: relative;
+}
+
+.menu-btn {
+    padding: 8px;
+    background: #000;
+    color: #FFF;
+}
+
+.menu-btn:hover {
+    background: #1EAEDB;
+    color: #FFF;
+}
+
+/* overflow issues */
+.MathJax_Display {
+    overflow-x: auto;
+}
+
+/* indenting for lists */
+/* http://stackoverflow.com/a/17515230/3756632 */
+ol {
+    counter-reset: foo;
+    display: table;
+}
+
+ol > li {
+    counter-increment: foo;
+    display: table-row;
+}
+
+ol > li::before {
+    content: counter(foo) ".";
+    display: table-cell; /* aha! */
+    text-align: right;
+    padding-right: 5px;
+}

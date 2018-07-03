@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Responsive D3.js</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>Responsive D3.js</h1>
+<p>Q: Is it possible to create a scatter plot that is a pleasure to navigate on both a phone and a computer?</p>
+
+<p>A: Yes, with some caveats.</p>
+
+<p>Using <a href="https://d3js.org/">D3.js</a>, <a href="https://github.com/mbostock/d3/wiki/Zoom-Behavior">Zoom Behavior</a>, and <a href="http://labratrevenge.com/d3-tip/">D3-tip</a>, I&rsquo;ve created a graph that works reasonably well on both a phone and a computer. Each point in the graph is a book from <a href="http://apps.npr.org/best-books-2015/">NPR&rsquo;s Best Books of 2015</a>. Clicking a point brings up a tooltip describing the book. The tooltip lists the book&rsquo;s title, author, Amazon sales rank, number of pages, and provides a link to the book on Amazon. Clicking the point again closes the tooltip.</p>
+
+<div id="scatter"></div>
+
+<p>If I were designing this graph for use on a computer only, I would do things a bit differently. I would make the tooltips appear on mouseover events and disappear on mouseout events. Instead of having the link to the book&rsquo;s Amazon page in the tooltip, I would make the point itself the link. I would also make the radius of each point a bit smaller. These changes would make navigating the graph much faster on a computer, but the reliance on mouseover events would make the graph unfriendly to mobile users.</p>
+
+<p><script src="/js/d3.min.js" charset="utf-8"></script>
+<script src="./d3.tip.v0.6.3.js"></script>
+<script src="./scatter.js"></script>
+<link rel="stylesheet" href="./scatter.css"></p>
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = 'https:\/\/amarder.github.io\/responsive-d3.js.html';
+    this.page.identifier = 'https:\/\/amarder.github.io\/responsive-d3.js.html';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+

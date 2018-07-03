@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Anatomy of a Python Package</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>Anatomy of a Python Package</h1>
+<blockquote>
+<p>If all subsystems can communicate with all other subsystems, you
+lose the benefit of separating them at all.  Make each subsystem
+meaningful by restricting communications.</p>
+
+<p><a href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670">Steve McConnell</a></p>
+</blockquote>
+
+<p>Below is a tool for examining how modules in a Python package
+communicate with each other.</p>
+
+<p><select id="module">
+  <option value="">Select a Python Package</option>
+  <option value="flask">flask</option>
+  <option value="git">git</option>
+  <option value="jinja2">jinja2</option>
+  <option value="numpy">numpy</option>
+</select></p>
+
+<div class="row" style="margin-bottom: 20px;">
+  <div class="six columns">
+    <svg id="module-graph" height=340 width=340 />
+  </div>
+  <div class="six columns">
+  <h3>Module Graph</h3>
+  <p>
+    Each node in this graph is a module in the selected package.
+    Edges indicate imports.  Placing the mouse over a node
+    selects that module and all of its dependencies.
+  </p>
+  </div>
+</div>
+
+<div class="row" style="margin-bottom: 20px;">
+  <div class="six columns">
+    <svg id="adjacency-matrix" height=340 width=340 />
+  </div>
+  <div class="six columns">
+  <h3>Adjacency Matrix</h3>
+  <p>
+    This is another way to represent the graph above.  In the
+    adjacency matrix if cell <i>(i, j)</i> is black this means
+    module <i>i</i> directly imports module <i>j</i>.  If the
+    cell is dark gray this means module <i>i</i> indirectly
+    imports module <i>j</i>.
+  </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="six columns">
+    <svg id="propagation-cost" height=200 width=340 />
+  </div>
+  <div class="six columns">
+  <h3>Propagation Cost</h3>
+  <p>
+    This value is the total number of direct and indirect
+    dependencies in a project divided by the total number of
+    modules.  This is a measure of how difficult it can be to
+    modify a module in this package.
+  </p>
+  </div>
+</div>
+
+<script type="text/javascript" src="http://module-graph.herokuapp.com/static/d3/d3.v2.js"></script>
+<script type="text/javascript" src="http://module-graph.herokuapp.com/static/d3/lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="http://module-graph.herokuapp.com/static/module-graph.js"></script>
+<link rel="stylesheet" type="text/css" href="http://module-graph.herokuapp.com/static/module-graph.css" />
+<link rel="stylesheet" type="text/css" href="http://module-graph.herokuapp.com/static/adjacency-matrix.css" />
+
+<script type="text/javascript">
+  function load(module) {
+    var root = "http://module-graph.herokuapp.com/";
+
+    var url = root + module + "-to_list.json";
+    module_graph("#module-graph", url);
+
+    var url = root + module + "-adjacency_matrix.json"
+    adjacencyMatrix("#adjacency-matrix", url);
+
+    var url = root + module + "-propagation_cost.json";
+    propogation_cost("#propagation-cost", url);
+  }
+
+  var start = window.location.hash.replace('#', '');
+  if(start) {
+    load(start);
+  }
+
+  $("#module").change(function() {
+    var module = $(this).val();
+    window.location.hash = '#' + module;
+    load(module);
+  });
+</script>
+
+<p>The source code for this project is available on
+<a href="https://github.com/amarder/module-graph">github</a>.  This project uses Python&rsquo;s
+<a href="http://docs.python.org/2/library/inspect.html">inspect</a> module,
+<a href="http://flask.pocoo.org/">flask</a>, and <a href="http://d3js.org/">d3</a>, all of
+which are awesome.  Thanks to <a href="http://www.people.hbs.edu/cbaldwin/DR2/MRBDesignStructure10-1-05.pdf">Alan MacCormack</a> for
+highlighting the usefulness of examining a package&rsquo;s adjacency matrix
+and using propagation cost to measure modularity.</p>
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = 'https:\/\/amarder.github.io\/anatomy-of-a-python-package\/';
+    this.page.identifier = 'https:\/\/amarder.github.io\/anatomy-of-a-python-package\/';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+

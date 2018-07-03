@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Visualizing Sound</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+  
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@andrewmarder"/>
+  <meta name="twitter:creator" content="@andrewmarder"/>
+  <meta name="twitter:title" content="Visualizing Sound"/>
+  <meta name="twitter:description" content="Using R to see the data beneath the music."/>
+  <meta name="twitter:image" content="https://amarder.github.io/post/music_files/figure-html/graph-1.png"/>
+
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>Visualizing Sound</h1>
+
+
+<p>My sister&rsquo;s boyfriend&rsquo;s band, <a href="https://www.vertigodrift.com/">Vertigo Drift</a>, recently came out with a new EP called <em>Phase 3</em>. It seemed like the perfect excuse for me to play around with <a href="https://github.com/dgrtwo/gganimate">gganimate</a> to create a music video.</p>
+
+<h2 id="reading-audio-files">Reading Audio Files</h2>
+
+<p>The <a href="https://cran.r-project.org/web/packages/tuneR/">tuneR</a> package provides excellent functions for reading audio files.</p>
+
+<p>Let&rsquo;s download an example wave file.</p>
+
+<pre><code class="language-r">url &lt;- &quot;http://freewavesamples.com/files/Alesis-Fusion-Acoustic-Bass-C2.wav&quot;
+command &lt;- paste(&quot;wget&quot;, url)
+system(command)
+</code></pre>
+
+<p>Let&rsquo;s use tuneR to read the file.</p>
+
+<pre><code class="language-r">library(tuneR)
+
+wave &lt;- readWave(&quot;Alesis-Fusion-Acoustic-Bass-C2.wav&quot;)
+wave
+</code></pre>
+
+<pre><code>## 
+## Wave Object
+## 	Number of Samples:      127782
+## 	Duration (seconds):     2.9
+## 	Samplingrate (Hertz):   44100
+## 	Channels (Mono/Stereo): Stereo
+## 	PCM (integer format):   TRUE
+## 	Bit (8/16/24/32/64):    16
+</code></pre>
+
+<p>This particular file is 2.9 seconds long. It is recorded in stereo (it has a left and right channel). There are 44,100 samples per second. In total there are 127,782 samples. I found Wikipedia&rsquo;s page on <a href="https://en.wikipedia.org/wiki/Digital_audio">digital audio</a> to be pretty helpful in understanding this data.</p>
+
+<h2 id="plotting-audio-files">Plotting Audio Files</h2>
+
+<p>Let&rsquo;s put the audio data into a data frame.</p>
+
+<pre><code class="language-r">library(tidyverse)
+
+data &lt;- data.frame(
+    Left = wave@left,
+    Right = wave@right
+)
+data$second &lt;- (1:nrow(data)) / wave@samp.rate
+head(data)
+</code></pre>
+
+<pre><code>##   Left Right       second
+## 1 -127  -145 2.267574e-05
+## 2 -126  -135 4.535147e-05
+## 3 -149  -176 6.802721e-05
+## 4 -175  -213 9.070295e-05
+## 5 -165  -200 1.133787e-04
+## 6 -143  -161 1.360544e-04
+</code></pre>
+
+<p>Typical video contains 24 frames per second. Let&rsquo;s focus on the first 24th of a second of this audio file.</p>
+
+<pre><code class="language-r">data &lt;- data %&gt;%
+    filter(second &lt;= 1 / 24)
+nrow(data)
+</code></pre>
+
+<pre><code>## [1] 1837
+</code></pre>
+
+<p>Now let&rsquo;s plot this 24th of a second.</p>
+
+<pre><code class="language-r">data %&gt;%
+    gather(key = &quot;Channel&quot;, value = &quot;y&quot;, Left, Right) %&gt;%
+    mutate(y = y / max(abs(y))) %&gt;%
+    ggplot(aes(x = second, y = y)) +
+    geom_point(size = 0.1) +
+    ylab(&quot;Relative Amplitude&quot;) +
+    xlab(&quot;Time (Seconds)&quot;) +
+    ylim(-1, 1) +
+    facet_grid(Channel ~ .) +
+    theme_bw()
+</code></pre>
+
+<p><img src="/post/music_files/figure-html/graph-1.png" width="648" /></p>
+
+<h2 id="animating-plots">Animating Plots</h2>
+
+<p>I used gganimate to create the following music video. The song is 2 minutes and 46 seconds long so the video stitches together (2 * 60 + 46) * 24 = 3984 plots. If I watch it for too long it starts to hurt my eyes.</p>
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/YACyTCegGG8?rel=0" frameborder="0" allowfullscreen></iframe>
+
+<p>Let me know if you&rsquo;re interested in the code. I haven&rsquo;t posted it on GitHub yet, but I&rsquo;d be happy to.</p>
+
+<!-- video to checkout: http://csh.bz/highticket/ -->
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = 'https:\/\/amarder.github.io\/visualizing-sound\/';
+    this.page.identifier = 'https:\/\/amarder.github.io\/visualizing-sound\/';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+

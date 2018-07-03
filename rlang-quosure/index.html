@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>rlang - Working with Quosures</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+  
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:site" content="@andrewmarder"/>
+  <meta name="twitter:creator" content="@andrewmarder"/>
+  <meta name="twitter:title" content="rlang - Working with Quosures"/>
+  <meta name="twitter:description" content="An example of how to work with the tidy evaluation framework."/>
+  <meta name="twitter:image" content="https://amarder.github.io/images/Rlogo.png"/>
+
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>rlang - Working with Quosures</h1>
+<p>If you haven’t read <a href="https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html">programming with dplyr</a> or <a href="https://cran.r-project.org/web/packages/rlang/vignettes/tidy-evaluation.html">tidy evaluation</a> yet, definitely start there; they give an excellent overview of working with the tidy evaluation framework. This post aims to give a simple example of how to work with quasiquotation as implemented by <a href="https://cran.r-project.org/web/packages/rlang/">rlang</a>.</p>
+<p>Imagine I want to create a domain specific language (DSL) for arithmetic. Let’s write two functions that I will use as verbs in this DSL.</p>
+<pre class="r"><code>add &lt;- function(a, b) a + b
+multiply &lt;- function(a, b) a * b</code></pre>
+<p>Suppose I’m really interested in linear functions in general, and <span class="math inline">\(f(x) = 2x + 1\)</span> specifically. Let’s take two different approaches to creating linear functions using these <code>add()</code> and <code>multiply()</code> verbs…</p>
+<div id="closure-approach" class="section level2">
+<h2>Closure Approach</h2>
+<p>One approach to creating linear functions is to use <a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">closures</a>. “Operationally, a closure is a record storing a function together with an environment.” Let’s write a function to create new closures:</p>
+<pre class="r"><code>create_linear_closure &lt;- function(slope, intercept) {
+    function(x) {
+        add(multiply(slope, x), intercept)
+    }
+}</code></pre>
+<p><code>create_linear_closure()</code> takes two parameters (<code>slope</code> and <code>intercept</code>) and returns a new anonymous function that takes one parameter (<code>x</code>) and returns the <code>slope</code> times <code>x</code> plus the <code>intercept</code>.</p>
+<p>Let’s create a new closure and inspect it:</p>
+<pre class="r"><code>f &lt;- create_linear_closure(slope = 2, intercept = 1)
+f</code></pre>
+<pre><code>## function(x) {
+##         add(multiply(slope, x), intercept)
+##     }
+## &lt;environment: 0x7f8d476ac758&gt;</code></pre>
+<p>Notice that <code>f</code> has a function definition <strong>and</strong> an environment. The environment stores the value of the slope and intercept.</p>
+<p>Finally, let’s evaluate the function <code>f</code> at <span class="math inline">\(x = 1\)</span>:</p>
+<pre class="r"><code>f(x = 1)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>Looking good!</p>
+</div>
+<div id="quosure-approach" class="section level2">
+<h2>Quosure Approach</h2>
+<p>How would one rewrite <code>create_linear_closure()</code> using the tidy evaluation framework?</p>
+<pre class="r"><code>library(rlang)
+
+create_linear_quosure &lt;- function(slope, intercept) {
+    quo(add(multiply(!!slope, x), !!intercept))
+}</code></pre>
+<p>This new function takes two parameters (<code>slope</code> and <code>intercept</code>) and returns a quosure.</p>
+<p>Let’s create a new quosure and inspect it:</p>
+<pre class="r"><code>f &lt;- create_linear_quosure(slope = 2, intercept = 1)
+f</code></pre>
+<pre><code>## &lt;quosure: local&gt;
+## ~add(multiply(2, x), 1)</code></pre>
+<p>Like a closure, a quosure has an expression <strong>and</strong> an environment. One nice aspect of this approach is the values of the slope and intercept have been unquoted in the expression (working with the closure in the previous section we would have to inspect its environment to see those values).</p>
+<p>Finally, let’s evaluate <code>f</code> at <span class="math inline">\(x = 1\)</span>:</p>
+<pre class="r"><code>eval_tidy(f, list(x = 1))</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>Huzzah!</p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>The tidy evaluation framework has three key components:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Unquoting</strong> is done using the following functions and syntactic operators:</p>
+<ul>
+<li><code>UQ()</code> and <code>!!</code></li>
+<li><code>UQE()</code></li>
+<li><code>UQS()</code> and <code>!!!</code>.</li>
+</ul>
+<p>For more information see <code>help(quasiquotation)</code>.</p></li>
+<li><p><strong>Quoting</strong> is done using the following functions:</p>
+<ul>
+<li><code>quo()</code></li>
+<li><code>enquo()</code></li>
+<li><code>quos()</code></li>
+<li><code>new_quosure()</code>.</li>
+</ul>
+<p>See <code>help(quosure)</code> for more info.</p></li>
+<li><p><strong>Evaluation</strong> is performed using <code>eval_tidy()</code>, see <code>help(eval_tidy)</code>.</p></li>
+</ol>
+<p>Writing this post helped me understand how to work with quosures (using all three components of the tidy evaluation framework). But, I’m not convinced it’s a great example of a domain specific language. If you have ideas for a better DSL example definitely let me know.</p>
+</div>
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = 'https:\/\/amarder.github.io\/rlang-quosure\/';
+    this.page.identifier = 'https:\/\/amarder.github.io\/rlang-quosure\/';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+

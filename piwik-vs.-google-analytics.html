@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Piwik vs. Google Analytics</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>Piwik vs. Google Analytics</h1>
+
+
+<p>This is a love story. In stage 1, I fall in love with <a href="http://www.google.com/analytics/">Google Analytics</a> because it gives me the positive reinforcement I&rsquo;m looking for. In stage 2, I fall out of love with Google Analytics because its insights are distorted by unreliable data. In stage 3, I begin a long-term relationship with <a href="http://piwik.org/">Piwik</a> for its open and accurate feedback.</p>
+
+<h2 id="the-high-of-web-analytics">The High of Web Analytics</h2>
+
+<p>The <a href="http://www.amazon.com/gp/product/B00T7Q9E2S">Sales Acceleration Formula</a> by Mark Roberge piqued my interest in inbound marketing. So, I decided to experiment with my blog. I set up Google Analytics and started making content to drive traffic to the site. On November 11, 2015, I posted <a href="http://amarder.github.io/diamonds">How to Buy a Diamond</a>. On November 23, Hadley Wickham and Edward Tufte retweeted a link to my post, and traffic to my blog spiked!</p>
+
+<p><img src="./pageviews-1.png" alt="plot of chunk pageviews" /></p>
+
+<p>The high I felt when the site&rsquo;s pageviews peaked was great. The attraction to web analytics was clear.</p>
+
+<h2 id="the-data-from-google-analytics-needs-cleaning">The Data from Google Analytics Needs Cleaning</h2>
+
+<p>Since January 14, 2016, I have collected pageview data using both Google Analytics and Piwik. A comparison of the two data sources illustrates my frustration with referral spam on Google Analytics.</p>
+
+<p><img src="./comparison-1.png" alt="plot of chunk comparison" /></p>
+
+<p>According to Piwik, my blog has drawn at most 11 pageviews each day of the two and a half weeks under observation. Google Analytics, on the other hand, reports three days with almost 50 pageviews! These are extremely different stories about how much traffic is being generated. When I compare of proportion of sessions by referrer across platforms, the issue becomes clearer.</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">Source</th>
+<th align="right">Google</th>
+<th align="right">Piwik</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">с.новым.годом.рф</td>
+<td align="right">39.2%</td>
+<td align="right">0.0%</td>
+</tr>
+
+<tr>
+<td align="left">Google</td>
+<td align="right">23.4%</td>
+<td align="right">55.9%</td>
+</tr>
+
+<tr>
+<td align="left">social-widget.xyz</td>
+<td align="right">10.4%</td>
+<td align="right">0.0%</td>
+</tr>
+
+<tr>
+<td align="left">free-social-buttons.xyz</td>
+<td align="right">9.0%</td>
+<td align="right">0.0%</td>
+</tr>
+
+<tr>
+<td align="left">traffic-cash.xyz</td>
+<td align="right">6.8%</td>
+<td align="right">0.0%</td>
+</tr>
+
+<tr>
+<td align="left">ilikevitaly.com</td>
+<td align="right">5.9%</td>
+<td align="right">0.0%</td>
+</tr>
+
+<tr>
+<td align="left">(direct)</td>
+<td align="right">4.5%</td>
+<td align="right">40.7%</td>
+</tr>
+
+<tr>
+<td align="left">scholar.google.com.sg</td>
+<td align="right">0.5%</td>
+<td align="right">1.7%</td>
+</tr>
+
+<tr>
+<td align="left">www.statalist.org</td>
+<td align="right">0.5%</td>
+<td align="right">1.7%</td>
+</tr>
+</tbody>
+</table>
+
+<p>Google Analytics claims 71.2% of the traffic to my site came from с.новым.годом.рф, social-widget.xyz, free-social-buttons.xyz, traffic-cash.xyz, and ilikevitaly.com, which is unadulterated spam! The data coming out of Piwik isn&rsquo;t perfect. I am using a redirect on one of my posts so <a href="http://piwik.org/faq/troubleshooting/faq_51/">some browsers are losing referrer information</a> and inflating the direct traffic numbers. If I wanted to fix this issue with Piwik I could remove that redirect, but fixing Google Analytics is much harder.</p>
+
+<h2 id="removing-google-analytics-spam-should-be-easier">Removing Google Analytics Spam Should be Easier</h2>
+
+<p>The top result from a Google search for &ldquo;google analytics spam&rdquo; is the <a href="http://help.analyticsedge.com/spam-filter/definitive-guide-to-removing-google-analytics-spam/">Definitive Guide to Removing Google Analytics Spam</a>. The executive summary quoted from that guide:</p>
+
+<blockquote>
+<ol>
+<li>new website? Use a &ldquo;-2&rdquo; or higher property</li>
+<li>implement a Valid Hostname Filter to eliminate ghost visits</li>
+<li>implement Spam Crawler Filters to eliminate the targeted spam visits</li>
+<li>create a Custom Segment with these filters to use for reporting</li>
+<li>turn on Google&rsquo;s bot &amp; spider filter option</li>
+</ol>
+</blockquote>
+
+<p>I found tip #4 the most helpful. Creating a custom segment allows one to clean the data already collected by Google Analytics. The downside of this approach is it requires replacing the default &ldquo;All Sessions&rdquo; segment with the new custom segment in all reports of interest.</p>
+
+<p>I am less concerned by spam when using Piwik because I have full access to the MySQL database containing the raw pageview data. If spam becomes an issue in the future, I can write my own data cleaning scripts to deal with it.</p>
+
+<h2 id="i-m-not-the-only-one">I&rsquo;m Not the Only One</h2>
+
+<p>A <a href="http://www.google.com/trends/explore#q=google%20analytics%20spam">Google Trends search</a> shows the search volume for &ldquo;google analytics spam&rdquo; peaked in mid 2015 and is on the rise again.</p>
+
+<p><img src="./trends-1.png" alt="plot of chunk trends" /></p>
+
+<p>If you&rsquo;re tired of spam on Google Analytics, or you like free open-source software and 100% data ownership, definitely check out <a href="http://piwik.org/">Piwik</a>.</p>
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = 'https:\/\/amarder.github.io\/piwik-vs.-google-analytics.html';
+    this.page.identifier = 'https:\/\/amarder.github.io\/piwik-vs.-google-analytics.html';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+

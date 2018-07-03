@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Stata Tutorial</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/css/raleway.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/pushy/pushy.css">
+  <link rel="stylesheet" type="text/css" href="/js/pushy/demo.css">
+  <script type="text/javascript" src="/js/pushy/pushy.min.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/js/highlight.js/github.css">
+  <script type="text/javascript" src="/js/highlight.js/highlight.pack.js"></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+  
+
+</head>
+
+<body>
+  <nav class="pushy pushy-left">
+    <ul class="pushy">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.linkedin.com/pub/andrew-marder/20/317/369">LinkedIn</a></li>
+      <li><a href="https://scholar.google.com/citations?user=yRLx6UoAAAAJ">Publications</a></li>
+      <li><a href="https://github.com/amarder">GitHub</a></li>
+      <li><a href="http://stackoverflow.com/users/3756632/andrew">Stack Overflow</a></li>
+      <li><a href="https://twitter.com/andrewmarder">Twitter</a></li>
+    </ul>
+  </nav>
+  <div class="site-overlay"></div>
+
+  <div class="container" id="container">
+    
+    <div class="menu-btn" style="float: right;">Andrew Marder &nbsp; &#9776;</div>
+    <div style="height: 40px; margin-bottom: 25px;"></div>
+
+
+<h1>Stata Tutorial</h1>
+
+
+<p>Stata is a commonly used tool for empirical research.  Stata comes
+with an extensive library of statistical methods, and there are
+additional user written methods that extend the functionality of Stata
+even further.</p>
+
+<p>Stata stores data in memory as a single matrix.  If you are familiar
+with Microsoft Excel Workbooks, Stata stores a single Worksheet in
+memory where each column has a name and each row is numbered from 1 to
+the total number of rows in the dataset.</p>
+
+<p>This tutorial aims to introduce you to the key features of Stata and
+its documentation so you can start your own empirical work.</p>
+
+<h2 id="typing-commands">Typing Commands</h2>
+
+<p>The <code>display</code> command is useful for showing values at the command
+line.</p>
+
+<pre><code>. display 1 + 2
+3
+</code></pre>
+
+<p>Use the <code>Page Up</code> key to recall the previous command evaluated.  This
+is particularly useful if you need to fix a typo.</p>
+
+<p>Commands can be abbreviated, <code>di</code> is equivalent to <code>display</code>.  I
+prefer to use the whole command name because it makes code explicit.</p>
+
+<h2 id="getting-help">Getting Help</h2>
+
+<p>Use the <code>help</code> command if you know the name of the function and want
+more details.  Use the <code>findit</code> command if you want to find a
+function.  I end up using Google more than <code>findit</code>, but this may be a
+mistake.</p>
+
+<p>Unfortunately the help command opens a new window each time you use
+it, use the <code>nonew</code> option to prevent this behavior,
+<code>help help, nonew</code>.</p>
+
+<h2 id="reading-data-into-stata">Reading Data Into Stata</h2>
+
+<p>There are many different ways to read data into Stata.  To get a good
+overview of how to import data into Stata type <code>help import</code> in
+Stata&rsquo;s Command window.  The functions I use most are <code>import excel</code>
+and <code>insheet</code>.  <code>import excel</code> is great if you are working with an
+Excel workbook, while <code>insheet</code> is great if you have a comma-separated
+values (csv) file.</p>
+
+<p>Stata datasets are generally stored in files with a <code>.dta</code> extension.
+To read a Stata dataset use the <code>use</code> command.  For the purpose of
+this tutorial we will use a dataset shipped with Stata about
+automobiles.  Type in <code>sysuse auto</code> to load the dataset into memory.</p>
+
+<pre><code>. sysuse auto, clear
+(1978 Automobile Data)
+</code></pre>
+
+<h2 id="descriptive-statistics">Descriptive Statistics</h2>
+
+<p>The <code>describe</code> command gives useful information about the variables in
+the dataset and the number of rows in the dataset.</p>
+
+<pre><code>. describe
+
+Contains data from /Applications/Stata/ado/base/a/auto.dta
+  obs:            74                          1978 Automobile Data
+ vars:            12                          13 Apr 2011 17:45
+ size:         3,182                          (_dta has notes)
+--------------------------------------------------------------------------------------------------------
+              storage  display     value
+variable name   type   format      label      variable label
+--------------------------------------------------------------------------------------------------------
+make            str18  %-18s                  Make and Model
+price           int    %8.0gc                 Price
+mpg             int    %8.0g                  Mileage (mpg)
+rep78           int    %8.0g                  Repair Record 1978
+headroom        float  %6.1f                  Headroom (in.)
+trunk           int    %8.0g                  Trunk space (cu. ft.)
+weight          int    %8.0gc                 Weight (lbs.)
+length          int    %8.0g                  Length (in.)
+turn            int    %8.0g                  Turn Circle (ft.)
+displacement    int    %8.0g                  Displacement (cu. in.)
+gear_ratio      float  %6.2f                  Gear Ratio
+foreign         byte   %8.0g       origin     Car type
+--------------------------------------------------------------------------------------------------------
+Sorted by:  foreign
+</code></pre>
+
+<p>The <code>summarize</code> command gives some useful summary statistics for each
+variable.</p>
+
+<pre><code>. summarize
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+        make |         0
+       price |        74    6165.257    2949.496       3291      15906
+         mpg |        74     21.2973    5.785503         12         41
+       rep78 |        69    3.405797    .9899323          1          5
+    headroom |        74    2.993243    .8459948        1.5          5
+-------------+--------------------------------------------------------
+       trunk |        74    13.75676    4.277404          5         23
+      weight |        74    3019.459    777.1936       1760       4840
+      length |        74    187.9324    22.26634        142        233
+        turn |        74    39.64865    4.399354         31         51
+displacement |        74    197.2973    91.83722         79        425
+-------------+--------------------------------------------------------
+  gear_ratio |        74    3.014865    .4562871       2.19       3.89
+     foreign |        74    .2972973    .4601885          0          1
+</code></pre>
+
+<p>You&rsquo;ll notice that 11 of 12 variables in the auto dataset are numeric
+and the <code>make</code> variable is a string.  To see what the make variable
+looks like, we can list the first few observations.</p>
+
+<pre><code>. list make if _n &lt;= 5
+
+     +---------------+
+     | make          |
+     |---------------|
+  1. | AMC Concord   |
+  2. | AMC Pacer     |
+  3. | AMC Spirit    |
+  4. | Buick Century |
+  5. | Buick Electra |
+     +---------------+
+</code></pre>
+
+<p>To see if <code>make</code> uniquely identifies each row in the dataset we can
+use the <code>isid</code> function.</p>
+
+<pre><code>. isid make
+</code></pre>
+
+<p>When <code>isid</code> says nothing the variable list does uniquely identify each
+row.  Are cars uniquely identified by their weight and length?</p>
+
+<pre><code>. duplicates report make
+
+Duplicates in terms of make
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |           74             0
+--------------------------------------
+
+. duplicates report weight length
+
+Duplicates in terms of weight length
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |           70             0
+        2 |            4             2
+--------------------------------------
+</code></pre>
+
+<p>Imagine we are interested in looking at how foreign and domestic cars
+differ.  As a first step, it would be good to examine some summary
+statistics for foreign and domestic cars, the <code>tabstat</code> command makes
+this fairly easy.</p>
+
+<pre><code>. tabstat price mpg weight length, by(foreign) stat(mean sd)
+
+Summary statistics: mean, sd
+  by categories of: foreign (Car type)
+
+ foreign |     price       mpg    weight    length
+---------+----------------------------------------
+Domestic |  6072.423  19.82692  3317.115  196.1346
+         |  3097.104  4.743297  695.3637  20.04605
+---------+----------------------------------------
+ Foreign |  6384.682  24.77273  2315.909  168.5455
+         |  2621.915  6.611187  433.0035  13.68255
+---------+----------------------------------------
+   Total |  6165.257   21.2973  3019.459  187.9324
+         |  2949.496  5.785503  777.1936  22.26634
+--------------------------------------------------
+</code></pre>
+
+<p>You may have noticed from the output of the <code>summarize</code> command that
+<code>rep78</code> has 5 missing values.  We can look at those observations using
+the list command:</p>
+
+<pre><code>. list if missing(rep78)
+
+     +---------------------------------------------------------------------------------------------+
+  3. | make          |  price | mpg | rep78 | headroom | trunk | weight | length | turn | displa~t |
+     | AMC Spirit    |  3,799 |  22 |     . |      3.0 |    12 |  2,640 |    168 |   35 |      121 |
+     |---------------------------------------------------------------------------------------------|
+     |                   gear_r~o                   |                    foreign                   |
+     |                       3.08                   |                   Domestic                   |
+     +---------------------------------------------------------------------------------------------+
+
+     +---------------------------------------------------------------------------------------------+
+  7. | make          |  price | mpg | rep78 | headroom | trunk | weight | length | turn | displa~t |
+     | Buick Opel    |  4,453 |  26 |     . |      3.0 |    10 |  2,230 |    170 |   34 |      304 |
+     |---------------------------------------------------------------------------------------------|
+     |                   gear_r~o                   |                    foreign                   |
+     |                       2.87                   |                   Domestic                   |
+     +---------------------------------------------------------------------------------------------+
+
+     +---------------------------------------------------------------------------------------------+
+ 45. | make          |  price | mpg | rep78 | headroom | trunk | weight | length | turn | displa~t |
+     | Plym. Sapporo |  6,486 |  26 |     . |      1.5 |     8 |  2,520 |    182 |   38 |      119 |
+     |---------------------------------------------------------------------------------------------|
+     |                   gear_r~o                   |                    foreign                   |
+     |                       3.54                   |                   Domestic                   |
+     +---------------------------------------------------------------------------------------------+
+
+     +---------------------------------------------------------------------------------------------+
+ 51. | make          |  price | mpg | rep78 | headroom | trunk | weight | length | turn | displa~t |
+     | Pont. Phoenix |  4,424 |  19 |     . |      3.5 |    13 |  3,420 |    203 |   43 |      231 |
+     |---------------------------------------------------------------------------------------------|
+     |                   gear_r~o                   |                    foreign                   |
+     |                       3.08                   |                   Domestic                   |
+     +---------------------------------------------------------------------------------------------+
+
+     +---------------------------------------------------------------------------------------------+
+ 64. | make          |  price | mpg | rep78 | headroom | trunk | weight | length | turn | displa~t |
+     | Peugeot 604   | 12,990 |  14 |     . |      3.5 |    14 |  3,420 |    192 |   38 |      163 |
+     |---------------------------------------------------------------------------------------------|
+     |                   gear_r~o                   |                    foreign                   |
+     |                       3.58                   |                    Foreign                   |
+     +---------------------------------------------------------------------------------------------+
+</code></pre>
+
+<h2 id="graphs">Graphs</h2>
+
+<p>There are good graph galleries provided by <a href="http://www.stata.com/support/faqs/graphics/gph/statagraphs.html">StataCorp</a>,
+<a href="http://www.ats.ucla.edu/stat/Stata/library/GraphExamples/default.htm">UCLA</a>, and <a href="http://www.survey-design.com.au/Usergraphs.html">Survey Design and Analysis Services</a>.
+Below is a simple scatter plot of weight versus length:</p>
+
+<pre><code>. graph twoway scatter weight length
+
+. graph export scatter.png, replace
+(file scatter.png written in PNG format)
+</code></pre>
+
+<p><img src="https://raw.github.com/amarder/stata-tutorial/master/scatter.png" alt="Scatter Plot" /></p>
+
+<h2 id="creating-new-variables">Creating New Variables</h2>
+
+<p>There are a number of ways to create new variables or modifying
+existing variables.  The most important command in this section is the
+<code>generate</code> command.  Imagine we are curious about cars that are heavy
+for their length we could create a new variable</p>
+
+<pre><code>. generate weight_per_length = weight / length
+</code></pre>
+
+<p>This creates a new column in the dataset, for each car we have
+calculated the ratio of that car&rsquo;s weight to its length.  Let&rsquo;s take a
+look at the top five heaviest cars per length.</p>
+
+<pre><code>. gsort -weight_per_length
+
+. list make weight_per_length if _n &lt;= 5
+
+     +------------------------------+
+     | make                weight~h |
+     |------------------------------|
+  1. | Cad. Seville        21.02941 |
+  2. | Linc. Continental   20.77253 |
+  3. | Linc. Mark V        20.52174 |
+  4. | Cad. Deville        19.59276 |
+  5. | Olds Toronado       19.56311 |
+     +------------------------------+
+</code></pre>
+
+<p>Another very useful command for generating new variables is the <code>egen</code>
+command.  This is particularly useful is you want to merge summary
+statistics for groups of cars back into the larger dataset.  For
+instance, we might be curious to see how a car&rsquo;s price compares to the
+average price among foreign or domestic cars.  We can find the average
+price for foreign and domestic cars using tabstat, but how do we make
+a column in the dataset with these values?</p>
+
+<pre><code>. tabstat price, by(foreign)
+
+Summary for variables: price
+     by categories of: foreign (Car type)
+
+ foreign |      mean
+---------+----------
+Domestic |  6072.423
+ Foreign |  6384.682
+---------+----------
+   Total |  6165.257
+--------------------
+
+. egen ave_price = mean(price), by(foreign)
+
+. list foreign ave_price
+
+     +---------------------+
+     |  foreign   ave_pr~e |
+     |---------------------|
+  1. | Domestic   6072.423 |
+  2. | Domestic   6072.423 |
+  3. | Domestic   6072.423 |
+  4. | Domestic   6072.423 |
+  5. | Domestic   6072.423 |
+     |---------------------|
+  6. | Domestic   6072.423 |
+  7. | Domestic   6072.423 |
+  8. | Domestic   6072.423 |
+  9. | Domestic   6072.423 |
+ 10. | Domestic   6072.423 |
+     |---------------------|
+ 11. | Domestic   6072.423 |
+ 12. | Domestic   6072.423 |
+ 13. | Domestic   6072.423 |
+ 14. | Domestic   6072.423 |
+ 15. |  Foreign   6384.682 |
+     |---------------------|
+ 16. | Domestic   6072.423 |
+ 17. | Domestic   6072.423 |
+ 18. | Domestic   6072.423 |
+ 19. | Domestic   6072.423 |
+ 20. | Domestic   6072.423 |
+     |---------------------|
+ 21. | Domestic   6072.423 |
+ 22. | Domestic   6072.423 |
+ 23. | Domestic   6072.423 |
+ 24. | Domestic   6072.423 |
+ 25. | Domestic   6072.423 |
+     |---------------------|
+ 26. | Domestic   6072.423 |
+ 27. | Domestic   6072.423 |
+ 28. | Domestic   6072.423 |
+ 29. | Domestic   6072.423 |
+ 30. | Domestic   6072.423 |
+     |---------------------|
+ 31. | Domestic   6072.423 |
+ 32. | Domestic   6072.423 |
+ 33. | Domestic   6072.423 |
+ 34. | Domestic   6072.423 |
+ 35. |  Foreign   6384.682 |
+     |---------------------|
+ 36. | Domestic   6072.423 |
+ 37. | Domestic   6072.423 |
+ 38. | Domestic   6072.423 |
+ 39. | Domestic   6072.423 |
+ 40. | Domestic   6072.423 |
+     |---------------------|
+ 41. | Domestic   6072.423 |
+ 42. | Domestic   6072.423 |
+ 43. | Domestic   6072.423 |
+ 44. |  Foreign   6384.682 |
+ 45. | Domestic   6072.423 |
+     |---------------------|
+ 46. | Domestic   6072.423 |
+ 47. |  Foreign   6384.682 |
+ 48. |  Foreign   6384.682 |
+ 49. |  Foreign   6384.682 |
+ 50. | Domestic   6072.423 |
+     |---------------------|
+ 51. | Domestic   6072.423 |
+ 52. |  Foreign   6384.682 |
+ 53. |  Foreign   6384.682 |
+ 54. | Domestic   6072.423 |
+ 55. |  Foreign   6384.682 |
+     |---------------------|
+ 56. | Domestic   6072.423 |
+ 57. |  Foreign   6384.682 |
+ 58. |  Foreign   6384.682 |
+ 59. |  Foreign   6384.682 |
+ 60. | Domestic   6072.423 |
+     |---------------------|
+ 61. |  Foreign   6384.682 |
+ 62. | Domestic   6072.423 |
+ 63. | Domestic   6072.423 |
+ 64. |  Foreign   6384.682 |
+ 65. |  Foreign   6384.682 |
+     |---------------------|
+ 66. |  Foreign   6384.682 |
+ 67. |  Foreign   6384.682 |
+ 68. |  Foreign   6384.682 |
+ 69. |  Foreign   6384.682 |
+ 70. | Domestic   6072.423 |
+     |---------------------|
+ 71. |  Foreign   6384.682 |
+ 72. |  Foreign   6384.682 |
+ 73. |  Foreign   6384.682 |
+ 74. | Domestic   6072.423 |
+     +---------------------+
+</code></pre>
+
+<h2 id="regressions">Regressions</h2>
+
+<p>To further explore the relationship between weight and length we can
+run a regression.</p>
+
+<pre><code>. regress weight length
+
+      Source |       SS       df       MS              Number of obs =      74
+-------------+------------------------------           F(  1,    72) =  613.27
+       Model |  39461306.8     1  39461306.8           Prob &gt; F      =  0.0000
+    Residual |  4632871.55    72  64345.4382           R-squared     =  0.8949
+-------------+------------------------------           Adj R-squared =  0.8935
+       Total |  44094178.4    73  604029.841           Root MSE      =  253.66
+
+------------------------------------------------------------------------------
+      weight |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      length |   33.01988   1.333364    24.76   0.000     30.36187    35.67789
+       _cons |  -3186.047   252.3113   -12.63   0.000     -3689.02   -2683.073
+------------------------------------------------------------------------------
+</code></pre>
+
+<p>We see that on average, each additional inch is associated with 33
+pounds.  We can plot the predicted values from the regression on the
+scatter plot from above.</p>
+
+<pre><code>. graph twoway (scatter weight length) (lfit weight length)
+
+. graph export scatter_lfit.png, replace
+(file scatter_lfit.png written in PNG format)
+</code></pre>
+
+<p><img src="https://raw.github.com/amarder/stata-tutorial/master/scatter_lfit.png" alt="Scatter Plot" /></p>
+
+<h2 id="further-reading">Further Reading</h2>
+
+<p><a href="http://data.princeton.edu/stata/">Germán Rodríguez&rsquo;s Stata Tutorial</a> is an excellent introduction to
+Stata..</p>
+
+<p>These <a href="http://faculty.chicagobooth.edu/matthew.gentzkow/research/ra_manual_coding.pdf">notes on writing code</a> by Matthew Gentzkow and Jesse
+Shapiro have excellent suggestions on how to program with Stata.</p>
+
+<div style="height: 50px;"></div>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+    this.page.url = 'https:\/\/amarder.github.io\/stata-tutorial\/';
+    this.page.identifier = 'https:\/\/amarder.github.io\/stata-tutorial\/';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+
+    s.src = '//amarder-github-pages.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-68782208-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </body>
+
+  
+  <script type="text/javascript">
+    $('img').addClass('u-max-full-width')
+  </script>
+  
+</html>
+
