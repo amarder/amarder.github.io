@@ -1,6 +1,7 @@
 ---
 title: How to Buy a Diamond
 date: 2015-11-11
+slug: diamonds
 aliases:
   - /post/diamonds/
 description: "How to buy a diamond like a data nerd."
