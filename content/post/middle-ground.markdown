@@ -314,21 +314,21 @@ for (shortcode in middle_ground$shortcodes) {
 }
 ```
 
-1.   {{< tweet 912411948163137536 >}} 
+1.   tweet 912411948163137536 
 
-1.   {{< tweet 922771975210196994 >}} 
+1.   tweet 922771975210196994 
 
-1.   {{< tweet 923291704869789696 >}} 
+1.   tweet 923291704869789696 
 
-1.   {{< tweet 922518739802820609 >}} 
+1.   tweet 922518739802820609 
 
-1.   {{< tweet 916336198817341440 >}} 
+1.   tweet 916336198817341440 
 
-1.   {{< tweet 922572093207625728 >}} 
+1.   tweet 922572093207625728 
 
-1.   {{< tweet 890664826397220864 >}} 
+1.   tweet 890664826397220864 
 
-1.   {{< tweet 923217715933929473 >}} 
+1.   tweet 923217715933929473 
 
 I wouldn't classify this as a resounding success, but I think it shows
 some promise. The tweets by Kevin McCarthy and Steve Scalise seem
