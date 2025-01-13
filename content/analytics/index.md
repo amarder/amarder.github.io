@@ -2,6 +2,7 @@
 title: Piwik vs. Google Analytics
 description: "Why I'm Leaving Google Analytics for Piwik: Referral Spam"
 date: 2016-02-01
+draft: true
 ---
 
 This is a love story. In stage 1, I fall in love with [Google Analytics][google-analytics] because it gives me the positive reinforcement I'm looking for. In stage 2, I fall out of love with Google Analytics because its insights are distorted by unreliable data. In stage 3, I begin a long-term relationship with [Piwik][piwik] for its open and accurate feedback.

@@ -9,6 +9,7 @@ twitter:
   title: Visualizing Sound
   description: Using R to see the data beneath the music.
   image: "/post/music_files/figure-html/graph-1.png"
+draft: true
 ---
 
 My sister's boyfriend's band, [Vertigo Drift](https://www.vertigodrift.com/), recently came out with a new EP called _Phase 3_. It seemed like the perfect excuse for me to play around with [gganimate](https://github.com/dgrtwo/gganimate) to create a music video.

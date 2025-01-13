@@ -10,6 +10,7 @@ twitter:
   title: Republican vs Democrat - Searching for Middle Ground
   description: Using R to identify centrist statements by Democrats and Republicans.
   image: "/post/middle-ground_files/figure-html/unnamed-chunk-11-1.png"
+draft: true
 ---
 
 
