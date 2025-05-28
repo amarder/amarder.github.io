@@ -1,0 +1,12 @@
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Optional: Configure redirects for SPA-like behavior
+# [[redirects]]
+#   from = "/*"
+#   to = "/404.html"
+#   status = 404

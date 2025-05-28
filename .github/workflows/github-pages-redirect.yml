@@ -1,0 +1,122 @@
+name: Deploy GitHub Pages Redirect
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create redirect pages
+        run: |
+          mkdir -p public
+          
+          # Create main index.html with dynamic redirect
+          cat > public/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Redirecting...</title>
+            <meta http-equiv="refresh" content="0; url=https://andrewmarder.net">
+            <link rel="canonical" href="https://andrewmarder.net">
+            <style>
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background: #f5f5f5;
+              }
+              .container {
+                text-align: center;
+                padding: 2rem;
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>Redirecting...</h1>
+              <p>If you are not redirected automatically, <a href="https://andrewmarder.net">click here</a>.</p>
+            </div>
+            <script>
+              // Get the current path and redirect to the same path on the new domain
+              const currentPath = window.location.pathname + window.location.search + window.location.hash;
+              const newUrl = 'https://andrewmarder.net' + currentPath;
+              window.location.href = newUrl;
+            </script>
+          </body>
+          </html>
+          EOF
+          
+          # Create 404.html for catch-all redirects
+          cat > public/404.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Redirecting...</title>
+            <style>
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background: #f5f5f5;
+              }
+              .container {
+                text-align: center;
+                padding: 2rem;
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>Redirecting...</h1>
+              <p>If you are not redirected automatically, <a href="https://andrewmarder.net">click here</a>.</p>
+            </div>
+            <script>
+              // Get the current path and redirect to the same path on the new domain
+              const currentPath = window.location.pathname + window.location.search + window.location.hash;
+              const newUrl = 'https://andrewmarder.net' + currentPath;
+              window.location.href = newUrl;
+            </script>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './public'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 
