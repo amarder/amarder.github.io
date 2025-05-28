@@ -1,0 +1,40 @@
+---
+title: 'rlang - Quasiquotation Confusion'
+description: 'How does `!!` work?'
+pubDate: '2025-05-28'
+---
+
+
+I've been trying to wrap my head around [Programming with dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html). This post describes what I perceive to be a disconnect between the documentation and the source code of the `rlang` package. I think understanding this disconnect may help me understand how `rlang` works under the hood.
+
+First let's take a look at the documentation:
+
+```{r, echo = FALSE}
+library(rlang)
+
+get_help <- function(...) {
+    h <- help(...)
+    f <- utils:::.getHelpFile(h)
+    lines <- capture.output(tools::Rd2txt(f))
+    return(lines)
+}
+
+lines <- get_help(UQ)
+cat(lines[10:22], sep = "\n")
+```
+
+Now let's look at the source code for `UQ()`, `!!`, and `UQE()`:
+
+```{r}
+library(rlang)
+
+UQ
+`!!`
+UQE
+```
+
+It's weird to me that the `!!` operator is identical to the `UQE()` function and not identical to the `UQ()` function. I'm not the only one confused by this, check out this [GitHub issue](https://github.com/tidyverse/rlang/issues/256).
+
+Here's my question, where in the `rlang` source should I be looking to understand how the `!!` operator is evaluated in a quoting context?
+
+PS I'm not posting this question on Stack Overflow because it's more of a discussion question than a programming question.
