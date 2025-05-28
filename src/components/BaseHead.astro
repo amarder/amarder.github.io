@@ -1,70 +1,86 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
-import '../styles/global.css';
-import { SITE_TITLE } from '../consts';
+import { WEBMENTION_PINGBACK, WEBMENTION_URL } from "astro:env/client";
+import { siteConfig } from "@/site.config";
+import type { SiteMeta } from "@/types";
+import "@/styles/global.css";
 
-interface Props {
-	title: string;
-	description: string;
-	image?: string;
-}
+type Props = SiteMeta;
 
+const { articleDate, description, ogImage, title } = Astro.props;
+
+const titleSeparator = "•";
+const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-
-const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
+const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
 ---
 
-<!-- Global Metadata -->
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="sitemap" href="/sitemap-index.xml" />
-<link
-	rel="alternate"
-	type="application/rss+xml"
-	title={SITE_TITLE}
-	href={new URL('rss.xml', Astro.site)}
-/>
-<meta name="generator" content={Astro.generator} />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<title>{siteTitle}</title>
 
-<!-- Font preloads -->
-<link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
-<link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
+{/* Icons */}
+<link href="/icon.svg" rel="icon" type="image/svg+xml" />
+{
+	import.meta.env.PROD && (
+		<>
+			{/* Favicon & Apple Icon */}
+			<link rel="icon" href="/favicon-32x32.png" type="image/png" />
+			<link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
+			{/* Manifest */}
+			<link href="/manifest.webmanifest" rel="manifest" />
+		</>
+	)
+}
 
-<!-- Canonical URL -->
-<link rel="canonical" href={canonicalURL} />
+{/* Canonical URL */}
+<link href={canonicalURL} rel="canonical" />
 
-<!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
-<meta name="description" content={description} />
+{/* Primary Meta Tags */}
+<meta content={siteTitle} name="title" />
+<meta content={description} name="description" />
+<meta content={siteConfig.author} name="author" />
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+{/* Open Graph / Facebook */}
+<meta content={articleDate ? "article" : "website"} property="og:type" />
+<meta content={title} property="og:title" />
+<meta content={description} property="og:description" />
+<meta content={canonicalURL} property="og:url" />
+<meta content={siteConfig.title} property="og:site_name" />
+<meta content={siteConfig.ogLocale} property="og:locale" />
+<meta content={socialImageURL} property="og:image" />
+<meta content="1200" property="og:image:width" />
+<meta content="630" property="og:image:height" />
+{
+	articleDate && (
+		<>
+			<meta content={siteConfig.author} property="article:author" />
+			<meta content={articleDate} property="article:published_time" />
+		</>
+	)
+}
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
-<meta name="twitter:site" content="@andrewmarder" />
+{/* Twitter */}
+<meta content="summary_large_image" property="twitter:card" />
+<meta content={canonicalURL} property="twitter:url" />
+<meta content={title} property="twitter:title" />
+<meta content={description} property="twitter:description" />
+<meta content={socialImageURL} property="twitter:image" />
 
-<!-- Google Analytics -->
-<script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=UA-68782208-1"></script>
-<script type="text/partytown">
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-68782208-1');
-</script>
+{/* Sitemap */}
+<link href="/sitemap-index.xml" rel="sitemap" />
 
-<!-- MathJax -->
-<script type="text/javascript" async
-  src="https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+{/* RSS auto-discovery */}
+<link href="/rss.xml" title="Blog" rel="alternate" type="application/rss+xml" />
+<link href="/notes/rss.xml" title="Notes" rel="alternate" type="application/rss+xml" />
+
+{/* Webmentions */}
+{
+	WEBMENTION_URL && (
+		<>
+			<link href={WEBMENTION_URL} rel="webmention" />
+			{WEBMENTION_PINGBACK && <link href={WEBMENTION_PINGBACK} rel="pingback" />}
+		</>
+	)
+}
+
+<meta content={Astro.generator} name="generator" />
