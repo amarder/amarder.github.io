@@ -1,7 +1,8 @@
 ---
 title: 'Republican vs Democrat - Searching for Middle Ground'
 description: 'Using R to identify centrist statements by Democrats and Republicans.'
-publishDate: '2025-05-28'
+publishDate: '2017-10-25'
+draft: true
 ---
 
 

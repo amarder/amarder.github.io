@@ -1,7 +1,8 @@
 ---
 title: 'Trump vs Obama - a Battle of Words'
 description: 'Using R to explore word usage by Donald Trump and Barack Obama.'
-publishDate: '2025-05-28'
+publishDate: '2017-09-29'
+draft: true
 ---
 
 

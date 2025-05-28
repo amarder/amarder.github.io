@@ -1,7 +1,7 @@
 ---
 title: 'How to Ask Good Questions'
 description: 'A step-by-step guide to asking good questions.'
-publishDate: '2025-05-28'
+publishDate: '2012-04-05'
 ---
 
 

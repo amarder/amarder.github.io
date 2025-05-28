@@ -1,7 +1,8 @@
 ---
 title: 'Visualizing Sound'
 description: 'Using R to see the data beneath the music.'
-publishDate: '2025-05-28'
+publishDate: '2017-11-01'
+draft: true
 ---
 
 

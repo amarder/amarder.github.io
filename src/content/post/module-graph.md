@@ -1,7 +1,8 @@
 ---
 title: 'Anatomy of a Python Package'
 description: 'Using network graphs to better understand how software is constructed.'
-publishDate: '2025-05-28'
+publishDate: '2012-09-19'
+draft: true
 ---
 
 

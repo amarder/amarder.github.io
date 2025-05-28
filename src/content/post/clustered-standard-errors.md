@@ -1,7 +1,7 @@
 ---
-title: 'Stata'
+title: "Stata: Clustered Standard Errors"
 description: 'A note on how Stata calculates standard errors when estimating a fixed effects model using `xtreg fe`.'
-publishDate: '2025-05-28'
+publishDate: '2013-03-29'
 ---
 
 

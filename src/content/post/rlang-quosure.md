@@ -1,7 +1,8 @@
 ---
 title: 'rlang - Working with Quosures'
 description: 'An example of how to work with the tidy evaluation framework.'
-publishDate: '2025-05-28'
+publishDate: '2017-10-12'
+draft: true
 ---
 
 

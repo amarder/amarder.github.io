@@ -1,7 +1,7 @@
 ---
 title: 'Big Data Tips for Social Science'
 description: 'Some thoughts on working with big data in the social sciences.'
-publishDate: '2025-05-28'
+publishDate: '2015-10-23'
 ---
 
 

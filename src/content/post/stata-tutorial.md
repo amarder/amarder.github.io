@@ -1,7 +1,7 @@
 ---
 title: 'Stata Tutorial'
 description: 'A quick introduction to the statistical software package Stata.'
-publishDate: '2025-05-28'
+publishDate: '2012-09-17'
 ---
 
 

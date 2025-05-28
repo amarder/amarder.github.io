@@ -1,7 +1,8 @@
 ---
 title: 'rlang - Quasiquotation Confusion'
 description: 'How does `!!` work?'
-publishDate: '2025-05-28'
+publishDate: '2017-10-11'
+draft: true
 ---
 
 

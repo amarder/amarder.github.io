@@ -1,7 +1,7 @@
 ---
 title: 'SSH Key Bindings'
 description: 'When the button you press on your keyboard doesnt match the behavior of the remote host...'
-publishDate: '2025-05-28'
+publishDate: '2012-03-22'
 ---
 
 
