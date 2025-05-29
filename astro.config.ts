@@ -21,6 +21,7 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeKatex from "rehype-katex"; /* Render math with KaTeX */
+import rehypeMermaid from "rehype-mermaid"; /* Render Mermaid diagrams */
 import rehypeUnwrapImages from "rehype-unwrap-images";
 
 // https://astro.build/config
@@ -71,6 +72,10 @@ export default defineConfig({
 		}),
 	],
 	markdown: {
+		syntaxHighlight: {
+			type: 'shiki',
+			excludeLangs: ['mermaid'],
+		},
 		rehypePlugins: [
 			rehypeHeadingIds,
 			[rehypeAutolinkHeadings, { behavior: "wrap", properties: { className: ["not-prose"] } }],
@@ -83,6 +88,7 @@ export default defineConfig({
 			],
 			rehypeUnwrapImages,
 			rehypeKatex,
+			rehypeMermaid,
 		],
 		remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions, remarkMath],
 		remarkRehype: {
