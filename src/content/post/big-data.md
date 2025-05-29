@@ -32,7 +32,7 @@ data. First, let me describe how I classify data by size:
 
 I have a few suggestions for working with medium data.
 
-# Use a database
+## Use a database
 
 SQL databases (PostgreSQL, MySQL, MariaDB, SQLite) are extremely
 helpful for working with data on disk rather than in memory. The
@@ -43,7 +43,7 @@ you can still use SQLite to work with data on disk. If you are working
 in `R` the library [dplyr][dplyr] is amazing for working with tables
 stored in SQL databases.
 
-# Use random samples
+## Use random samples
 
 By taking a small enough random sample of your data you can work with
 the data in memory and get results quickly. This approach speeds up
@@ -62,7 +62,7 @@ issue by focusing on one connected subgraph at a time (they looked at
 one subgraph of users based in Boston and another subgraph based in
 San Diego).
 
-# Don't optimize prematurely
+## Don't optimize prematurely
 
 If you start out of the gates designing your code around MapReduce
 when your research question doesn't require it, you'll end up wasting

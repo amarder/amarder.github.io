@@ -10,7 +10,7 @@ If you haven't read [programming with dplyr](https://cran.r-project.org/web/pack
 
 Imagine I want to create a domain specific language (DSL) for arithmetic. Let's write two functions that I will use as verbs in this DSL.
 
-```{r}
+```r
 add <- function(a, b) a + b
 multiply <- function(a, b) a * b
 ```
@@ -22,7 +22,7 @@ Suppose I'm really interested in linear functions in general, and $f(x) = 2x + 1
 
 One approach to creating linear functions is to use [closures](https://en.wikipedia.org/wiki/Closure_(computer_programming)). "Operationally, a closure is a record storing a function together with an environment." Let's write a function to create new closures:
 
-```{r}
+```r
 create_linear_closure <- function(slope, intercept) {
     function(x) {
         add(multiply(slope, x), intercept)
@@ -34,7 +34,7 @@ create_linear_closure <- function(slope, intercept) {
 
 Let's create a new closure and inspect it:
 
-```{r}
+```r
 f <- create_linear_closure(slope = 2, intercept = 1)
 f
 ```
@@ -43,7 +43,7 @@ Notice that `f` has a function definition **and** an environment. The environmen
 
 Finally, let's evaluate the function `f` at $x = 1$:
 
-```{r}
+```r
 f(x = 1)
 ```
 
@@ -54,7 +54,7 @@ Looking good!
 
 How would one rewrite `create_linear_closure()` using the tidy evaluation framework?
 
-```{r}
+```r
 library(rlang)
 
 create_linear_quosure <- function(slope, intercept) {
@@ -66,7 +66,7 @@ This new function takes two parameters (`slope` and `intercept`) and returns a q
 
 Let's create a new quosure and inspect it:
 
-```{r}
+```r
 f <- create_linear_quosure(slope = 2, intercept = 1)
 f
 ```
@@ -75,7 +75,7 @@ Like a closure, a quosure has an expression **and** an environment. One nice asp
 
 Finally, let's evaluate `f` at $x = 1$:
 
-```{r}
+```r
 eval_tidy(f, list(x = 1))
 ```
 

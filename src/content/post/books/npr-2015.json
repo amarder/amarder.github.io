@@ -1,0 +1,3216 @@
+[
+  {
+    "ASIN": "0544668251", 
+    "ISBN": "0544668251", 
+    "title": "Thing Explainer: Complicated Stuff in Simple Words", 
+    "url": "http://www.amazon.com/Thing-Explainer-Complicated-Stuff-Simple/dp/0544668251%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0544668251", 
+    "price": "2495", 
+    "authors": [
+      "Randall Munroe"
+    ], 
+    "sales_rank": "192", 
+    "pages": "64"
+  }, 
+  {
+    "ASIN": "0062238469", 
+    "ISBN": "0062238469", 
+    "title": "Sisters in Law: How Sandra Day O'Connor and Ruth Bader Ginsburg Went to the Supreme Court and Changed the World", 
+    "url": "http://www.amazon.com/Sisters-Law-OConnor-Ginsburg-Supreme/dp/0062238469%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062238469", 
+    "price": "2899", 
+    "authors": [
+      "Linda Hirshman"
+    ], 
+    "sales_rank": "5188", 
+    "pages": "416"
+  }, 
+  {
+    "ASIN": "0062301233", 
+    "ISBN": "0062301233", 
+    "title": "Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future", 
+    "url": "http://www.amazon.com/Elon-Musk-SpaceX-Fantastic-Future/dp/0062301233%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062301233", 
+    "price": "2899", 
+    "authors": [
+      "Ashlee Vance"
+    ], 
+    "sales_rank": "595", 
+    "pages": "400"
+  }, 
+  {
+    "ASIN": "1612194893", 
+    "ISBN": "1612194893", 
+    "title": "The Dark Net: Inside the Digital Underworld", 
+    "url": "http://www.amazon.com/The-Dark-Net-Digital-Underworld/dp/1612194893%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1612194893", 
+    "price": "2795", 
+    "authors": [
+      "Jamie Bartlett"
+    ], 
+    "sales_rank": "24506", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "1770462082", 
+    "ISBN": "1770462082", 
+    "title": "Step Aside, Pops: A Hark! A Vagrant Collection", 
+    "url": "http://www.amazon.com/Step-Aside-Pops-Vagrant-Collection/dp/1770462082%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1770462082", 
+    "price": "1995", 
+    "authors": [
+      "Kate Beaton"
+    ], 
+    "sales_rank": "15842", 
+    "pages": "160"
+  }, 
+  {
+    "ASIN": "159420537X", 
+    "ISBN": "159420537X", 
+    "title": "It's What I Do: A Photographer's Life of Love and War", 
+    "url": "http://www.amazon.com/Its-What-Do-Photographers-Life/dp/159420537X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D159420537X", 
+    "price": "2995", 
+    "authors": [
+      "Lynsey Addario"
+    ], 
+    "sales_rank": "25940", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "1601427557", 
+    "ISBN": "1601427557", 
+    "title": "Accidental Saints: Finding God in All the Wrong People", 
+    "url": "http://www.amazon.com/Accidental-Saints-Finding-Wrong-People/dp/1601427557%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1601427557", 
+    "price": "2300", 
+    "authors": [
+      "Nadia Bolz-Weber"
+    ], 
+    "sales_rank": "4013", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "1419717790", 
+    "ISBN": "1419717790", 
+    "title": "Andy Goldsworthy: Ephemeral Works: 2004-2014", 
+    "url": "http://www.amazon.com/Andy-Goldsworthy-Ephemeral-Works-2004-2014/dp/1419717790%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1419717790", 
+    "price": "8500", 
+    "authors": [
+      "Andy Goldsworthy"
+    ], 
+    "sales_rank": "129127", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "1401248969", 
+    "ISBN": "1401248969", 
+    "title": "The Sandman: Overture Deluxe Edition", 
+    "url": "http://www.amazon.com/The-Sandman-Overture-Deluxe-Edition/dp/1401248969%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1401248969", 
+    "price": "2499", 
+    "authors": [
+      "Neil Gaiman"
+    ], 
+    "sales_rank": "2245", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "0374158274", 
+    "ISBN": "0374158274", 
+    "title": "Give Us the Ballot: The Modern Struggle for Voting Rights in America", 
+    "url": "http://www.amazon.com/Give-Us-Ballot-Struggle-America/dp/0374158274%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374158274", 
+    "price": "2800", 
+    "authors": [
+      "Ari Berman"
+    ], 
+    "sales_rank": "30204", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "0439874025", 
+    "ISBN": "0439874025", 
+    "title": "Echo", 
+    "url": "http://www.amazon.com/Echo-Pam-Munoz-Ryan/dp/0439874025%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0439874025", 
+    "price": "1999", 
+    "authors": [
+      "Pam Munoz Ryan"
+    ], 
+    "sales_rank": "1886", 
+    "pages": "592"
+  }, 
+  {
+    "ASIN": "1484712390", 
+    "ISBN": "1484712390", 
+    "title": "Ellie", 
+    "url": "http://www.amazon.com/Ellie-Mike-Wu/dp/1484712390%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1484712390", 
+    "price": "1699", 
+    "authors": [
+      "Mike Wu"
+    ], 
+    "sales_rank": "38520", 
+    "pages": "40"
+  }, 
+  {
+    "ASIN": "1407158279", 
+    "ISBN": "1407158279", 
+    "title": "George", 
+    "url": "http://www.amazon.com/George-Alex-Gino/dp/1407158279%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1407158279", 
+    "price": "984", 
+    "authors": [
+      "Alex Gino"
+    ], 
+    "sales_rank": "710094", 
+    "pages": "213"
+  }, 
+  {
+    "ASIN": "1452125325", 
+    "ISBN": "1452125325", 
+    "title": "Interstellar Cinderella", 
+    "url": "http://www.amazon.com/Interstellar-Cinderella-Deborah-Underwood/dp/1452125325%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1452125325", 
+    "price": "1699", 
+    "authors": [
+      "Deborah Underwood"
+    ], 
+    "sales_rank": "13174", 
+    "pages": "40"
+  }, 
+  {
+    "ASIN": "0375858601", 
+    "ISBN": "0375858601", 
+    "title": "The Bear Ate Your Sandwich", 
+    "url": "http://www.amazon.com/The-Bear-Ate-Your-Sandwich/dp/0375858601%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0375858601", 
+    "price": "1699", 
+    "authors": [
+      "Julia Sarcone-Roach"
+    ], 
+    "sales_rank": "4357", 
+    "pages": "40"
+  }, 
+  {
+    "ASIN": "1909263435", 
+    "ISBN": "1909263435", 
+    "title": "The Little Gardener", 
+    "url": "http://www.amazon.com/The-Little-Gardener-Emily-Hughes/dp/1909263435%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1909263435", 
+    "price": "1795", 
+    "authors": ["Emily Hughes"], 
+    "sales_rank": "6370", 
+    "pages": "40"
+  }, 
+  {
+    "ASIN": "0316236624", 
+    "ISBN": "0316236624", 
+    "title": "The Truth About Twinkie Pie", 
+    "url": "http://www.amazon.com/The-Truth-About-Twinkie-Pie/dp/0316236624%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316236624", 
+    "price": "1799", 
+    "authors": [
+      "Kat Yeh"
+    ], 
+    "sales_rank": "28337", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0544416864", 
+    "ISBN": "0544416864", 
+    "title": "The Whisper", 
+    "url": "http://www.amazon.com/The-Whisper-Pamela-Zagarenski/dp/0544416864%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0544416864", 
+    "price": "1799", 
+    "authors": [
+      "Pamela Zagarenski"
+    ], 
+    "sales_rank": "4131", 
+    "pages": "40"
+  }, 
+  {
+    "ASIN": "0385373309", 
+    "ISBN": "0385373309", 
+    "title": "Toys Meet Snow: Being the Wintertime Adventures of a Curious Stuffed Buffalo, a Sensitive Plush Stingray, and a Book-loving Rubber Ball", 
+    "url": "http://www.amazon.com/Toys-Meet-Snow-Wintertime-Book-loving/dp/0385373309%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385373309", 
+    "price": "1799", 
+    "authors": [
+      "Emily Jenkins"
+    ], 
+    "sales_rank": "27763", 
+    "pages": "40"
+  }, 
+  {
+    "ASIN": "0763665428", 
+    "ISBN": "0763665428", 
+    "title": "Yard Sale", 
+    "url": "http://www.amazon.com/Yard-Sale-Eve-Bunting/dp/0763665428%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0763665428", 
+    "price": "1599", 
+    "authors": [
+      "Eve Bunting"
+    ], 
+    "sales_rank": "168456", 
+    "pages": "32"
+  }, 
+  {
+    "ASIN": "1454911298", 
+    "ISBN": "1454911298", 
+    "title": "Your Alien", 
+    "url": "http://www.amazon.com/Your-Alien-Tammi-Sauer/dp/1454911298%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1454911298", 
+    "price": "1495", 
+    "authors": [
+      "Tammi Sauer"
+    ], 
+    "sales_rank": "154542", 
+    "pages": "32"
+  }, 
+  {
+    "ASIN": "0763665290", 
+    "ISBN": "0763665290", 
+    "title": "Home", 
+    "url": "http://www.amazon.com/Home-Carson-Ellis/dp/0763665290%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0763665290", 
+    "price": "1699", 
+    "authors": [
+      "Carson Ellis"
+    ], 
+    "sales_rank": "4431", 
+    "pages": "40"
+  }, 
+  {
+    "ASIN": "0374202397", 
+    "ISBN": "0374202397", 
+    "title": "A Manual for Cleaning Women: Selected Stories", 
+    "url": "http://www.amazon.com/Manual-Cleaning-Women-Selected-Stories/dp/0374202397%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374202397", 
+    "price": "2600", 
+    "authors": [
+      "Lucia Berlin"
+    ], 
+    "sales_rank": "3672", 
+    "pages": "432"
+  }, 
+  {
+    "ASIN": "1472913078", 
+    "ISBN": "1472913078", 
+    "title": "A Tour of Bones: Facing Fear and Looking for Life", 
+    "url": "http://www.amazon.com/Tour-Bones-Facing-Fear-Looking/dp/1472913078%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1472913078", 
+    "price": "2995", 
+    "authors": [
+      "Denise Inge"
+    ], 
+    "sales_rank": "673284", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "0525427201", 
+    "ISBN": "0525427201", 
+    "title": "Bettyville: A Memoir", 
+    "url": "http://www.amazon.com/Bettyville-A-Memoir-George-Hodgman/dp/0525427201%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0525427201", 
+    "price": "2795", 
+    "authors": [
+      "George Hodgman"
+    ], 
+    "sales_rank": "54174", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "0385539436", 
+    "ISBN": "0385539436", 
+    "title": "Rogue Lawyer", 
+    "url": "http://www.amazon.com/Rogue-Lawyer-John-Grisham/dp/0385539436%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385539436", 
+    "price": "2895", 
+    "authors": [
+      "John Grisham"
+    ], 
+    "sales_rank": "739", 
+    "pages": "344"
+  }, 
+  {
+    "ASIN": "030727103X", 
+    "ISBN": "030727103X", 
+    "title": "The Buried Giant: A novel", 
+    "url": "http://www.amazon.com/The-Buried-Giant-A-novel/dp/030727103X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D030727103X", 
+    "price": "2695", 
+    "authors": [
+      "Kazuo Ishiguro"
+    ], 
+    "sales_rank": "22082", 
+    "pages": "317"
+  }, 
+  {
+    "ASIN": "0316225886", 
+    "ISBN": "0316225886", 
+    "title": "The Crossing (Bosch)", 
+    "url": "http://www.amazon.com/The-Crossing-Bosch-Michael-Connelly/dp/0316225886%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316225886", 
+    "price": "2800", 
+    "authors": [
+      "Michael Connelly"
+    ], 
+    "sales_rank": "2929", 
+    "pages": "400"
+  }, 
+  {
+    "ASIN": "1609452860", 
+    "ISBN": "1609452860", 
+    "title": "The Story of the Lost Child: Neapolitan Novels, Book Four", 
+    "url": "http://www.amazon.com/The-Story-Lost-Child-Neapolitan/dp/1609452860%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1609452860", 
+    "price": "1800", 
+    "authors": [
+      "Elena Ferrante"
+    ], 
+    "sales_rank": "578", 
+    "pages": "480"
+  }, 
+  {
+    "ASIN": "0316200603", 
+    "ISBN": "0316200603", 
+    "title": "The Witches: Salem, 1692", 
+    "url": "http://www.amazon.com/The-Witches-Salem-Stacy-Schiff/dp/0316200603%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316200603", 
+    "price": "3200", 
+    "authors": [
+      "Stacy Schiff"
+    ], 
+    "sales_rank": "4926", 
+    "pages": "512"
+  }, 
+  {
+    "ASIN": "0062302124", 
+    "ISBN": "0062302124", 
+    "title": "Welcome to Braggsville: A Novel", 
+    "url": "http://www.amazon.com/Welcome-Braggsville-T-Geronimo-Johnson/dp/0062302124%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062302124", 
+    "price": "2599", 
+    "authors": [
+      "T. Geronimo Johnson"
+    ], 
+    "sales_rank": "242819", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "1936787318", 
+    "ISBN": "1936787318", 
+    "title": "Cries for Help, Various: Stories", 
+    "url": "http://www.amazon.com/Cries-Help-Various-Padgett-Powell/dp/1936787318%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1936787318", 
+    "price": "1695", 
+    "authors": [
+      "Padgett Powell"
+    ], 
+    "sales_rank": "211554", 
+    "pages": "200"
+  }, 
+  {
+    "ASIN": "1555977197", 
+    "ISBN": "1555977197", 
+    "title": "Half an Inch of Water: Stories", 
+    "url": "http://www.amazon.com/Half-Inch-Water-Percival-Everett/dp/1555977197%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1555977197", 
+    "price": "1600", 
+    "authors": [
+      "Percival Everett"
+    ], 
+    "sales_rank": "95103", 
+    "pages": "88"
+  }, 
+  {
+    "ASIN": "1476748748", 
+    "ISBN": "1476748748", 
+    "title": "Hand Drawn Jokes for Smart Attractive People", 
+    "url": "http://www.amazon.com/Drawn-Jokes-Smart-Attractive-People/dp/1476748748%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1476748748", 
+    "price": "2200", 
+    "authors": [
+      "Matthew Diffee"
+    ], 
+    "sales_rank": "117820", 
+    "pages": "256"
+  }, 
+  {
+    "ASIN": "052542914X", 
+    "ISBN": "052542914X", 
+    "title": "Kitchens of the Great Midwest: A Novel", 
+    "url": "http://www.amazon.com/Kitchens-Great-Midwest-A-Novel/dp/052542914X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D052542914X", 
+    "price": "2500", 
+    "authors": [
+      "J. Ryan Stradal"
+    ], 
+    "sales_rank": "12208", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "0307593959", 
+    "ISBN": "0307593959", 
+    "title": "Satin Island: A novel", 
+    "url": "http://www.amazon.com/Satin-Island-novel-Tom-McCarthy/dp/0307593959%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0307593959", 
+    "price": "2400", 
+    "authors": [
+      "Tom McCarthy"
+    ], 
+    "sales_rank": "260725", 
+    "pages": "208"
+  }, 
+  {
+    "ASIN": "0062223062", 
+    "ISBN": "0062223062", 
+    "title": "The Art of Memoir", 
+    "url": "http://www.amazon.com/The-Art-Memoir-Mary-Karr/dp/0062223062%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062223062", 
+    "price": "2499", 
+    "authors": [
+      "Mary Karr"
+    ], 
+    "sales_rank": "5831", 
+    "pages": "256"
+  }, 
+  {
+    "ASIN": "1594633665", 
+    "ISBN": "1594633665", 
+    "title": "The Girl on the Train", 
+    "url": "http://www.amazon.com/The-Girl-Train-Paula-Hawkins/dp/1594633665%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1594633665", 
+    "price": "2695", 
+    "authors": [
+      "Paula Hawkins"
+    ], 
+    "sales_rank": "72", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "1476769923", 
+    "ISBN": "1476769923", 
+    "title": "The Speechwriter: A Brief Education in Politics", 
+    "url": "http://www.amazon.com/The-Speechwriter-Brief-Education-Politics/dp/1476769923%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1476769923", 
+    "price": "2500", 
+    "authors": [
+      "Barton Swaim"
+    ], 
+    "sales_rank": "21313", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "1783350563", 
+    "ISBN": "1783350563", 
+    "title": "Thinking About it Only Makes it Worse: And Other Lessons from Modern Life", 
+    "url": "http://www.amazon.com/Thinking-About-Only-Makes-Worse/dp/1783350563%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1783350563", 
+    "price": "799", 
+    "authors": [
+      "David Mitchell"
+    ], 
+    "sales_rank": "424661", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "0399257748", 
+    "ISBN": "0399257748", 
+    "title": "Last Stop on Market Street", 
+    "url": "http://www.amazon.com/Last-Stop-Market-Street-Matt/dp/0399257748%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0399257748", 
+    "price": "1699", 
+    "authors": ["Matt De La Pe\u00f1a"], 
+    "sales_rank": "547", 
+    "pages": "32"
+  }, 
+  {
+    "ASIN": "1594204330", 
+    "ISBN": "1594204330", 
+    "title": "Strangers Drowning: Grappling with Impossible Idealism, Drastic Choices, and the Overpowering Urge to Help", 
+    "url": "http://www.amazon.com/Strangers-Drowning-Grappling-Impossible-Overpowering/dp/1594204330%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1594204330", 
+    "price": "2795", 
+    "authors": [
+      "Larissa MacFarquhar"
+    ], 
+    "sales_rank": "15674", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "178472002X", 
+    "ISBN": "178472002X", 
+    "title": "A Bird in the Hand: Chicken recipes for every day and every mood", 
+    "url": "http://www.amazon.com/Bird-Hand-Chicken-recipes-every/dp/178472002X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D178472002X", 
+    "price": "2999", 
+    "authors": [
+      "Diana Henry"
+    ], 
+    "sales_rank": "19649", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "1849756678", 
+    "ISBN": "1849756678", 
+    "title": "At Home with Umami: Home-cooked recipes unlocking the magic of super-savory deliciousness", 
+    "url": "http://www.amazon.com/Home-Umami-Home-cooked-super-savory-deliciousness/dp/1849756678%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1849756678", 
+    "price": "2495", 
+    "authors": [
+      "Laura Santtini"
+    ], 
+    "sales_rank": "217762", 
+    "pages": "176"
+  }, 
+  {
+    "ASIN": "2080202154", 
+    "ISBN": "2080202154", 
+    "title": "Baklava to Tarte Tatin: A World Tour in 110 Dessert Recipes", 
+    "url": "http://www.amazon.com/Baklava-Tarte-Tatin-Dessert-Recipes/dp/2080202154%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D2080202154", 
+    "price": "3495", 
+    "authors": [
+      "Bernard Laurance"
+    ], 
+    "sales_rank": "415435", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "1784720313", 
+    "ISBN": "1784720313", 
+    "title": "Chinatown Kitchen: From Noodles to Nuoc Cham. Delicious Dishes from Southeast Asian Ingredients.", 
+    "url": "http://www.amazon.com/Chinatown-Kitchen-Delicious-Southeast-Ingredients/dp/1784720313%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1784720313", 
+    "price": "2999", 
+    "authors": [
+      "Lizzie Mabbott"
+    ], 
+    "sales_rank": "477617", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "1607746816", 
+    "ISBN": "1607746816", 
+    "title": "Cookie Love: More Than 60 Recipes and Techniques for Turning the Ordinary into the Extraordinary", 
+    "url": "http://www.amazon.com/Cookie-Love-Techniques-Ordinary-Extraordinary/dp/1607746816%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1607746816", 
+    "price": "2499", 
+    "authors": [
+      "Mindy Segal", 
+      "Kate Leahy"
+    ], 
+    "sales_rank": "30714", 
+    "pages": "296"
+  }, 
+  {
+    "ASIN": "1612124003", 
+    "ISBN": "1612124003", 
+    "title": "Cooking Class: 57 Fun Recipes Kids Will Love to Make (and Eat!)", 
+    "url": "http://www.amazon.com/Cooking-Class-Recipes-Kids-Will/dp/1612124003%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1612124003", 
+    "price": "1895", 
+    "authors": [
+      "Deanna F. Cook"
+    ], 
+    "sales_rank": "1856", 
+    "pages": "144"
+  }, 
+  {
+    "ASIN": "163286200X", 
+    "ISBN": "163286200X", 
+    "title": "Indian Harvest: Classic and Contemporary Vegetarian Dishes", 
+    "url": "http://www.amazon.com/Indian-Harvest-Classic-Contemporary-Vegetarian/dp/163286200X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D163286200X", 
+    "price": "3500", 
+    "authors": [
+      "Vikas Khanna"
+    ], 
+    "sales_rank": "284536", 
+    "pages": "416"
+  }, 
+  {
+    "ASIN": "1940352002", 
+    "ISBN": "1940352002", 
+    "title": "Kitchen Hacks: How Clever Cooks Get Things Done", 
+    "url": "http://www.amazon.com/Kitchen-Hacks-Clever-Cooks-Things/dp/1940352002%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1940352002", 
+    "price": "1995", 
+    "authors": ["America's Test Kitchen"], 
+    "sales_rank": "4623", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "1849756511", 
+    "ISBN": "1849756511", 
+    "title": "Mezze: Small Plates to Share", 
+    "url": "http://www.amazon.com/Mezze-Small-Plates-Ghillie-Basan/dp/1849756511%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1849756511", 
+    "price": "2195", 
+    "authors": [
+      "Ghillie Basan"
+    ], 
+    "sales_rank": "198072", 
+    "pages": "160"
+  }, 
+  {
+    "ASIN": "0385344686", 
+    "ISBN": "0385344686", 
+    "title": "Phoenix Claws and Jade Trees: Essential Techniques of Authentic Chinese Cooking", 
+    "url": "http://www.amazon.com/Phoenix-Claws-Jade-Trees-Techniques/dp/0385344686%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385344686", 
+    "price": "3500", 
+    "authors": [
+      "Kian Lam Kho"
+    ], 
+    "sales_rank": "16396", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "0789329441", 
+    "ISBN": "0789329441", 
+    "title": "The United States of Pizza: America's Favorite Pizzas, From Thin Crust to Deep Dish, Sourdough to Gluten-Free", 
+    "url": "http://www.amazon.com/The-United-States-Pizza-Gluten-Free/dp/0789329441%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0789329441", 
+    "price": "3000", 
+    "authors": [
+      "Craig Priebe", 
+      "Dianne Jacob"
+    ], 
+    "sales_rank": "105932", 
+    "pages": "192"
+  }, 
+  {
+    "ASIN": "0847846237", 
+    "ISBN": "0847846237", 
+    "title": "True Thai: Real Flavors for Every Table", 
+    "url": "http://www.amazon.com/True-Thai-Flavors-Every-Table/dp/0847846237%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0847846237", 
+    "price": "3500", 
+    "authors": [
+      "Hong Thaimee"
+    ], 
+    "sales_rank": "31664", 
+    "pages": "256"
+  }, 
+  {
+    "ASIN": "0316373354", 
+    "ISBN": "0316373354", 
+    "title": "V Is for Vegetables: Inspired Recipes & Techniques for Home Cooks -- from Artichokes to Zucchini", 
+    "url": "http://www.amazon.com/Is-Vegetables-Inspired-Techniques-Artichokes/dp/0316373354%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316373354", 
+    "price": "4000", 
+    "authors": [
+      "Michael Anthony"
+    ], 
+    "sales_rank": "16238", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "159184732X", 
+    "ISBN": "159184732X", 
+    "title": "I Know How She Does It: How Successful Women Make the Most of Their Time", 
+    "url": "http://www.amazon.com/Know-How-She-Does-Successful/dp/159184732X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D159184732X", 
+    "price": "2795", 
+    "authors": [
+      "Laura Vanderkam"
+    ], 
+    "sales_rank": "35804", 
+    "pages": "304"
+  }, 
+  {
+    "ASIN": "1476746664", 
+    "ISBN": "1476746664", 
+    "title": "Intimacy Idiot", 
+    "url": "http://www.amazon.com/Intimacy-Idiot-Isaac-Oliver/dp/1476746664%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1476746664", 
+    "price": "2400", 
+    "authors": [
+      "Isaac Oliver"
+    ], 
+    "sales_rank": "104145", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "0316176532", 
+    "ISBN": "0316176532", 
+    "title": "A God in Ruins: A Novel (Todd Family)", 
+    "url": "http://www.amazon.com/God-Ruins-Novel-Todd-Family/dp/0316176532%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316176532", 
+    "price": "2800", 
+    "authors": [
+      "Kate Atkinson"
+    ], 
+    "sales_rank": "42287", 
+    "pages": "480"
+  }, 
+  {
+    "ASIN": "0316247766", 
+    "ISBN": "0316247766", 
+    "title": "Hold Still: A Memoir with Photographs", 
+    "url": "http://www.amazon.com/Hold-Still-A-Memoir-Photographs/dp/0316247766%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316247766", 
+    "price": "3200", 
+    "authors": [
+      "Sally Mann"
+    ], 
+    "sales_rank": "5217", 
+    "pages": "496"
+  }, 
+  {
+    "ASIN": "0385539258", 
+    "ISBN": "0385539258", 
+    "title": "A Little Life: A Novel", 
+    "url": "http://www.amazon.com/A-Little-Life-Novel/dp/0385539258%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385539258", 
+    "price": "3000", 
+    "authors": [
+      "Hanya Yanagihara"
+    ], 
+    "sales_rank": "5058", 
+    "pages": "720"
+  }, 
+  {
+    "ASIN": "0316284947", 
+    "ISBN": "0316284947", 
+    "title": "Delicious Foods: A Novel", 
+    "url": "http://www.amazon.com/Delicious-Foods-Novel-James-Hannaham/dp/0316284947%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316284947", 
+    "price": "2600", 
+    "authors": [
+      "James Hannaham"
+    ], 
+    "sales_rank": "62503", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "1631490311", 
+    "ISBN": "1631490311", 
+    "title": "Fatherland: A Family History", 
+    "url": "http://www.amazon.com/Fatherland-Family-History-Nina-Bunjevac/dp/1631490311%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1631490311", 
+    "price": "2295", 
+    "authors": [
+      "Nina Bunjevac"
+    ], 
+    "sales_rank": "524627", 
+    "pages": "160"
+  }, 
+  {
+    "ASIN": "1594633266", 
+    "ISBN": "1594633266", 
+    "title": "The Seven Good Years: A Memoir", 
+    "url": "http://www.amazon.com/The-Seven-Good-Years-Memoir/dp/1594633266%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1594633266", 
+    "price": "2695", 
+    "authors": [
+      "Etgar Keret"
+    ], 
+    "sales_rank": "25927", 
+    "pages": "192"
+  }, 
+  {
+    "ASIN": "1439169659", 
+    "ISBN": "1439169659", 
+    "title": "The Marriage Book: Centuries of Advice, Inspiration, and Cautionary Tales from Adam and Eve to Zoloft", 
+    "url": "http://www.amazon.com/The-Marriage-Book-Inspiration-Cautionary/dp/1439169659%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1439169659", 
+    "price": "3500", 
+    "authors": [
+      "Lisa Grunwald", 
+      "Stephen Adler"
+    ], 
+    "sales_rank": "133166", 
+    "pages": "560"
+  }, 
+  {
+    "ASIN": "0805243275", 
+    "ISBN": "0805243275", 
+    "title": "The Vilna Vegetarian Cookbook: Garden-Fresh Recipes Rediscovered and Adapted for Today's Kitchen", 
+    "url": "http://www.amazon.com/The-Vilna-Vegetarian-Cookbook-Garden-Fresh/dp/0805243275%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0805243275", 
+    "price": "3000", 
+    "authors": [
+      "Fania Lewando"
+    ], 
+    "sales_rank": "72826", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "0385352875", 
+    "ISBN": "0385352875", 
+    "title": "The Water Knife: A novel", 
+    "url": "http://www.amazon.com/The-Water-Knife-A-novel/dp/0385352875%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385352875", 
+    "price": "2595", 
+    "authors": [
+      "Paolo Bacigalupi"
+    ], 
+    "sales_rank": "9934", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "0374168520", 
+    "ISBN": "0374168520", 
+    "title": "Heaven: Poems", 
+    "url": "http://www.amazon.com/Heaven-Poems-Rowan-Ricardo-Phillips/dp/0374168520%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374168520", 
+    "price": "2400", 
+    "authors": [
+      "Rowan Ricardo Phillips"
+    ], 
+    "sales_rank": "517274", 
+    "pages": "80"
+  }, 
+  {
+    "ASIN": "1555977103", 
+    "ISBN": "1555977103", 
+    "title": "My Feelings: Poems", 
+    "url": "http://www.amazon.com/My-Feelings-Poems-Nick-Flynn/dp/1555977103%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1555977103", 
+    "price": "1600", 
+    "authors": [
+      "Nick Flynn"
+    ], 
+    "sales_rank": "98904", 
+    "pages": "96"
+  }, 
+  {
+    "ASIN": "0872866971", 
+    "ISBN": "0872866971", 
+    "title": "Notes on the Assemblage", 
+    "url": "http://www.amazon.com/Notes-Assemblage-Juan-Felipe-Herrera/dp/0872866971%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0872866971", 
+    "price": "1495", 
+    "authors": [
+      "Juan Felipe Herrera"
+    ], 
+    "sales_rank": "44805", 
+    "pages": "104"
+  }, 
+  {
+    "ASIN": "0812993543", 
+    "ISBN": "0812993543", 
+    "title": "Between the World and Me", 
+    "url": "http://www.amazon.com/Between-World-Me-Ta-Nehisi-Coates/dp/0812993543%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0812993543", 
+    "price": "2400", 
+    "authors": [
+      "Ta-Nehisi Coates"
+    ], 
+    "sales_rank": "44", 
+    "pages": "176"
+  }, 
+  {
+    "ASIN": "0062366688", 
+    "ISBN": "0062366688", 
+    "title": "Dylan Goes Electric!: Newport, Seeger, Dylan, and the Night That Split the Sixties", 
+    "url": "http://www.amazon.com/Dylan-Goes-Electric-Newport-Sixties/dp/0062366688%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062366688", 
+    "price": "2699", 
+    "authors": [
+      "Elijah Wald"
+    ], 
+    "sales_rank": "167209", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "1451692226", 
+    "ISBN": "1451692226", 
+    "title": "Katrina: After the Flood", 
+    "url": "http://www.amazon.com/Katrina-After-Flood-Gary-Rivlin/dp/1451692226%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1451692226", 
+    "price": "2700", 
+    "authors": [
+      "Gary Rivlin"
+    ], 
+    "sales_rank": "153665", 
+    "pages": "480"
+  }, 
+  {
+    "ASIN": "1594631743", 
+    "ISBN": "1594631743", 
+    "title": "Lafayette in the Somewhat United States", 
+    "url": "http://www.amazon.com/Lafayette-Somewhat-United-States-Vowell/dp/1594631743%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1594631743", 
+    "price": "2795", 
+    "authors": [
+      "Sarah Vowell"
+    ], 
+    "sales_rank": "7480", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "0374166676", 
+    "ISBN": "0374166676", 
+    "title": "The Big Green Tent: A Novel", 
+    "url": "http://www.amazon.com/The-Big-Green-Tent-Novel/dp/0374166676%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374166676", 
+    "price": "3500", 
+    "authors": [
+      "Ludmila Ulitskaya"
+    ], 
+    "sales_rank": "65508", 
+    "pages": "592"
+  }, 
+  {
+    "ASIN": "0300198493", 
+    "ISBN": "0300198493", 
+    "title": "The Dirty Dust: Cr\u00e9 na Cille (The Margellos World Republic of Letters)", 
+    "url": "http://www.amazon.com/The-Dirty-Dust-Margellos-Republic/dp/0300198493%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0300198493", 
+    "price": "2500", 
+    "authors": ["M\u00e1irt\u00edn \u00d3 Cadhain"], 
+    "sales_rank": "364088", 
+    "pages": "328"
+  }, 
+  {
+    "ASIN": "0062281208", 
+    "ISBN": "0062281208", 
+    "title": "Undermajordomo Minor: A Novel", 
+    "url": "http://www.amazon.com/Undermajordomo-Minor-Novel-Patrick-deWitt/dp/0062281208%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062281208", 
+    "price": "2699", 
+    "authors": [
+      "Patrick deWitt"
+    ], 
+    "sales_rank": "70221", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "1610395735", 
+    "ISBN": "1610395735", 
+    "title": "The Red Web: The Struggle Between Russia’s Digital Dictators and the New Online Revolutionaries", 
+    "url": "http://www.amazon.com/The-Red-Web-Dictators-Revolutionaries/dp/1610395735%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1610395735", 
+    "price": "2799", 
+    "authors": [
+      "Andrei Soldatov", 
+      "Irina Borogan"
+    ], 
+    "sales_rank": "95751", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "0399165711", 
+    "ISBN": "0399165711", 
+    "title": "Secrets of State", 
+    "url": "http://www.amazon.com/Secrets-State-Matthew-Palmer/dp/0399165711%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0399165711", 
+    "price": "2795", 
+    "authors": [
+      "Matthew Palmer"
+    ], 
+    "sales_rank": "584860", 
+    "pages": "432"
+  }, 
+  {
+    "ASIN": "0307961613", 
+    "ISBN": "0307961613", 
+    "title": "The New Tsar: The Rise and Reign of Vladimir Putin", 
+    "url": "http://www.amazon.com/The-New-Tsar-Reign-Vladimir/dp/0307961613%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0307961613", 
+    "price": "3250", 
+    "authors": [
+      "Steven Lee Myers"
+    ], 
+    "sales_rank": "20930", 
+    "pages": "592"
+  }, 
+  {
+    "ASIN": "1476728747", 
+    "ISBN": "1476728747", 
+    "title": "The Wright Brothers", 
+    "url": "http://www.amazon.com/The-Wright-Brothers-David-McCullough/dp/1476728747%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1476728747", 
+    "price": "3000", 
+    "authors": [
+      "David McCullough"
+    ], 
+    "sales_rank": "317", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "0544003446", 
+    "ISBN": "0544003446", 
+    "title": "Under the Udala Trees", 
+    "url": "http://www.amazon.com/Under-Udala-Trees-Chinelo-Okparanta/dp/0544003446%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0544003446", 
+    "price": "2600", 
+    "authors": [
+      "Chinelo Okparanta"
+    ], 
+    "sales_rank": "52027", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "0062110411", 
+    "ISBN": "0062110411", 
+    "title": "The Incorrigible Children of Ashton Place: Book V: The Unmapped Sea", 
+    "url": "http://www.amazon.com/The-Incorrigible-Children-Ashton-Place/dp/0062110411%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062110411", 
+    "price": "1599", 
+    "authors": [
+      "Maryrose Wood"
+    ], 
+    "sales_rank": "78741", 
+    "pages": "416"
+  }, 
+  {
+    "ASIN": "159184813X", 
+    "ISBN": "159184813X", 
+    "title": "Television Is the New Television: The Unexpected Triumph of Old Media In the Digital Age", 
+    "url": "http://www.amazon.com/Television-Is-New-Unexpected-Triumph/dp/159184813X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D159184813X", 
+    "price": "2695", 
+    "authors": [
+      "Michael Wolff"
+    ], 
+    "sales_rank": "53284", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "0316399906", 
+    "ISBN": "0316399906", 
+    "title": "Spy Games", 
+    "url": "http://www.amazon.com/Spy-Games-Adam-Brookes/dp/0316399906%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316399906", 
+    "price": "2600", 
+    "authors": [
+      "Adam Brookes"
+    ], 
+    "sales_rank": "507695", 
+    "pages": "448"
+  }, 
+  {
+    "ASIN": "0385352549", 
+    "ISBN": "0385352549", 
+    "title": "On the Move: A Life", 
+    "url": "http://www.amazon.com/On-Move-Life-Oliver-Sacks/dp/0385352549%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385352549", 
+    "price": "2795", 
+    "authors": [
+      "Oliver Sacks"
+    ], 
+    "sales_rank": "11484", 
+    "pages": "416"
+  }, 
+  {
+    "ASIN": "0062384392", 
+    "ISBN": "0062384392", 
+    "title": "Joan of Arc: A History (Cut Edge)", 
+    "url": "http://www.amazon.com/Joan-Arc-History-Cut-Edge/dp/0062384392%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062384392", 
+    "price": "2799", 
+    "authors": [
+      "Helen Castor"
+    ], 
+    "sales_rank": "38164", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "1555977073", 
+    "ISBN": "1555977073", 
+    "title": "The Argonauts", 
+    "url": "http://www.amazon.com/The-Argonauts-Maggie-Nelson/dp/1555977073%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1555977073", 
+    "price": "2300", 
+    "authors": [
+      "Maggie Nelson"
+    ], 
+    "sales_rank": "175508", 
+    "pages": "160"
+  }, 
+  {
+    "ASIN": "0544273737", 
+    "ISBN": "0544273737", 
+    "title": "After Birth", 
+    "url": "http://www.amazon.com/After-Birth-Elisa-Albert/dp/0544273737%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0544273737", 
+    "price": "2300", 
+    "authors": [
+      "Elisa Albert"
+    ], 
+    "sales_rank": "441230", 
+    "pages": "208"
+  }, 
+  {
+    "ASIN": "1594205418", 
+    "ISBN": "1594205418", 
+    "title": "Funny Girl", 
+    "url": "http://www.amazon.com/Funny-Girl-Nick-Hornby/dp/1594205418%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1594205418", 
+    "price": "2795", 
+    "authors": [
+      "Nick Hornby"
+    ], 
+    "sales_rank": "99410", 
+    "pages": "464"
+  }, 
+  {
+    "ASIN": "0385743173", 
+    "ISBN": "0385743173", 
+    "title": "Goodbye Stranger", 
+    "url": "http://www.amazon.com/Goodbye-Stranger-Rebecca-Stead/dp/0385743173%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385743173", 
+    "price": "1699", 
+    "authors": [
+      "Rebecca Stead"
+    ], 
+    "sales_rank": "13353", 
+    "pages": "304"
+  }, 
+  {
+    "ASIN": "0062229184", 
+    "ISBN": "0062229184", 
+    "title": "Listen, Slowly", 
+    "url": "http://www.amazon.com/Listen-Slowly-Thanhha-Lai/dp/0062229184%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062229184", 
+    "price": "1699", 
+    "authors": [
+      "Thanhha Lai"
+    ], 
+    "sales_rank": "28221", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "1452142947", 
+    "ISBN": "1452142947", 
+    "title": "Pool", 
+    "url": "http://www.amazon.com/Pool-Jihyeon-Lee/dp/1452142947%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1452142947", 
+    "price": "1699", 
+    "authors": [
+      "Jihyeon Lee"
+    ], 
+    "sales_rank": "38289", 
+    "pages": "56"
+  }, 
+  {
+    "ASIN": "0385353634", 
+    "ISBN": "0385353634", 
+    "title": "Single, Carefree, Mellow: Stories", 
+    "url": "http://www.amazon.com/Single-Carefree-Mellow-Katherine-Heiny/dp/0385353634%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385353634", 
+    "price": "2395", 
+    "authors": [
+      "Katherine Heiny"
+    ], 
+    "sales_rank": "211898", 
+    "pages": "240"
+  }, 
+  {
+    "ASIN": "0375870776", 
+    "ISBN": "0375870776", 
+    "title": "The Penderwicks in Spring", 
+    "url": "http://www.amazon.com/The-Penderwicks-Spring-Jeanne-Birdsall/dp/0375870776%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0375870776", 
+    "price": "1699", 
+    "authors": [
+      "Jeanne Birdsall"
+    ], 
+    "sales_rank": "34438", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0062368435", 
+    "ISBN": "0062368435", 
+    "title": "Waiting (Ala Notable Children's Books. Younger Readers (Awards))", 
+    "url": "http://www.amazon.com/Waiting-Notable-Childrens-Younger-Readers/dp/0062368435%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062368435", 
+    "price": "1799", 
+    "authors": [
+      "Kevin Henkes"
+    ], 
+    "sales_rank": "292", 
+    "pages": "32"
+  }, 
+  {
+    "ASIN": "1476793743", 
+    "ISBN": "1476793743", 
+    "title": "Palace of Treason: A Novel", 
+    "url": "http://www.amazon.com/Palace-Treason-Novel-Jason-Matthews/dp/1476793743%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1476793743", 
+    "price": "2699", 
+    "authors": [
+      "Jason Matthews"
+    ], 
+    "sales_rank": "6420", 
+    "pages": "480"
+  }, 
+  {
+    "ASIN": "1455599875", 
+    "ISBN": "1455599875", 
+    "title": "The Light of the World: A Memoir", 
+    "url": "http://www.amazon.com/The-Light-World-A-Memoir/dp/1455599875%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1455599875", 
+    "price": "2600", 
+    "authors": [
+      "Elizabeth Alexander"
+    ], 
+    "sales_rank": "11535", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "0763660116", 
+    "ISBN": "0763660116", 
+    "title": "Marilyn's Monster", 
+    "url": "http://www.amazon.com/Marilyns-Monster-Michelle-Knudsen/dp/0763660116%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0763660116", 
+    "price": "1599", 
+    "authors": [
+      "Michelle Knudsen"
+    ], 
+    "sales_rank": "91287", 
+    "pages": "40"
+  }, 
+  {
+    "ASIN": "1101874279", 
+    "ISBN": "1101874279", 
+    "title": "A Spool of Blue Thread: A novel", 
+    "url": "http://www.amazon.com/Spool-Blue-Thread-novel/dp/1101874279%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1101874279", 
+    "price": "2595", 
+    "authors": [
+      "Anne Tyler"
+    ], 
+    "sales_rank": "2641", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "0307700291", 
+    "ISBN": "0307700291", 
+    "title": "A Strangeness in My Mind: A novel", 
+    "url": "http://www.amazon.com/Strangeness-My-Mind-novel/dp/0307700291%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0307700291", 
+    "price": "2895", 
+    "authors": [
+      "Orhan Pamuk"
+    ], 
+    "sales_rank": "50176", 
+    "pages": "624"
+  }, 
+  {
+    "ASIN": "1594634475", 
+    "ISBN": "1594634475", 
+    "title": "Fates and Furies: A Novel", 
+    "url": "http://www.amazon.com/Fates-Furies-Novel-Lauren-Groff/dp/1594634475%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1594634475", 
+    "price": "2795", 
+    "authors": [
+      "Lauren Groff"
+    ], 
+    "sales_rank": "457", 
+    "pages": "400"
+  }, 
+  {
+    "ASIN": "0804179689", 
+    "ISBN": "0804179689", 
+    "title": "Get in Trouble: Stories", 
+    "url": "http://www.amazon.com/Get-Trouble-Stories-Kelly-Link/dp/0804179689%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0804179689", 
+    "price": "2500", 
+    "authors": [
+      "Kelly Link"
+    ], 
+    "sales_rank": "256215", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0812993454", 
+    "ISBN": "0812993454", 
+    "title": "Loving Day: A Novel", 
+    "url": "http://www.amazon.com/Loving-Day-Novel-Mat-Johnson/dp/0812993454%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0812993454", 
+    "price": "2600", 
+    "authors": [
+      "Mat Johnson"
+    ], 
+    "sales_rank": "48090", 
+    "pages": "304"
+  }, 
+  {
+    "ASIN": "0062278231", 
+    "ISBN": "0062278231", 
+    "title": "Nimona", 
+    "url": "http://www.amazon.com/Nimona-Noelle-Stevenson/dp/0062278231%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062278231", 
+    "price": "1799", 
+    "authors": [
+      "Noelle Stevenson"
+    ], 
+    "sales_rank": "13443", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "1250054273", 
+    "ISBN": "1250054273", 
+    "title": "A Kim Jong-Il Production: The Extraordinary True Story of a Kidnapped Filmmaker, His Star Actress, and a Young Dictator's Rise to Power", 
+    "url": "http://www.amazon.com/Kim-Jong-Il-Production-Extraordinary-Kidnapped/dp/1250054273%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1250054273", 
+    "price": "1799", 
+    "authors": [
+      "Paul Fischer"
+    ], 
+    "sales_rank": "34886", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "0292745486", 
+    "ISBN": "0292745486", 
+    "title": "The Jemima Code: Two Centuries of African American Cookbooks", 
+    "url": "http://www.amazon.com/The-Jemima-Code-Centuries-Cookbooks/dp/0292745486%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0292745486", 
+    "price": "4500", 
+    "authors": [
+      "Toni Tipton-Martin"
+    ], 
+    "sales_rank": "25609", 
+    "pages": "264"
+  }, 
+  {
+    "ASIN": "1616204133", 
+    "ISBN": "1616204133", 
+    "title": "We Were Brothers", 
+    "url": "http://www.amazon.com/We-Were-Brothers-Barry-Moser/dp/1616204133%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1616204133", 
+    "price": "2200", 
+    "authors": [
+      "Barry Moser"
+    ], 
+    "sales_rank": "218673", 
+    "pages": "192"
+  }, 
+  {
+    "ASIN": "0307957195", 
+    "ISBN": "0307957195", 
+    "title": "Showdown: Thurgood Marshall and the Supreme Court Nomination That Changed America", 
+    "url": "http://www.amazon.com/Showdown-Thurgood-Marshall-Supreme-Nomination/dp/0307957195%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0307957195", 
+    "price": "3250", 
+    "authors": [
+      "Wil Haygood"
+    ], 
+    "sales_rank": "27459", 
+    "pages": "416"
+  }, 
+  {
+    "ASIN": "1455554596", 
+    "ISBN": "1455554596", 
+    "title": "Blackout: Remembering the Things I Drank to Forget", 
+    "url": "http://www.amazon.com/Blackout-Remembering-Things-Drank-Forget/dp/1455554596%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1455554596", 
+    "price": "2600", 
+    "authors": [
+      "Sarah Hepola"
+    ], 
+    "sales_rank": "7534", 
+    "pages": "240"
+  }, 
+  {
+    "ASIN": "158333467X", 
+    "ISBN": "158333467X", 
+    "title": "NeuroTribes: The Legacy of Autism and the Future of Neurodiversity", 
+    "url": "http://www.amazon.com/NeuroTribes-Legacy-Autism-Future-Neurodiversity/dp/158333467X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D158333467X", 
+    "price": "2995", 
+    "authors": [
+      "Steve Silberman"
+    ], 
+    "sales_rank": "2434", 
+    "pages": "544"
+  }, 
+  {
+    "ASIN": "0802123414", 
+    "ISBN": "0802123414", 
+    "title": "H Is for Hawk", 
+    "url": "http://www.amazon.com/H-Is-Hawk-Helen-Macdonald/dp/0802123414%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0802123414", 
+    "price": "2600", 
+    "authors": [
+      "Helen Macdonald"
+    ], 
+    "sales_rank": "3828", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "1590517512", 
+    "ISBN": "1590517512", 
+    "title": "The Meursault Investigation", 
+    "url": "http://www.amazon.com/The-Meursault-Investigation-Kamel-Daoud/dp/1590517512%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1590517512", 
+    "price": "1495", 
+    "authors": [
+      "Kamel Daoud"
+    ], 
+    "sales_rank": "6761", 
+    "pages": "160"
+  }, 
+  {
+    "ASIN": "0547669216", 
+    "ISBN": "0547669216", 
+    "title": "Midnight's Furies: The Deadly Legacy of India's Partition", 
+    "url": "http://www.amazon.com/Midnights-Furies-Deadly-Legacy-Partition/dp/0547669216%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0547669216", 
+    "price": "2800", 
+    "authors": [
+      "Nisid Hajari"
+    ], 
+    "sales_rank": "80658", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0804179034", 
+    "ISBN": "0804179034", 
+    "title": "Uprooted", 
+    "url": "http://www.amazon.com/Uprooted-Naomi-Novik/dp/0804179034%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0804179034", 
+    "price": "2500", 
+    "authors": [
+      "Naomi Novik"
+    ], 
+    "sales_rank": "11488", 
+    "pages": "448"
+  }, 
+  {
+    "ASIN": "1419717855", 
+    "ISBN": "1419717855", 
+    "title": "Habitat: The Field Guide to Decorating", 
+    "url": "http://www.amazon.com/Habitat-The-Field-Guide-Decorating/dp/1419717855%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1419717855", 
+    "price": "3500", 
+    "authors": [
+      "Lauren Liess"
+    ], 
+    "sales_rank": "6887", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "1616203048", 
+    "ISBN": "1616203048", 
+    "title": "Descent: A Novel", 
+    "url": "http://www.amazon.com/Descent-A-Novel-Tim-Johnston/dp/1616203048%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1616203048", 
+    "price": "2595", 
+    "authors": [
+      "Tim Johnston"
+    ], 
+    "sales_rank": "74353", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "0544409914", 
+    "ISBN": "0544409914", 
+    "title": "Girl Waits with Gun", 
+    "url": "http://www.amazon.com/Girl-Waits-Gun-Amy-Stewart/dp/0544409914%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0544409914", 
+    "price": "2700", 
+    "authors": [
+      "Amy Stewart"
+    ], 
+    "sales_rank": "13418", 
+    "pages": "448"
+  }, 
+  {
+    "ASIN": "1501112317", 
+    "ISBN": "1501112317", 
+    "title": "In a Dark, Dark Wood", 
+    "url": "http://www.amazon.com/In-Dark-Wood-Ruth-Ware/dp/1501112317%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1501112317", 
+    "price": "2600", 
+    "authors": [
+      "Ruth Ware"
+    ], 
+    "sales_rank": "6309", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "0399169520", 
+    "ISBN": "0399169520", 
+    "title": "My Sunshine Away", 
+    "url": "http://www.amazon.com/My-Sunshine-Away-M-O-Walsh/dp/0399169520%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0399169520", 
+    "price": "2695", 
+    "authors": [
+      "M.O. Walsh"
+    ], 
+    "sales_rank": "40446", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "1250052904", 
+    "ISBN": "1250052904", 
+    "title": "The Battle of Versailles: The Night American Fashion Stumbled into the Spotlight and Made History", 
+    "url": "http://www.amazon.com/The-Battle-Versailles-American-Spotlight/dp/1250052904%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1250052904", 
+    "price": "2799", 
+    "authors": [
+      "Robin Givhan"
+    ], 
+    "sales_rank": "51352", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "0770436439", 
+    "ISBN": "0770436439", 
+    "title": "The Tsar of Love and Techno: Stories", 
+    "url": "http://www.amazon.com/The-Tsar-Love-Techno-Stories/dp/0770436439%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0770436439", 
+    "price": "2500", 
+    "authors": [
+      "Anthony Marra"
+    ], 
+    "sales_rank": "8123", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0871404389", 
+    "ISBN": "0871404389", 
+    "title": "Words Without Music: A Memoir", 
+    "url": "http://www.amazon.com/Words-Without-Music-A-Memoir/dp/0871404389%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0871404389", 
+    "price": "2995", 
+    "authors": [
+      "Philip Glass"
+    ], 
+    "sales_rank": "79797", 
+    "pages": "432"
+  }, 
+  {
+    "ASIN": "0983186332", 
+    "ISBN": "0983186332", 
+    "title": "The First Collection of Criticism by a Living Female Rock Critic", 
+    "url": "http://www.amazon.com/Collection-Criticism-Living-Female-Critic/dp/0983186332%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0983186332", 
+    "price": "1795", 
+    "authors": [
+      "Jessica Hopper"
+    ], 
+    "sales_rank": "59429", 
+    "pages": "250"
+  }, 
+  {
+    "ASIN": "0062321234", 
+    "ISBN": "0062321234", 
+    "title": "Future Perfect", 
+    "url": "http://www.amazon.com/Future-Perfect-Jen-Larsen/dp/0062321234%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062321234", 
+    "price": "1799", 
+    "authors": [
+      "Jen Larsen"
+    ], 
+    "sales_rank": "293595", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "1616961929", 
+    "ISBN": "1616961929", 
+    "title": "Hannu Rajaniemi: Collected Fiction", 
+    "url": "http://www.amazon.com/Hannu-Rajaniemi-Collected-Fiction/dp/1616961929%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1616961929", 
+    "price": "2595", 
+    "authors": [
+      "Hannu Rajaniemi"
+    ], 
+    "sales_rank": "658525", 
+    "pages": "240"
+  }, 
+  {
+    "ASIN": "1468309552", 
+    "ISBN": "1468309552", 
+    "title": "Lungdon: Book Three (The Iremonger Trilogy)", 
+    "url": "http://www.amazon.com/Lungdon-Book-Three-Iremonger-Trilogy/dp/1468309552%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1468309552", 
+    "price": "1799", 
+    "authors": [
+      "Edward Carey"
+    ], 
+    "sales_rank": "119495", 
+    "pages": "512"
+  }, 
+  {
+    "ASIN": "0545591619", 
+    "ISBN": "0545591619", 
+    "title": "Shadowshaper", 
+    "url": "http://www.amazon.com/Shadowshaper-Daniel-Jos%C3%A9-Older/dp/0545591619%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0545591619", 
+    "price": "1799", 
+    "authors": ["Daniel Jos\u00e9 Older"], 
+    "sales_rank": "12400", 
+    "pages": "304"
+  }, 
+  {
+    "ASIN": "0425283372", 
+    "ISBN": "0425283372", 
+    "title": "Sorcerer to the Crown: A Sorcerer Royal Novel", 
+    "url": "http://www.amazon.com/Sorcerer-Crown-Royal-Novel/dp/0425283372%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0425283372", 
+    "price": "2695", 
+    "authors": [
+      "Zen Cho"
+    ], 
+    "sales_rank": "438311", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "0345534077", 
+    "ISBN": "0345534077", 
+    "title": "The Galaxy Game", 
+    "url": "http://www.amazon.com/The-Galaxy-Game-Karen-Lord/dp/0345534077%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0345534077", 
+    "price": "1500", 
+    "authors": [
+      "Karen Lord"
+    ], 
+    "sales_rank": "347524", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "1481424270", 
+    "ISBN": "1481424270", 
+    "title": "The Grace of Kings (The Dandelion Dynasty)", 
+    "url": "http://www.amazon.com/The-Grace-Kings-Dandelion-Dynasty/dp/1481424270%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1481424270", 
+    "price": "2799", 
+    "authors": [
+      "Ken Liu"
+    ], 
+    "sales_rank": "24508", 
+    "pages": "640"
+  }, 
+  {
+    "ASIN": "0765332663", 
+    "ISBN": "0765332663", 
+    "title": "The Just City", 
+    "url": "http://www.amazon.com/The-Just-City-Jo-Walton/dp/0765332663%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0765332663", 
+    "price": "2599", 
+    "authors": [
+      "Jo Walton"
+    ], 
+    "sales_rank": "194533", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "0765380722", 
+    "ISBN": "0765380722", 
+    "title": "The Traitor Baru Cormorant", 
+    "url": "http://www.amazon.com/Traitor-Baru-Cormorant-Seth-Dickinson/dp/0765380722%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0765380722", 
+    "price": "2599", 
+    "authors": [
+      "Seth Dickinson"
+    ], 
+    "sales_rank": "44241", 
+    "pages": "400"
+  }, 
+  {
+    "ASIN": "0805093990", 
+    "ISBN": "0805093990", 
+    "title": "The Whites: A Novel", 
+    "url": "http://www.amazon.com/The-Whites-Novel-Richard-Price/dp/0805093990%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0805093990", 
+    "price": "2800", 
+    "authors": [
+      "Richard Price", 
+      "Harry Brandt"
+    ], 
+    "sales_rank": "15290", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "1250045436", 
+    "ISBN": "1250045436", 
+    "title": "All the Old Knives: A Novel", 
+    "url": "http://www.amazon.com/All-Old-Knives-A-Novel/dp/1250045436%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1250045436", 
+    "price": "1600", 
+    "authors": [
+      "Olen Steinhauer"
+    ], 
+    "sales_rank": "37458", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "0804186804", 
+    "ISBN": "0804186804", 
+    "title": "Freedom's Child: A Novel", 
+    "url": "http://www.amazon.com/Freedoms-Child-Novel-Jax-Miller/dp/0804186804%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0804186804", 
+    "price": "2500", 
+    "authors": [
+      "Jax Miller"
+    ], 
+    "sales_rank": "844826", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "1616954965", 
+    "ISBN": "1616954965", 
+    "title": "Innocence; or, Murder on Steep Street", 
+    "url": "http://www.amazon.com/Innocence-Murder-Street-Margolius-Kov%C3%A1ly/dp/1616954965%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1616954965", 
+    "price": "2595", 
+    "authors": ["Heda Margolius Kov\u00e1ly"], 
+    "sales_rank": "541072", 
+    "pages": "256"
+  }, 
+  {
+    "ASIN": "1476704643", 
+    "ISBN": "1476704643", 
+    "title": "Leaving Berlin: A Novel", 
+    "url": "http://www.amazon.com/Leaving-Berlin-Novel-Joseph-Kanon/dp/1476704643%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1476704643", 
+    "price": "2700", 
+    "authors": [
+      "Joseph Kanon"
+    ], 
+    "sales_rank": "21431", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "0062329952", 
+    "ISBN": "0062329952", 
+    "title": "Orient: A Novel", 
+    "url": "http://www.amazon.com/Orient-A-Novel-Christopher-Bollen/dp/0062329952%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062329952", 
+    "price": "2699", 
+    "authors": [
+      "Christopher Bollen"
+    ], 
+    "sales_rank": "107473", 
+    "pages": "624"
+  }, 
+  {
+    "ASIN": "1250020441", 
+    "ISBN": "1250020441", 
+    "title": "The Last Taxi Ride: A Ranjit Singh Novel", 
+    "url": "http://www.amazon.com/The-Last-Taxi-Ride-Ranjit/dp/1250020441%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1250020441", 
+    "price": "1699", 
+    "authors": [
+      "A. X. Ahmad"
+    ], 
+    "sales_rank": "274143", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "1619226189", 
+    "ISBN": "1619226189", 
+    "title": "Fever Pitch", 
+    "url": "http://www.amazon.com/Fever-Pitch-Heidi-Cullinan/dp/1619226189%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1619226189", 
+    "price": "1600", 
+    "authors": [
+      "Heidi Cullinan"
+    ], 
+    "sales_rank": "352246", 
+    "pages": "304"
+  }, 
+  {
+    "ASIN": "037378497X", 
+    "ISBN": "037378497X", 
+    "title": "If You Only Knew", 
+    "url": "http://www.amazon.com/You-Only-Knew-Kristan-Higgins/dp/037378497X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D037378497X", 
+    "price": "1495", 
+    "authors": [
+      "Kristan Higgins"
+    ], 
+    "sales_rank": "26504", 
+    "pages": "411"
+  }, 
+  {
+    "ASIN": "0765378361", 
+    "ISBN": "0765378361", 
+    "title": "Of Noble Family (Glamourist Histories)", 
+    "url": "http://www.amazon.com/Of-Noble-Family-Glamourist-Histories/dp/0765378361%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0765378361", 
+    "price": "2799", 
+    "authors": [
+      "Mary Robinette Kowal"
+    ], 
+    "sales_rank": "842901", 
+    "pages": "576"
+  }, 
+  {
+    "ASIN": "1617730157", 
+    "ISBN": "1617730157", 
+    "title": "The Bollywood Bride", 
+    "url": "http://www.amazon.com/The-Bollywood-Bride-Sonali-Dev/dp/1617730157%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1617730157", 
+    "price": "1500", 
+    "authors": [
+      "Sonali Dev"
+    ], 
+    "sales_rank": "53021", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0061670898", 
+    "ISBN": "0061670898", 
+    "title": "The Precious One: A Novel", 
+    "url": "http://www.amazon.com/The-Precious-One-A-Novel/dp/0061670898%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0061670898", 
+    "price": "2599", 
+    "authors": [
+      "Marisa de los Santos"
+    ], 
+    "sales_rank": "308423", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "0399171304", 
+    "ISBN": "0399171304", 
+    "title": "Tiny Little Thing", 
+    "url": "http://www.amazon.com/Tiny-Little-Thing-Beatriz-Williams/dp/0399171304%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0399171304", 
+    "price": "2695", 
+    "authors": [
+      "Beatriz Williams"
+    ], 
+    "sales_rank": "234163", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "0062349023", 
+    "ISBN": "0062349023", 
+    "title": "When a Scot Ties the Knot: Castles Ever After", 
+    "url": "http://www.amazon.com/When-Scot-Ties-Knot-Castles/dp/0062349023%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062349023", 
+    "price": "799", 
+    "authors": [
+      "Tessa Dare"
+    ], 
+    "sales_rank": "37854", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "1476790108", 
+    "ISBN": "1476790108", 
+    "title": "After the Parade: A Novel", 
+    "url": "http://www.amazon.com/After-Parade-Novel-Lori-Ostlund/dp/1476790108%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1476790108", 
+    "price": "2500", 
+    "authors": [
+      "Lori Ostlund"
+    ], 
+    "sales_rank": "137275", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "1250043352", 
+    "ISBN": "1250043352", 
+    "title": "The Blondes: A Novel", 
+    "url": "http://www.amazon.com/The-Blondes-Novel-Emily-Schultz/dp/1250043352%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1250043352", 
+    "price": "2599", 
+    "authors": [
+      "Emily Schultz"
+    ], 
+    "sales_rank": "80829", 
+    "pages": "400"
+  }, 
+  {
+    "ASIN": "1631490451", 
+    "ISBN": "1631490451", 
+    "title": "The Daughters: A Novel", 
+    "url": "http://www.amazon.com/The-Daughters-Novel-Adrienne-Celt/dp/1631490451%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1631490451", 
+    "price": "2495", 
+    "authors": [
+      "Adrienne Celt"
+    ], 
+    "sales_rank": "466120", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "0062383248", 
+    "ISBN": "0062383248", 
+    "title": "The Small Backs of Children: A Novel", 
+    "url": "http://www.amazon.com/The-Small-Backs-Children-Novel/dp/0062383248%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062383248", 
+    "price": "2499", 
+    "authors": [
+      "Lidia Yuknavitch"
+    ], 
+    "sales_rank": "67860", 
+    "pages": "240"
+  }, 
+  {
+    "ASIN": "0802123554", 
+    "ISBN": "0802123554", 
+    "title": "The Wonder Garden", 
+    "url": "http://www.amazon.com/The-Wonder-Garden-Lauren-Acampora/dp/0802123554%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0802123554", 
+    "price": "2400", 
+    "authors": [
+      "Lauren Acampora"
+    ], 
+    "sales_rank": "284920", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "0991355547", 
+    "ISBN": "0991355547", 
+    "title": "White Light", 
+    "url": "http://www.amazon.com/White-Light-Vanessa-Garcia/dp/0991355547%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0991355547", 
+    "price": "2800", 
+    "authors": [
+      "Vanessa Garcia"
+    ], 
+    "sales_rank": "298991", 
+    "pages": "284"
+  }, 
+  {
+    "ASIN": "1632153661", 
+    "ISBN": "1632153661", 
+    "title": "Bitch Planet, Vol. 1: Extraordinary Machine", 
+    "url": "http://www.amazon.com/Bitch-Planet-Vol-Extraordinary-Machine/dp/1632153661%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1632153661", 
+    "price": "999", 
+    "authors": [
+      "Kelly Sue DeConnick"
+    ], 
+    "sales_rank": "6871", 
+    "pages": "136"
+  }, 
+  {
+    "ASIN": "177046199X", 
+    "ISBN": "177046199X", 
+    "title": "Drawn & Quarterly: Twenty-five Years of Contemporary Cartooning, Comics, and Graphic Novels", 
+    "url": "http://www.amazon.com/Drawn-Quarterly-Twenty-five-Contemporary-Cartooning/dp/177046199X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D177046199X", 
+    "price": "4995", 
+    "authors": ["Tom Devlin"], 
+    "sales_rank": "209021", 
+    "pages": "776"
+  }, 
+  {
+    "ASIN": "160699848X", 
+    "ISBN": "160699848X", 
+    "title": "Hip Hop Family Tree Book 3: 1983-1984 (Vol. 3)  (Hip Hop Family Tree)", 
+    "url": "http://www.amazon.com/Hip-Hop-Family-Tree-Book/dp/160699848X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D160699848X", 
+    "price": "2799", 
+    "authors": [
+      "Ed Piskor"
+    ], 
+    "sales_rank": "407872", 
+    "pages": "112"
+  }, 
+  {
+    "ASIN": "1603094008", 
+    "ISBN": "1603094008", 
+    "title": "March: Book Two", 
+    "url": "http://www.amazon.com/March-Book-Two-John-Lewis/dp/1603094008%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1603094008", 
+    "price": "1995", 
+    "authors": [
+      "John Lewis", 
+      "Andrew Aydin"
+    ], 
+    "sales_rank": "11068", 
+    "pages": "192"
+  }, 
+  {
+    "ASIN": "1770462015", 
+    "ISBN": "1770462015", 
+    "title": "Showa 1953-1989: A History of Japan (Showa: A History of Japan)", 
+    "url": "http://www.amazon.com/Showa-1953-1989-History-Japan/dp/1770462015%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1770462015", 
+    "price": "2495", 
+    "authors": [
+      "Shigeru Mizuki"
+    ], 
+    "sales_rank": "79979", 
+    "pages": "552"
+  }, 
+  {
+    "ASIN": "1627793445", 
+    "ISBN": "1627793445", 
+    "title": "The Arab of the Future: A Childhood in the Middle East, 1978-1984: A Graphic Memoir", 
+    "url": "http://www.amazon.com/The-Arab-Future-Childhood-1978-1984/dp/1627793445%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1627793445", 
+    "price": "2600", 
+    "authors": [
+      "Riad Sattouf"
+    ], 
+    "sales_rank": "41528", 
+    "pages": "160"
+  }, 
+  {
+    "ASIN": "1603090541", 
+    "ISBN": "1603090541", 
+    "title": "The Story of My Tits", 
+    "url": "http://www.amazon.com/The-Story-Tits-Jennifer-Hayden/dp/1603090541%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1603090541", 
+    "price": "2999", 
+    "authors": [
+      "Jennifer Hayden"
+    ], 
+    "sales_rank": "195173", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0307908275", 
+    "ISBN": "0307908275", 
+    "title": "The Thrilling Adventures of Lovelace and Babbage: The (Mostly) True Story of the First Computer (Pantheon Graphic Novels)", 
+    "url": "http://www.amazon.com/The-Thrilling-Adventures-Lovelace-Babbage/dp/0307908275%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0307908275", 
+    "price": "2895", 
+    "authors": [
+      "Sydney Padua"
+    ], 
+    "sales_rank": "17312", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "0316246689", 
+    "ISBN": "0316246689", 
+    "title": "Ancillary Mercy (Imperial Radch)", 
+    "url": "http://www.amazon.com/Ancillary-Mercy-Imperial-Radch-Leckie/dp/0316246689%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316246689", 
+    "price": "1599", 
+    "authors": [
+      "Ann Leckie"
+    ], 
+    "sales_rank": "8318", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "0141395036", 
+    "ISBN": "0141395036", 
+    "title": "Tales of the Marvellous and News of the Strange (A Penguin Classics Hardcover)", 
+    "url": "http://www.amazon.com/Marvellous-Strange-Penguin-Classics-Hardcover/dp/0141395036%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0141395036", 
+    "price": "3000", 
+    "authors": ["Malcolm C. Lyons"], 
+    "sales_rank": "216322", 
+    "pages": "496"
+  }, 
+  {
+    "ASIN": "1605988634", 
+    "ISBN": "1605988634", 
+    "title": "The Girl Who Wrote Loneliness: A Novel", 
+    "url": "http://www.amazon.com/The-Girl-Who-Wrote-Loneliness/dp/1605988634%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1605988634", 
+    "price": "2595", 
+    "authors": [
+      "Kyung-Sook Shin"
+    ], 
+    "sales_rank": "315076", 
+    "pages": "400"
+  }, 
+  {
+    "ASIN": "0143107429", 
+    "ISBN": "0143107429", 
+    "title": "The Turnip Princess and Other Newly Discovered Fairy Tales (Penguin Classics)", 
+    "url": "http://www.amazon.com/Turnip-Princess-Discovered-Penguin-Classics/dp/0143107429%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0143107429", 
+    "price": "1700", 
+    "authors": [
+      "Franz Xaver von Schonwerth"
+    ], 
+    "sales_rank": "68533", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "0307451062", 
+    "ISBN": "0307451062", 
+    "title": "The Witch of Lime Street: S\u00e9ance, Seduction, and Houdini in the Spirit World", 
+    "url": "http://www.amazon.com/The-Witch-Lime-Street-Seduction/dp/0307451062%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0307451062", 
+    "price": "2800", 
+    "authors": [
+      "David Jaher"
+    ], 
+    "sales_rank": "28734", 
+    "pages": "448"
+  }, 
+  {
+    "ASIN": "1607748150", 
+    "ISBN": "1607748150", 
+    "title": "Deep Dark Fears", 
+    "url": "http://www.amazon.com/Deep-Dark-Fears-Fran-Krause/dp/1607748150%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1607748150", 
+    "price": "1499", 
+    "authors": [
+      "Fran Krause"
+    ], 
+    "sales_rank": "24939", 
+    "pages": "144"
+  }, 
+  {
+    "ASIN": "1632154269", 
+    "ISBN": "1632154269", 
+    "title": "Descender, Vol. 1: Tin Stars", 
+    "url": "http://www.amazon.com/Descender-Vol-1-Tin-Stars/dp/1632154269%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1632154269", 
+    "price": "999", 
+    "authors": [
+      "Jeff Lemire"
+    ], 
+    "sales_rank": "3804", 
+    "pages": "160"
+  }, 
+  {
+    "ASIN": "1770462090", 
+    "ISBN": "1770462090", 
+    "title": "Killing and Dying", 
+    "url": "http://www.amazon.com/Killing-Dying-Adrian-Tomine/dp/1770462090%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1770462090", 
+    "price": "2295", 
+    "authors": [
+      "Adrian Tomine"
+    ], 
+    "sales_rank": "6024", 
+    "pages": "128"
+  }, 
+  {
+    "ASIN": "0147515424", 
+    "ISBN": "0147515424", 
+    "title": "Poorly Drawn Lines: Good Ideas and Amazing Stories", 
+    "url": "http://www.amazon.com/Poorly-Drawn-Lines-Amazing-Stories/dp/0147515424%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0147515424", 
+    "price": "1800", 
+    "authors": [
+      "Reza Farazmand"
+    ], 
+    "sales_rank": "21492", 
+    "pages": "208"
+  }, 
+  {
+    "ASIN": "1770461981", 
+    "ISBN": "1770461981", 
+    "title": "SuperMutant Magic Academy", 
+    "url": "http://www.amazon.com/SuperMutant-Magic-Academy-Jillian-Tamaki/dp/1770461981%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1770461981", 
+    "price": "2295", 
+    "authors": [
+      "Jillian Tamaki"
+    ], 
+    "sales_rank": "21985", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "0785197028", 
+    "ISBN": "0785197028", 
+    "title": "The Unbeatable Squirrel Girl Vol. 1: Squirrel Power", 
+    "url": "http://www.amazon.com/The-Unbeatable-Squirrel-Girl-Vol/dp/0785197028%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0785197028", 
+    "price": "1599", 
+    "authors": [
+      "Ryan North"
+    ], 
+    "sales_rank": "9118", 
+    "pages": "128"
+  }, 
+  {
+    "ASIN": "1616558563", 
+    "ISBN": "1616558563", 
+    "title": "Two Brothers", 
+    "url": "http://www.amazon.com/Two-Brothers-Gabriel-B%C3%A1/dp/1616558563%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1616558563", 
+    "price": "2499", 
+    "authors": [
+      "Gabriel B\u00e1", 
+      "Fabio Moon"
+    ], 
+    "sales_rank": "102788", 
+    "pages": "232"
+  }, 
+  {
+    "ASIN": "0393240185", 
+    "ISBN": "0393240185", 
+    "title": "Between You & Me: Confessions of a Comma Queen", 
+    "url": "http://www.amazon.com/Between-You-Me-Confessions-Comma/dp/0393240185%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0393240185", 
+    "price": "2495", 
+    "authors": [
+      "Mary Norris"
+    ], 
+    "sales_rank": "6849", 
+    "pages": "240"
+  }, 
+  {
+    "ASIN": "1476798176", 
+    "ISBN": "1476798176", 
+    "title": "Did You Ever Have a Family", 
+    "url": "http://www.amazon.com/Did-You-Ever-Have-Family/dp/1476798176%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1476798176", 
+    "price": "2600", 
+    "authors": [
+      "Bill Clegg"
+    ], 
+    "sales_rank": "10542", 
+    "pages": "304"
+  }, 
+  {
+    "ASIN": "0307700348", 
+    "ISBN": "0307700348", 
+    "title": "Golden Age: A novel (Last Hundred Years Trilogy)", 
+    "url": "http://www.amazon.com/Golden-Age-novel-Hundred-Trilogy/dp/0307700348%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0307700348", 
+    "price": "2695", 
+    "authors": [
+      "Jane Smiley"
+    ], 
+    "sales_rank": "21047", 
+    "pages": "464"
+  }, 
+  {
+    "ASIN": "0316297232", 
+    "ISBN": "0316297232", 
+    "title": "Honeydew: Stories", 
+    "url": "http://www.amazon.com/Honeydew-Stories-Edith-Pearlman/dp/0316297232%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316297232", 
+    "price": "1599", 
+    "authors": [
+      "Edith Pearlman"
+    ], 
+    "sales_rank": "39750", 
+    "pages": "304"
+  }, 
+  {
+    "ASIN": "140006998X", 
+    "ISBN": "140006998X", 
+    "title": "My Kitchen Year: 136 Recipes That Saved My Life", 
+    "url": "http://www.amazon.com/My-Kitchen-Year-Recipes-Saved/dp/140006998X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D140006998X", 
+    "price": "3500", 
+    "authors": [
+      "Ruth Reichl"
+    ], 
+    "sales_rank": "4561", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0802124372", 
+    "ISBN": "0802124372", 
+    "title": "Nein. A Manifesto", 
+    "url": "http://www.amazon.com/Nein-A-Manifesto-Eric-Jarosinski/dp/0802124372%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0802124372", 
+    "price": "1600", 
+    "authors": [
+      "Eric Jarosinski"
+    ], 
+    "sales_rank": "470590", 
+    "pages": "172"
+  }, 
+  {
+    "ASIN": "110187015X", 
+    "ISBN": "110187015X", 
+    "title": "The Fly Trap", 
+    "url": "http://www.amazon.com/The-Fly-Trap-Fredrik-Sj%C3%B6berg/dp/110187015X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D110187015X", 
+    "price": "2495", 
+    "authors": ["Fredrik Sj\u00f6berg"], 
+    "sales_rank": "368320", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "1566894093", 
+    "ISBN": "1566894093", 
+    "title": "The Story of My Teeth", 
+    "url": "http://www.amazon.com/The-Story-Teeth-Valeria-Luiselli/dp/1566894093%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1566894093", 
+    "price": "1695", 
+    "authors": [
+      "Valeria Luiselli"
+    ], 
+    "sales_rank": "10683", 
+    "pages": "184"
+  }, 
+  {
+    "ASIN": "0812997476", 
+    "ISBN": "0812997476", 
+    "title": "Fortune Smiles: Stories", 
+    "url": "http://www.amazon.com/Fortune-Smiles-Stories-Adam-Johnson/dp/0812997476%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0812997476", 
+    "price": "2700", 
+    "authors": [
+      "Adam Johnson"
+    ], 
+    "sales_rank": "14160", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "0802124410", 
+    "ISBN": "0802124410", 
+    "title": "Freeman's: Arrival: The Best New Writing on Arrival", 
+    "url": "http://www.amazon.com/Freemans-Arrival-The-Best-Writing/dp/0802124410%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0802124410", 
+    "price": "1600", 
+    "authors": ["John Freeman"], 
+    "sales_rank": "109575", 
+    "pages": "304"
+  }, 
+  {
+    "ASIN": "0374175446", 
+    "ISBN": "0374175446", 
+    "title": "Gutshot: Stories", 
+    "url": "http://www.amazon.com/Gutshot-Stories-Amelia-Gray/dp/0374175446%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374175446", 
+    "price": "1400", 
+    "authors": [
+      "Amelia Gray"
+    ], 
+    "sales_rank": "52208", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "0393248453", 
+    "ISBN": "0393248453", 
+    "title": "Mothers, Tell Your Daughters: Stories", 
+    "url": "http://www.amazon.com/Mothers-Tell-Your-Daughters-Stories/dp/0393248453%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0393248453", 
+    "price": "2595", 
+    "authors": [
+      "Bonnie Jo Campbell"
+    ], 
+    "sales_rank": "85338", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "1932841946", 
+    "ISBN": "1932841946", 
+    "title": "Only the Strong", 
+    "url": "http://www.amazon.com/Only-Strong-Jabari-Asim/dp/1932841946%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1932841946", 
+    "price": "1500", 
+    "authors": [
+      "Jabari Asim"
+    ], 
+    "sales_rank": "382325", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "080212402X", 
+    "ISBN": "080212402X", 
+    "title": "The Double Life of Liliane", 
+    "url": "http://www.amazon.com/Double-Life-Liliane-Lily-Tuck/dp/080212402X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D080212402X", 
+    "price": "2600", 
+    "authors": [
+      "Lily Tuck"
+    ], 
+    "sales_rank": "101206", 
+    "pages": "256"
+  }, 
+  {
+    "ASIN": "110187001X", 
+    "ISBN": "110187001X", 
+    "title": "There's Something I Want You to Do: Stories", 
+    "url": "http://www.amazon.com/Theres-Something-Want-You-Do/dp/110187001X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D110187001X", 
+    "price": "2400", 
+    "authors": [
+      "Charles Baxter"
+    ], 
+    "sales_rank": "262961", 
+    "pages": "240"
+  }, 
+  {
+    "ASIN": "0812996720", 
+    "ISBN": "0812996720", 
+    "title": "Thirteen Ways of Looking: Fiction", 
+    "url": "http://www.amazon.com/Thirteen-Ways-Looking-Colum-McCann/dp/0812996720%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0812996720", 
+    "price": "2600", 
+    "authors": [
+      "Colum McCann"
+    ], 
+    "sales_rank": "13827", 
+    "pages": "256"
+  }, 
+  {
+    "ASIN": "0062363239", 
+    "ISBN": "0062363239", 
+    "title": "A Head Full of Ghosts: A Novel", 
+    "url": "http://www.amazon.com/Head-Full-Ghosts-Novel/dp/0062363239%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062363239", 
+    "price": "2599", 
+    "authors": [
+      "Paul Tremblay"
+    ], 
+    "sales_rank": "19520", 
+    "pages": "304"
+  }, 
+  {
+    "ASIN": "1937512258", 
+    "ISBN": "1937512258", 
+    "title": "Binary Star", 
+    "url": "http://www.amazon.com/Binary-Star-Sarah-Gerard/dp/1937512258%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1937512258", 
+    "price": "1600", 
+    "authors": [
+      "Sarah Gerard"
+    ], 
+    "sales_rank": "409547", 
+    "pages": "172"
+  }, 
+  {
+    "ASIN": "1940430569", 
+    "ISBN": "1940430569", 
+    "title": "Fake Fruit Factory", 
+    "url": "http://www.amazon.com/Fake-Fruit-Factory-Patrick-Wensink/dp/1940430569%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1940430569", 
+    "price": "1695", 
+    "authors": [
+      "Patrick Wensink"
+    ], 
+    "sales_rank": "282806", 
+    "pages": "350"
+  }, 
+  {
+    "ASIN": "1612194532", 
+    "ISBN": "1612194532", 
+    "title": "Not on Fire, but Burning: A Novel", 
+    "url": "http://www.amazon.com/Not-Fire-but-Burning-Novel/dp/1612194532%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1612194532", 
+    "price": "2595", 
+    "authors": [
+      "Greg Hrbek"
+    ], 
+    "sales_rank": "68670", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "1476705887", 
+    "ISBN": "1476705887", 
+    "title": "Slice Harvester: A Memoir in Pizza", 
+    "url": "http://www.amazon.com/Slice-Harvester-A-Memoir-Pizza/dp/1476705887%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1476705887", 
+    "price": "2300", 
+    "authors": [
+      "Colin Atrophy Hagendorf"
+    ], 
+    "sales_rank": "24807", 
+    "pages": "224"
+  }, 
+  {
+    "ASIN": "0553446614", 
+    "ISBN": "0553446614", 
+    "title": "The Gracekeepers: A Novel", 
+    "url": "http://www.amazon.com/The-Gracekeepers-Novel-Kirsty-Logan/dp/0553446614%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0553446614", 
+    "price": "2500", 
+    "authors": [
+      "Kirsty Logan"
+    ], 
+    "sales_rank": "421971", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "1937512274", 
+    "ISBN": "1937512274", 
+    "title": "The Only Ones", 
+    "url": "http://www.amazon.com/The-Only-Ones-Carola-Dibbell/dp/1937512274%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1937512274", 
+    "price": "1699", 
+    "authors": [
+      "Carola Dibbell"
+    ], 
+    "sales_rank": "466297", 
+    "pages": "344"
+  }, 
+  {
+    "ASIN": "1101873787", 
+    "ISBN": "1101873787", 
+    "title": "The Vorrh", 
+    "url": "http://www.amazon.com/The-Vorrh-Brian-Catling/dp/1101873787%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1101873787", 
+    "price": "1595", 
+    "authors": [
+      "Brian Catling"
+    ], 
+    "sales_rank": "116379", 
+    "pages": "512"
+  }, 
+  {
+    "ASIN": "110188472X", 
+    "ISBN": "110188472X", 
+    "title": "Three Moments of an Explosion: Stories", 
+    "url": "http://www.amazon.com/Three-Moments-Explosion-China-Mi%C3%A9ville/dp/110188472X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D110188472X", 
+    "price": "2700", 
+    "authors": ["China Mi\u00e9ville"], 
+    "sales_rank": "53031", 
+    "pages": "400"
+  }, 
+  {
+    "ASIN": "1939905087", 
+    "ISBN": "1939905087", 
+    "title": "Vermilion", 
+    "url": "http://www.amazon.com/Vermilion-Molly-Tanzer/dp/1939905087%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1939905087", 
+    "price": "1799", 
+    "authors": [
+      "Molly Tanzer"
+    ], 
+    "sales_rank": "87294", 
+    "pages": "386"
+  }, 
+  {
+    "ASIN": "0316229296", 
+    "ISBN": "0316229296", 
+    "title": "The Fifth Season (The Broken Earth)", 
+    "url": "http://www.amazon.com/The-Fifth-Season-Broken-Earth/dp/0316229296%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316229296", 
+    "price": "1599", 
+    "authors": [
+      "N. K. Jemisin"
+    ], 
+    "sales_rank": "17678", 
+    "pages": "512"
+  }, 
+  {
+    "ASIN": "0345534182", 
+    "ISBN": "0345534182", 
+    "title": "Circling the Sun: A Novel", 
+    "url": "http://www.amazon.com/Circling-Sun-Novel-Paula-McLain/dp/0345534182%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0345534182", 
+    "price": "2800", 
+    "authors": [
+      "Paula McLain"
+    ], 
+    "sales_rank": "1604", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "0374139660", 
+    "ISBN": "0374139660", 
+    "title": "Death and Mr. Pickwick: A Novel", 
+    "url": "http://www.amazon.com/Death-Mr-Pickwick-A-Novel/dp/0374139660%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374139660", 
+    "price": "3000", 
+    "authors": [
+      "Stephen Jarvis"
+    ], 
+    "sales_rank": "514067", 
+    "pages": "816"
+  }, 
+  {
+    "ASIN": "1451693591", 
+    "ISBN": "1451693591", 
+    "title": "The Marriage of Opposites", 
+    "url": "http://www.amazon.com/The-Marriage-Opposites-Alice-Hoffman/dp/1451693591%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1451693591", 
+    "price": "2799", 
+    "authors": [
+      "Alice Hoffman"
+    ], 
+    "sales_rank": "1901", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "0553418521", 
+    "ISBN": "0553418521", 
+    "title": "The World Before Us: A Novel", 
+    "url": "http://www.amazon.com/The-World-Before-Us-Novel/dp/0553418521%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0553418521", 
+    "price": "2600", 
+    "authors": [
+      "Aislinn Hunter"
+    ], 
+    "sales_rank": "500654", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "1612194230", 
+    "ISBN": "1612194230", 
+    "title": "A History of Money: A Novel", 
+    "url": "http://www.amazon.com/A-History-Money-Novel/dp/1612194230%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1612194230", 
+    "price": "2495", 
+    "authors": [
+      "Alan Pauls"
+    ], 
+    "sales_rank": "175063", 
+    "pages": "208"
+  }, 
+  {
+    "ASIN": "1632060361", 
+    "ISBN": "1632060361", 
+    "title": "A Planet for Rent", 
+    "url": "http://www.amazon.com/A-Planet-Rent-Yoss/dp/1632060361%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1632060361", 
+    "price": "1599", 
+    "authors": [
+      "Yoss"
+    ], 
+    "sales_rank": "86143", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "1940450527", 
+    "ISBN": "1940450527", 
+    "title": "My Documents", 
+    "url": "http://www.amazon.com/My-Documents-Alejandro-Zambra/dp/1940450527%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1940450527", 
+    "price": "1500", 
+    "authors": [
+      "Alejandro Zambra"
+    ], 
+    "sales_rank": "140067", 
+    "pages": "200"
+  }, 
+  {
+    "ASIN": "0811219631", 
+    "ISBN": "0811219631", 
+    "title": "The Complete Stories", 
+    "url": "http://www.amazon.com/The-Complete-Stories-Clarice-Lispector/dp/0811219631%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0811219631", 
+    "price": "2895", 
+    "authors": [
+      "Clarice Lispector"
+    ], 
+    "sales_rank": "20195", 
+    "pages": "640"
+  }, 
+  {
+    "ASIN": "161219432X", 
+    "ISBN": "161219432X", 
+    "title": "The Dead Mountaineer's Inn", 
+    "url": "http://www.amazon.com/The-Dead-Mountaineers-Inn-Detective/dp/161219432X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D161219432X", 
+    "price": "1700", 
+    "authors": [
+      "Arkady Strugatsky", 
+      "Boris Strugatsky"
+    ], 
+    "sales_rank": "75532", 
+    "pages": "256"
+  }, 
+  {
+    "ASIN": "1612194346", 
+    "ISBN": "1612194346", 
+    "title": "The Ghost Network: A Novel", 
+    "url": "http://www.amazon.com/The-Ghost-Network-A-Novel/dp/1612194346%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1612194346", 
+    "price": "1695", 
+    "authors": [
+      "Catie Disabato"
+    ], 
+    "sales_rank": "353831", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "0811222764", 
+    "ISBN": "0811222764", 
+    "title": "Tropisms (New Directions Pearls)", 
+    "url": "http://www.amazon.com/Tropisms-Directions-Pearls-Nathalie-Sarraute/dp/0811222764%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0811222764", 
+    "price": "1095", 
+    "authors": [
+      "Nathalie Sarraute"
+    ], 
+    "sales_rank": "474831", 
+    "pages": "96"
+  }, 
+  {
+    "ASIN": "1632060280", 
+    "ISBN": "1632060280", 
+    "title": "Where the Bird Sings Best", 
+    "url": "http://www.amazon.com/Where-Bird-Sings-Alejandro-Jodorowsky/dp/1632060280%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1632060280", 
+    "price": "2799", 
+    "authors": [
+      "Alejandro Jodorowsky"
+    ], 
+    "sales_rank": "372713", 
+    "pages": "416"
+  }, 
+  {
+    "ASIN": "0374290253", 
+    "ISBN": "0374290253", 
+    "title": "A Wild Swan: And Other Tales", 
+    "url": "http://www.amazon.com/Wild-Swan-And-Other-Tales/dp/0374290253%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374290253", 
+    "price": "2300", 
+    "authors": [
+      "Michael Cunningham"
+    ], 
+    "sales_rank": "49527", 
+    "pages": "144"
+  }, 
+  {
+    "ASIN": "1594486638", 
+    "ISBN": "1594486638", 
+    "title": "Hunger Makes Me a Modern Girl: A Memoir", 
+    "url": "http://www.amazon.com/Hunger-Makes-Me-Modern-Girl/dp/1594486638%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1594486638", 
+    "price": "2795", 
+    "authors": [
+      "Carrie Brownstein"
+    ], 
+    "sales_rank": "6153", 
+    "pages": "256"
+  }, 
+  {
+    "ASIN": "0812994566", 
+    "ISBN": "0812994566", 
+    "title": "Unfinished Business: Women Men Work Family", 
+    "url": "http://www.amazon.com/Unfinished-Business-Women-Work-Family/dp/0812994566%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0812994566", 
+    "price": "2800", 
+    "authors": [
+      "Anne-Marie Slaughter"
+    ], 
+    "sales_rank": "12820", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0804187797", 
+    "ISBN": "0804187797", 
+    "title": "Lucky Peach Presents 101 Easy Asian Recipes", 
+    "url": "http://www.amazon.com/Lucky-Peach-Presents-Asian-Recipes/dp/0804187797%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0804187797", 
+    "price": "3500", 
+    "authors": [
+      "Peter Meehan", 
+      "the editors of Lucky Peach"
+    ], 
+    "sales_rank": "1689", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "1616289619", 
+    "ISBN": "1616289619", 
+    "title": "Mamushka: Recipes from Ukraine and Eastern Europe", 
+    "url": "http://www.amazon.com/Mamushka-Recipes-Ukraine-Eastern-Europe/dp/1616289619%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1616289619", 
+    "price": "3500", 
+    "authors": [
+      "Olia Hercules"
+    ], 
+    "sales_rank": "9163", 
+    "pages": "240"
+  }, 
+  {
+    "ASIN": "0062243411", 
+    "ISBN": "0062243411", 
+    "title": "The Mission Chinese Food Cookbook", 
+    "url": "http://www.amazon.com/The-Mission-Chinese-Food-Cookbook/dp/0062243411%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062243411", 
+    "price": "3499", 
+    "authors": [
+      "Danny Bowien", 
+      "Chris Ying"
+    ], 
+    "sales_rank": "11895", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "0812997662", 
+    "ISBN": "0812997662", 
+    "title": "Let Me Tell You: New Stories, Essays, and Other Writings", 
+    "url": "http://www.amazon.com/Let-Me-Tell-You-Writings/dp/0812997662%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0812997662", 
+    "price": "3000", 
+    "authors": [
+      "Shirley Jackson"
+    ], 
+    "sales_rank": "152537", 
+    "pages": "448"
+  }, 
+  {
+    "ASIN": "006231050X", 
+    "ISBN": "006231050X", 
+    "title": "Playlist for the Dead", 
+    "url": "http://www.amazon.com/Playlist-Dead-Michelle-Falkoff/dp/006231050X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D006231050X", 
+    "price": "1799", 
+    "authors": [
+      "Michelle Falkoff"
+    ], 
+    "sales_rank": "96761", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "0385354282", 
+    "ISBN": "0385354282", 
+    "title": "The Girl in the Spider's Web: A Lisbeth Salander novel, continuing Stieg Larsson's Millennium Series", 
+    "url": "http://www.amazon.com/The-Girl-Spiders-Web-continuing/dp/0385354282%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385354282", 
+    "price": "2795", 
+    "authors": [
+      "David Lagercrantz"
+    ], 
+    "sales_rank": "1437", 
+    "pages": "416"
+  }, 
+  {
+    "ASIN": "0062429973", 
+    "ISBN": "0062429973", 
+    "title": "The Shepherd's Crown (Tiffany Aching)", 
+    "url": "http://www.amazon.com/The-Shepherds-Crown-Tiffany-Aching/dp/0062429973%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062429973", 
+    "price": "1899", 
+    "authors": [
+      "Terry Pratchett"
+    ], 
+    "sales_rank": "8585", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "1608196887", 
+    "ISBN": "1608196887", 
+    "title": "We Are Pirates", 
+    "url": "http://www.amazon.com/We-Are-Pirates-Daniel-Handler/dp/1608196887%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1608196887", 
+    "price": "2600", 
+    "authors": [
+      "Daniel Handler"
+    ], 
+    "sales_rank": "88886", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "0385353774", 
+    "ISBN": "0385353774", 
+    "title": "City on Fire: A novel", 
+    "url": "http://www.amazon.com/City-Fire-Garth-Risk-Hallberg/dp/0385353774%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385353774", 
+    "price": "3000", 
+    "authors": [
+      "Garth Risk Hallberg"
+    ], 
+    "sales_rank": "6593", 
+    "pages": "944"
+  }, 
+  {
+    "ASIN": "0307962660", 
+    "ISBN": "0307962660", 
+    "title": "Ordinary Light: A memoir", 
+    "url": "http://www.amazon.com/Ordinary-Light-Tracy-K-Smith/dp/0307962660%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0307962660", 
+    "price": "2595", 
+    "authors": [
+      "Tracy K. Smith"
+    ], 
+    "sales_rank": "74835", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "0374228345", 
+    "ISBN": "0374228345", 
+    "title": "Outline: A Novel", 
+    "url": "http://www.amazon.com/Outline-A-Novel-Rachel-Cusk/dp/0374228345%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374228345", 
+    "price": "2600", 
+    "authors": [
+      "Rachel Cusk"
+    ], 
+    "sales_rank": "44331", 
+    "pages": "256"
+  }, 
+  {
+    "ASIN": "0062362437", 
+    "ISBN": "0062362437", 
+    "title": "Ted Hughes: The Unauthorised Life", 
+    "url": "http://www.amazon.com/Ted-Hughes-The-Unauthorised-Life/dp/0062362437%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062362437", 
+    "price": "4000", 
+    "authors": [
+      "Jonathan Bate"
+    ], 
+    "sales_rank": "78238", 
+    "pages": "672"
+  }, 
+  {
+    "ASIN": "0804141355", 
+    "ISBN": "0804141355", 
+    "title": "The Gap of Time: A Novel (Hogarth Shakespeare)", 
+    "url": "http://www.amazon.com/The-Gap-Time-Hogarth-Shakespeare/dp/0804141355%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0804141355", 
+    "price": "2500", 
+    "authors": [
+      "Jeanette Winterson"
+    ], 
+    "sales_rank": "37844", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "0670025771", 
+    "ISBN": "0670025771", 
+    "title": "The Secret Chord: A Novel", 
+    "url": "http://www.amazon.com/The-Secret-Chord-A-Novel/dp/0670025771%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0670025771", 
+    "price": "2795", 
+    "authors": [
+      "Geraldine Brooks"
+    ], 
+    "sales_rank": "5032", 
+    "pages": "320"
+  }, 
+  {
+    "ASIN": "0316380865", 
+    "ISBN": "0316380865", 
+    "title": "The Thing About Jellyfish", 
+    "url": "http://www.amazon.com/The-Thing-About-Jellyfish-Benjamin/dp/0316380865%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316380865", 
+    "price": "1700", 
+    "authors": [
+      "Ali Benjamin"
+    ], 
+    "sales_rank": "2182", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0385755880", 
+    "ISBN": "0385755880", 
+    "title": "All the Bright Places", 
+    "url": "http://www.amazon.com/All-Bright-Places-Jennifer-Niven/dp/0385755880%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385755880", 
+    "price": "1799", 
+    "authors": [
+      "Jennifer Niven"
+    ], 
+    "sales_rank": "1559", 
+    "pages": "400"
+  }, 
+  {
+    "ASIN": "1250049555", 
+    "ISBN": "1250049555", 
+    "title": "Carry On", 
+    "url": "http://www.amazon.com/Carry-On-Rainbow-Rowell/dp/1250049555%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1250049555", 
+    "price": "1999", 
+    "authors": [
+      "Rainbow Rowell"
+    ], 
+    "sales_rank": "2717", 
+    "pages": "528"
+  }, 
+  {
+    "ASIN": "1481423584", 
+    "ISBN": "1481423584", 
+    "title": "Fig", 
+    "url": "http://www.amazon.com/Fig-Sarah-Elizabeth-Schantz/dp/1481423584%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1481423584", 
+    "price": "1899", 
+    "authors": [
+      "Sarah Elizabeth Schantz"
+    ], 
+    "sales_rank": "101871", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "045147077X", 
+    "ISBN": "045147077X", 
+    "title": "Mosquitoland", 
+    "url": "http://www.amazon.com/Mosquitoland-David-Arnold/dp/045147077X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D045147077X", 
+    "price": "1799", 
+    "authors": [
+      "David Arnold"
+    ], 
+    "sales_rank": "18572", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0316364193", 
+    "ISBN": "0316364193", 
+    "title": "Court of Fives", 
+    "url": "http://www.amazon.com/Court-Fives-Kate-Elliott/dp/0316364193%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316364193", 
+    "price": "1800", 
+    "authors": [
+      "Kate Elliott"
+    ], 
+    "sales_rank": "110251", 
+    "pages": "448"
+  }, 
+  {
+    "ASIN": "1616203722", 
+    "ISBN": "1616203722", 
+    "title": "The Walls Around Us", 
+    "url": "http://www.amazon.com/The-Walls-Around-Nova-Suma/dp/1616203722%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1616203722", 
+    "price": "1795", 
+    "authors": [
+      "Nova Ren Suma"
+    ], 
+    "sales_rank": "35775", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "1101875100", 
+    "ISBN": "1101875100", 
+    "title": "M Train", 
+    "url": "http://www.amazon.com/M-Train-Patti-Smith/dp/1101875100%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1101875100", 
+    "price": "2500", 
+    "authors": [
+      "Patti Smith"
+    ], 
+    "sales_rank": "2968", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "1400062691", 
+    "ISBN": "1400062691", 
+    "title": "Against the Country: A Novel", 
+    "url": "http://www.amazon.com/Against-Country-Novel-Ben-Metcalf/dp/1400062691%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1400062691", 
+    "price": "2600", 
+    "authors": [
+      "Ben Metcalf"
+    ], 
+    "sales_rank": "231610", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "1250075556", 
+    "ISBN": "1250075556", 
+    "title": "Black Chalk", 
+    "url": "http://www.amazon.com/Black-Chalk-Christopher-J-Yates/dp/1250075556%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1250075556", 
+    "price": "1600", 
+    "authors": [
+      "Christopher J. Yates"
+    ], 
+    "sales_rank": "40559", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0062198769", 
+    "ISBN": "0062198769", 
+    "title": "Epitaph: A Novel of the O.K. Corral", 
+    "url": "http://www.amazon.com/Epitaph-A-Novel-O-K-Corral/dp/0062198769%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062198769", 
+    "price": "2799", 
+    "authors": [
+      "Mary Doria Russell"
+    ], 
+    "sales_rank": "97121", 
+    "pages": "592"
+  }, 
+  {
+    "ASIN": "1594634238", 
+    "ISBN": "1594634238", 
+    "title": "Gold Fame Citrus: A Novel", 
+    "url": "http://www.amazon.com/Gold-Fame-Citrus-A-Novel/dp/1594634238%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1594634238", 
+    "price": "2795", 
+    "authors": [
+      "Claire Vaye Watkins"
+    ], 
+    "sales_rank": "40246", 
+    "pages": "352"
+  }, 
+  {
+    "ASIN": "0345539834", 
+    "ISBN": "0345539834", 
+    "title": "Golden Son: Book II of The Red Rising Trilogy", 
+    "url": "http://www.amazon.com/Golden-Son-Book-Rising-Trilogy/dp/0345539834%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0345539834", 
+    "price": "1500", 
+    "authors": [
+      "Pierce Brown"
+    ], 
+    "sales_rank": "1848", 
+    "pages": "464"
+  }, 
+  {
+    "ASIN": "0062190377", 
+    "ISBN": "0062190377", 
+    "title": "Seveneves: A Novel", 
+    "url": "http://www.amazon.com/Seveneves-A-Novel-Neal-Stephenson/dp/0062190377%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062190377", 
+    "price": "3500", 
+    "authors": [
+      "Neal Stephenson"
+    ], 
+    "sales_rank": "4925", 
+    "pages": "880"
+  }, 
+  {
+    "ASIN": "0812998685", 
+    "ISBN": "0812998685", 
+    "title": "Slade House: A Novel", 
+    "url": "http://www.amazon.com/Slade-House-Novel-David-Mitchell/dp/0812998685%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0812998685", 
+    "price": "2600", 
+    "authors": [
+      "David Mitchell"
+    ], 
+    "sales_rank": "9131", 
+    "pages": "256"
+  }, 
+  {
+    "ASIN": "0062321161", 
+    "ISBN": "0062321161", 
+    "title": "Summerlong: A Novel", 
+    "url": "http://www.amazon.com/Summerlong-A-Novel-Dean-Bakopoulos/dp/0062321161%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062321161", 
+    "price": "2699", 
+    "authors": [
+      "Dean Bakopoulos"
+    ], 
+    "sales_rank": "109135", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "0062227092", 
+    "ISBN": "0062227092", 
+    "title": "The Country of Ice Cream Star", 
+    "url": "http://www.amazon.com/The-Country-Ice-Cream-Star/dp/0062227092%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062227092", 
+    "price": "2699", 
+    "authors": [
+      "Sandra Newman"
+    ], 
+    "sales_rank": "614557", 
+    "pages": "592"
+  }, 
+  {
+    "ASIN": "0375714944", 
+    "ISBN": "0375714944", 
+    "title": "The Familiar, Volume 1: One Rainy Day in May", 
+    "url": "http://www.amazon.com/The-Familiar-Volume-One-Rainy/dp/0375714944%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0375714944", 
+    "price": "2500", 
+    "authors": [
+      "Mark Z. Danielewski"
+    ], 
+    "sales_rank": "12750", 
+    "pages": "880"
+  }, 
+  {
+    "ASIN": "1555977170", 
+    "ISBN": "1555977170", 
+    "title": "The Wake: A Novel", 
+    "url": "http://www.amazon.com/The-Wake-Novel-Paul-Kingsnorth/dp/1555977170%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1555977170", 
+    "price": "1600", 
+    "authors": [
+      "Paul Kingsnorth"
+    ], 
+    "sales_rank": "37213", 
+    "pages": "384"
+  }, 
+  {
+    "ASIN": "0374239215", 
+    "ISBN": "0374239215", 
+    "title": "Purity: A Novel", 
+    "url": "http://www.amazon.com/Purity-A-Novel-Jonathan-Franzen/dp/0374239215%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374239215", 
+    "price": "2800", 
+    "authors": [
+      "Jonathan Franzen"
+    ], 
+    "sales_rank": "4215", 
+    "pages": "576"
+  }, 
+  {
+    "ASIN": "1680030183", 
+    "ISBN": "1680030183", 
+    "title": "Among The Wild Mulattos and Other Tales", 
+    "url": "http://www.amazon.com/Among-Wild-Mulattos-Other-Tales/dp/1680030183%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1680030183", 
+    "price": "1495", 
+    "authors": [
+      "Tom Williams"
+    ], 
+    "sales_rank": "865318", 
+    "pages": "192"
+  }, 
+  {
+    "ASIN": "1594633789", 
+    "ISBN": "1594633789", 
+    "title": "Barbara the Slut and Other People", 
+    "url": "http://www.amazon.com/Barbara-Other-People-Lauren-Holmes/dp/1594633789%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1594633789", 
+    "price": "2795", 
+    "authors": [
+      "Lauren Holmes"
+    ], 
+    "sales_rank": "346265", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "0292759479", 
+    "ISBN": "0292759479", 
+    "title": "Don't Suck, Don't Die: Giving Up Vic Chesnutt (American Music)", 
+    "url": "http://www.amazon.com/Dont-Suck-Die-Chesnutt-American/dp/0292759479%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0292759479", 
+    "price": "2295", 
+    "authors": [
+      "Kristin Hersh"
+    ], 
+    "sales_rank": "222106", 
+    "pages": "198"
+  }, 
+  {
+    "ASIN": "0374154716", 
+    "ISBN": "0374154716", 
+    "title": "Find Me: A Novel", 
+    "url": "http://www.amazon.com/Find-Laura-van-den-Berg/dp/0374154716%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374154716", 
+    "price": "2600", 
+    "authors": [
+      "Laura van den Berg"
+    ], 
+    "sales_rank": "136251", 
+    "pages": "288"
+  }, 
+  {
+    "ASIN": "0385352816", 
+    "ISBN": "0385352816", 
+    "title": "In the Country: Stories", 
+    "url": "http://www.amazon.com/In-Country-Stories-Mia-Alvar/dp/0385352816%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385352816", 
+    "price": "2695", 
+    "authors": [
+      "Mia Alvar"
+    ], 
+    "sales_rank": "249114", 
+    "pages": "368"
+  }, 
+  {
+    "ASIN": "1555977065", 
+    "ISBN": "1555977065", 
+    "title": "Letter to a Future Lover: Marginalia, Errata, Secrets, Inscriptions, and Other Ephemera Found in Libraries", 
+    "url": "http://www.amazon.com/Letter-Future-Lover-Marginalia-Inscriptions/dp/1555977065%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1555977065", 
+    "price": "2200", 
+    "authors": [
+      "Ander Monson"
+    ], 
+    "sales_rank": "148220", 
+    "pages": "160"
+  }, 
+  {
+    "ASIN": "0374277893", 
+    "ISBN": "0374277893", 
+    "title": "One of Us: The Story of Anders Breivik and the Massacre in Norway", 
+    "url": "http://www.amazon.com/One-Us-Anders-Breivik-Massacre/dp/0374277893%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374277893", 
+    "price": "2800", 
+    "authors": [
+      "Asne Seierstad"
+    ], 
+    "sales_rank": "35757", 
+    "pages": "544"
+  }, 
+  {
+    "ASIN": "031637394X", 
+    "ISBN": "031637394X", 
+    "title": "See How Small: A Novel", 
+    "url": "http://www.amazon.com/See-How-Small-A-Novel/dp/031637394X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D031637394X", 
+    "price": "1499", 
+    "authors": [
+      "Scott Blackwood"
+    ], 
+    "sales_rank": "228524", 
+    "pages": "240"
+  }, 
+  {
+    "ASIN": "0062391194", 
+    "ISBN": "0062391194", 
+    "title": "Speak: A Novel", 
+    "url": "http://www.amazon.com/Speak-A-Novel-Louisa-Hall/dp/0062391194%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0062391194", 
+    "price": "2799", 
+    "authors": [
+      "Louisa Hall"
+    ], 
+    "sales_rank": "245296", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "1101874317", 
+    "ISBN": "1101874317", 
+    "title": "The Book of Aron: A novel", 
+    "url": "http://www.amazon.com/The-Book-Aron-A-novel/dp/1101874317%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1101874317", 
+    "price": "2395", 
+    "authors": [
+      "Jim Shepard"
+    ], 
+    "sales_rank": "27100", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "0374260508", 
+    "ISBN": "0374260508", 
+    "title": "The Sellout: A Novel", 
+    "url": "http://www.amazon.com/The-Sellout-Novel-Paul-Beatty/dp/0374260508%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0374260508", 
+    "price": "2600", 
+    "authors": [
+      "Paul Beatty"
+    ], 
+    "sales_rank": "14436", 
+    "pages": "304"
+  }, 
+  {
+    "ASIN": "1101874899", 
+    "ISBN": "1101874899", 
+    "title": "The Visiting Privilege: New and Collected Stories", 
+    "url": "http://www.amazon.com/The-Visiting-Privilege-Collected-Stories/dp/1101874899%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1101874899", 
+    "price": "3000", 
+    "authors": [
+      "Joy Williams"
+    ], 
+    "sales_rank": "97197", 
+    "pages": "512"
+  }, 
+  {
+    "ASIN": "0316334375", 
+    "ISBN": "0316334375", 
+    "title": "The Water Museum: Stories", 
+    "url": "http://www.amazon.com/Water-Museum-Luis-Alberto-Urrea/dp/0316334375%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316334375", 
+    "price": "2500", 
+    "authors": [
+      "Luis Alberto Urrea"
+    ], 
+    "sales_rank": "33986", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "0385539606", 
+    "ISBN": "0385539606", 
+    "title": "Girl in the Dark: A Memoir", 
+    "url": "http://www.amazon.com/Girl-Dark-Memoir-Anna-Lyndsey/dp/0385539606%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0385539606", 
+    "price": "2495", 
+    "authors": [
+      "Anna Lyndsey"
+    ], 
+    "sales_rank": "692300", 
+    "pages": "272"
+  }, 
+  {
+    "ASIN": "1400067650", 
+    "ISBN": "1400067650", 
+    "title": "Destiny and Power: The American Odyssey of George Herbert Walker Bush", 
+    "url": "http://www.amazon.com/Destiny-Power-American-Odyssey-Herbert/dp/1400067650%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1400067650", 
+    "price": "3500", 
+    "authors": [
+      "Jon Meacham"
+    ], 
+    "sales_rank": "4883", 
+    "pages": "864"
+  }, 
+  {
+    "ASIN": "0812996917", 
+    "ISBN": "0812996917", 
+    "title": "Book of Numbers: A Novel", 
+    "url": "http://www.amazon.com/Book-Numbers-Novel-Joshua-Cohen/dp/0812996917%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0812996917", 
+    "price": "2800", 
+    "authors": [
+      "Joshua Cohen"
+    ], 
+    "sales_rank": "117252", 
+    "pages": "592"
+  }, 
+  {
+    "ASIN": "006220100X", 
+    "ISBN": "006220100X", 
+    "title": "Spectacle: The Astonishing Life of Ota Benga", 
+    "url": "http://www.amazon.com/Spectacle-The-Astonishing-Life-Benga/dp/006220100X%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D006220100X", 
+    "price": "2599", 
+    "authors": [
+      "Pamela Newkirk"
+    ], 
+    "sales_rank": "59801", 
+    "pages": "336"
+  }, 
+  {
+    "ASIN": "0553419919", 
+    "ISBN": "0553419919", 
+    "title": "Widow Basquiat: A Love Story", 
+    "url": "http://www.amazon.com/Widow-Basquiat-A-Love-Story/dp/0553419919%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0553419919", 
+    "price": "1600", 
+    "authors": [
+      "Jennifer Clement"
+    ], 
+    "sales_rank": "121995", 
+    "pages": "208"
+  }, 
+  {
+    "ASIN": "0316178551", 
+    "ISBN": "0316178551", 
+    "title": "Hotels of North America", 
+    "url": "http://www.amazon.com/Hotels-North-America-Rick-Moody/dp/0316178551%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0316178551", 
+    "price": "2500", 
+    "authors": [
+      "Rick Moody"
+    ], 
+    "sales_rank": "60159", 
+    "pages": "208"
+  }, 
+  {
+    "ASIN": "1624650392", 
+    "ISBN": "1624650392", 
+    "title": "Tales from the Loop", 
+    "url": "http://www.amazon.com/Tales-Loop-Simon-St%C3%A5lenhag/dp/1624650392%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1624650392", 
+    "price": "4995", 
+    "authors": ["Simon St\u00e5lenhag"], 
+    "sales_rank": "17418", 
+    "pages": "128"
+  }, 
+  {
+    "ASIN": "0544303164", 
+    "ISBN": "0544303164", 
+    "title": "The Turner House", 
+    "url": "http://www.amazon.com/The-Turner-House-Angela-Flournoy/dp/0544303164%3FSubscriptionId%3DAKIAI42OHLYVSUJP75NQ%26tag%3Dandrmard-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0544303164", 
+    "price": "2300", 
+    "authors": [
+      "Angela Flournoy"
+    ], 
+    "sales_rank": "19283", 
+    "pages": "352"
+  }
+]

@@ -12,6 +12,7 @@ import { siteConfig } from "./src/site.config";
 
 // Remark plugins
 import remarkDirective from "remark-directive"; /* Handle ::: directives as nodes */
+import remarkMath from "remark-math"; /* Handle LaTeX math expressions */
 import { remarkAdmonitions } from "./src/plugins/remark-admonitions"; /* Add admonitions */
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 
@@ -19,6 +20,7 @@ import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
+import rehypeKatex from "rehype-katex"; /* Render math with KaTeX */
 import rehypeUnwrapImages from "rehype-unwrap-images";
 
 // https://astro.build/config
@@ -80,8 +82,9 @@ export default defineConfig({
 				},
 			],
 			rehypeUnwrapImages,
+			rehypeKatex,
 		],
-		remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
+		remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions, remarkMath],
 		remarkRehype: {
 			footnoteLabelProperties: {
 				className: [""],
