@@ -6,7 +6,7 @@ draft: true
 ---
 
 
-```{r, echo = FALSE}
+```r
 library(knitr)
 
 opts_chunk$set(warning = FALSE, message = FALSE)
@@ -19,7 +19,7 @@ This post applies natural language processing, machine learning, and data visual
 
 The [twitteR](https://cran.r-project.org/web/packages/twitteR/) library makes it easy to download tweets through the Twitter API. To access Twitter's API you need to create a new app using [Twitter Application Management](https://apps.twitter.com/). Once you have created an app, you can find the needed credentials in the "Keys and Access Tokens" tab. Now we can connect to the Twitter API using twitteR:
 
-```{r}
+```r
 library(twitteR)
 
 setup_twitter_oauth(
@@ -32,7 +32,7 @@ setup_twitter_oauth(
 
 After connecting to the API, downloading a user's most recent tweets is a snap:
 
-```{r}
+```r
 trump <- userTimeline('realDonaldTrump', n = 3200)
 obama <- userTimeline('BarackObama', n = 3200)
 ```
@@ -44,7 +44,7 @@ Under the hood, the `userTimeline()` function is hitting the [statuses/user_time
 
 To start let's create a data frame containing tweets by Donald Trump and Barack Obama.
 
-```{r}
+```r
 library(tidyverse)
 
 raw_tweets <- bind_rows(twListToDF(trump), twListToDF(obama))
@@ -52,7 +52,7 @@ raw_tweets <- bind_rows(twListToDF(trump), twListToDF(obama))
 
 The [tidytext](https://cran.r-project.org/web/packages/tidytext/) library makes cleaning text data a breeze. Let's create a long data set with one row for each word from each tweet:
 
-```{r}
+```r
 library(tidytext)
 
 words <- raw_tweets %>%
@@ -61,7 +61,7 @@ words <- raw_tweets %>%
 
 Let's remove common stop words:
 
-```{r}
+```r
 data("stop_words")
 
 words <- words %>%
@@ -70,7 +70,7 @@ words <- words %>%
 
 Let's also remove some additional words I'd like to ignore:
 
-```{r}
+```r
 options(stringsAsFactors = FALSE)
 
 words_to_ignore <- data.frame(word = c("https", "amp", "t.co"))
@@ -81,7 +81,7 @@ words <- words %>%
 
 Now let's create a wide data set that has one row for each tweet and a column for each word. We will use this data to see which words best predict authorship.
 
-```{r}
+```r
 tweets <- words %>%
     group_by(screenName, id, word) %>%
     summarise(contains = 1) %>%
@@ -96,7 +96,7 @@ tweets <- words %>%
 
 Our data set has `r nrow(tweets)` rows (tweets) and `r ncol(tweets)` columns (1 column indicating the author of the tweet and `r ncol(tweets) - 1` additional columns indicating whether a particular word was used in this tweet). Which words are most useful in predicting who authored a tweet? [Lasso regression](https://en.wikipedia.org/wiki/Lasso_(statistics)) can help us determine which words are most predictive. The [glmnet](https://cran.r-project.org/web/packages/glmnet/index.html) library makes it super easy to perform lasso regression:
 
-```{r}
+```r
 library(glmnet)
 
 fit <- cv.glmnet(
@@ -108,7 +108,7 @@ fit <- cv.glmnet(
 
 Let's see which words have the largest coefficients:
 
-```{r, fig.height = 10}
+```r
 temp <- coef(fit, s = exp(-3)) %>% as.matrix()
 coefficients <- data.frame(word = row.names(temp), beta = temp[, 1])
 data <- coefficients %>%
@@ -136,7 +136,7 @@ ggplot(data, aes(x = i, y = beta, fill = ifelse(beta > 0, "Trump", "Obama"))) +
 
 The [wordcloud](https://cran.r-project.org/web/packages/wordcloud/index.html) library makes it super easy to make word clouds! Let's make one for Trump:
 
-```{r}
+```r
 library(wordcloud)
 
 words %>%
@@ -147,7 +147,7 @@ words %>%
 
 And one for Obama:
 
-```{r}
+```r
 words %>%
     filter(screenName == "BarackObama") %>%
     count(word) %>%
@@ -159,7 +159,7 @@ words %>%
 
 It looks like most of Barack Obama's tweets are from 2016, while Donald Trump's tweets have been more recent:
 
-```{r}
+```r
 ggplot(raw_tweets, aes(x = created, y = screenName)) +
     geom_jitter(width = 0) +
     theme_bw() +
@@ -168,7 +168,7 @@ ggplot(raw_tweets, aes(x = created, y = screenName)) +
 ```
 
 
-```{r twitter, fig.height = 3.5, echo = FALSE, fig.show = "hide", dpi = 300}
+```r
 words %>%
     filter(screenName == "realDonaldTrump") %>%
     count(word) %>%

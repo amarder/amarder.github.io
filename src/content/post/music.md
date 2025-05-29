@@ -15,7 +15,7 @@ The [tuneR](https://cran.r-project.org/web/packages/tuneR/) package provides exc
 
 Let's download an example wave file.
 
-```{r, eval = FALSE}
+```r
 url <- "http://freewavesamples.com/files/Alesis-Fusion-Acoustic-Bass-C2.wav"
 command <- paste("wget", url)
 system(command)
@@ -23,7 +23,7 @@ system(command)
 
 Let's use tuneR to read the file.
 
-```{r}
+```r
 library(tuneR)
 
 wave <- readWave("Alesis-Fusion-Acoustic-Bass-C2.wav")
@@ -37,7 +37,7 @@ This particular file is 2.9 seconds long. It is recorded in stereo (it has a lef
 
 Let's put the audio data into a data frame.
 
-```{r, message = FALSE, warning = FALSE}
+```r
 library(tidyverse)
 
 data <- data.frame(
@@ -50,7 +50,7 @@ head(data)
 
 Typical video contains 24 frames per second. Let's focus on the first 24th of a second of this audio file.
 
-```{r}
+```r
 data <- data %>%
     filter(second <= 1 / 24)
 nrow(data)
@@ -58,7 +58,7 @@ nrow(data)
 
 Now let's plot this 24th of a second.
 
-```{r graph, fig.width = 6.75, fig.height = (314 / 600) * 6.75}
+```r
 data %>%
     gather(key = "Channel", value = "y", Left, Right) %>%
     mutate(y = y / max(abs(y))) %>%

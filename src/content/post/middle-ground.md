@@ -6,7 +6,7 @@ draft: true
 ---
 
 
-```{r, echo = FALSE}
+```r
 library(knitr)
 
 opts_chunk$set(warning = FALSE, message = FALSE, echo = TRUE)
@@ -27,7 +27,7 @@ partisan).
 
 Let's download the most recent tweets by the party leaders in Congress.
 
-```{r, eval = FALSE}
+```r
 library(twitteR)
 library(tidyverse)
 
@@ -66,11 +66,11 @@ tweets <- tweets %>%
     mutate(republican = as.integer(party == "R"))
 ```
 
-```{r, eval = FALSE, echo = FALSE}
+```r
 write_csv(tweets, "tweets.csv")
 ```
 
-```{r, echo = FALSE}
+```r
 library(tidyverse)
 
 tweets <- read_csv("tweets.csv", col_types = list(id = col_character()))
@@ -84,7 +84,7 @@ Twitter's API let's us download a user's most recent tweets (3,200
 minus retweets). The graph below illustrates when each tweet in our
 dataset was posted.
 
-```{r}
+```r
 ggplot(tweets, aes(x = created, y = paste0(name, " (", party, ")"))) +
     geom_jitter(width = 0, size = 0.5) +
     theme_bw() +
@@ -96,7 +96,7 @@ I want to make sure we focus on an overlapping time period so our
 model doesn't pick up on unique words in Mitch McConnell's early
 tweets.
 
-```{r, results = "asis"}
+```r
 common_time_period <- function(tweets) {
     x <- tweets %>%
         group_by(republican) %>%
@@ -115,7 +115,7 @@ tweets <- common_time_period(tweets)
 
 I use the [tidytext](https://cran.r-project.org/web/packages/tidytext/index.html) library to create dummy variables indicating whether a word was used in a given tweet.
 
-```{r}
+```r
 library(tidytext)
 library(rlang)
 
@@ -161,7 +161,7 @@ expand_text_into_dummy_variables <- function(.data, text_column, id_column, cuto
 tweets <- tweets %>%
     expand_text_into_dummy_variables(
         text_column = text, id_column = id, cutoff = 0.015,
-        ignore = c("https", "t.co", "amp", "1", "2", "2015", "it’s")
+        ignore = c("https", "t.co", "amp", "1", "2", "2015", "it's")
     )
 ```
 
@@ -176,7 +176,7 @@ a new dummy variable indicating which tweets contain this word.
 I want to build a neural network to predict the political party of a
 tweet's author. Let's fit a neural network with two hidden states.
 
-```{r, results = "hide"}
+```r
 library(nnet)
 
 tweets <- tweets %>%
@@ -202,7 +202,7 @@ fit <- nnet(
 
 And save its predictions in a variable named `yhat`.
 
-```{r}
+```r
 tweets$yhat <- predict(fit, expvars(tweets))[, 1]
 ```
 
@@ -211,7 +211,7 @@ tweets$yhat <- predict(fit, expvars(tweets))[, 1]
 Let's see how well our neural network predicts the political party
 associated with each tweet based on the words used.
 
-```{r, fig.height = 10}
+```r
 tweets %>%
     ggplot(aes(x = yhat)) +
     geom_histogram(binwidth = 0.01) +
@@ -240,7 +240,7 @@ only that word would be authored by a Republican. A tweet about "obamacare"
 is likely written by a Republican, while a tweet about "dreamers" is
 likely written by a Democrat.
 
-```{r, fig.width = 9, fig.height = 8}
+```r
 library(ggrepel)
 
 my_coef <- function(object) {
@@ -286,7 +286,7 @@ plot_nnet(fit, tweets)
 For each of the eight politicians studied let's look at his or her most central
 tweet (a tweet is central when its predicted probability is close to 50%).
 
-```{r, results = "asis"}
+```r
 middle_ground <- tweets %>%
     mutate(d = abs(yhat - 0.5)) %>%
     group_by(screenName) %>%

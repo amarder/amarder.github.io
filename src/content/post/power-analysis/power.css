@@ -1,0 +1,27 @@
+input {
+  margin-bottom: 0px;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+.slider {
+  width: 250px;
+}
+tr.tall {
+  height: 79px;
+}
+#alpha {
+  width: 529px;
+}
+
+tr.divider {
+    background-color: #F7F7F7;
+}

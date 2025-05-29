@@ -10,7 +10,7 @@ I've been trying to wrap my head around [Programming with dplyr](https://cran.r-
 
 First let's take a look at the documentation:
 
-```{r, echo = FALSE}
+```r
 library(rlang)
 
 get_help <- function(...) {
@@ -26,7 +26,7 @@ cat(lines[10:22], sep = "\n")
 
 Now let's look at the source code for `UQ()`, `!!`, and `UQE()`:
 
-```{r}
+```r
 library(rlang)
 
 UQ
