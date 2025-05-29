@@ -2,6 +2,7 @@
 title: Statistical Power Analysis
 description: "An interactive visualization of how statistical power analyses are performed."
 publishDate: "2016-05-02"
+draft: true
 ---
 
 <link rel="stylesheet" type="text/css" href="./power.css">

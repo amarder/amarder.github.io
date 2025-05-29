@@ -58,7 +58,7 @@ helpful answers is an adaptation of
     get an answer, don't repost your question instead consider paying
     for support.
 
-# How To Answer Questions in a Helpful Way
+## How To Answer Questions in a Helpful Way
 
 "Be gentle. Problem-related stress can make people seem rude or
 stupid."  Ask probing questions to elicit more details.  "If you're

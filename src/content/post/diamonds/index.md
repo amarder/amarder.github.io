@@ -18,7 +18,7 @@ proceeds as follows:
 2.  model price as a function of diamond characteristics, and
 3.  identify diamonds with extra low prices.
 
-# Downloading Data
+## Downloading Data
 
 I've written a Python script to make downloading data from Blue Nile
 easy. The script has been posted [here][download.py]. To download data
@@ -46,7 +46,7 @@ plot of diamond price versus carat weight (both on log scales).
 
 ![plot of chunk big](./big-1.png) 
 
-# Modeling Price
+## Modeling Price
 
 Blue Nile's [buying guide][buying-guide] describes how the four C's
 (cut, color, clarity, and carat weight) are the most important
@@ -125,7 +125,7 @@ diamond with the same cut, clarity, and carat weight?
 
 ![plot of chunk coefplot](./coefplot-1.png) 
 
-# Identifying Deals
+## Identifying Deals
 
 Having read Blue Nile's buying guide a few times, they've convinced me
 to care about all four of the four C's. When purchasing a diamond, the
