@@ -28,7 +28,13 @@ const post = defineCollection({
 			publishDate: z
 				.string()
 				.or(z.date())
-				.transform((val) => new Date(val)),
+				.transform((val) => {
+					if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
+						// If it's a date-only string (YYYY-MM-DD), append time and use local timezone
+						return new Date(val + 'T00:00:00');
+					}
+					return new Date(val);
+				}),
 			updatedDate: z
 				.string()
 				.optional()

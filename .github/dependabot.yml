@@ -12,3 +12,11 @@ updates:
     allow:
       - dependency-type: "direct"
     open-pull-requests-limit: 20
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+      prod-dependencies:
+        dependency-type: "production"
+      patch-updates:
+        update-types:
+          - "patch"

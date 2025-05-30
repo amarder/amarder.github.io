@@ -1,5 +1,5 @@
 [build]
-  command = "pnpm build"
+  command = "pnpm exec playwright install chromium && pnpm build"
   publish = "dist"
 
 [build.environment]
