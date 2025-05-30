@@ -19,8 +19,8 @@ const {
 <html class="scroll-smooth" lang={siteConfig.lang}>
 	<head>
 		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
-		<script defer data-domain="andrewmarder.net" src="https://plausible.io/js/script.js"></script>
-		<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+		<script is:inline defer data-domain="andrewmarder.net" src="https://plausible.io/js/script.js"></script>
+		<script is:inline>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 	</head>
 	<body
 		class="bg-global-bg text-global-text mx-auto flex min-h-screen max-w-3xl flex-col px-4 pt-16 font-mono text-sm font-normal antialiased sm:px-8"
