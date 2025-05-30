@@ -1,16 +1,20 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import type { MarkdownHeading } from "astro";
 import FormattedDate from "@/components/FormattedDate.astro";
+import TOC from "./TOC.astro";
 
 interface Props {
 	content: CollectionEntry<"post">;
 	readingTime: string;
+	headings: MarkdownHeading[];
 }
 
 const {
 	content: { data },
 	readingTime,
+	headings,
 } = Astro.props;
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
@@ -35,7 +39,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 <h1 class="title">
 	{data.title}
 </h1>
-<div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+<div class="flex flex-wrap items-center gap-x-3 gap-y-2 mt-2">
 	<p class="font-semibold">
 		<FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} /> /{" "}
 		{readingTime}
@@ -49,6 +53,11 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 		)
 	}
 </div>
+{!!headings.length && (
+	<div class="mt-2">
+		<TOC headings={headings} />
+	</div>
+)}
 {
 	!!data.tags?.length && (
 		<div class="mt-2">
