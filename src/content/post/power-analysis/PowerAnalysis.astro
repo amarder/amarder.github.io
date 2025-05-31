@@ -1,5 +1,16 @@
 ---
 // PowerAnalysis.astro - Modern power analysis visualization component
+import katex from 'katex';
+
+// Render LaTeX expressions server-side
+const latexExpressions = {
+    y0: katex.renderToString('\\left(Y_0\\right)', { throwOnError: false }),
+    y1: katex.renderToString('\\left(Y_1\\right)', { throwOnError: false }),
+    mu: katex.renderToString('\\left(\\mu\\right)', { throwOnError: false }),
+    sigma: katex.renderToString('\\left(\\sigma\\right)', { throwOnError: false }),
+    n: katex.renderToString('\\left(n\\right)', { throwOnError: false }),
+    alpha: katex.renderToString('\\left(\\alpha\\right)', { throwOnError: false })
+};
 ---
 
 <div id="power-analysis-container">
@@ -10,13 +21,13 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Control Group $(Y_0)$</th>
-                    <th>Treatment Group $(Y_1)$</th>
+                    <th>Control Group <span set:html={latexExpressions.y0}></span></th>
+                    <th>Treatment Group <span set:html={latexExpressions.y1}></span></th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="tall">
-                    <td class="param-label">Mean $(\mu)$</td>
+                    <td class="param-label">Mean <span set:html={latexExpressions.mu}></span></td>
                     <td>
                         <div class="slider-container">
                             <input type="range" id="mu0" class="slider" min="-1" max="1" step="0.01" value="0" oninput="updateParameter('mu0', this.value)">
@@ -31,7 +42,7 @@
                     </td>
                 </tr>
                 <tr class="tall">
-                    <td class="param-label">Standard Deviation $(\sigma)$</td>
+                    <td class="param-label">Standard Deviation <span set:html={latexExpressions.sigma}></span></td>
                     <td>
                         <div class="slider-container">
                             <input type="range" id="sigma0" class="slider" min="0.1" max="5" step="0.1" value="1" oninput="updateParameter('sigma0', this.value)">
@@ -46,7 +57,7 @@
                     </td>
                 </tr>
                 <tr class="tall">
-                    <td class="param-label">Number of Observations $(n)$</td>
+                    <td class="param-label">Number of Observations <span set:html={latexExpressions.n}></span></td>
                     <td>
                         <div class="slider-container">
                             <input type="range" id="n0" class="slider" min="2" max="100" step="1" value="50" oninput="updateParameter('n0', this.value)">
@@ -61,7 +72,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="param-label">Significance Level $(\alpha)$</td>
+                    <td class="param-label">Significance Level <span set:html={latexExpressions.alpha}></span></td>
                     <td colspan="2">
                         <div class="slider-container full-width">
                             <input type="range" id="alpha" class="slider alpha-slider" min="0.001" max="0.1" step="0.001" value="0.05" oninput="updateParameter('alpha', this.value)">
@@ -212,18 +223,14 @@
 
     .live-text {
         margin-top: 2rem;
-        color: #374151;
+        color: var(--color-global-text);
         line-height: 1.6;
-        background: #f8fafc;
-        padding: 1.5rem;
-        border-radius: 8px;
-        border-left: 4px solid #3b82f6;
     }
 
     .live-text span {
         font-weight: 600;
-        color: #1f2937;
-        background: #dbeafe;
+        color: #3b82f6;
+        background: rgba(59, 130, 246, 0.1);
         padding: 0.1em 0.3em;
         border-radius: 0.25em;
     }
