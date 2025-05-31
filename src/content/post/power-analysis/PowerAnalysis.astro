@@ -5,7 +5,7 @@
 <div id="power-analysis-container">
     <div id="plot"></div>
     
-    <div class="controls-table">
+    <div class="controls-table prose">
         <table>
             <thead>
                 <tr>
@@ -71,12 +71,14 @@
                 </tr>
                 <tr class="divider"><td colspan="3"></td></tr>
                 <tr>
-                    <td>Critical t = <span id="critical-t">0.000</span></td>
-                    <td>Noncentrality Parameter = <span id="ncp">0.000</span></td>
+                    <td></td>
                     <td>Degrees of Freedom = <span id="dof">0.000</span></td>
+                    <td>Noncentrality Parameter = <span id="ncp">0.000</span></td>
                 </tr>
                 <tr>
-                    <td colspan="3">Power = <span id="power">0.000</span></td>
+                    <td></td>
+                    <td>Critical t = <span id="critical-t">0.000</span></td>
+                    <td>Power = <span id="power">0.000</span></td>
                 </tr>
             </tbody>
         </table>
@@ -110,29 +112,28 @@
     .controls-table table {
         width: 100%;
         border-collapse: collapse;
-        background: white;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .controls-table th,
     .controls-table td {
         padding: 1rem;
         text-align: left;
-        border-bottom: 1px solid #e5e7eb;
     }
 
     .controls-table th {
-        background-color: #f9fafb;
-        font-weight: 600;
-        color: #374151;
+        border-bottom: 1px dashed #666;
+        font-weight: 700;
+        color: var(--color-global-text);
+    }
+
+    .controls-table tbody tr {
+        border-bottom: none;
     }
 
     .param-label {
         width: 240px;
         font-weight: 500;
-        color: #374151;
+        color: var(--color-global-text);
     }
 
     .slider-container {
@@ -200,7 +201,13 @@
     }
 
     tr.divider {
-        background-color: #f7f7f7;
+        border-top: 1px dashed #666;
+    }
+
+    tr.divider td {
+        background-color: transparent;
+        padding: 0;
+        height: 1px;
     }
 
     .live-text {
