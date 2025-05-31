@@ -97,6 +97,10 @@
         margin-bottom: 2rem;
         display: flex;
         justify-content: center;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1rem;
     }
 
     .controls-table {
@@ -225,9 +229,19 @@
         shape-rendering: crispEdges;
     }
 
+    .axis text {
+        fill: #000;
+        font-size: 12px;
+    }
+
     .line {
         fill: none;
         stroke-width: 2px;
+    }
+
+    .legend text {
+        fill: #000 !important;
+        font-size: 12px;
     }
 
     /* Responsive design */
@@ -446,27 +460,32 @@ class PowerAnalysis {
         
         const ymax = Math.max(...nullPdf, ...altPdf);
 
-        // Create regions for shading
+        // Create regions for shading - only under the alternative hypothesis
         const regions = [];
-        const fills = ["rgba(0, 0, 0, 0.25)", "rgba(255, 0, 0, 0.25)"];
         
-        [info.nullDist, info.altDist].forEach((dist, j) => {
-            // Left tail
-            const leftPoints = xValues
-                .filter(x => x <= info.xcrit[0])
-                .map(x => [x, dist.pdf(x)])
-                .concat([[info.xcrit[0], 0], [xmin, 0]]);
-            
-            regions.push({ points: leftPoints, fill: fills[j] });
-            
-            // Right tail
-            const rightPoints = [[xmax, 0], [info.xcrit[1], 0]]
-                .concat(xValues
-                    .filter(x => x >= info.xcrit[1])
-                    .map(x => [x, dist.pdf(x)]));
-            
-            regions.push({ points: rightPoints, fill: fills[j] });
-        });
+        // Left tail region under alternative hypothesis (from -infinity to left critical value)
+        const leftTailX = xValues.filter(x => x <= info.xcrit[0]);
+        const leftPoints = [
+            [xmin, 0], // Start at bottom left
+            ...leftTailX.map(x => [x, info.altDist.pdf(x)]), // Follow the curve
+            [info.xcrit[0], info.altDist.pdf(info.xcrit[0])], // Point at critical value
+            [info.xcrit[0], 0], // Vertical line down to baseline
+            [xmin, 0] // Close the polygon
+        ];
+        
+        regions.push({ points: leftPoints, fill: "rgba(255, 0, 0, 0.3)" });
+        
+        // Right tail region under alternative hypothesis (from right critical value to +infinity)
+        const rightTailX = xValues.filter(x => x >= info.xcrit[1]);
+        const rightPoints = [
+            [info.xcrit[1], 0], // Start at baseline at critical value
+            [info.xcrit[1], info.altDist.pdf(info.xcrit[1])], // Vertical line up to curve
+            ...rightTailX.map(x => [x, info.altDist.pdf(x)]), // Follow the curve
+            [xmax, 0], // End at bottom right
+            [info.xcrit[1], 0] // Close the polygon
+        ];
+        
+        regions.push({ points: rightPoints, fill: "rgba(255, 0, 0, 0.3)" });
 
         return {
             xValues,
@@ -488,10 +507,18 @@ class PowerAnalysis {
         const width = Math.min(800, window.innerWidth - 40) - margin.left - margin.right;
         const height = 400 - margin.top - margin.bottom;
 
-        this.svg = d3.select("#plot")
+        const svgContainer = d3.select("#plot")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+
+        // Add white background
+        svgContainer.append("rect")
+            .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
+            .attr("fill", "white");
+
+        this.svg = svgContainer
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -516,6 +543,7 @@ class PowerAnalysis {
             .attr("y", -6)
             .style("text-anchor", "end")
             .style("fill", "black")
+            .style("font-size", "12px")
             .text("t-statistic");
 
         this.svg.append("g")
@@ -527,6 +555,7 @@ class PowerAnalysis {
             .attr("dy", ".71em")
             .style("text-anchor", "end")
             .style("fill", "black")
+            .style("font-size", "12px")
             .text("Probability Density");
 
         // Add legend
@@ -554,7 +583,8 @@ class PowerAnalysis {
         legendItem.append("text")
             .attr("x", 24)
             .attr("y", 4)
-            .style("fill", d => d.color)
+            .style("fill", "black")
+            .style("font-size", "12px")
             .text(d => d.label);
 
         this.width = width;
