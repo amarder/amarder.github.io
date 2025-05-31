@@ -253,10 +253,6 @@
     }
 </style>
 
-<!-- Load external dependencies -->
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
-
 <script is:inline>
 // Global parameters object
 window.powerParams = {
@@ -281,33 +277,83 @@ window.updateParameter = function(param, value) {
         valueSpan.textContent = numValue.toFixed(precision);
     }
     
-    // Update calculations and chart if available
-    if (window.powerAnalysisInstance) {
-        window.powerAnalysisInstance.updateFromParams();
+    // Update calculations and chart if available - but only if jStat is loaded
+    if (window.jStat && window.powerAnalysisInstance) {
+        try {
+            window.powerAnalysisInstance.updateFromParams();
+        } catch (error) {
+            console.error('Error updating calculations:', error);
+        }
+    } else if (!window.jStat) {
+        console.log('jStat not yet loaded, calculations will update when ready');
     }
 };
 
-// Initialize when DOM and libraries are ready
-document.addEventListener('DOMContentLoaded', function() {
-    function initWhenReady() {
-        if (window.d3 && window.jStat && document.getElementById('plot')) {
-            if (!window.powerAnalysisInstance) {
-                window.powerAnalysisInstance = new PowerAnalysis();
-            }
-        } else {
-            setTimeout(initWhenReady, 100);
+// Dynamic library loading function
+async function loadLibraries() {
+    try {
+        // Load D3 if not already loaded
+        if (!window.d3) {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/d3@7';
+                script.onload = () => resolve();
+                script.onerror = () => reject(new Error('Failed to load D3'));
+                document.head.appendChild(script);
+            });
         }
+
+        // Load jStat if not already loaded
+        if (!window.jStat) {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js';
+                script.onload = () => resolve();
+                script.onerror = () => reject(new Error('Failed to load jStat'));
+                document.head.appendChild(script);
+            });
+        }
+
+        console.log('Libraries loaded successfully');
+        return true;
+    } catch (error) {
+        console.error('Error loading libraries:', error);
+        return false;
     }
-    initWhenReady();
+}
+
+// Initialize when DOM and libraries are ready
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('DOM loaded, starting library loading...');
+    
+    const librariesLoaded = await loadLibraries();
+    
+    if (librariesLoaded && document.getElementById('plot')) {
+        if (!window.powerAnalysisInstance) {
+            window.powerAnalysisInstance = new PowerAnalysis();
+            console.log('PowerAnalysis initialized with all libraries loaded');
+        }
+    } else {
+        console.error('Failed to initialize PowerAnalysis - libraries or DOM elements missing');
+    }
 });
 
 class PowerAnalysis {
     constructor() {
         this.setupChart();
-        this.updateFromParams();
+        // Only run initial calculation if jStat is available
+        if (window.jStat) {
+            this.updateFromParams();
+        } else {
+            console.log('PowerAnalysis initialized, waiting for jStat to load calculations');
+        }
     }
 
     updateFromParams() {
+        if (!window.jStat) {
+            console.log('jStat not available for calculations');
+            return;
+        }
         this.calculateAndUpdate();
     }
 
@@ -322,30 +368,68 @@ class PowerAnalysis {
     }
 
     calculatePower() {
-        const params = window.powerParams;
-        const mean = params.mu1 - params.mu0;
-        const variance = (
-            Math.pow(params.sigma1, 2) / params.n1 +
-            Math.pow(params.sigma0, 2) / params.n0
-        );
-        const alpha = params.alpha;
-        const dof = this.satterthwaite([params.sigma0, params.sigma1], [params.n0, params.n1]);
-        const ncp = mean / Math.sqrt(variance);
-        
-        const nullDist = jStat.studentt(dof);
-        const altDist = jStat.noncentralt(dof, ncp);
+        // Check if jStat is available
+        if (!window.jStat) {
+            console.error('jStat library not loaded');
+            return {
+                dof: 0,
+                ncp: 0,
+                xcrit: [0, 0],
+                power: 0,
+                nullDist: null,
+                altDist: null
+            };
+        }
 
-        const xcrit = [nullDist.inv(alpha / 2), nullDist.inv(1 - alpha / 2)];
-        const power = altDist.cdf(xcrit[0]) + (1 - altDist.cdf(xcrit[1]));
+        try {
+            const params = window.powerParams;
+            const mean = params.mu1 - params.mu0;
+            const variance = (
+                Math.pow(params.sigma1, 2) / params.n1 +
+                Math.pow(params.sigma0, 2) / params.n0
+            );
+            const alpha = params.alpha;
+            const dof = this.satterthwaite([params.sigma0, params.sigma1], [params.n0, params.n1]);
+            const ncp = mean / Math.sqrt(variance);
+            
+            // Check if jStat functions exist
+            if (!jStat.studentt || !jStat.noncentralt) {
+                console.error('jStat statistical functions not available');
+                return {
+                    dof: dof,
+                    ncp: ncp,
+                    xcrit: [0, 0],
+                    power: 0,
+                    nullDist: null,
+                    altDist: null
+                };
+            }
+            
+            const nullDist = jStat.studentt(dof);
+            const altDist = jStat.noncentralt(dof, ncp);
 
-        return {
-            dof,
-            ncp,
-            xcrit,
-            power,
-            nullDist,
-            altDist
-        };
+            const xcrit = [nullDist.inv(alpha / 2), nullDist.inv(1 - alpha / 2)];
+            const power = altDist.cdf(xcrit[0]) + (1 - altDist.cdf(xcrit[1]));
+
+            return {
+                dof,
+                ncp,
+                xcrit,
+                power,
+                nullDist,
+                altDist
+            };
+        } catch (error) {
+            console.error('Error in calculatePower:', error);
+            return {
+                dof: 0,
+                ncp: 0,
+                xcrit: [0, 0],
+                power: 0,
+                nullDist: null,
+                altDist: null
+            };
+        }
     }
 
     generateData() {
@@ -420,7 +504,7 @@ class PowerAnalysis {
             .curve(d3.curveBasis);
 
         this.xAxis = d3.axisBottom(this.xScale);
-        this.yAxis = d3.axisLeft(this.yAxis);
+        this.yAxis = d3.axisLeft(this.yScale);
 
         // Add axes
         this.svg.append("g")
