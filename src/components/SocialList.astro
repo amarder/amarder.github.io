@@ -1,6 +1,13 @@
 ---
 import { Icon } from "astro-icon/components";
 
+export interface Props {
+	/** Size of the social icons (Tailwind classes) */
+	iconSize?: string;
+}
+
+const { iconSize = "h-8 w-8" } = Astro.props;
+
 /** 
 	Uses https://www.astroicon.dev/getting-started/
 	Find icons via guide: https://www.astroicon.dev/guides/customization/#open-source-icon-sets
@@ -31,7 +38,6 @@ const socialLinks: {
 ---
 
 <div class="flex flex-wrap items-end gap-x-2">
-	<p>Find me on</p>
 	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
 		{
 			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
@@ -42,7 +48,7 @@ const socialLinks: {
 						rel={`noreferrer ${isWebmention ? "me authn" : ""}`}
 						target="_blank"
 					>
-						<Icon aria-hidden="true" class="h-8 w-8" focusable="false" name={name} />
+						<Icon aria-hidden="true" class={iconSize} focusable="false" name={name} />
 						<span class="sr-only">{friendlyName}</span>
 					</a>
 				</li>
