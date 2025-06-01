@@ -18,7 +18,7 @@
         async>
 </script>
 
-<script>
+<script is:inline>
 	// Function to get the current theme from the site
 	function getCurrentTheme() {
 		return document.documentElement.getAttribute("data-theme") || "light";
@@ -27,7 +27,7 @@
 	// Function to update Giscus theme
 	function updateGiscusTheme(theme) {
 		const iframe = document.querySelector('iframe.giscus-frame');
-		if (iframe) {
+		if (iframe && iframe.contentWindow) {
 			iframe.contentWindow.postMessage(
 				{ giscus: { setConfig: { theme: theme } } },
 				'https://giscus.app'
