@@ -1,5 +1,6 @@
 ---
 import { menuLinks, siteConfig } from "@/site.config";
+import SocialList from "@/components/SocialList.astro";
 
 const year = new Date().getFullYear();
 ---
@@ -24,4 +25,7 @@ const year = new Date().getFullYear();
 			))
 		}
 	</nav>
+	<div class="mt-4 sm:mt-0">
+		<SocialList iconSize="h-6 w-6" />
+	</div>
 </footer>

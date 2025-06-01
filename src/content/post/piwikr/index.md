@@ -3,7 +3,7 @@ title: "Custom Web Analytics"
 description: "piwikr: an R package for analyzing pageviews."
 author: "Andrew Marder"
 publishDate: "2016-06-16"
-tags: [R]
+tags: [RStats]
 twitter:
   image: "/piwikr/piwikr_files/figure-markdown_strict/twitter-1.png"
 draft: true

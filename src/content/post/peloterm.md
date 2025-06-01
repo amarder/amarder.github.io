@@ -3,6 +3,8 @@ title: "Introducing Peloterm"
 description: "An open-source indoor cycling training app built with Python that connects to smart trainers, tracks metrics, and uploads to Strava"
 publishDate: "2025-05-30"
 draft: false
+tags:
+  - Python
 ---
 
 Sometimes I enjoy riding my bike indoors. For years, I used Wahoo SYSTM (formerly known as the Sufferfest) and was quite happy with their platform. However, since I wasn't using it frequently enough to justify the $15/month subscription, I decided to cancel. When I discovered the SYSTM app was essentially useless without a paid subscription, I started exploring alternatives.
