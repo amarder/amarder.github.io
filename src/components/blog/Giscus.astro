@@ -1,0 +1,65 @@
+---
+// Giscus commenting system component
+---
+
+<script src="https://giscus.app/client.js"
+        data-repo="amarder/amarder.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnk0Mzk3MTcyMQ=="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOAp70ic4Cq3on"
+        data-mapping="pathname"
+        data-strict="1"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<script>
+	// Function to get the current theme from the site
+	function getCurrentTheme() {
+		return document.documentElement.getAttribute("data-theme") || "light";
+	}
+
+	// Function to update Giscus theme
+	function updateGiscusTheme(theme) {
+		const iframe = document.querySelector('iframe.giscus-frame');
+		if (iframe) {
+			iframe.contentWindow.postMessage(
+				{ giscus: { setConfig: { theme: theme } } },
+				'https://giscus.app'
+			);
+		}
+	}
+
+	// Set initial theme when Giscus loads
+	function handleGiscusLoad() {
+		const currentTheme = getCurrentTheme();
+		updateGiscusTheme(currentTheme);
+	}
+
+	// Listen for the site's theme change events
+	document.addEventListener("theme-change", (e) => {
+		updateGiscusTheme(e.detail.theme);
+	});
+
+	// Listen for Giscus ready event to set initial theme
+	window.addEventListener('message', event => {
+		if (event.origin !== 'https://giscus.app') return;
+		if (!(typeof event.data === 'object' && event.data.giscus)) return;
+		
+		// When Giscus is ready, set the correct theme
+		if (event.data.giscus.discussion) {
+			handleGiscusLoad();
+		}
+	});
+
+	// Also set theme on page load in case Giscus loads before our script
+	document.addEventListener('DOMContentLoaded', () => {
+		// Wait a bit for Giscus to fully load
+		setTimeout(handleGiscusLoad, 1000);
+	});
+</script>
