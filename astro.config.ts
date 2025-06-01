@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import path from "node:path";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@tailwindcss/vite";
@@ -24,9 +25,29 @@ import rehypeKatex from "rehype-katex"; /* Render math with KaTeX */
 import rehypeMermaid from "rehype-mermaid"; /* Render Mermaid diagrams */
 import rehypeUnwrapImages from "rehype-unwrap-images";
 
+// Load redirects from generated file
+function loadRedirects() {
+	try {
+		const redirectsPath = path.join(process.cwd(), "redirects.json");
+		if (fs.existsSync(redirectsPath)) {
+			const redirectsData = fs.readFileSync(redirectsPath, "utf-8");
+			const redirects = JSON.parse(redirectsData);
+			console.log(`📍 Loaded ${Object.keys(redirects).length} redirects from redirects.json`);
+			return redirects;
+		} else {
+			console.log("ℹ️  No redirects.json found, run 'npm run generate:redirects' to create one");
+			return {};
+		}
+	} catch (error) {
+		console.warn("⚠️  Could not load redirects.json:", (error as Error).message);
+		return {};
+	}
+}
+
 // https://astro.build/config
 export default defineConfig({
 	site: siteConfig.url,
+	redirects: loadRedirects(),
 	image: {
 		domains: ["webmention.io"],
 	},

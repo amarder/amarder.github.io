@@ -1,0 +1,677 @@
+---
+// PowerAnalysis.astro - Modern power analysis visualization component
+import katex from 'katex';
+
+// Render LaTeX expressions server-side
+const latexExpressions = {
+    y0: katex.renderToString('\\left(Y_0\\right)', { throwOnError: false }),
+    y1: katex.renderToString('\\left(Y_1\\right)', { throwOnError: false }),
+    mu: katex.renderToString('\\left(\\mu\\right)', { throwOnError: false }),
+    sigma: katex.renderToString('\\left(\\sigma\\right)', { throwOnError: false }),
+    n: katex.renderToString('\\left(n\\right)', { throwOnError: false }),
+    alpha: katex.renderToString('\\left(\\alpha\\right)', { throwOnError: false })
+};
+---
+
+<div id="power-analysis-container">
+    <div id="plot"></div>
+    
+    <div class="controls-table prose">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Control Group <span set:html={latexExpressions.y0}></span></th>
+                    <th>Treatment Group <span set:html={latexExpressions.y1}></span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tall">
+                    <td class="param-label">Mean <span set:html={latexExpressions.mu}></span></td>
+                    <td>
+                        <div class="slider-container">
+                            <input type="range" id="mu0" class="slider" min="-1" max="1" step="0.01" value="0" oninput="updateParameter('mu0', this.value)">
+                            <span class="slider-value" id="mu0-value">0.00</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slider-container">
+                            <input type="range" id="mu1" class="slider" min="-1" max="1" step="0.01" value="0.5" oninput="updateParameter('mu1', this.value)">
+                            <span class="slider-value" id="mu1-value">0.50</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="tall">
+                    <td class="param-label">Standard Deviation <span set:html={latexExpressions.sigma}></span></td>
+                    <td>
+                        <div class="slider-container">
+                            <input type="range" id="sigma0" class="slider" min="0.1" max="5" step="0.1" value="1" oninput="updateParameter('sigma0', this.value)">
+                            <span class="slider-value" id="sigma0-value">1.0</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slider-container">
+                            <input type="range" id="sigma1" class="slider" min="0.1" max="5" step="0.1" value="1" oninput="updateParameter('sigma1', this.value)">
+                            <span class="slider-value" id="sigma1-value">1.0</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="tall">
+                    <td class="param-label">Number of Observations <span set:html={latexExpressions.n}></span></td>
+                    <td>
+                        <div class="slider-container">
+                            <input type="range" id="n0" class="slider" min="2" max="100" step="1" value="50" oninput="updateParameter('n0', this.value)">
+                            <span class="slider-value" id="n0-value">50</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slider-container">
+                            <input type="range" id="n1" class="slider" min="2" max="100" step="1" value="50" oninput="updateParameter('n1', this.value)">
+                            <span class="slider-value" id="n1-value">50</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="param-label">Significance Level <span set:html={latexExpressions.alpha}></span></td>
+                    <td colspan="2">
+                        <div class="slider-container full-width">
+                            <input type="range" id="alpha" class="slider alpha-slider" min="0.001" max="0.1" step="0.001" value="0.05" oninput="updateParameter('alpha', this.value)">
+                            <span class="slider-value" id="alpha-value">0.050</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="divider"><td colspan="3"></td></tr>
+                <tr>
+                    <td></td>
+                    <td>Degrees of Freedom = <span id="dof">0.000</span></td>
+                    <td>Noncentrality Parameter = <span id="ncp">0.000</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Critical t = <span id="critical-t">0.000</span></td>
+                    <td>Power = <span id="power">0.000</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="live-text">
+        <p>This power analysis assumes each outcome for the control group is distributed normally with mean <span id="text-mu0">0.00</span> and standard deviation <span id="text-sigma0">1.0</span>, and each outcome for the treatment group is distributed normally with mean <span id="text-mu1">0.50</span> and standard deviation <span id="text-sigma1">1.0</span>. If <span id="text-n0">50</span> observations are collected from the control group and <span id="text-n1">50</span> observations are collected from the treatment group, what is the probability of rejecting the null hypothesis, allowing for false rejections at a rate of <span id="text-alpha">0.050</span>? The probability of rejecting the null hypothesis that the expected outcomes for the two groups are equal is <span id="text-power">0.000</span>.</p>
+    </div>
+</div>
+
+<style>
+    #power-analysis-container {
+        margin: 2rem 0;
+        font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    #plot {
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: center;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .controls-table {
+        margin-bottom: 2rem;
+    }
+
+    .controls-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .controls-table th,
+    .controls-table td {
+        padding: 1rem;
+        text-align: left;
+    }
+
+    .controls-table th {
+        border-bottom: 1px dashed #666;
+        font-weight: 700;
+        color: var(--color-global-text);
+    }
+
+    .controls-table tbody tr {
+        border-bottom: none;
+    }
+
+    .param-label {
+        width: 240px;
+        font-weight: 500;
+        color: var(--color-global-text);
+    }
+
+    .slider-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .slider-container.full-width {
+        width: 100%;
+    }
+
+    .slider {
+        flex: 1;
+        height: 6px;
+        border-radius: 3px;
+        background: linear-gradient(to right, #e5e7eb 0%, #3b82f6 0%, #3b82f6 100%, #e5e7eb 100%);
+        outline: none;
+        appearance: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .slider::-webkit-slider-thumb {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #3b82f6;
+        cursor: pointer;
+        border: 2px solid white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+        transform: scale(1.1);
+        background: #2563eb;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #3b82f6;
+        cursor: pointer;
+        border: 2px solid white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .alpha-slider {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .slider-value {
+        min-width: 50px;
+        font-weight: 500;
+        color: #374151;
+        font-family: monospace;
+    }
+
+    tr.tall {
+        height: 79px;
+    }
+
+    tr.divider {
+        border-top: 1px dashed #666;
+    }
+
+    tr.divider td {
+        background-color: transparent;
+        padding: 0;
+        height: 1px;
+    }
+
+    .live-text {
+        margin-top: 2rem;
+        color: var(--color-global-text);
+        line-height: 1.6;
+    }
+
+    .live-text span {
+        font-weight: 600;
+        color: #3b82f6;
+        background: rgba(59, 130, 246, 0.1);
+        padding: 0.1em 0.3em;
+        border-radius: 0.25em;
+    }
+
+    /* D3 chart styles */
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .axis text {
+        fill: #000;
+        font-size: 12px;
+    }
+
+    .line {
+        fill: none;
+        stroke-width: 2px;
+    }
+
+    .legend text {
+        fill: #000 !important;
+        font-size: 12px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .controls-table table {
+            font-size: 0.9rem;
+        }
+        
+        .param-label {
+            width: auto;
+        }
+        
+        .slider-container {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.5rem;
+        }
+
+        #plot svg {
+            width: 100% !important;
+            height: auto !important;
+        }
+    }
+</style>
+
+<script is:inline>
+// Global parameters object
+window.powerParams = {
+    mu0: 0,
+    mu1: 0.5,
+    sigma0: 1,
+    sigma1: 1,
+    n0: 50,
+    n1: 50,
+    alpha: 0.05
+};
+
+// Global update function accessible from inline event handlers
+window.updateParameter = function(param, value) {
+    const numValue = parseFloat(value);
+    window.powerParams[param] = numValue;
+    
+    // Update the corresponding span
+    const valueSpan = document.getElementById(param + '-value');
+    if (valueSpan) {
+        const precision = param === 'alpha' ? 3 : (param.startsWith('n') ? 0 : 2);
+        valueSpan.textContent = numValue.toFixed(precision);
+    }
+    
+    // Update calculations and chart if available - but only if jStat is loaded
+    if (window.jStat && window.powerAnalysisInstance) {
+        try {
+            window.powerAnalysisInstance.updateFromParams();
+        } catch (error) {
+            console.error('Error updating calculations:', error);
+        }
+    } else if (!window.jStat) {
+        console.log('jStat not yet loaded, calculations will update when ready');
+    }
+};
+
+// Dynamic library loading function
+async function loadLibraries() {
+    try {
+        // Load D3 if not already loaded
+        if (!window.d3) {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/d3@7';
+                script.onload = () => resolve();
+                script.onerror = () => reject(new Error('Failed to load D3'));
+                document.head.appendChild(script);
+            });
+        }
+
+        // Load jStat if not already loaded
+        if (!window.jStat) {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js';
+                script.onload = () => resolve();
+                script.onerror = () => reject(new Error('Failed to load jStat'));
+                document.head.appendChild(script);
+            });
+        }
+
+        console.log('Libraries loaded successfully');
+        return true;
+    } catch (error) {
+        console.error('Error loading libraries:', error);
+        return false;
+    }
+}
+
+// Initialize when DOM and libraries are ready
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('DOM loaded, starting library loading...');
+    
+    const librariesLoaded = await loadLibraries();
+    
+    if (librariesLoaded && document.getElementById('plot')) {
+        if (!window.powerAnalysisInstance) {
+            window.powerAnalysisInstance = new PowerAnalysis();
+            console.log('PowerAnalysis initialized with all libraries loaded');
+        }
+    } else {
+        console.error('Failed to initialize PowerAnalysis - libraries or DOM elements missing');
+    }
+});
+
+class PowerAnalysis {
+    constructor() {
+        this.setupChart();
+        // Only run initial calculation if jStat is available
+        if (window.jStat) {
+            this.updateFromParams();
+        } else {
+            console.log('PowerAnalysis initialized, waiting for jStat to load calculations');
+        }
+    }
+
+    updateFromParams() {
+        if (!window.jStat) {
+            console.log('jStat not available for calculations');
+            return;
+        }
+        this.calculateAndUpdate();
+    }
+
+    satterthwaite(s, n) {
+        const v = s.map(x => Math.pow(x, 2));
+        const numerator = Math.pow(v[0] / n[0] + v[1] / n[1], 2);
+        const denominator = (
+            Math.pow(v[0] / n[0], 2) / (n[0] - 1) +
+            Math.pow(v[1] / n[1], 2) / (n[1] - 1)
+        );
+        return numerator / denominator;
+    }
+
+    calculatePower() {
+        // Check if jStat is available
+        if (!window.jStat) {
+            console.error('jStat library not loaded');
+            return {
+                dof: 0,
+                ncp: 0,
+                xcrit: [0, 0],
+                power: 0,
+                nullDist: null,
+                altDist: null
+            };
+        }
+
+        try {
+            const params = window.powerParams;
+            const mean = params.mu1 - params.mu0;
+            const variance = (
+                Math.pow(params.sigma1, 2) / params.n1 +
+                Math.pow(params.sigma0, 2) / params.n0
+            );
+            const alpha = params.alpha;
+            const dof = this.satterthwaite([params.sigma0, params.sigma1], [params.n0, params.n1]);
+            const ncp = mean / Math.sqrt(variance);
+            
+            // Check if jStat functions exist
+            if (!jStat.studentt || !jStat.noncentralt) {
+                console.error('jStat statistical functions not available');
+                return {
+                    dof: dof,
+                    ncp: ncp,
+                    xcrit: [0, 0],
+                    power: 0,
+                    nullDist: null,
+                    altDist: null
+                };
+            }
+            
+            const nullDist = jStat.studentt(dof);
+            const altDist = jStat.noncentralt(dof, ncp);
+
+            const xcrit = [nullDist.inv(alpha / 2), nullDist.inv(1 - alpha / 2)];
+            const power = altDist.cdf(xcrit[0]) + (1 - altDist.cdf(xcrit[1]));
+
+            return {
+                dof,
+                ncp,
+                xcrit,
+                power,
+                nullDist,
+                altDist
+            };
+        } catch (error) {
+            console.error('Error in calculatePower:', error);
+            return {
+                dof: 0,
+                ncp: 0,
+                xcrit: [0, 0],
+                power: 0,
+                nullDist: null,
+                altDist: null
+            };
+        }
+    }
+
+    generateData() {
+        const points = 100;
+        const xmin = -10;
+        const xmax = 10;
+        const xValues = d3.range(xmin, xmax, (xmax - xmin) / points);
+        
+        const info = this.calculatePower();
+        
+        // Generate probability density values
+        const nullPdf = xValues.map(x => info.nullDist.pdf(x));
+        const altPdf = xValues.map(x => info.altDist.pdf(x));
+        
+        const ymax = Math.max(...nullPdf, ...altPdf);
+
+        // Create regions for shading - only under the alternative hypothesis
+        const regions = [];
+        
+        // Left tail region under alternative hypothesis (from -infinity to left critical value)
+        const leftTailX = xValues.filter(x => x <= info.xcrit[0]);
+        const leftPoints = [
+            [xmin, 0], // Start at bottom left
+            ...leftTailX.map(x => [x, info.altDist.pdf(x)]), // Follow the curve
+            [info.xcrit[0], info.altDist.pdf(info.xcrit[0])], // Point at critical value
+            [info.xcrit[0], 0], // Vertical line down to baseline
+            [xmin, 0] // Close the polygon
+        ];
+        
+        regions.push({ points: leftPoints, fill: "rgba(255, 0, 0, 0.3)" });
+        
+        // Right tail region under alternative hypothesis (from right critical value to +infinity)
+        const rightTailX = xValues.filter(x => x >= info.xcrit[1]);
+        const rightPoints = [
+            [info.xcrit[1], 0], // Start at baseline at critical value
+            [info.xcrit[1], info.altDist.pdf(info.xcrit[1])], // Vertical line up to curve
+            ...rightTailX.map(x => [x, info.altDist.pdf(x)]), // Follow the curve
+            [xmax, 0], // End at bottom right
+            [info.xcrit[1], 0] // Close the polygon
+        ];
+        
+        regions.push({ points: rightPoints, fill: "rgba(255, 0, 0, 0.3)" });
+
+        return {
+            xValues,
+            distributions: [
+                { data: xValues.map((x, i) => [x, nullPdf[i]]), color: "#000000", label: "Null Hypothesis" },
+                { data: xValues.map((x, i) => [x, altPdf[i]]), color: "#ff0000", label: "Alternative Hypothesis" }
+            ],
+            regions,
+            info,
+            domains: {
+                x: [xmin, xmax],
+                y: [-0.1 * ymax, 1.1 * ymax]
+            }
+        };
+    }
+
+    setupChart() {
+        const margin = { top: 20, right: 20, bottom: 50, left: 60 };
+        const width = Math.min(800, window.innerWidth - 40) - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
+
+        const svgContainer = d3.select("#plot")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+
+        // Add white background
+        svgContainer.append("rect")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .attr("fill", "white");
+
+        this.svg = svgContainer
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        this.xScale = d3.scaleLinear().range([0, width]);
+        this.yScale = d3.scaleLinear().range([height, 0]);
+
+        this.line = d3.line()
+            .x(d => this.xScale(d[0]))
+            .y(d => this.yScale(d[1]))
+            .curve(d3.curveBasis);
+
+        this.xAxis = d3.axisBottom(this.xScale);
+        this.yAxis = d3.axisLeft(this.yScale);
+
+        // Add axes
+        this.svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", `translate(0,${height})`)
+            .call(this.xAxis)
+            .append("text")
+            .attr("x", width)
+            .attr("y", -6)
+            .style("text-anchor", "end")
+            .style("fill", "black")
+            .style("font-size", "12px")
+            .text("t-statistic");
+
+        this.svg.append("g")
+            .attr("class", "y axis")
+            .call(this.yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .style("fill", "black")
+            .style("font-size", "12px")
+            .text("Probability Density");
+
+        // Add legend
+        const legend = this.svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${width - 200}, 30)`);
+
+        const legendItems = [
+            { color: "#000000", label: "Null Hypothesis" },
+            { color: "#ff0000", label: "Alternative Hypothesis" }
+        ];
+
+        const legendItem = legend.selectAll(".legend-item")
+            .data(legendItems)
+            .enter()
+            .append("g")
+            .attr("class", "legend-item")
+            .attr("transform", (d, i) => `translate(0, ${i * 20})`);
+
+        legendItem.append("line")
+            .attr("x2", 18)
+            .style("stroke", d => d.color)
+            .style("stroke-width", 2);
+
+        legendItem.append("text")
+            .attr("x", 24)
+            .attr("y", 4)
+            .style("fill", "black")
+            .style("font-size", "12px")
+            .text(d => d.label);
+
+        this.width = width;
+        this.height = height;
+    }
+
+    calculateAndUpdate() {
+        const data = this.generateData();
+        
+        // Update scales
+        this.xScale.domain(data.domains.x);
+        this.yScale.domain([-0.035, 0.4]);
+
+        // Update axes
+        this.svg.select(".x.axis").call(this.xAxis);
+        this.svg.select(".y.axis").call(this.yAxis);
+
+        // Update regions
+        const regions = this.svg.selectAll(".region")
+            .data(data.regions);
+        
+        regions.exit().remove();
+        
+        regions.enter()
+            .append("path")
+            .attr("class", "region")
+            .merge(regions)
+            .style("fill", d => d.fill)
+            .style("stroke", "none")
+            .attr("d", d => this.line(d.points));
+
+        // Update distributions
+        const paths = this.svg.selectAll(".distribution")
+            .data(data.distributions);
+        
+        paths.exit().remove();
+        
+        paths.enter()
+            .append("path")
+            .attr("class", "distribution")
+            .merge(paths)
+            .style("fill", "none")
+            .style("stroke", d => d.color)
+            .style("stroke-width", 2)
+            .attr("d", d => this.line(d.data));
+
+        // Update info display
+        this.updateInfoDisplay(data.info);
+    }
+
+    updateInfoDisplay(info) {
+        const params = window.powerParams;
+        const elements = {
+            'critical-t': info.xcrit[1].toFixed(3),
+            'ncp': info.ncp.toFixed(3),
+            'dof': info.dof.toFixed(3),
+            'power': info.power.toFixed(3),
+            'text-mu0': params.mu0.toFixed(2),
+            'text-mu1': params.mu1.toFixed(2),
+            'text-sigma0': params.sigma0.toFixed(1),
+            'text-sigma1': params.sigma1.toFixed(1),
+            'text-n0': params.n0.toFixed(0),
+            'text-n1': params.n1.toFixed(0),
+            'text-alpha': params.alpha.toFixed(3),
+            'text-power': info.power.toFixed(3)
+        };
+
+        Object.keys(elements).forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = elements[id];
+            }
+        });
+    }
+}
+</script> 
