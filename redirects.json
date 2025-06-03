@@ -1,4 +1,5 @@
 {
-  "/ssh-key-bindings": "/posts/ssh-key-bindings/",
-  "/stata-tutorial": "/posts/stata-tutorial/"
+  "/ssh-key-bindings/": "/posts/ssh-key-bindings/",
+  "/stata-tutorial/": "/posts/stata-tutorial/",
+  "/clustered-standard-errors/": "/posts/clustered-standard-errors/"
 } 
