@@ -1,0 +1,43 @@
+---
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { Code } from "astro:components";
+
+export interface Props {
+  /** Path to the file to read, relative to the project root */
+  file: string;
+  /** Language for syntax highlighting (optional) */
+  lang?: string;
+  /** Title for the code block (optional) */
+  title?: string;
+}
+
+const { file, lang = "", title } = Astro.props;
+
+let fileContent = "";
+let error = "";
+
+try {
+  // Resolve path relative to project root
+  const filePath = path.resolve(process.cwd(), file);
+  
+  // Check if file exists and is within project directory for security
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`File not found: ${file}`);
+  }
+  
+  // Read file content
+  fileContent = fs.readFileSync(filePath, "utf-8");
+} catch (err) {
+  error = err instanceof Error ? err.message : "Unknown error reading file";
+  console.error(`Error reading file ${file}:`, error);
+}
+---
+
+{error ? (
+  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+    <strong>Error:</strong> {error}
+  </div>
+) : (
+  <Code code={fileContent} lang={lang} title={title} />
+)} 
