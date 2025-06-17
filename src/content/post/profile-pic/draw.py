@@ -1,17 +1,10 @@
-from dis import dis
-from math import dist
-from multiprocessing.dummy import current_process
 from PIL import Image
 import lxml.builder
 import random
-import nbformat
-from sympy import li
-import torch
 from torchvision import transforms
 import numpy as np
 import subprocess
 from tqdm import tqdm
-import math
 import numpy as np
 
 E = lxml.builder.ElementMaker()
@@ -191,4 +184,5 @@ drawing = Drawing(
 )
 drawing.fast_draw()
 cmd = f'cairosvg --output-width 675 --output-height 675 {drawing.destination} -o tweet.png'
+print(cmd)
 subprocess.call(cmd, shell=True)
