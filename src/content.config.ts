@@ -38,7 +38,14 @@ const post = defineCollection({
 			updatedDate: z
 				.string()
 				.optional()
-				.transform((str) => (str ? new Date(str) : undefined)),
+				.transform((str) => {
+					if (!str) return undefined;
+					if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+						// If it's a date-only string (YYYY-MM-DD), append time and use local timezone
+						return new Date(str + 'T00:00:00');
+					}
+					return new Date(str);
+				}),
 		}),
 });
 

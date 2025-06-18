@@ -1,0 +1,8 @@
+pillow
+lxml
+torchvision
+numpy<2
+tqdm
+# to get CairoSVG working smoothly on Mac I had to use conda
+# conda install -c conda-forge cairo cairosvg -y
+CairoSVG
