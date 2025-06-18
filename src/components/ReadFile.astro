@@ -39,5 +39,5 @@ try {
     <strong>Error:</strong> {error}
   </div>
 ) : (
-  <Code code={fileContent} lang={lang} title={title} />
+  <Code code={fileContent} lang={lang as any} title={title} />
 )} 
