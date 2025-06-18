@@ -13,7 +13,7 @@ I'm a big fan of the Wall Street Journal's hedcuts. I looked into how to create 
 
 Code: [v2.py](/profile-pic/v2.py)
 
-## 2022-02-11
+## 2022-02-10
 
 ![](./second.png)
 
