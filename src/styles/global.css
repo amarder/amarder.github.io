@@ -121,6 +121,17 @@
 	}
 }
 
+@layer utilities {
+	.card {
+		@apply my-4 rounded-lg bg-white p-4;
+	}
+	.card :global(pre.mermaid) {
+		@apply border-none bg-transparent p-0;
+		display: flex;
+		justify-content: center;
+	}
+}
+
 @utility prose {
 	--tw-prose-body: var(--color-global-text);
 	--tw-prose-bold: var(--color-global-text);

@@ -71,6 +71,7 @@ On your phone, you'll set up two vaults to connect to your remote storage.
 You can now switch between the `PersonalVault` and `WorkVault` on your phone using the vault switcher.
 
 ##### Architecture Diagram
+:::card
 ```mermaid
 graph TD;
     WorkPC["Work Computer<br/>(WorkVault)"];
@@ -92,6 +93,7 @@ graph TD;
     PhonePersonal <-- "remotely-save" --> B2Personal;
     PersonalPC <-- "remotely-save" --> B2Personal;
 ```
+:::
 
 ## Obsidian Web Clipper
 
