@@ -1,7 +1,7 @@
 ---
 title: "My Obsidian Setup"
 description: "A guide to setting up Obsidian with separate work and personal vaults, synced across multiple devices using Backblaze B2 and the remotely-save plugin."
-publishDate: "2025-07-03"
+publishDate: "2025-07-06"
 ---
 
 This is a guide for setting up Obsidian across a work computer, a personal computer, and a phone, keeping work and personal notes separate on the computers but accessible on the phone. This post covers two key tools:
@@ -71,7 +71,6 @@ On your phone, you'll set up two vaults to connect to your remote storage.
 You can now switch between the `PersonalVault` and `WorkVault` on your phone using the vault switcher.
 
 ##### Architecture Diagram
-:::card
 ```mermaid
 graph TD;
     WorkPC["Work Computer<br/>(WorkVault)"];
@@ -93,11 +92,10 @@ graph TD;
     PhonePersonal <-- "remotely-save" --> B2Personal;
     PersonalPC <-- "remotely-save" --> B2Personal;
 ```
-:::
 
 ## Obsidian Web Clipper
 
-Obsidian has an official [Web Clipper](https://obsidian.md/clipper) browser extension that makes it easy to save web content directly into your vaults. It is the recommended tool for this workflow.
+Obsidian has an official [Web Clipper](https://obsidian.md/clipper) browser extension that makes it easy to save web content directly into your vaults. I enjoy using it to save articles I want to read later.
 
 ##### Setup
 1.  **Install the Extension:** Add the Obsidian Web Clipper to your browser (available for Chrome, Firefox, Safari, and Edge) from the [official page](https://obsidian.md/clipper).
