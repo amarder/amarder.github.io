@@ -15,7 +15,9 @@ import { siteConfig } from "./src/site.config";
 import remarkDirective from "remark-directive"; /* Handle ::: directives as nodes */
 import remarkMath from "remark-math"; /* Handle LaTeX math expressions */
 import { remarkAdmonitions } from "./src/plugins/remark-admonitions"; /* Add admonitions */
+import { remarkCard } from "./src/plugins/remark-card";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
+import { remarkMermaidCard } from "./src/plugins/remark-mermaid-card";
 
 // Rehype plugins
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
@@ -111,7 +113,14 @@ export default defineConfig({
 			rehypeKatex,
 			rehypeMermaid,
 		],
-		remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions, remarkMath],
+		remarkPlugins: [
+			remarkReadingTime,
+			remarkDirective,
+			remarkAdmonitions,
+			remarkMermaidCard,
+			remarkCard,
+			remarkMath,
+		],
 		remarkRehype: {
 			footnoteLabelProperties: {
 				className: [""],
