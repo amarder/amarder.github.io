@@ -3,6 +3,8 @@ title: "My Obsidian Setup"
 description: "A concise overview of the core plugins I use in Obsidian and how they fit into my workflow."
 publishDate: "2025-07-06"
 updatedDate: "2025-07-07"
+tags:
+  - tools
 ---
 
 My Obsidian workflow relies on two plugins and one browser extension.
