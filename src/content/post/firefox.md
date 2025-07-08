@@ -2,6 +2,7 @@
 title: "Firefox Privacy Checklist"
 description: "A checklist for configuring Mozilla Firefox for a more private and secure browsing experience."
 publishDate: "2025-07-03"
+updatedDate: "2025-07-08"
 tags:
   - tools
 ---
@@ -33,12 +34,11 @@ To access this, type `about:config` into the address bar and accept the warning.
 
 **Warning:** Changing these settings can potentially affect browser performance or cause some websites to break. Proceed with caution.
 
-- [ ] **Resist Fingerprinting:**
-    - Search for `privacy.resistFingerprinting` and set its value to `true`.
-    - This makes your browser fingerprint less unique. It may cause minor display issues on some sites.
-
 - [ ] **Isolate Cookies to the First-Party Domain:**
     - Search for `privacy.firstparty.isolate` and set its value to `true`.
     - This prevents cookies from tracking you from one site to another but can break single sign-on for some websites.
+- Resist Fingerprinting:
+    - I had set `privacy.resistFingerprinting` to `true` to make my browser fingerprint less unique.
+    - This caused minor display issues on some sites, and broke file uploads to Bluesky. I've set it back to `false`.
 
 By following this checklist, you can significantly improve your privacy while using Firefox. Please let me know if I'm missing anything in the comments.
