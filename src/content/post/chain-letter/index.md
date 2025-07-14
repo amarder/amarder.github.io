@@ -21,6 +21,11 @@ This is a radial tree visualization implemented using D3.js, inspired by the [Ob
 
 <div id="radial-tree-container">
     <div id="loading">Loading...</div>
+    <div id="zoom-controls" style="display: none;">
+        <button id="zoom-in" title="Zoom In">+</button>
+        <button id="zoom-out" title="Zoom Out">−</button>
+        <button id="zoom-reset" title="Reset Zoom">⌂</button>
+    </div>
 </div>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -254,8 +259,11 @@ function createChart(rawData) {
         .attr("viewBox", [-cx, -cy, width, height])
         .attr("style", "width: 100%; height: auto; font: 10px sans-serif;");
 
+    // Create a group for all zoomable content
+    const g = svg.append("g");
+
     // Append links.
-    svg.append("g")
+    g.append("g")
         .attr("fill", "none")
         .attr("stroke", "#555")
         .attr("stroke-opacity", 0.4)
@@ -343,9 +351,13 @@ function createChart(rawData) {
             }
         }
         
+        // Calculate position accounting for zoom/pan
+        const transform = d3.zoomTransform(svg.node());
+        const [mouseX, mouseY] = d3.pointer(event, document.body);
+        
         tooltip.html(tooltipContent)
-            .style("left", (event.pageX + 15) + "px")
-            .style("top", (event.pageY - 15) + "px");
+            .style("left", (mouseX + 15) + "px")
+            .style("top", (mouseY - 15) + "px");
     }
 
     function hideTooltip(event, d) {
@@ -366,8 +378,61 @@ function createChart(rawData) {
         }
     }
 
+    // Set up zoom behavior
+    const zoom = d3.zoom()
+        .scaleExtent([0.1, 4])
+        .on("zoom", function(event) {
+            g.attr("transform", event.transform);
+            
+            // Update tooltip position to account for zoom/pan
+            if (tooltip.style("opacity") > 0) {
+                // Hide tooltip during zoom to avoid positioning issues
+                tooltip.style("opacity", 0);
+            }
+        });
+
+    // Apply zoom behavior to SVG
+    svg.call(zoom);
+
+    // Set up zoom control buttons
+    function setupZoomControls() {
+        const zoomControls = document.getElementById('zoom-controls');
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        const zoomResetBtn = document.getElementById('zoom-reset');
+        
+        if (zoomControls && zoomInBtn && zoomOutBtn && zoomResetBtn) {
+            // Show the controls
+            zoomControls.style.display = 'block';
+            
+            // Zoom in
+            zoomInBtn.addEventListener('click', () => {
+                svg.transition()
+                    .duration(300)
+                    .call(zoom.scaleBy, 1.5);
+            });
+            
+            // Zoom out
+            zoomOutBtn.addEventListener('click', () => {
+                svg.transition()
+                    .duration(300)
+                    .call(zoom.scaleBy, 1 / 1.5);
+            });
+            
+            // Reset zoom
+            zoomResetBtn.addEventListener('click', () => {
+                svg.transition()
+                    .duration(500)
+                    .call(zoom.transform, d3.zoomIdentity);
+            });
+        }
+    }
+    
+    // Initialize zoom controls
+    setupZoomControls();
+
     // Append nodes.
-    const nodes = svg.append("g")
+    const nodes = g.append("g")
       .selectAll()
       .data(root.descendants())
       .join("circle")
@@ -525,6 +590,55 @@ style.textContent = `
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+    }
+    
+    #zoom-controls {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        z-index: 10;
+    }
+    
+    #zoom-controls button {
+        width: 40px;
+        height: 40px;
+        border: 2px solid #007bff;
+        background-color: white;
+        color: #007bff;
+        border-radius: 6px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+    
+    #zoom-controls button:hover {
+        background-color: #007bff;
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    #zoom-controls button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    #zoom-controls button:focus {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
     }
     
     #loading {
@@ -571,6 +685,19 @@ style.textContent = `
             padding: 0.75rem 1rem;
             font-size: 0.9rem;
         }
+        
+        #zoom-controls {
+            top: 0.5rem;
+            right: 0.5rem;
+            gap: 0.25rem;
+        }
+        
+        #zoom-controls button {
+            width: 44px;
+            height: 44px;
+            font-size: 20px;
+            border-width: 3px;
+        }
     }
 `;
 document.head.appendChild(style);
@@ -580,12 +707,13 @@ document.head.appendChild(style);
 ## Features
 
 - **Mobile-Friendly Interaction**: Toggle between "Click" and "Hover" modes for optimal experience on any device
+- **Zoom and Pan**: Fully zoomable and pannable interface with dedicated controls for easy navigation
 - **Clean Interface**: No text labels cluttering the visualization
 - **Media-Rich Tooltips**: View Bluesky usernames and their posted media in interactive tooltips
 - **Image & Video Support**: Displays images and GIFs/videos directly in tooltips
 - **Raw API Data Processing**: Preserves all original Bluesky API data for complete information
 - **Node Highlighting**: Nodes grow and change color when selected/hovered
-- **Smooth Animations**: Transitions for hover effects and mode changes
+- **Smooth Animations**: Transitions for hover effects, mode changes, and zoom operations
 - **Dynamic Data Loading**: Loads data from Bluesky conversation trees
 - **Clean Observable Pattern**: Uses the exact code structure from the Observable example
 - **Hierarchical Layout**: Data is arranged in a radial tree structure with sorted nodes
@@ -603,6 +731,24 @@ document.head.appendChild(style);
 - Hover over nodes to instantly preview content
 - Move mouse away to hide tooltips
 - Click nodes to navigate directly to Bluesky posts
+
+### Zoom and Pan Controls
+
+**Mouse/Trackpad (Desktop)**:
+- **Scroll wheel**: Zoom in and out
+- **Click and drag**: Pan around the visualization
+- **Pinch gesture**: Zoom on trackpads
+
+**Touch (Mobile)**:
+- **Pinch**: Zoom in and out
+- **Drag**: Pan around the visualization
+- **Zoom buttons**: Use the +/−/⌂ controls in the top-right corner
+
+**Zoom Controls**:
+- **+ button**: Zoom in by 1.5x
+- **− button**: Zoom out by 1.5x  
+- **⌂ button**: Reset to original view
+- **Zoom range**: 10% to 400% of original size
 
 ## Data Structure
 
@@ -638,9 +784,11 @@ This implementation uses:
 - **Fetch API** for loading JSON data from the public folder
 - **d3.tree()** layout for positioning nodes
 - **d3.linkRadial()** for creating curved connections
+- **d3.zoom()** behavior for smooth zoom and pan interactions
 - **SVG** with viewBox for responsive scaling
 - **Observable pattern** with `d3.create()` and `join()` methods
 - **Rich media tooltips** with images and videos
-- **Hover effects** with node highlighting
+- **Zoom controls** with dedicated UI buttons for mobile accessibility
+- **Transform-aware positioning** for tooltips during zoom/pan operations
 
 The visualization transforms raw Bluesky API responses into a hierarchical structure suitable for D3's radial tree layout, while preserving access to all original metadata for rich interactive experiences.
