@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Script to recursively download a Bluesky post and all its quotes using BFS.
-Saves slimmed-down data in hierarchical format for D3 visualization.
-Usage: python download.py
+Slimmed-down script to download Bluesky posts and quotes.
+Only saves essential data: media URLs, author info, and post links.
+Usage: python slim.py
 """
 
 import requests
@@ -11,14 +11,11 @@ import sys
 import time
 import os
 from urllib.parse import urlparse
-from datetime import datetime
 from getpass import getpass
 from collections import deque
 
 def create_session(username=None, password=None):
-    """
-    Create an authenticated session with Bluesky.
-    """
+    """Create an authenticated session with Bluesky."""
     if not username:
         username = input("Enter your Bluesky username/handle: ")
     if not password:
@@ -36,11 +33,7 @@ def create_session(username=None, password=None):
         return None
 
 def extract_info_from_url(url):
-    """
-    Extract handle and post ID from a Bluesky post URL.
-    Example: https://bsky.app/profile/mithrilmist.bsky.social/post/3lt6hdhi7gk2k
-    Returns: (handle, post_id)
-    """
+    """Extract handle and post ID from a Bluesky post URL."""
     parsed = urlparse(url)
     path_parts = parsed.path.strip('/').split('/')
     
@@ -52,9 +45,7 @@ def extract_info_from_url(url):
         raise ValueError(f"Invalid Bluesky post URL format: {url}")
 
 def resolve_handle_to_did(handle):
-    """
-    Resolve a Bluesky handle to its DID (Decentralized Identifier).
-    """
+    """Resolve a Bluesky handle to its DID."""
     try:
         response = requests.get(
             "https://bsky.social/xrpc/com.atproto.identity.resolveHandle",
@@ -67,15 +58,11 @@ def resolve_handle_to_did(handle):
         return None
 
 def parse_at_uri(uri):
-    """
-    Parse an AT URI to extract DID and record key.
-    Example: at://did:plc:abc123/app.bsky.feed.post/xyz789
-    Returns: (did, rkey)
-    """
+    """Parse an AT URI to extract DID and record key."""
     if not uri.startswith("at://"):
         return None, None
     
-    parts = uri[5:].split('/')  # Remove 'at://' prefix
+    parts = uri[5:].split('/')
     if len(parts) >= 3:
         did = parts[0]
         rkey = parts[2]
@@ -83,9 +70,7 @@ def parse_at_uri(uri):
     return None, None
 
 def get_post_record_from_uri(uri):
-    """
-    Fetch a post record from its AT URI.
-    """
+    """Fetch a post record from its AT URI."""
     did, rkey = parse_at_uri(uri)
     if not did or not rkey:
         return None
@@ -105,11 +90,10 @@ def get_post_record_from_uri(uri):
         print(f"Error fetching post record for {uri}: {e}")
         return None
 
+
+
 def get_post_quotes(post_uri, session=None):
-    """
-    Fetch all quotes of a post using the app.bsky.feed.getQuotes endpoint.
-    Returns a list of all quotes with pagination handling.
-    """
+    """Fetch all quotes of a post using the app.bsky.feed.getQuotes endpoint."""
     all_quotes = []
     cursor = None
     
@@ -134,12 +118,10 @@ def get_post_quotes(post_uri, session=None):
             posts = data.get("posts", [])
             all_quotes.extend(posts)
             
-            # Check if there are more posts to fetch
             cursor = data.get("cursor")
             if not cursor or not posts:
                 break
                 
-            # Add a small delay to be respectful to the API
             time.sleep(0.1)
             
         except requests.exceptions.RequestException as e:
@@ -151,59 +133,8 @@ def get_post_quotes(post_uri, session=None):
     
     return all_quotes
 
-def extract_slim_data(post_data, is_root=False):
-    """
-    Extract only essential data from a post for the visualization.
-    Returns a slimmed-down version with only the required fields.
-    """
-    slim_data = {
-        "author_handle": None,
-        "author_display_name": None,
-        "post_url": None,
-        "media_urls": []
-    }
-    
-    # Handle different API response formats
-    if is_root:
-        # Root post from repo API
-        if 'value' in post_data:
-            # Extract author info from URI
-            uri = post_data.get('uri', '')
-            if uri:
-                did, rkey = parse_at_uri(uri)
-                if did and rkey:
-                    slim_data["post_url"] = f"at://{did}/app.bsky.feed.post/{rkey}"
-            
-            # Extract media from embed
-            value = post_data.get('value', {})
-            embed = value.get('embed', {})
-            slim_data["media_urls"] = extract_media_urls(embed, did)
-            
-    else:
-        # Quote posts from feed API
-        author = post_data.get('author', {})
-        slim_data["author_handle"] = author.get('handle')
-        slim_data["author_display_name"] = author.get('displayName')
-        
-        # Extract post URL
-        uri = post_data.get('uri', '')
-        if uri:
-            did, rkey = parse_at_uri(uri)
-            if did and rkey and slim_data["author_handle"]:
-                slim_data["post_url"] = f"https://bsky.app/profile/{slim_data['author_handle']}/post/{rkey}"
-        
-        # Extract media from record
-        record = post_data.get('record', {})
-        embed = record.get('embed', {})
-        slim_data["media_urls"] = extract_media_urls(embed, author.get('did'))
-    
-    return slim_data
-
 def extract_media_urls(embed, author_did):
-    """
-    Extract media URLs from embed data.
-    Returns a list of media URLs that can be embedded.
-    """
+    """Extract media URLs from embed data."""
     media_urls = []
     
     if not embed:
@@ -212,7 +143,6 @@ def extract_media_urls(embed, author_did):
     embed_type = embed.get('$type', '')
     
     if embed_type == 'app.bsky.embed.images':
-        # Handle images
         images = embed.get('images', [])
         for image in images:
             if image.get('image') and image['image'].get('ref'):
@@ -221,12 +151,10 @@ def extract_media_urls(embed, author_did):
                     media_url = f"https://bsky.social/xrpc/com.atproto.sync.getBlob?did={author_did}&cid={ref}"
                     media_urls.append({
                         "url": media_url,
-                        "alt": image.get('alt', ''),
                         "type": "image"
                     })
     
     elif embed_type == 'app.bsky.embed.video':
-        # Handle videos
         video = embed.get('video', {})
         if video.get('ref'):
             ref = video['ref'].get('$link')
@@ -234,27 +162,26 @@ def extract_media_urls(embed, author_did):
                 media_url = f"https://bsky.social/xrpc/com.atproto.sync.getBlob?did={author_did}&cid={ref}"
                 media_urls.append({
                     "url": media_url,
-                    "alt": video.get('alt', ''),
                     "type": "video"
                 })
     
     elif embed_type == 'app.bsky.embed.external':
-        # Handle external embeds (GIFs, etc.)
         external = embed.get('external', {})
         if external.get('uri'):
             media_urls.append({
                 "url": external['uri'],
-                "alt": external.get('description', ''),
                 "type": "external"
             })
     
     elif embed_type == 'app.bsky.embed.recordWithMedia':
-        # Handle record with media (quote posts with media)
         media_embed = embed.get('media', {})
         if media_embed:
-            # Recursively extract media from the nested embed
             nested_media = extract_media_urls(media_embed, author_did)
             media_urls.extend(nested_media)
+    
+    elif embed_type == 'app.bsky.embed.record':
+        # This is a quote post embed, not media - skip it
+        pass
     
     else:
         # Unknown embed type - print for debugging
@@ -263,33 +190,74 @@ def extract_media_urls(embed, author_did):
     
     return media_urls
 
-def download_bfs(post_uri, session, max_depth=3, source_url=None):
-    """
-    Download posts and quotes using breadth-first search.
-    Returns a hierarchical structure preserving all raw API data.
-    """
+def extract_slim_data(post_data, is_root=False, source_url=None):
+    """Extract only essential data from a post."""
+    slim_data = {
+        "display_name": None,
+        "post_url": None,
+        "media_urls": []
+    }
+    
+    if is_root:
+        # Root post from repo API
+        if 'value' in post_data:
+            uri = post_data.get('uri', '')
+            if uri:
+                did, rkey = parse_at_uri(uri)
+                if did and rkey:
+                    # For root post, we need to extract handle from source_url
+                    if source_url:
+                        try:
+                            handle, _ = extract_info_from_url(source_url)
+                            slim_data["post_url"] = f"https://bsky.app/profile/{handle}/post/{rkey}"
+                            
+                            # Hardcode the display name for the root post
+                            slim_data["display_name"] = "Mithrilmist"
+                        except:
+                            slim_data["post_url"] = f"at://{did}/app.bsky.feed.post/{rkey}"
+                    else:
+                        slim_data["post_url"] = f"at://{did}/app.bsky.feed.post/{rkey}"
+            
+            value = post_data.get('value', {})
+            embed = value.get('embed', {})
+            slim_data["media_urls"] = extract_media_urls(embed, did)
+            
+    else:
+        # Quote posts from feed API
+        author = post_data.get('author', {})
+        slim_data["display_name"] = author.get('displayName')
+        
+        uri = post_data.get('uri', '')
+        if uri:
+            did, rkey = parse_at_uri(uri)
+            if did and rkey and author.get('handle'):
+                slim_data["post_url"] = f"https://bsky.app/profile/{author['handle']}/post/{rkey}"
+        
+        record = post_data.get('record', {})
+        embed = record.get('embed', {})
+        slim_data["media_urls"] = extract_media_urls(embed, author.get('did'))
+    
+    return slim_data
+
+def download_bfs_slim(post_uri, session, max_depth=3, source_url=None):
+    """Download posts and quotes using BFS, saving only slim data."""
     visited = set()
     stats = {"total_posts": 0, "total_quotes": 0, "max_depth_reached": 0}
     
-    # Initialize the queue with the root post
-    # Queue items: (uri, depth, parent_node)
     queue = deque([(post_uri, 0, None)])
     
-    # Get root post data first
+    # Get root post data
     root_post_data = get_post_record_from_uri(post_uri)
     if not root_post_data:
         print(f"Failed to fetch root post data for {post_uri}")
         return None, stats
     
-    # Create root node with full API data
+    # Create slim root node
     root_node = {
-        "post": root_post_data,
-        "source_url": source_url,
-        "depth": 0,
+        **extract_slim_data(root_post_data, is_root=True, source_url=source_url),
         "children": []
     }
     
-    # Map to keep track of nodes by URI for building hierarchy
     uri_to_node = {post_uri: root_node}
     
     print(f"Starting BFS from: {post_uri}")
@@ -298,7 +266,6 @@ def download_bfs(post_uri, session, max_depth=3, source_url=None):
     while queue:
         current_uri, depth, parent_node = queue.popleft()
         
-        # Skip if already visited or max depth exceeded
         if current_uri in visited or depth > max_depth:
             continue
         
@@ -308,54 +275,43 @@ def download_bfs(post_uri, session, max_depth=3, source_url=None):
         
         print(f"{'  ' * depth}Processing depth {depth}: {current_uri[:50]}...")
         
-        # Get quotes for current post
         quotes = get_post_quotes(current_uri, session)
         stats["total_quotes"] += len(quotes)
         
         print(f"{'  ' * depth}Found {len(quotes)} quotes at depth {depth}")
         
-        # Get the current node (root node or create new one)
         if current_uri == post_uri:
             current_node = root_node
         else:
-            # This should have been created when processing its parent
             current_node = uri_to_node.get(current_uri)
             if not current_node:
                 print(f"Warning: Node not found for {current_uri}")
                 continue
         
-        # Process each quote
         for quote in quotes:
             quote_uri = quote.get('uri')
             if quote_uri and quote_uri not in visited:
-                # Create quote node with full API data
+                # Create slim quote node
                 quote_node = {
-                    "post": quote,  # This contains the full quote data from the feed API
-                    "depth": depth + 1,
+                    **extract_slim_data(quote, is_root=False),
                     "children": []
                 }
                 
-                # Add to parent's children
                 current_node["children"].append(quote_node)
-                
-                # Map URI to node for future reference
                 uri_to_node[quote_uri] = quote_node
                 
-                # Add to queue for next level processing
                 if depth < max_depth:
                     queue.append((quote_uri, depth + 1, quote_node))
     
     return root_node, stats
 
 def main():
-    # The specific post URL from the request
     post_url = "https://bsky.app/profile/mithrilmist.bsky.social/post/3lt6hdhi7gk2k"
     
-    print(f"Downloading Bluesky post and quotes using BFS: {post_url}")
-    print("Output format: Raw API data in hierarchical structure")
+    print(f"Downloading Bluesky post and quotes (SLIM VERSION): {post_url}")
+    print("Output format: Essential data only (media, author, post links)")
     print("=" * 60)
     
-    # Check for environment variables first
     username = os.getenv('BLUESKY_USERNAME')
     password = os.getenv('BLUESKY_PASSWORD')
     
@@ -374,7 +330,6 @@ def main():
     else:
         print("⚠ Running without authentication - quotes may not be available")
     
-    # Get max depth from user
     max_depth_input = input("Enter maximum depth for BFS download (default: 3): ").strip()
     try:
         max_depth = int(max_depth_input) if max_depth_input else 3
@@ -384,12 +339,10 @@ def main():
     print(f"Maximum depth: {max_depth}")
     
     try:
-        # Extract handle and post ID from URL
         handle, post_id = extract_info_from_url(post_url)
         print(f"Handle: {handle}")
         print(f"Post ID: {post_id}")
         
-        # Resolve handle to DID
         print(f"\nResolving handle '{handle}' to DID...")
         did = resolve_handle_to_did(handle)
         if not did:
@@ -398,34 +351,29 @@ def main():
         
         print(f"DID: {did}")
         
-        # Construct the post URI
         post_uri = f"at://{did}/app.bsky.feed.post/{post_id}"
-        
-        # Prepare output file
-        output_file = f"bluesky_raw_{post_id}.json"
+        output_file = f"bluesky_slim_{post_id}.json"
         
         print(f"\n" + "=" * 60)
-        print("STARTING BFS DOWNLOAD:")
+        print("STARTING BFS DOWNLOAD (SLIM):")
         print("=" * 60)
         
-        # Start BFS download
-        tree_data, stats = download_bfs(post_uri, session, max_depth=max_depth, source_url=post_url)
+        tree_data, stats = download_bfs_slim(post_uri, session, max_depth=max_depth, source_url=post_url)
         
         if tree_data:
-            # Write raw API data as JSON
             with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(tree_data, f, indent=2, ensure_ascii=False)
             
             print(f"\n" + "=" * 60)
-            print("DOWNLOAD COMPLETE:")
+            print("DOWNLOAD COMPLETE (SLIM):")
             print("=" * 60)
             print(f"Total posts processed: {stats['total_posts']}")
             print(f"Total quotes found: {stats['total_quotes']}")
             print(f"Maximum depth reached: {stats['max_depth_reached']}")
             print(f"Output file: {output_file}")
-            print(f"File format: Raw API data in hierarchical JSON")
+            print(f"File format: Slimmed-down JSON with essential data only")
             
-            # Also create a copy as flare-2.json for the visualization
+            # Also create a copy for the visualization
             flare_output = "flare-2.json"
             with open(flare_output, 'w', encoding='utf-8') as f:
                 json.dump(tree_data, f, indent=2, ensure_ascii=False)
