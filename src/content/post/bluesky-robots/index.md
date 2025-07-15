@@ -8,7 +8,7 @@ tags:
 # coverImage:
 #   src: "robots.png"
 #   alt: ""
-ogImage: "/chain-letter/robots.png"
+ogImage: "/bluesky-robots/robots.png"
 ---
 
 I was recently entertained by a form of chain letter on Bluesky. It all started with a post by Mithrilmist:
@@ -35,9 +35,9 @@ This post spread through the social network like wildfire, creating an epic crow
     </div>
 </div>
 
-<link rel="stylesheet" href="/chain-letter/radial-tree.css">
+<link rel="stylesheet" href="/bluesky-robots/radial-tree.css">
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="/chain-letter/radial-tree.js"></script>
+<script src="/bluesky-robots/radial-tree.js"></script>
 
 :::note
 I limited my download script to collect all nodes with depth less than or equal to 21. I wanted to find a good balance between having a lot of data but not too much (about 2 MB). There are even more robots to collect!
