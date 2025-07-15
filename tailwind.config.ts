@@ -17,7 +17,14 @@ export default {
 							},
 						},
 						blockquote: {
-							borderLeftWidth: "0",
+							borderInlineStartWidth: "1px",
+							borderInlineStartColor: "var(--tw-prose-quotes)",
+							"& p:first-of-type::before": {
+								content: "none",
+							},
+							"& p:last-of-type::after": {
+								content: "none",
+							},
 						},
 						code: {
 							border: "1px dotted #666",
