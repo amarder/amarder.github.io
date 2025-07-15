@@ -1,18 +1,24 @@
 ---
-title: "Bluesky and Robots"
-description: "An interactive radial tree visualization using D3.js, inspired by the Observable notebook example"
+title: "Bluesky and Robots: A Data Visualization"
+description: "An interactive radial tree visualization using D3.js"
 publishDate: "2025-07-15"
 toc: false
+tags:
+  - d3js
+# coverImage:
+#   src: "robots.png"
+#   alt: ""
+ogImage: "robots.png"
 ---
 
 I was recently entertained by a form of chain letter on Bluesky. It all started with a post by Mithrilmist:
 
-> If you see this, quote with a robot that isn’t from 'Star Wars,' 'Star Trek,' 'Dr. Who,' or 'Transformers.'
+> If you see this, quote with a robot that isn’t from “Star Wars,” “Star Trek,” “Dr. Who,” or “Transformers.”
 
-This post spread through the social network creating an epic crowd sourced collection of awesome robots. I thought it would be a fun excuse to create a visualization to get a better view of all robots.
+This post spread through the social network like wildfire, creating an epic crowd-sourced collection of awesome robots. I thought it would be fun to create a visualization to get a better view of the robots (and the network). I hope you like it!
 
 - Click on a node in the graph below to see the corresponding robot
-- You can zoom and pan in the visualization below to see more details
+- You can zoom and pan in the visualization to see more details
 
 <div id="radial-tree-container">
     <div id="loading">Loading...</div>
@@ -36,5 +42,5 @@ This post spread through the social network creating an epic crowd sourced colle
 <script src="/chain-letter/radial-tree.js"></script>
 
 :::note
-I limited my download script to stop after the 21st quote. I chose to stop there because it had a nice balance of being a lot of data but not too much (about 2 MBs).
+I limited my download script to collect all nodes with depth less than or equal to 21. I wanted to find a good balance between having a lot of data but not too much (about 2 MBs). There are even more robots to collect!
 :::
