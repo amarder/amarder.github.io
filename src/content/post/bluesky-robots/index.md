@@ -1,6 +1,6 @@
 ---
 title: "Bluesky and Robots: A Data Visualization"
-description: "An interactive radial tree visualization using D3.js"
+description: "An interactive radial tree visualization using D3.js, also lots and lots of robots!"
 publishDate: "2025-07-15"
 toc: false
 tags:
