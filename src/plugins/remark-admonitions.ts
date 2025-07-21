@@ -4,7 +4,6 @@ import type { Node, Paragraph as P, Parent, PhrasingContent, Root } from "mdast"
 import type { Directives, LeafDirective, TextDirective } from "mdast-util-directive";
 import { directiveToMarkdown } from "mdast-util-directive";
 import { toMarkdown } from "mdast-util-to-markdown";
-import { toString as mdastToString } from "mdast-util-to-string";
 import type { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 
