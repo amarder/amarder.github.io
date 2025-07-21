@@ -1,7 +1,7 @@
 ---
-title: "AI Usage"
+title: "My AI Usage"
 publishDate: "2025-07-21"
-description: ""
+description: "How I use AI for coding and writing."
 toc: false
 ---
 

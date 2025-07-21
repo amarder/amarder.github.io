@@ -5,6 +5,7 @@ publishDate: "2025-07-03"
 updatedDate: "2025-07-08"
 tags:
   - tools
+  - LLaMe
 ---
 
 While there are many web browsers to choose from, I've settled on Mozilla Firefox. This post is a checklist of how I've configured it to better protect my privacy online.
