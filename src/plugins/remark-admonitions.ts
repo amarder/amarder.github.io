@@ -4,7 +4,6 @@ import type { Node, Paragraph as P, Parent, PhrasingContent, Root } from "mdast"
 import type { Directives, LeafDirective, TextDirective } from "mdast-util-directive";
 import { directiveToMarkdown } from "mdast-util-directive";
 import { toMarkdown } from "mdast-util-to-markdown";
-import { toString as mdastToString } from "mdast-util-to-string";
 import type { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 
@@ -62,7 +61,9 @@ function h(el: string, attrs: Properties = {}, children: any[] = []): P {
 export const remarkAdmonitions: Plugin<[], Root> = () => (tree) => {
 	visit(tree, (node, index, parent) => {
 		if (!parent || index === undefined || !isNodeDirective(node)) return;
-		if (node.type === "textDirective" || node.type === "leafDirective") {
+		
+		// Handle text directives by transforming them back to markdown
+		if (node.type === "textDirective") {
 			transformUnhandledDirective(node, index, parent);
 			return;
 		}
@@ -70,21 +71,29 @@ export const remarkAdmonitions: Plugin<[], Root> = () => (tree) => {
 		const admonitionType = node.name;
 		if (!isAdmonition(admonitionType)) return;
 
+
+
+
+
+		// Check if there's a custom title in the directive attributes
+		// The syntax is :::keyword{title="Custom title"}
 		let title: string = admonitionType;
 		let titleNode: PhrasingContent[] = [{ type: "text", value: title }];
+		let content: any[] = [];
 
-		// Check if there's a custom title
-		const firstChild = node.children[0];
-		if (
-			firstChild?.type === "paragraph" &&
-			firstChild.data &&
-			"directiveLabel" in firstChild.data &&
-			firstChild.children.length > 0
-		) {
-			titleNode = firstChild.children;
-			title = mdastToString(firstChild.children);
-			// The first paragraph contains a custom title, we can safely remove it.
-			node.children.splice(0, 1);
+		// Check if the directive has a title attribute
+		if (node.attributes && node.attributes.title) {
+			title = node.attributes.title;
+			titleNode = [{ type: "text", value: title }];
+		}
+
+		if (node.type === "leafDirective") {
+			// For leaf directives, content is in node.value
+			const contentText = (node as any).value || '';
+			content = [{ type: "paragraph", children: [{ type: "text", value: contentText }] }];
+		} else {
+			// For container directives, use the children
+			content = node.children;
 		}
 
 		// Do not change prefix to AD, ADM, or similar, adblocks will block the content inside.
@@ -93,7 +102,7 @@ export const remarkAdmonitions: Plugin<[], Root> = () => (tree) => {
 			{ "aria-label": title, class: "admonition", "data-admonition-type": admonitionType },
 			[
 				h("p", { class: "admonition-title", "aria-hidden": "true" }, [...titleNode]),
-				h("div", { class: "admonition-content" }, node.children),
+				h("div", { class: "admonition-content" }, content),
 			],
 		);
 
