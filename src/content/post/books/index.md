@@ -2,7 +2,7 @@
 title: Book Recommendations
 publishDate: "2016-03-01"
 description: "A data-driven approach to finding great books."
-draft: false
+draft: true
 ---
 
 I like good books. I like short books. But, finding good short books isn't easy. For most needs, sorting Amazon search results by sales rank or average customer review works well. But, there's no easy way to filter or sort by book length.
