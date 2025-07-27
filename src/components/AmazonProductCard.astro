@@ -26,16 +26,12 @@ const {
 const amazonUrl = `https://www.amazon.com/dp/${productId}?tag=${affiliateTag}`;
 ---
 
-<div class="amazon-product-card group relative overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 p-4 mb-6">
-	<h5 class="text-lg font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 mb-3">
-		{title}
-	</h5>
-
+<div class="amazon-product-card group relative overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 p-4 mb-1">
 	<div class="aspect-square overflow-hidden rounded-md mb-4">
 		<img 
 			src={imagePath} 
 			alt={title}
-			class="h-full w-full object-cover object-top"
+			class="h-full w-full object-cover object-top mt-0"
 			loading="lazy"
 		/>
 	</div>
@@ -47,13 +43,13 @@ const amazonUrl = `https://www.amazon.com/dp/${productId}?tag=${affiliateTag}`;
 			rel="noopener noreferrer"
 			class="inline-flex w-full items-center justify-center rounded-md bg-orange-500 px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
 		>
-			<svg class="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-				<path d="M18.5 1.15C19.96 1.15 21.15 2.34 21.15 3.8v16.4c0 1.46-1.19 2.65-2.65 2.65H5.5c-1.46 0-2.65-1.19-2.65-2.65V3.8c0-1.46 1.19-2.65 2.65-2.65h13zm-13 1.7c-.53 0-.95.42-.95.95v16.4c0 .53.42.95.95.95h13c.53 0 .95-.42.95-.95V3.8c0-.53-.42-.95-.95-.95h-13z"/>
-				<path d="M12.5 6.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S10 10.38 10 9s1.12-2.5 2.5-2.5zm0 1c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-2.5 6.5h5c.28 0 .5.22.5.5s-.22.5-.5.5h-5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5z"/>
-			</svg>
+		<span class="sr-only">amazon</span>
 			{price} on Amazon
 		</a>
-		<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+	<p class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+		{title}
+	</p>
+		<p class="text-sm text-gray-600 dark:text-gray-400">
 			{description}
 		</p>
 	</div>
