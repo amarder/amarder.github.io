@@ -115,20 +115,14 @@ def search_isbn(isbn, config):
     # API endpoint
     url = f"https://{config['host']}/paapi5/getitems"
     
-    # Request payload
+    # Request payload - using minimal resources to ensure compatibility
     payload = {
         "ItemIds": [isbn],
         "Resources": [
             "ItemInfo.Title",
             "ItemInfo.ByLineInfo",
             "ItemInfo.ContentInfo",
-            "ItemInfo.TechnicalInfo",
-            "ItemInfo.Features",
-            "Offers.Listings.Price",
-            "Offers.Listings.Availability",
-            "Images.Primary.Large",
-            "Images.Primary.Medium",
-            "Images.Primary.Small"
+            "Images.Primary.Large"
         ],
         "PartnerTag": config['partner_tag'],
         "PartnerType": "Associates",
@@ -241,36 +235,6 @@ def format_product_info(item):
             if authors:
                 print(f"Author(s): {', '.join(authors)}")
     
-    # Publication details
-    if 'ItemInfo' in item and 'ContentInfo' in item['ItemInfo']:
-        content = item['ItemInfo']['ContentInfo']
-        if 'PublicationDate' in content:
-            print(f"Publication Date: {content['PublicationDate']['DisplayValue']}")
-        if 'PagesCount' in content:
-            print(f"Pages: {content['PagesCount']['DisplayValue']}")
-    
-    # Technical info (ISBN, etc.)
-    if 'ItemInfo' in item and 'TechnicalInfo' in item['ItemInfo']:
-        tech = item['ItemInfo']['TechnicalInfo']
-        if 'Formats' in tech:
-            formats = [f['DisplayValue'] for f in tech['Formats']['Values'] if 'DisplayValue' in f]
-            if formats:
-                print(f"Format(s): {', '.join(formats)}")
-    
-    # Features
-    if 'ItemInfo' in item and 'Features' in item['ItemInfo']:
-        features = item['ItemInfo']['Features']['DisplayValues']
-        if features:
-            print(f"Features: {', '.join(features[:3])}")  # Show first 3 features
-    
-    # Price information
-    if 'Offers' in item and 'Listings' in item['Offers']:
-        listing = item['Offers']['Listings'][0]
-        if 'Price' in listing and 'DisplayAmount' in listing['Price']:
-            print(f"Price: {listing['Price']['DisplayAmount']}")
-        if 'Availability' in listing and 'Message' in listing['Availability']:
-            print(f"Availability: {listing['Availability']['Message']}")
-    
     # Product URL
     asin = item.get('ASIN', 'Unknown')
     print(f"ASIN: {asin}")
@@ -279,6 +243,12 @@ def format_product_info(item):
     # Image
     if 'Images' in item and 'Primary' in item['Images'] and 'Large' in item['Images']['Primary']:
         print(f"Image URL: {item['Images']['Primary']['Large']['URL']}")
+    
+    # Print raw item data for debugging what's available
+    print("\n" + "=" * 50)
+    print("RAW API RESPONSE (for debugging)")
+    print("=" * 50)
+    print(json.dumps(item, indent=2))
 
 
 def main():
