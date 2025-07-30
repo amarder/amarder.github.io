@@ -120,9 +120,8 @@ def search_isbn(isbn, config):
         "ItemIds": [isbn],
         "Resources": [
             "ItemInfo.Title",
-            "ItemInfo.ByLineInfo",
             "ItemInfo.ContentInfo",
-            "Images.Primary.Large"
+            "BrowseNodeInfo.WebsiteSalesRank",
         ],
         "PartnerTag": config['partner_tag'],
         "PartnerType": "Associates",
@@ -234,6 +233,71 @@ def format_product_info(item):
             authors = [contrib['Name'] for contrib in by_line['Contributors'] if 'Name' in contrib]
             if authors:
                 print(f"Author(s): {', '.join(authors)}")
+    
+    # Publication details
+    if 'ItemInfo' in item and 'ContentInfo' in item['ItemInfo']:
+        content = item['ItemInfo']['ContentInfo']
+        if 'PublicationDate' in content:
+            print(f"Publication Date: {content['PublicationDate']['DisplayValue']}")
+        if 'PagesCount' in content:
+            print(f"Pages: {content['PagesCount']['DisplayValue']}")
+    
+    # Sales Rank from Classifications
+    if 'ItemInfo' in item and 'Classifications' in item['ItemInfo']:
+        classifications = item['ItemInfo']['Classifications']
+        if 'ProductGroup' in classifications:
+            print(f"Product Group: {classifications['ProductGroup']['DisplayValue']}")
+        if 'Binding' in classifications:
+            print(f"Binding: {classifications['Binding']['DisplayValue']}")
+    
+    # Sales Rank - Check multiple potential locations
+    books_rank = None
+    
+    # Check for WebsiteSalesRank (overall Amazon rank)
+    if 'BrowseNodeInfo' in item and 'WebsiteSalesRank' in item['BrowseNodeInfo']:
+        website_rank = item['BrowseNodeInfo']['WebsiteSalesRank']
+        if 'SalesRank' in website_rank:
+            books_rank = website_rank['SalesRank']
+            category = website_rank.get('ContextFreeName', 'Amazon Overall')
+            print(f"📚 Amazon Sales Rank: #{books_rank:,} in {category}")
+    
+    # Check for sales rank in browse nodes
+    if not books_rank and 'BrowseNodeInfo' in item and 'BrowseNodes' in item['BrowseNodeInfo']:
+        for browse_node in item['BrowseNodeInfo']['BrowseNodes']:
+            if 'SalesRank' in browse_node:
+                category_name = browse_node.get('DisplayName', '').lower()
+                # Look for the main Books category or Literature & Fiction
+                if ('books' in category_name or 'literature' in category_name) and not books_rank:
+                    books_rank = browse_node['SalesRank']
+                    print(f"📚 Sales Rank: #{books_rank:,} in {browse_node.get('DisplayName', 'Books')}")
+                    break
+    
+    # If still no rank found, show debug info
+    if not books_rank:
+        print("\n🔍 Sales Rank Debug Info:")
+        
+        # Check what's in BrowseNodeInfo
+        if 'BrowseNodeInfo' in item:
+            browse_info = item['BrowseNodeInfo']
+            print(f"BrowseNodeInfo keys: {list(browse_info.keys())}")
+            
+            if 'WebsiteSalesRank' in browse_info:
+                print(f"WebsiteSalesRank: {browse_info['WebsiteSalesRank']}")
+            
+            if 'BrowseNodes' in browse_info:
+                print("BrowseNodes with sales rank data:")
+                for i, node in enumerate(browse_info['BrowseNodes']):
+                    if 'SalesRank' in node:
+                        print(f"  Node {i}: {node}")
+                    else:
+                        print(f"  Node {i} ({node.get('DisplayName', 'Unknown')}): No SalesRank field")
+        else:
+            print("No BrowseNodeInfo found in response")
+        
+        print("\n💡 Possible reasons:")
+        print("  - Sales rank data not available for this product")
+        print("  - Your API access level doesn't include sales rank")
+        print("  - Amazon has restricted sales rank data in PA-API")
     
     # Product URL
     asin = item.get('ASIN', 'Unknown')
