@@ -1,6 +1,6 @@
 ---
 title: Book Recommendations
-publishDate: "2016-03-01"
+publishDate: "2025-08-01"
 description: "A data-driven approach to finding great books."
 draft: false
 ---
@@ -9,7 +9,7 @@ I like good books. I like short books. But, finding good short books isn't easy.
 
 Given a book's ISBN, Amazon's Product API allows one to download the following characteristics of a book: number of pages, sales rank, price, title, author, etc. I have downloaded this information for the books on NPR's list of Best Books for [2013](http://apps.npr.org/best-books-2013/), [2014](http://apps.npr.org/best-books-2014/), and [2015](http://apps.npr.org/best-books-2015/).
 
-The visualization shows books as points on a scatter plot, where the x-axis represents the log number of pages and the y-axis represents the log sales rank. Each point is colored by the year the book was featured on NPR's list. Click on any point to see detailed information about the book.
+The visualization shows books as points on a scatter plot, where the x-axis represents the log number of pages and the y-axis represents the log sales rank. Click on any point to see detailed information about the book. Use the filters below to explore books by year and topic.
 
 <div id="books-container">
   <div id="loading">Loading...</div>
@@ -21,18 +21,77 @@ The visualization shows books as points on a scatter plot, where the x-axis repr
   </div>
 </div>
 
-<div style="margin-top: 40px; text-align: center;">
-  <label>Select Years:</label>
-  <div style="margin-top: 10px;">
-    <label style="margin-right: 15px;">
-      <input type="checkbox" id="year-2015" value="/books/npr-2015.json" checked> 2015
-    </label>
-    <label style="margin-right: 15px;">
-      <input type="checkbox" id="year-2014" value="/books/npr-2014.json" checked> 2014
-    </label>
-    <label>
-      <input type="checkbox" id="year-2013" value="/books/npr-2013.json" checked> 2013
-    </label>
+<div style="text-align: center; margin-top: 15px;">
+  <div id="filter-count" style="font-size: 0.9rem; color: #6c757d; font-style: italic;">
+    <!-- Filter count will be populated dynamically -->
+  </div>
+</div>
+
+<div id="books-table-container" style="margin-top: 30px;">
+  <h3 style="margin-bottom: 15px; color: #495057;">Browse Books</h3>
+  
+  <div id="table-controls" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+    <div class="table-sort">
+      <label style="font-size: 0.9rem; color: #495057; margin-right: 10px;">Sort by:</label>
+      <select id="sort-select" style="padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem;">
+        <option value="title">Title</option>
+        <option value="author">Author</option>
+        <option value="pages">Pages</option>
+        <option value="sales_rank" selected>Sales Rank</option>
+      </select>
+    </div>
+    <div class="pagination-info">
+      <span id="page-info" style="font-size: 0.9rem; color: #6c757d;"></span>
+    </div>
+  </div>
+  
+  <div class="table-wrapper">
+    <table id="books-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Pages</th>
+          <th>Sales Rank</th>
+          <th>Tags</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="books-table-body">
+        <!-- Table rows will be populated dynamically -->
+      </tbody>
+    </table>
+  </div>
+  
+  <div id="pagination-controls" style="margin-top: 15px; text-align: center;">
+    <!-- Pagination buttons will be populated dynamically -->
+  </div>
+</div>
+
+<div style="margin-top: 40px;">
+  <div class="filter-section">
+    <h4>Filter by Year:</h4>
+    <div class="filter-controls">
+      <button class="filter-btn" onclick="selectAllYears()">Select All</button>
+      <button class="filter-btn" onclick="clearAllYears()">Clear All</button>
+    </div>
+    <div id="year-filters" class="filter-checkboxes">
+      <!-- Year checkboxes will be populated dynamically -->
+    </div>
+  </div>
+  
+  <div class="filter-section">
+    <h4>Filter by Topic:</h4>
+    <div class="filter-controls">
+      <button class="filter-btn" onclick="selectAllTags()">Select All</button>
+      <button class="filter-btn" onclick="clearAllTags()">Clear All</button>
+    </div>
+    <div id="tag-filters" class="filter-checkboxes">
+      <!-- Tag checkboxes will be populated dynamically -->
+    </div>
+         <div class="filter-help">
+       All topics shown with book counts. Select topics to see only books with those tags.
+     </div>
   </div>
 </div>
 
@@ -280,6 +339,275 @@ PS I wish Amazon's Product API provided customer ratings for each book. This [St
     .dialog-content {
       width: 95%;
       margin: 10% auto;
+    }
+  }
+
+  /* Filter section styles */
+  .filter-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+  }
+
+  .filter-section h4 {
+    margin: 0 0 10px 0;
+    color: #495057;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .filter-controls {
+    margin-bottom: 15px;
+  }
+
+  .filter-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 4px 12px;
+    margin-right: 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .filter-btn:hover {
+    background-color: #5a6268;
+  }
+
+  .filter-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .filter-checkboxes label {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #495057;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+
+  .filter-checkboxes label:hover {
+    background-color: rgba(108, 117, 125, 0.1);
+  }
+
+  .filter-checkboxes input[type="checkbox"] {
+    margin-right: 6px;
+  }
+
+  .filter-help {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .filter-section {
+      padding: 12px;
+    }
+    
+    .filter-checkboxes {
+      gap: 4px;
+    }
+    
+    .filter-checkboxes label {
+      font-size: 0.8rem;
+      padding: 3px 6px;
+    }
+  }
+
+  /* Books table styles */
+  #books-table-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    padding: 20px;
+  }
+
+  #books-table-container h3 {
+    margin: 0 0 15px 0;
+    color: #495057;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    background-color: white;
+  }
+
+  #books-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  #books-table th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+    white-space: nowrap;
+  }
+
+  #books-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #f1f3f4;
+    vertical-align: top;
+  }
+
+  #books-table tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+
+  .book-title-cell {
+    font-weight: 500;
+    color: #495057;
+    max-width: 200px;
+  }
+
+  .book-author-cell {
+    color: #6c757d;
+    max-width: 150px;
+  }
+
+  .book-tags-cell {
+    font-size: 0.8rem;
+    color: #6c757d;
+    max-width: 180px;
+    line-height: 1.3;
+  }
+
+  .book-tags-cell .tag {
+    display: inline-block;
+    background-color: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin: 1px 2px 1px 0;
+    font-size: 0.75rem;
+  }
+
+  .book-number-cell {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: #495057;
+  }
+
+  .amazon-btn {
+    background-color: #ff9900;
+    color: white;
+    padding: 4px 8px;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .amazon-btn:hover {
+    background-color: #e68900;
+    color: white;
+  }
+
+  .amazon-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+
+  /* Pagination styles */
+  #pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .pagination-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .pagination-btn:hover:not(:disabled) {
+    background-color: #5a6268;
+  }
+
+  .pagination-btn:disabled {
+    background-color: #adb5bd;
+    cursor: not-allowed;
+  }
+
+  .pagination-btn.active {
+    background-color: #007bff;
+  }
+
+  .pagination-btn.active:hover {
+    background-color: #0056b3;
+  }
+
+  @media (max-width: 768px) {
+    #books-table-container {
+      padding: 15px;
+    }
+
+    #table-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .table-sort {
+      text-align: center;
+    }
+
+    .pagination-info {
+      text-align: center;
+    }
+
+    #books-table {
+      font-size: 0.8rem;
+    }
+
+    #books-table th,
+    #books-table td {
+      padding: 8px 6px;
+    }
+
+    .book-title-cell,
+    .book-author-cell {
+      max-width: 120px;
+    }
+
+    .book-tags-cell {
+      max-width: 100px;
+    }
+
+    #pagination-controls {
+      gap: 3px;
+    }
+
+    .pagination-btn {
+      padding: 5px 8px;
+      font-size: 0.8rem;
     }
   }
 </style>
