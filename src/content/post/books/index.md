@@ -97,7 +97,7 @@ The visualization below shows each book as a point on a scatterplot, where the x
 </div>
 
 :::note{title=Notes}
-Thanks to [Cory Zue](https://www.coryzue.com/) for his help in retrieving data from Amazon's API.
+Thanks to [Cory Zue](https://www.coryzue.com/) for his help using Amazon's Product Advertising API.
 
 All Amazon links on this page use NPR's affiliate tag `npr-5-20`.
 :::
