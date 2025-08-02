@@ -18,6 +18,12 @@ API Rate Limits (Per Amazon PA-API 5.0 Documentation):
 - Account loses access if no sales for 30 consecutive days
 - Always include Partner Tag and use primary account credentials
 
+ISBN Format Handling:
+- Amazon API only accepts ISBN-10 format
+- This script automatically converts ISBN-13 (978 prefix) to ISBN-10
+- ISBN-13s with 979 prefix cannot be converted and will likely fail
+- Both original and normalized ISBNs are tracked in the output
+
 Usage examples:
 # Check API compliance before running
 python amazon.py check-limits 1000 --delay 1.5
@@ -25,8 +31,9 @@ python amazon.py check-limits 1000 --delay 1.5
 # Check today's API usage
 python amazon.py usage amazon_books.jsonl
 
-# Test with a single ISBN
+# Test with a single ISBN (works with both ISBN-10 and ISBN-13)
 python amazon.py test 0770436404
+python amazon.py test 9780770436407
 
 # Test with debugger on rate limits
 python amazon.py test 0770436404 --debug-rate-limits
@@ -62,6 +69,78 @@ from dotenv import load_dotenv
 import requests
 import typer
 from tqdm import tqdm
+
+
+def isbn13_to_isbn10(isbn13: str) -> Optional[str]:
+    """
+    Convert ISBN-13 to ISBN-10 format.
+    
+    Args:
+        isbn13: 13-digit ISBN string (may include hyphens or spaces)
+    
+    Returns:
+        10-digit ISBN string if conversion is possible, None if not
+        
+    Note:
+        - Only ISBN-13s starting with 978 can be converted to ISBN-10
+        - ISBN-13s starting with 979 cannot be converted
+    """
+    # Clean the ISBN (remove hyphens, spaces, etc.)
+    clean_isbn = ''.join(c for c in isbn13 if c.isdigit())
+    
+    # Must be exactly 13 digits
+    if len(clean_isbn) != 13:
+        return None
+    
+    # Must start with 978 (979 prefix cannot be converted to ISBN-10)
+    if not clean_isbn.startswith('978'):
+        return None
+    
+    # Extract the middle 9 digits (after 978, before check digit)
+    middle_nine = clean_isbn[3:12]
+    
+    # Calculate ISBN-10 check digit
+    total = sum((10 - i) * int(digit) for i, digit in enumerate(middle_nine))
+    check_digit = (11 - (total % 11)) % 11
+    
+    # Handle special case where check digit is 10 (represented as 'X')
+    if check_digit == 10:
+        check_digit_str = 'X'
+    else:
+        check_digit_str = str(check_digit)
+    
+    return middle_nine + check_digit_str
+
+
+def normalize_isbn(isbn: str) -> str:
+    """
+    Normalize ISBN to the format Amazon API expects.
+    
+    Args:
+        isbn: ISBN in any format (10 or 13 digits, with or without hyphens)
+    
+    Returns:
+        Normalized ISBN string (preferably ISBN-10 for Amazon API compatibility)
+    """
+    # Clean the ISBN (remove hyphens, spaces, etc.)
+    clean_isbn = ''.join(c for c in isbn if c.isdigit() or c.upper() == 'X')
+    
+    # If it's already 10 digits (or 9 digits + X), return as-is
+    if len(clean_isbn) == 10:
+        return clean_isbn
+    
+    # If it's 13 digits, try to convert to ISBN-10
+    if len(clean_isbn) == 13:
+        isbn10 = isbn13_to_isbn10(clean_isbn)
+        if isbn10:
+            return isbn10
+        else:
+            # If conversion fails (e.g., 979 prefix), return the original ISBN-13
+            # The API will likely reject it, but we'll let the error handling deal with it
+            return clean_isbn
+    
+    # For any other length, return as-is and let the API handle the error
+    return clean_isbn
 
 
 def load_amazon_config():
@@ -153,12 +232,22 @@ def sign_request(method, url, headers, payload, config):
 def search_isbn(isbn, config, debug_rate_limits=False):
     """Search Amazon Product API for the given ISBN using direct requests."""
     
+    # Normalize the ISBN to ensure it's in a format Amazon API expects
+    normalized_isbn = normalize_isbn(isbn)
+    
+    # Log ISBN conversion if it happened
+    if normalized_isbn != isbn:
+        # Check if this was an ISBN-13 to ISBN-10 conversion
+        clean_original = ''.join(c for c in isbn if c.isdigit())
+        if len(clean_original) == 13 and len(normalized_isbn) == 10:
+            print(f"🔄 Converted ISBN-13 {isbn} → ISBN-10 {normalized_isbn}")
+    
     # API endpoint
     url = f"https://{config['host']}/paapi5/getitems"
     
     # Request payload - using minimal resources to ensure compatibility
     payload = {
-        "ItemIds": [isbn],
+        "ItemIds": [normalized_isbn],
         "Resources": [
             "ItemInfo.Title",
             "ItemInfo.ContentInfo",
@@ -175,7 +264,7 @@ def search_isbn(isbn, config, debug_rate_limits=False):
     headers = {
         'Content-Type': 'application/json; charset=utf-8',
         'Content-Encoding': 'amz-1.0',
-        'X-Amz-Target': 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems'
+        "X-Amz-Target": "com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems"
     }
     
     # Sign the request
@@ -191,12 +280,14 @@ def search_isbn(isbn, config, debug_rate_limits=False):
                 item = data['ItemsResult']['Items'][0]
                 # Add metadata
                 item['_isbn'] = isbn
+                item['_normalized_isbn'] = normalized_isbn if normalized_isbn != isbn else None
                 item['_retrieved_at'] = datetime.now(timezone.utc).isoformat()
                 return item
             else:
                 # Return error info for debugging
                 error_info = {
                     '_isbn': isbn,
+                    '_normalized_isbn': normalized_isbn if normalized_isbn != isbn else None,
                     '_retrieved_at': datetime.now(timezone.utc).isoformat(),
                     '_error': 'No items found',
                     '_api_errors': data.get('Errors', [])
@@ -206,6 +297,7 @@ def search_isbn(isbn, config, debug_rate_limits=False):
             # Return error info
             error_info = {
                 '_isbn': isbn,
+                '_normalized_isbn': normalized_isbn if normalized_isbn != isbn else None,
                 '_retrieved_at': datetime.now(timezone.utc).isoformat(),
                 '_error': f'API request failed with status {response.status_code}',
                 '_status_code': response.status_code
@@ -266,12 +358,14 @@ def search_isbn(isbn, config, debug_rate_limits=False):
     except requests.RequestException as e:
         return {
             '_isbn': isbn,
+            '_normalized_isbn': normalized_isbn if normalized_isbn != isbn else None,
             '_retrieved_at': datetime.now(timezone.utc).isoformat(),
             '_error': f'Network error: {str(e)}'
         }
     except json.JSONDecodeError as e:
         return {
             '_isbn': isbn,
+            '_normalized_isbn': normalized_isbn if normalized_isbn != isbn else None,
             '_retrieved_at': datetime.now(timezone.utc).isoformat(),
             '_error': f'JSON decode error: {str(e)}'
         }
@@ -597,6 +691,11 @@ def test(
         config = load_amazon_config()
         typer.echo(f"🔍 Testing with ISBN: {isbn}")
         
+        # Show ISBN normalization
+        normalized = normalize_isbn(isbn)
+        if normalized != isbn:
+            typer.echo(f"🔄 Normalized to: {normalized}")
+        
         # Search for the product
         item = search_isbn(isbn, config, debug_rate_limits)
         
@@ -625,6 +724,42 @@ def test(
     except Exception as e:
         typer.echo(f"❌ Unexpected error: {e}", err=True)
         raise typer.Exit(1)
+
+
+@app.command()
+def convert_isbn(
+    isbn: str = typer.Argument(..., help="ISBN to convert (ISBN-13 to ISBN-10)")
+):
+    """Convert ISBN-13 to ISBN-10 format and show the result."""
+    
+    typer.echo(f"📖 Original ISBN: {isbn}")
+    
+    # Clean input
+    clean_input = ''.join(c for c in isbn if c.isdigit() or c.upper() == 'X')
+    typer.echo(f"🧹 Cleaned: {clean_input}")
+    
+    # Normalize
+    normalized = normalize_isbn(isbn)
+    typer.echo(f"🔄 Normalized: {normalized}")
+    
+    # Show conversion details if it's ISBN-13
+    if len(clean_input) == 13:
+        if clean_input.startswith('978'):
+            isbn10 = isbn13_to_isbn10(clean_input)
+            if isbn10:
+                typer.echo(f"✅ ISBN-13 → ISBN-10: {clean_input} → {isbn10}")
+                typer.echo(f"💡 Amazon API will use: {isbn10}")
+            else:
+                typer.echo(f"❌ Conversion failed")
+        elif clean_input.startswith('979'):
+            typer.echo(f"⚠️  ISBN-13 with 979 prefix cannot be converted to ISBN-10")
+            typer.echo(f"❗ Amazon API may reject this ISBN")
+        else:
+            typer.echo(f"❌ Invalid ISBN-13 format (must start with 978 or 979)")
+    elif len(clean_input) == 10:
+        typer.echo(f"✅ Already ISBN-10 format - no conversion needed")
+    else:
+        typer.echo(f"❌ Invalid ISBN length: {len(clean_input)} (expected 10 or 13)")
 
 
 if __name__ == "__main__":

@@ -1,15 +1,15 @@
 ---
-title: Book Recommendations
-publishDate: "2025-08-01"
-description: "A data-driven approach to finding great books."
-draft: false
+title: Finding Good and Short Books
+publishDate: "2025-08-02"
+description: "A data-driven approach to finding good (short) books."
+toc: false
 ---
 
-I like good books. I like short books. But, finding good short books isn't easy. For most needs, sorting Amazon search results by sales rank or average customer review works well. But, there's no easy way to filter or sort by book length.
+I like good books. I like short books. But, finding good short books can be challenging. For most needs, sorting Amazon search results by sales rank or average customer review works well. But, there's no easy way to filter or sort by book length.
 
-Given a book's ISBN, Amazon's Product API allows one to download the following characteristics of a book: number of pages, sales rank, price, title, author, etc. I have downloaded this information for the books on NPR's list of Best Books for [2013](http://apps.npr.org/best-books-2013/), [2014](http://apps.npr.org/best-books-2014/), and [2015](http://apps.npr.org/best-books-2015/).
+Given a book's ISBN, Amazon's Product API allows one to download the following characteristics of a book: number of pages, sales rank, price, title, author, etc. I have downloaded this information for [NPR's Best Books](https://apps.npr.org/best-books/) from 2013 through 2024.
 
-The visualization shows books as points on a scatter plot, where the x-axis represents the log number of pages and the y-axis represents the log sales rank. Click on any point to see detailed information about the book. Use the filters below to explore books by year and topic.
+The visualization below shows books as points on a scatter plot, where the x-axis represents the log number of pages and the y-axis represents the log sales rank. Click on any point to see detailed information about the book. Use the filters below to explore books by year and topic.
 
 <div id="books-container">
   <div id="loading">Loading...</div>
@@ -27,9 +27,36 @@ The visualization shows books as points on a scatter plot, where the x-axis repr
   </div>
 </div>
 
-<div id="books-table-container" style="margin-top: 30px;">
-  <h3 style="margin-bottom: 15px; color: #495057;">Browse Books</h3>
-  
+## Filter by Year
+
+<div class="filter-section">
+  <div class="filter-controls">
+    <button class="filter-btn" onclick="selectAllYears()">Select All</button>
+    <button class="filter-btn" onclick="clearAllYears()">Clear All</button>
+  </div>
+  <div id="year-filters" class="filter-checkboxes">
+    <!-- Year checkboxes will be populated dynamically -->
+  </div>
+</div>
+
+## Filter by Topic
+
+<div class="filter-section">
+  <div class="filter-controls">
+    <button class="filter-btn" onclick="selectAllTags()">Select All</button>
+    <button class="filter-btn" onclick="clearAllTags()">Clear All</button>
+  </div>
+  <div id="tag-filters" class="filter-checkboxes">
+    <!-- Tag checkboxes will be populated dynamically -->
+  </div>
+        <div class="filter-help">
+      All topics shown with book counts. Select topics to see only books with those tags.
+    </div>
+</div>
+
+## Browse Books
+
+<div id="books-table-container" style="margin-top: 30px;">  
   <div id="table-controls" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
     <div class="table-sort">
       <label style="font-size: 0.9rem; color: #495057; margin-right: 10px;">Sort by:</label>
@@ -68,34 +95,11 @@ The visualization shows books as points on a scatter plot, where the x-axis repr
   </div>
 </div>
 
-<div style="margin-top: 40px;">
-  <div class="filter-section">
-    <h4>Filter by Year:</h4>
-    <div class="filter-controls">
-      <button class="filter-btn" onclick="selectAllYears()">Select All</button>
-      <button class="filter-btn" onclick="clearAllYears()">Clear All</button>
-    </div>
-    <div id="year-filters" class="filter-checkboxes">
-      <!-- Year checkboxes will be populated dynamically -->
-    </div>
-  </div>
-  
-  <div class="filter-section">
-    <h4>Filter by Topic:</h4>
-    <div class="filter-controls">
-      <button class="filter-btn" onclick="selectAllTags()">Select All</button>
-      <button class="filter-btn" onclick="clearAllTags()">Clear All</button>
-    </div>
-    <div id="tag-filters" class="filter-checkboxes">
-      <!-- Tag checkboxes will be populated dynamically -->
-    </div>
-         <div class="filter-help">
-       All topics shown with book counts. Select topics to see only books with those tags.
-     </div>
-  </div>
-</div>
+:::note{title=Notes}
+Thanks to [Cory Zue](https://www.coryzue.com/) for help getting data out of Amazon's API.
 
-PS I wish Amazon's Product API provided customer ratings for each book. This [Stack Overflow answer](http://stackoverflow.com/a/31329604/3756632) describes a potential work-around.
+All Amazon links on this page have been tagged with NPR's affiliate tag `npr-5-20`.
+:::
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="/books/books.js"></script>

@@ -62,7 +62,7 @@ function clean(book) {
         sales_rank: book.SalesRank ? Number(book.SalesRank) : null,
         pages: book.pages ? Number(book.pages) : null,
         price: null, // Not available in CSV data
-        url: book.ASIN ? `https://www.amazon.com/dp/${book.ASIN}` : null,
+        url: book.ASIN ? `https://www.amazon.com/dp/${book.ASIN}?tag=npr-5-20` : null,
         year: book.year,
         tags: book.tags ? book.tags.split(';') : [],
         asin: book.ASIN
@@ -215,9 +215,6 @@ function updateVisualization() {
     } else {
         container.innerHTML = '<div style="color: #666; font-style: italic;">Error creating visualization.</div>';
     }
-    
-    // Show placeholder in panel by default
-    showPlaceholder();
     
     // Update filter count
     updateFilterCount();
@@ -574,6 +571,12 @@ function createChart(books) {
         .attr("class", "y-axis")
         .call(yAxis);
 
+    // Style axes to be black for better readability
+    xAxisGroup.selectAll("path, line").style("stroke", "black");
+    xAxisGroup.selectAll("text").style("fill", "black");
+    yAxisGroup.selectAll("path, line").style("stroke", "black");
+    yAxisGroup.selectAll("text").style("fill", "black");
+
     // Add axis labels
     g.append("text")
         .attr("x", plotWidth / 2)
@@ -597,7 +600,7 @@ function createChart(books) {
         .attr("text-anchor", "middle")
         .style("font-size", "18px")
         .style("font-weight", "bold")
-        .text("Book Length vs. Popularity");
+        .text("Book Popularity vs. Length");
 
     // Helper function for showing book info
     function showBook(event, d) {
@@ -694,6 +697,12 @@ function createChart(books) {
             // Update axes
             xAxisGroup.call(d3.axisBottom(newXScale));
             yAxisGroup.call(d3.axisLeft(newYScale));
+            
+            // Reapply black styling to axes after zoom update
+            xAxisGroup.selectAll("path, line").style("stroke", "black");
+            xAxisGroup.selectAll("text").style("fill", "black");
+            yAxisGroup.selectAll("path, line").style("stroke", "black");
+            yAxisGroup.selectAll("text").style("fill", "black");
             
             // Update points
             circles
@@ -804,8 +813,11 @@ async function init() {
         return;
     }
     
-    // Show placeholder in panel by default
-    showPlaceholder();
+    // Hide book panel by default
+    const bookPanel = document.getElementById('book-info-panel');
+    if (bookPanel) {
+        bookPanel.style.display = 'none';
+    }
     
     // Update filter count
     updateFilterCount();
