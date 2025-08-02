@@ -5,11 +5,11 @@ description: "A data-driven approach to finding good (short) books."
 toc: false
 ---
 
-I like good books. I like short books. But, finding good short books can be challenging. For most needs, sorting Amazon search results by sales rank or average customer review works well. But, there's no easy way to filter or sort by book length.
+I like good books. I like short books. But finding good short books can be challenging. For most needs, sorting Amazon search results by sales rank or average customer review works well, but there's no easy way to filter or sort by book length.
 
-Given a book's ISBN, Amazon's Product API allows one to download the following characteristics of a book: number of pages, sales rank, price, title, author, etc. I have downloaded this information for [NPR's Best Books](https://apps.npr.org/best-books/) from 2013 through 2024.
+Given a book's ISBN, Amazon's Product Advertising API lets you retrieve information such as the number of pages, sales rank, price, title, and author. I downloaded this information for [NPR's Best Books](https://apps.npr.org/best-books/) from 2013 through 2024.
 
-The visualization below shows books as points on a scatter plot, where the x-axis represents the log number of pages and the y-axis represents the log sales rank. Click on any point to see detailed information about the book. Use the filters below to explore books by year and topic.
+The visualization below shows each book as a point on a scatterplot, where the x-axis represents the logarithm of the number of pages and the y-axis represents the logarithm of the sales rank. Click any point to see detailed information about the book, and use the filters below to explore books by year and topic.
 
 <div id="books-container">
   <div id="loading">Loading...</div>
@@ -49,9 +49,9 @@ The visualization below shows books as points on a scatter plot, where the x-axi
   <div id="tag-filters" class="filter-checkboxes">
     <!-- Tag checkboxes will be populated dynamically -->
   </div>
-        <div class="filter-help">
-      All topics shown with book counts. Select topics to see only books with those tags.
-    </div>
+  <div class="filter-help">
+    All topics are shown with their book counts. Select topics to view only books with those tags.
+  </div>
 </div>
 
 ## Browse Books
@@ -96,9 +96,9 @@ The visualization below shows books as points on a scatter plot, where the x-axi
 </div>
 
 :::note{title=Notes}
-Thanks to [Cory Zue](https://www.coryzue.com/) for help getting data out of Amazon's API.
+Thanks to [Cory Zue](https://www.coryzue.com/) for his help in retrieving data from Amazon's API.
 
-All Amazon links on this page have been tagged with NPR's affiliate tag `npr-5-20`.
+All Amazon links on this page use NPR's affiliate tag `npr-5-20`.
 :::
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
