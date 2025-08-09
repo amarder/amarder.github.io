@@ -6,8 +6,6 @@
     background-color: #fafafa;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 1rem;
-    min-height: 500px;
-    max-height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -142,6 +140,15 @@
     #books-container {
       margin: 1rem 0;
       padding: 0.5rem;
+      min-height: auto;
+      height: auto;
+    }
+    
+    #books-container svg {
+      max-width: 100%;
+      max-height: 70vh;
+      height: auto;
+      width: auto;
     }
     
     #book-info-panel {
@@ -149,6 +156,7 @@
       top: 0.5rem;
       right: 0.5rem;
       padding: 0.75rem;
+      max-height: 60vh;
     }
     
     .book-title {
@@ -161,6 +169,25 @@
     
     .book-detail {
       font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #books-container {
+      margin: 0.5rem 0;
+      padding: 0.25rem;
+    }
+    
+    #books-container svg {
+      max-height: 60vh;
+    }
+    
+    #book-info-panel {
+      width: calc(100vw - 1rem);
+      left: 0.5rem;
+      right: 0.5rem;
+      top: 0.5rem;
+      max-height: 50vh;
     }
   }
 

@@ -571,18 +571,23 @@ function createChart(books) {
         .attr("class", "y-axis")
         .call(yAxis);
 
-    // Style axes to be black for better readability
+    // Style axes to be black for better readability and set font sizes
     xAxisGroup.selectAll("path, line").style("stroke", "black");
-    xAxisGroup.selectAll("text").style("fill", "black");
+    xAxisGroup.selectAll("text")
+        .style("fill", "black")
+        .style("font-size", window.innerWidth <= 768 ? "14px" : "12px");
     yAxisGroup.selectAll("path, line").style("stroke", "black");
-    yAxisGroup.selectAll("text").style("fill", "black");
+    yAxisGroup.selectAll("text")
+        .style("fill", "black")
+        .style("font-size", window.innerWidth <= 768 ? "14px" : "12px");
 
-    // Add axis labels
+    // Add axis labels with responsive font sizes
     g.append("text")
         .attr("x", plotWidth / 2)
         .attr("y", plotHeight + margin.bottom - 10)
         .attr("text-anchor", "middle")
-        .style("font-size", "14px")
+        .style("font-size", window.innerWidth <= 768 ? "16px" : "14px")
+        .style("font-weight", "500")
         .text("Number of Pages (log scale)");
 
     g.append("text")
@@ -590,15 +595,16 @@ function createChart(books) {
         .attr("y", -margin.left + 20)
         .attr("x", -plotHeight / 2)
         .attr("text-anchor", "middle")
-        .style("font-size", "14px")
+        .style("font-size", window.innerWidth <= 768 ? "16px" : "14px")
+        .style("font-weight", "500")
         .text("Sales Rank (log scale, higher = less popular)");
 
-    // Add title
+    // Add title with responsive font size
     svg.append("text")
         .attr("x", width / 2)
         .attr("y", 25)
         .attr("text-anchor", "middle")
-        .style("font-size", "18px")
+        .style("font-size", window.innerWidth <= 768 ? "20px" : "18px")
         .style("font-weight", "bold")
         .text("Book Popularity vs. Length");
 
@@ -700,9 +706,13 @@ function createChart(books) {
             
             // Reapply black styling to axes after zoom update
             xAxisGroup.selectAll("path, line").style("stroke", "black");
-            xAxisGroup.selectAll("text").style("fill", "black");
+            xAxisGroup.selectAll("text")
+                .style("fill", "black")
+                .style("font-size", window.innerWidth <= 768 ? "14px" : "12px");
             yAxisGroup.selectAll("path, line").style("stroke", "black");
-            yAxisGroup.selectAll("text").style("fill", "black");
+            yAxisGroup.selectAll("text")
+                .style("fill", "black")
+                .style("font-size", window.innerWidth <= 768 ? "14px" : "12px");
             
             // Update points
             circles
