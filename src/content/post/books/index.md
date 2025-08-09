@@ -12,6 +12,38 @@ Given a book's ISBN, Amazon's Product Advertising API lets you retrieve informat
 
 The visualization below shows each book as a point on a scatterplot, where the x-axis represents the logarithm of the number of pages and the y-axis represents the logarithm of the sales rank. Click any point to see detailed information about the book, and use the filters below to explore books by year and topic. The plot supports zooming and panning to make clicking points a little easier.
 
+<details class="filter-section">
+  <summary class="font-semibold hover:marker:text-accent cursor-pointer">Filter by Year</summary>
+  <div class="filter-content">
+    <div class="filter-controls">
+      <button class="filter-btn" onclick="selectAllYears()">Select All</button>
+      <button class="filter-btn" onclick="clearAllYears()">Clear All</button>
+    </div>
+    <div id="year-filters" class="filter-checkboxes">
+      <!-- Year checkboxes will be populated dynamically -->
+    </div>
+  </div>
+</details>
+
+<details class="filter-section">
+  <summary class="font-semibold hover:marker:text-accent cursor-pointer">Filter by Topic</summary>
+  <div class="filter-content">
+    <div class="filter-controls">
+      <button class="filter-btn" onclick="selectAllTags()">Select All</button>
+      <button class="filter-btn" onclick="clearAllTags()">Clear All</button>
+    </div>
+    <div id="tag-filters" class="filter-checkboxes">
+      <!-- Tag checkboxes will be populated dynamically -->
+    </div>
+  </div>
+</details>
+
+<div style="text-align: center; margin-top: 15px;">
+  <div id="filter-count" style="font-size: 0.9rem; color: #6c757d;">
+    <!-- Filter count will be populated dynamically -->
+  </div>
+</div>
+
 <div id="books-container">
   <div id="loading">Loading...</div>
   <div id="book-info-panel">
@@ -19,39 +51,6 @@ The visualization below shows each book as a point on a scatterplot, where the x
     <div id="book-content">
       <div id="book-placeholder">Click a point to view book details</div>
     </div>
-  </div>
-</div>
-
-<div style="text-align: center; margin-top: 15px;">
-  <div id="filter-count" style="font-size: 0.9rem; color: #6c757d; font-style: italic;">
-    <!-- Filter count will be populated dynamically -->
-  </div>
-</div>
-
-## Filter by Year
-
-<div class="filter-section">
-  <div class="filter-controls">
-    <button class="filter-btn" onclick="selectAllYears()">Select All</button>
-    <button class="filter-btn" onclick="clearAllYears()">Clear All</button>
-  </div>
-  <div id="year-filters" class="filter-checkboxes">
-    <!-- Year checkboxes will be populated dynamically -->
-  </div>
-</div>
-
-## Filter by Topic
-
-<div class="filter-section">
-  <div class="filter-controls">
-    <button class="filter-btn" onclick="selectAllTags()">Select All</button>
-    <button class="filter-btn" onclick="clearAllTags()">Clear All</button>
-  </div>
-  <div id="tag-filters" class="filter-checkboxes">
-    <!-- Tag checkboxes will be populated dynamically -->
-  </div>
-  <div class="filter-help">
-    All topics are shown with their book counts. Select topics to view only books with those tags.
   </div>
 </div>
 

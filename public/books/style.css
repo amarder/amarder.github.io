@@ -243,14 +243,51 @@
   .filter-section {
     margin-bottom: 25px;
     padding: 15px;
-    background-color: #f8f9fa;
+    background-color: color-mix(in srgb, var(--color-global-bg) 90%, var(--color-global-text) 10%);
     border-radius: 8px;
-    border: 1px solid #e9ecef;
+    border: 1px solid color-mix(in srgb, var(--color-global-bg) 70%, var(--color-global-text) 30%);
+  }
+
+  /* Collapsible filter section (using details/summary) */
+  details.filter-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: color-mix(in srgb, var(--color-global-bg) 90%, var(--color-global-text) 10%);
+    border-radius: 8px;
+    border: 1px solid color-mix(in srgb, var(--color-global-bg) 70%, var(--color-global-text) 30%);
+  }
+
+  details.filter-section summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-global-text);
+    font-size: 1rem;
+    margin-bottom: 0;
+    list-style: none;
+  }
+
+  details.filter-section summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details.filter-section summary::before {
+    content: '▶';
+    display: inline-block;
+    margin-right: 8px;
+    transition: transform 0.2s ease;
+  }
+
+  details.filter-section[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  .filter-content {
+    margin-top: 15px;
   }
 
   .filter-section h4 {
     margin: 0 0 10px 0;
-    color: #495057;
+    color: var(--color-global-text);
     font-size: 1rem;
     font-weight: 600;
   }
@@ -260,8 +297,8 @@
   }
 
   .filter-btn {
-    background-color: #6c757d;
-    color: white;
+    background-color: color-mix(in srgb, var(--color-global-text) 70%, var(--color-global-bg) 30%);
+    color: var(--color-global-bg);
     border: none;
     padding: 4px 12px;
     margin-right: 8px;
@@ -272,7 +309,7 @@
   }
 
   .filter-btn:hover {
-    background-color: #5a6268;
+    background-color: color-mix(in srgb, var(--color-global-text) 85%, var(--color-global-bg) 15%);
   }
 
   .filter-checkboxes {
@@ -281,11 +318,25 @@
     gap: 8px;
   }
 
+  /* Year filters specific styling - vertical layout */
+  #year-filters.filter-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Topic filters specific styling - vertical layout */
+  #tag-filters.filter-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
   .filter-checkboxes label {
     display: flex;
     align-items: center;
     font-size: 0.9rem;
-    color: #495057;
+    color: var(--color-global-text);
     cursor: pointer;
     padding: 4px 8px;
     border-radius: 4px;
@@ -293,7 +344,7 @@
   }
 
   .filter-checkboxes label:hover {
-    background-color: rgba(108, 117, 125, 0.1);
+    background-color: color-mix(in srgb, var(--color-global-bg) 85%, var(--color-global-text) 15%);
   }
 
   .filter-checkboxes input[type="checkbox"] {
@@ -303,13 +354,18 @@
   .filter-help {
     margin-top: 10px;
     font-size: 0.85rem;
-    color: #6c757d;
+    color: color-mix(in srgb, var(--color-global-text) 70%, var(--color-global-bg) 30%);
     font-style: italic;
   }
 
   @media (max-width: 768px) {
-    .filter-section {
+    .filter-section,
+    details.filter-section {
       padding: 12px;
+    }
+    
+    details.filter-section summary {
+      font-size: 0.9rem;
     }
     
     .filter-checkboxes {
@@ -324,15 +380,15 @@
 
   /* Books table styles */
   #books-table-container {
-    background-color: #f8f9fa;
+    background-color: color-mix(in srgb, var(--color-global-bg) 90%, var(--color-global-text) 10%);
     border-radius: 8px;
-    border: 1px solid #e9ecef;
+    border: 1px solid color-mix(in srgb, var(--color-global-bg) 70%, var(--color-global-text) 30%);
     padding: 20px;
   }
 
   #books-table-container h3 {
     margin: 0 0 15px 0;
-    color: #495057;
+    color: var(--color-global-text);
     font-size: 1.2rem;
     font-weight: 600;
   }
