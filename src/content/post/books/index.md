@@ -1,7 +1,8 @@
 ---
 title: Finding Good and Short Books
 publishDate: "2025-08-02"
-description: "A data-driven approach to finding good (short) books."
+updatedDate: "2025-08-09"
+description: "NPR's Best Books + Amazon Data = Great way to find good (short) books"
 tags:
   - d3js
 ---
@@ -10,7 +11,7 @@ I like good books. I like short books. But finding good short books can be chall
 
 Given a book's ISBN, Amazon's Product Advertising API lets you retrieve information such as the number of pages, sales rank, price, title, and author. I downloaded this information for [NPR's Best Books](https://apps.npr.org/best-books/) from 2013 through 2024.
 
-The visualization below shows each book as a point on a scatterplot, where the x-axis represents the logarithm of the number of pages and the y-axis represents the logarithm of the sales rank. Click any point to see detailed information about the book, and use the filters below to explore books by year and topic. The plot supports zooming and panning to make clicking points a little easier.
+The visualization below shows each book as a point on a scatterplot, the x-axis displays the logarithm of the number of pages and the y-axis displays the logarithm of the sales rank. Click any point to see detailed information about the book, and use the filters below to explore books by year and topic. The plot supports zooming and panning to make clicking points a little easier.
 
 <details class="filter-section">
   <summary class="font-semibold hover:marker:text-accent cursor-pointer">Filter by Year</summary>
