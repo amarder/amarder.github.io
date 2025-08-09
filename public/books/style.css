@@ -423,76 +423,85 @@
   .table-wrapper {
     overflow-x: auto;
     border-radius: 6px;
-    border: 1px solid #dee2e6;
-    background-color: white;
+    border: 1px solid color-mix(in srgb, var(--color-global-bg) 60%, var(--color-global-text) 40%);
+    background-color: var(--color-global-bg);
   }
 
   #books-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
+    background-color: var(--color-global-bg);
   }
 
   #books-table th {
-    background-color: #f8f9fa;
-    color: #495057;
+    background-color: color-mix(in srgb, var(--color-global-bg) 90%, var(--color-global-text) 10%);
+    color: var(--color-global-text);
     font-weight: 600;
     padding: 12px 8px;
     text-align: left;
-    border-bottom: 2px solid #dee2e6;
+    border-bottom: 2px solid color-mix(in srgb, var(--color-global-bg) 70%, var(--color-global-text) 30%);
     white-space: nowrap;
   }
 
   #books-table td {
     padding: 10px 8px;
-    border-bottom: 1px solid #f1f3f4;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-global-bg) 85%, var(--color-global-text) 15%);
     vertical-align: top;
+    background-color: var(--color-global-bg);
+    color: var(--color-global-text);
   }
 
   #books-table tbody tr:hover {
-    background-color: #f8f9fa;
+    background-color: color-mix(in srgb, var(--color-global-bg) 95%, var(--color-global-text) 5%);
+  }
+
+  #books-table tbody tr:hover td {
+    background-color: color-mix(in srgb, var(--color-global-bg) 95%, var(--color-global-text) 5%);
   }
 
   .book-title-cell {
     font-weight: 500;
-    color: #495057;
+    color: var(--color-global-text);
     max-width: 200px;
   }
 
   .book-author-cell {
-    color: #6c757d;
+    color: color-mix(in srgb, var(--color-global-text) 70%, var(--color-global-bg) 30%);
     max-width: 150px;
   }
 
   .book-tags-cell {
     font-size: 0.8rem;
-    color: #6c757d;
+    color: color-mix(in srgb, var(--color-global-text) 70%, var(--color-global-bg) 30%);
     max-width: 180px;
     line-height: 1.3;
   }
 
   .book-tags-cell .tag {
     display: inline-block;
-    background-color: #e9ecef;
+    background-color: color-mix(in srgb, var(--color-global-bg) 90%, var(--color-global-text) 10%);
+    color: var(--color-global-text);
     padding: 2px 6px;
     border-radius: 3px;
     margin: 1px 2px 1px 0;
     font-size: 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--color-global-bg) 80%, var(--color-global-text) 20%);
   }
 
   .book-number-cell {
     text-align: right;
     font-variant-numeric: tabular-nums;
-    color: #495057;
+    color: var(--color-global-text);
   }
 
   .amazon-btn {
     background-color: #ff9900;
     color: white;
-    padding: 4px 8px;
+    padding: 3px 6px;
     text-decoration: none;
     border-radius: 3px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 500;
     transition: background-color 0.2s ease;
     white-space: nowrap;
@@ -518,8 +527,8 @@
   }
 
   .pagination-btn {
-    background-color: #6c757d;
-    color: white;
+    background-color: color-mix(in srgb, var(--color-global-text) 70%, var(--color-global-bg) 30%);
+    color: var(--color-global-bg);
     border: none;
     padding: 6px 12px;
     border-radius: 4px;
@@ -529,22 +538,33 @@
   }
 
   .pagination-btn:hover:not(:disabled) {
-    background-color: #5a6268;
+    background-color: color-mix(in srgb, var(--color-global-text) 85%, var(--color-global-bg) 15%);
   }
 
   .pagination-btn:disabled {
-    background-color: #adb5bd;
+    background-color: color-mix(in srgb, var(--color-global-text) 40%, var(--color-global-bg) 60%);
     cursor: not-allowed;
   }
 
   .pagination-btn.active {
-    background-color: #007bff;
+    background-color: var(--color-accent);
+    color: var(--color-global-bg);
   }
 
   .pagination-btn.active:hover {
-    background-color: #0056b3;
+    background-color: color-mix(in srgb, var(--color-accent) 85%, var(--color-global-text) 15%);
   }
 
+  /* Default: show table, hide cards */
+  .table-wrapper {
+    display: block;
+  }
+  
+  #books-cards {
+    display: none;
+  }
+
+  /* Mobile landscape and small tablets */
   @media (max-width: 768px) {
     #books-table-container {
       padding: 15px;
@@ -553,6 +573,7 @@
     #table-controls {
       flex-direction: column;
       align-items: stretch;
+      gap: 15px;
     }
 
     .table-sort {
@@ -588,5 +609,164 @@
     .pagination-btn {
       padding: 5px 8px;
       font-size: 0.8rem;
+    }
+  }
+
+  /* Mobile portrait mode - Switch to card layout */
+  @media (max-width: 480px) {
+    #books-table-container {
+      padding: 10px;
+    }
+
+    #table-controls {
+      gap: 10px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .table-sort {
+      text-align: center;
+      width: 100%;
+    }
+
+    .table-sort label {
+      font-size: 0.8rem;
+      display: block;
+      margin-bottom: 5px;
+      margin-right: 0;
+    }
+
+    .table-sort select {
+      font-size: 0.8rem;
+      padding: 8px 12px;
+      width: 100%;
+      max-width: 200px;
+      border-radius: 6px;
+    }
+
+    .pagination-info {
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Hide table, show cards */
+    .table-wrapper {
+      display: none !important;
+    }
+
+    #books-cards {
+      display: block !important;
+    }
+
+    .book-card {
+      background: var(--color-global-bg);
+      border: 1px solid color-mix(in srgb, var(--color-global-bg) 70%, var(--color-global-text) 30%);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 4px color-mix(in srgb, var(--color-global-text) 10%, transparent 90%);
+      transition: box-shadow 0.2s ease;
+    }
+
+    .book-card:hover {
+      box-shadow: 0 4px 8px color-mix(in srgb, var(--color-global-text) 15%, transparent 85%);
+    }
+
+    .book-card-header {
+      margin-bottom: 10px;
+    }
+
+    .book-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-global-text);
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .book-card-author {
+      font-size: 0.85rem;
+      color: color-mix(in srgb, var(--color-global-text) 70%, var(--color-global-bg) 30%);
+      margin-bottom: 8px;
+    }
+
+    .book-card-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 0;
+      border-top: 1px solid color-mix(in srgb, var(--color-global-bg) 85%, var(--color-global-text) 15%);
+      border-bottom: 1px solid color-mix(in srgb, var(--color-global-bg) 85%, var(--color-global-text) 15%);
+    }
+
+    .book-card-detail {
+      font-size: 0.8rem;
+    }
+
+    .book-card-detail-label {
+      font-weight: 600;
+      color: color-mix(in srgb, var(--color-global-text) 70%, var(--color-global-bg) 30%);
+    }
+
+    .book-card-detail-value {
+      color: var(--color-global-text);
+    }
+
+    .book-card-tags {
+      margin-bottom: 12px;
+    }
+
+    .book-card-tags-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: color-mix(in srgb, var(--color-global-text) 70%, var(--color-global-bg) 30%);
+      margin-bottom: 4px;
+    }
+
+    .book-card-tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .book-card-tag {
+      background-color: color-mix(in srgb, var(--color-global-bg) 90%, var(--color-global-text) 10%);
+      color: var(--color-global-text);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      border: 1px solid color-mix(in srgb, var(--color-global-bg) 80%, var(--color-global-text) 20%);
+    }
+
+    .book-card-action {
+      text-align: left;
+    }
+
+    .book-card-action .amazon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ff9900;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      min-height: 36px; /* Better touch target but smaller */
+    }
+
+    .book-card-action .amazon-btn:hover {
+      background-color: #e68900;
+      color: white;
+    }
+
+    /* Keep pagination the same but make buttons more touch-friendly */
+    .pagination-btn {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      min-height: 44px;
     }
   }

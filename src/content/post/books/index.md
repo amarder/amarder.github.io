@@ -54,8 +54,6 @@ The visualization below shows each book as a point on a scatterplot, where the x
   </div>
 </div>
 
-## Browse Books
-
 <div id="books-table-container" style="margin-top: 30px;">  
   <div id="table-controls" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
     <div class="table-sort">
@@ -88,6 +86,10 @@ The visualization below shows each book as a point on a scatterplot, where the x
         <!-- Table rows will be populated dynamically -->
       </tbody>
     </table>
+  </div>
+  
+  <div id="books-cards">
+    <!-- Card layout will be populated dynamically for mobile -->
   </div>
   
   <div id="pagination-controls" style="margin-top: 15px; text-align: center;">

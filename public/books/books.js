@@ -351,9 +351,10 @@ function sortBooks(books) {
     return sorted;
 }
 
-// Render the books table
+// Render the books table and cards
 function renderBooksTable() {
     const tableBody = document.getElementById('books-table-body');
+    const cardsContainer = document.getElementById('books-cards');
     const pageInfo = document.getElementById('page-info');
     const paginationControls = document.getElementById('pagination-controls');
     
@@ -394,10 +395,54 @@ function renderBooksTable() {
                 <td class="book-number-cell">${formatNumber(book.pages)}</td>
                 <td class="book-number-cell">${formatNumber(book.sales_rank)}</td>
                 <td class="book-tags-cell">${tagsHtml}</td>
-                <td style="text-align: center;">${amazonLink}</td>
+                <td style="text-align: left;">${amazonLink}</td>
             </tr>
         `;
     }).join('');
+    
+    // Render card layout for mobile
+    if (cardsContainer) {
+        cardsContainer.innerHTML = currentBooks.map(book => {
+            const tagsHtml = book.tags && book.tags.length > 0 
+                ? `<div class="book-card-tags">
+                     <div class="book-card-tags-label">Tags:</div>
+                     <div class="book-card-tags-list">
+                       ${book.tags.map(tag => `<span class="book-card-tag">${tag}</span>`).join('')}
+                     </div>
+                   </div>`
+                : `<div class="book-card-tags">
+                     <div class="book-card-tags-label">Tags:</div>
+                     <div style="color: #adb5bd; font-style: italic; font-size: 0.8rem;">None</div>
+                   </div>`;
+            
+            const amazonAction = book.url 
+                ? `<a href="${book.url}" target="_blank" rel="noopener noreferrer" class="amazon-btn">View on Amazon</a>`
+                : '<span style="color: #adb5bd; font-style: italic;">Not Available</span>';
+            
+            return `
+                <div class="book-card">
+                    <div class="book-card-header">
+                        <div class="book-card-title">${book.title}</div>
+                        <div class="book-card-author">by ${book.authors}</div>
+                    </div>
+                    <div class="book-card-details">
+                        <div class="book-card-detail">
+                            <div class="book-card-detail-label">Pages:</div>
+                            <div class="book-card-detail-value">${formatNumber(book.pages)}</div>
+                        </div>
+                        <div class="book-card-detail">
+                            <div class="book-card-detail-label">Sales Rank:</div>
+                            <div class="book-card-detail-value">${formatNumber(book.sales_rank)}</div>
+                        </div>
+                    </div>
+                    ${tagsHtml}
+                    <div class="book-card-action">
+                        ${amazonAction}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
     
     // Render pagination controls
     renderPaginationControls(totalPages);
