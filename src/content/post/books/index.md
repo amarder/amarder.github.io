@@ -5,6 +5,7 @@ updatedDate: "2025-08-09"
 description: "NPR's Best Books + Amazon Data = Great way to find good (short) books"
 tags:
   - d3js
+ogImage: "/books/books-og.png"
 ---
 
 I like good books. I like short books. But finding good short books can be challenging. For most needs, sorting Amazon search results by sales rank or average customer review works well, but there's no easy way to filter or sort by book length.
