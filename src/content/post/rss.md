@@ -32,7 +32,6 @@ Here are the feeds I'm currently following. I'll try to update this table period
 | [Martin Fowler](https://martinfowler.com/) | Programming |
 | [Jeff Atwood](https://blog.codinghorror.com/) | Programming |
 | [Julia Evans](https://jvns.ca/) | Programming |
-| [Cursor](https://cursor.com/blog) | Programming |
 | [Colossal](https://www.thisiscolossal.com/) | Fun |
 | [xkcd](https://xkcd.com/) | Fun |
 | [Jason Kottke](https://kottke.org/) | Fun |
