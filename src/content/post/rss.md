@@ -2,6 +2,7 @@
 title: "My RSS Setup"
 description: "My current RSS setup, including the software I use and the feeds I follow for staying up-to-date with data science, programming, and other fun content."
 publishDate: "2025-08-18"
+updatedDate: "2025-08-21"
 draft: false
 tags:
   - tools
@@ -32,9 +33,9 @@ Here are the feeds I'm currently following. I'll try to update this table period
 | [Martin Fowler](https://martinfowler.com/) | Programming |
 | [Jeff Atwood](https://blog.codinghorror.com/) | Programming |
 | [Julia Evans](https://jvns.ca/) | Programming |
+| [Simon Willison](https://simonwillison.net/) | Programming |
 | [Colossal](https://www.thisiscolossal.com/) | Fun |
 | [xkcd](https://xkcd.com/) | Fun |
-| [Jason Kottke](https://kottke.org/) | Fun |
 
 Unfortunately, [The Test Set](https://posit.co/thetestset/) doesn't have an RSS feed. If you have any suggestions on software or feeds, let me know in the comments below!
 
