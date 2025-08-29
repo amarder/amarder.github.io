@@ -25,7 +25,7 @@ export default defineConfig({
     watch: true,
     
     // Reporter configuration (like pytest's output)
-    reporter: ['verbose'],
+    reporter: process.env.CI ? [['default', { summary: false }]] : ['verbose'],
     
     // Coverage configuration
     coverage: {
@@ -43,8 +43,8 @@ export default defineConfig({
     // Test setup
     setupFiles: ['tests/setup.ts'],
     
-    // Test timeout
-    testTimeout: 10000,
+    // Test timeout (shorter for CI)
+    testTimeout: process.env.CI ? 5000 : 10000,
     
     // Pool options for better performance
     pool: 'threads',

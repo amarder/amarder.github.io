@@ -59,6 +59,10 @@ jobs:
       - name: Run check
         run: pnpm astro check
 
+        # run tests with timeout to prevent hanging
+      - name: Run tests
+        run: timeout 300 pnpm test || exit 1
+
         # ensure build works
       - name: Run build
         run: pnpm build
