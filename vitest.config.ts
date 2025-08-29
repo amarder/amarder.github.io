@@ -25,7 +25,7 @@ export default defineConfig({
     watch: true,
     
     // Reporter configuration (like pytest's output)
-    reporter: process.env.CI ? [['default', { summary: false }]] : ['verbose'],
+    // reporter: (process.env.CI ? 'default' : 'verbose') as any,
     
     // Coverage configuration
     coverage: {

@@ -7,16 +7,13 @@ export const getStaticPaths = (async () => {
 	const blogEntries = await getAllPosts();
 	return blogEntries.map((post) => ({
 		params: { slug: post.id },
-		props: { postId: post.id },
+		props: {},
 	}));
 }) satisfies GetStaticPaths;
 
-interface Props {
-	postId: string;
+// Get the slug from URL params and redirect to new URL structure
+const { slug } = Astro.params;
+if (slug) {
+	return Astro.redirect(`/${slug}/`, 301);
 }
-
-const { postId } = Astro.props;
-
-// Redirect to new URL structure
-return Astro.redirect(`/${postId}/`, 301);
 ---

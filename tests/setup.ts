@@ -3,7 +3,7 @@
  * Similar to pytest's conftest.py
  */
 
-import { beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
+import { beforeAll, afterAll, beforeEach, afterEach, vi } from 'vitest';
 
 // Global test configuration
 beforeAll(() => {
@@ -63,7 +63,11 @@ export const testUtils = {
 
 // Make utilities available globally
 declare global {
-  var testUtils: typeof testUtils;
+  var testUtils: {
+    mockFetch: (response: any) => void;
+    restoreFetch: () => void;
+    createTestPost: (overrides?: any) => any;
+  };
 }
 
 globalThis.testUtils = testUtils;

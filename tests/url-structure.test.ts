@@ -111,7 +111,7 @@ describe('URL Structure', () => {
         { from: '/posts/firefox/', to: '/firefox/' }
       ];
       
-      for (const { from, to } of testCases) {
+      for (const { from } of testCases) {
         // Test that we can access the old URL (either redirect or direct serve)
         const response = await fetch(`${BASE_URL}${from}`);
         expect(response.status).toBe(200);
@@ -125,7 +125,7 @@ describe('URL Structure', () => {
     test('configured redirects should work', async () => {
       const redirects = getRedirects();
       
-      for (const [from, to] of Object.entries(redirects)) {
+      for (const [from] of Object.entries(redirects)) {
         const response = await fetch(`${BASE_URL}${from}`);
         expect(response.status).toBe(200);
         
