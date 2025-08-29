@@ -1,6 +1,6 @@
 {
-  "/ssh-key-bindings/": "/posts/ssh-key-bindings/",
-  "/stata-tutorial/": "/posts/stata-tutorial/",
-  "/clustered-standard-errors/": "/posts/clustered-standard-errors/",
-  "/ai/": "/posts/ai/"
+  "/posts/ssh-key-bindings/": "/ssh-key-bindings/",
+  "/posts/stata-tutorial/": "/stata-tutorial/",
+  "/posts/clustered-standard-errors/": "/clustered-standard-errors/",
+  "/posts/ai/": "/ai/"
 } 

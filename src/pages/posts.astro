@@ -5,48 +5,19 @@ import PostPreview from "@/components/blog/PostPreview.astro";
 import { getAllPosts, getUniqueTags, groupPostsByYear } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
-import type { GetStaticPaths, Page } from "astro";
 import { Icon } from "astro-icon/components";
 
-export const getStaticPaths = (async ({ paginate }) => {
-	const MAX_POSTS_PER_PAGE = 10;
-	const MAX_TAGS = 7;
-	const allPosts = await getAllPosts();
-	const uniqueTags = getUniqueTags(allPosts).slice(0, MAX_TAGS);
-	return paginate(allPosts.sort(collectionDateSort), {
-		pageSize: MAX_POSTS_PER_PAGE,
-		props: { uniqueTags },
-	});
-}) satisfies GetStaticPaths;
-
-interface Props {
-	page: Page<CollectionEntry<"post">>;
-	uniqueTags: string[];
-}
-
-const { page, uniqueTags } = Astro.props;
+const MAX_POSTS_PER_PAGE = 10;
+const MAX_TAGS = 7;
+const allPosts = await getAllPosts();
+const uniqueTags = getUniqueTags(allPosts).slice(0, MAX_TAGS);
 
 const meta = {
 	description: "Read my collection of posts and the things that interest me",
 	title: "Posts",
 };
 
-const paginationProps = {
-	...(page.url.prev && {
-		prevUrl: {
-			text: "← Previous Page",
-			url: page.url.prev,
-		},
-	}),
-	...(page.url.next && {
-		nextUrl: {
-			text: "Next Page →",
-			url: page.url.next,
-		},
-	}),
-};
-
-const groupedByYear = groupPostsByYear(page.data);
+const groupedByYear = groupPostsByYear(allPosts.sort(collectionDateSort));
 const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 ---
 
@@ -77,7 +48,6 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 					</section>
 				))
 			}
-			<Pagination {...paginationProps} />
 		</div>
 		{
 			!!uniqueTags.length && (

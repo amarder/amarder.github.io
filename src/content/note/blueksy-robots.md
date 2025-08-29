@@ -6,7 +6,7 @@ publishDate: "2025-07-16T11:00:00-04:00"
 
 ![](/bluesky-robots/robots.png)
 
-**Live Demo**: https://andrewmarder.net/posts/bluesky-robots/
+**Live Demo**: https://andrewmarder.net/bluesky-robots/
 
 A viral chain letter on Bluesky asked users to "quote with a robot that isn’t from 'Star Wars,' 'Star Trek,' 'Dr. Who,' or 'Transformers.'" This interactive D3.js visualization shows how it spread across 2,000+ posts.
 
