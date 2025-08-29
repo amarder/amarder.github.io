@@ -3,32 +3,28 @@
  * Testing the new URL structure where posts appear at root instead of /posts/
  */
 
-import { describe, test, expect, beforeAll, afterAll } from 'vitest';
-import { spawn, type ChildProcess } from 'child_process';
+import { describe, test, expect, beforeAll } from 'vitest';
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 
 const BASE_URL = 'http://localhost:4321';
-const TEST_TIMEOUT = 30000;
-
-// Test server management
-let devServer: ChildProcess | null = null;
+const TEST_TIMEOUT = 10000;
 
 // Helper functions
-const waitForServer = async (url: string, maxAttempts = 30): Promise<void> => {
-  for (let i = 0; i < maxAttempts; i++) {
-    try {
-      const response = await fetch(url);
-      if (response.ok) {
-        console.log('✅ Test server is ready');
-        return;
-      }
-    } catch (error) {
-      // Server not ready yet
+const checkServerRunning = async (url: string): Promise<void> => {
+  try {
+    const response = await fetch(url);
+    if (response.ok) {
+      console.log('✅ Development server is running');
+      return;
     }
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    throw new Error(`❌ Development server returned status ${response.status} at ${url}`);
+  } catch (error: any) {
+    if (error.code === 'ECONNREFUSED' || error.message.includes('ECONNREFUSED') || error.message.includes('fetch')) {
+      throw new Error(`❌ Development server is not running at ${url}. Please start it with 'npm run dev' first.`);
+    }
+    throw error;
   }
-  throw new Error(`Server not ready after ${maxAttempts} seconds`);
 };
 
 const getSamplePostIds = (): string[] => {
@@ -57,25 +53,10 @@ const getRedirects = (): Record<string, string> => {
   }
 };
 
-// Test suite setup
+// Test suite setup - requires running development server
 beforeAll(async () => {
-  console.log('🚀 Starting development server for tests...');
-  
-  devServer = spawn('npm', ['run', 'dev'], {
-    cwd: process.cwd(),
-    stdio: ['ignore', 'pipe', 'pipe']
-  });
-  
-  await waitForServer(BASE_URL);
+  await checkServerRunning(BASE_URL);
 }, TEST_TIMEOUT);
-
-afterAll(async () => {
-  if (devServer) {
-    console.log('🛑 Stopping development server...');
-    devServer.kill();
-    devServer = null;
-  }
-});
 
 // Test suites
 describe('URL Structure', () => {

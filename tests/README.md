@@ -17,7 +17,7 @@ tests/
 ### Basic Commands (pytest equivalents)
 
 ```bash
-# Run all tests (like `pytest`)
+# Run all tests - REQUIRES dev server running (like `pytest`)
 npm test
 
 # Run tests in watch mode (like `pytest --watch`)
@@ -31,6 +31,18 @@ npm run test:coverage
 
 # Quick run with verbose output (like `pytest -v`)
 npm run test:quick
+```
+
+### ⚠️ **Important: Development Server Required**
+
+All tests require a running development server:
+
+```bash
+# Start server in one terminal
+npm run dev
+
+# Run tests in another terminal  
+npm test
 ```
 
 ### Specific Test Running

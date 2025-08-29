@@ -59,9 +59,32 @@ jobs:
       - name: Run check
         run: pnpm astro check
 
-        # run tests with timeout to prevent hanging
+        # start development server in background
+      - name: Start development server
+        run: pnpm dev &
+        
+        # wait for server to be ready
+      - name: Wait for dev server
+        run: |
+          echo "Waiting for development server to start..."
+          for i in {1..30}; do
+            if curl -s http://localhost:4321 >/dev/null 2>&1; then
+              echo "✅ Development server is ready"
+              break
+            fi
+            echo "⏳ Waiting for server... attempt $i/30"
+            sleep 2
+          done
+          
+          # Verify server is actually responding
+          if ! curl -s http://localhost:4321 >/dev/null 2>&1; then
+            echo "❌ Development server failed to start"
+            exit 1
+          fi
+
+        # run tests (requires running server)
       - name: Run tests
-        run: timeout 300 pnpm test || exit 1
+        run: pnpm test
 
         # ensure build works
       - name: Run build
