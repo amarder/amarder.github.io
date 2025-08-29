@@ -26,8 +26,15 @@ afterEach(() => {
   // Cleanup that runs after each test
 });
 
+// Define the test utilities type
+type TestUtils = {
+  mockFetch: (response: any) => void;
+  restoreFetch: () => void;
+  createTestPost: (overrides?: any) => any;
+};
+
 // Global test utilities (similar to pytest fixtures)
-export const testUtils = {
+export const testUtils: TestUtils = {
   // Mock fetch for API testing
   mockFetch: (response: any) => {
     global.fetch = vi.fn(() =>
@@ -63,11 +70,8 @@ export const testUtils = {
 
 // Make utilities available globally
 declare global {
-  var testUtils: {
-    mockFetch: (response: any) => void;
-    restoreFetch: () => void;
-    createTestPost: (overrides?: any) => any;
-  };
+  var testUtils: TestUtils;
 }
 
-globalThis.testUtils = testUtils as any;
+// Assign to global scope
+Object.assign(globalThis, { testUtils });
