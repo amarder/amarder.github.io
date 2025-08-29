@@ -9,6 +9,6 @@ My 3 favorite Obsidian plugins:
 - Web Clipper: for saving webpages as clean Markdown
 - Remotely Save: for inexpensive, self-hosted sync
 
-Read about my setup and why I chose these: https://andrewmarder.net/posts/obsidian/
+Read about my setup and why I chose these: https://andrewmarder.net/obsidian/
 
 #Obsidian #PKM #SecondBrain

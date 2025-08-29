@@ -9,6 +9,6 @@ Record → Transcribe → Auto-copy to clipboard
 
 Built on whisper.cpp with Apple Silicon optimization for fast, accurate results.
 
-Learn more: https://andrewmarder.net/posts/whispy/
+Learn more: https://andrewmarder.net/whispy/
 
 #speechtotext #python #cli #macos #FOSS

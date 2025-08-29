@@ -10,7 +10,7 @@ TLDR: I now use Plausible for my web analytics. I've made my blog's analytics pu
 
 ![Number of daily visitors to my blog](/plausible.png)
 
-In February of 2016, I wrote about [why I left Google Analytics for Piwik](/posts/piwik) (to avoid referral spam). About four months later, I wrote an R package to do [custom analytics with Piwik](/posts/piwikr/). I had five main objectives for my analytics:
+In February of 2016, I wrote about [why I left Google Analytics for Piwik](/piwik) (to avoid referral spam). About four months later, I wrote an R package to do [custom analytics with Piwik](/piwikr/). I had five main objectives for my analytics:
 
 1. Traffic over time
 2. Most popular pages
