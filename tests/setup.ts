@@ -70,4 +70,4 @@ declare global {
   };
 }
 
-globalThis.testUtils = testUtils;
+globalThis.testUtils = testUtils as any;
