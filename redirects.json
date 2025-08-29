@@ -1,6 +1,20 @@
 {
+  "/post/diamonds/": "/diamonds/",
+  "/posts/ai/": "/ai/",
+  "/posts/amazon-picks/": "/amazon-picks/",
+  "/posts/big-data/": "/big-data/",
+  "/posts/bluesky-robots/": "/bluesky-robots/",
+  "/posts/books/": "/books/",
+  "/posts/clustered-standard-errors/": "/clustered-standard-errors/",
+  "/posts/diamonds/": "/diamonds/",
+  "/posts/firefox/": "/firefox/",
+  "/posts/locovote/": "/locovote/",
+  "/posts/obsidian/": "/obsidian/",
+  "/posts/peloterm/": "/peloterm/",
+  "/posts/piwikr/": "/piwikr/",
+  "/posts/plausible/": "/plausible/",
+  "/posts/profile-pic/": "/profile-pic/",
   "/posts/ssh-key-bindings/": "/ssh-key-bindings/",
   "/posts/stata-tutorial/": "/stata-tutorial/",
-  "/posts/clustered-standard-errors/": "/clustered-standard-errors/",
-  "/posts/ai/": "/ai/"
-} 
+  "/posts/whispy/": "/whispy/"
+}
