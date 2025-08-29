@@ -25,7 +25,7 @@ export default defineConfig({
     watch: true,
     
     // Reporter configuration (like pytest's output)
-    reporter: ['verbose', 'html'],
+    reporter: ['verbose'],
     
     // Coverage configuration
     coverage: {
