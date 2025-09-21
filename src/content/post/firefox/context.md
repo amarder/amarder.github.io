@@ -1,16 +1,15 @@
 ---
 title: "Firefox Privacy Checklist: Additional Context"
 description: "A checklist for configuring Mozilla Firefox for a more private browsing experience."
-publishDate: "2025-09-11"
+publishDate: "2025-09-21"
 # updatedDate: "2025-08-29"
 tags:
   - tools
-draft: true
 ---
 
 I posted my [Firefox privacy checklist](/firefox) on [Hacker News](https://news.ycombinator.com/item?id=45073746) and got a ton of great feedback. This post aims to collect what I've learned from the comments, putting the checklist in a broader context.
 
-When browsing the web, there are often tradeoffs between privacy and convenience. My checklist tries to maintain a convenient browsing experience and take back as much privacy as possible while still being convenient.
+When browsing the web, there are often tradeoffs between privacy and convenience. My checklist tries to maintain a convenient browsing experience and take back as much privacy as possible (while still being convenient).
 
 ## Firefox Forks
 
@@ -35,7 +34,7 @@ I do a lot of browsing on mobile, so one thing I like about the checklist is it 
 
 ## Browser Fingerprint
 
-There are websites one can use to inspect their browser's fingerprint:
+There are websites one can use to inspect their web browser's fingerprint:
 
 - [EFF's Cover Your Tracks](https://coveryourtracks.eff.org/)
 - [Am I Unique](https://amiunique.org/)
@@ -48,28 +47,23 @@ After using these tools, I concluded that my browser fingerprint is unique (I am
 
 A number of great extensions came up in the comments, I've put them in the table below.
 
-| \# Users   | Extension                                                                                   |
-|-----------:|---------------------------------------------------------------------------------------------|
-| 9,846,109  | [uBlock Origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)              |
-| 1,821,323  | [Privacy Badger](https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/)          |
-| 537,303    | [ClearURLs](https://addons.mozilla.org/en-US/firefox/addon/clearurls/)                      |
-| 378,338    | [Multi-Account Containers](https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/) |
-| 264,525    | [NoScript](https://addons.mozilla.org/en-US/firefox/addon/noscript/)                        |
-| 250,837    | [Decentraleyes](https://addons.mozilla.org/en-US/firefox/addon/decentraleyes/)              |
-| 184,798    | [Cookie AutoDelete](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/)      |
+| \# Users   | Extension                                                                                   | Description                                                        |
+|-----------:|---------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| 9,846,109  | [uBlock Origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)              | Efficient wide-spectrum content blocker. Easy on CPU and memory. |
+| 1,821,323  | [Privacy Badger](https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/)          | Automatically learns to block hidden trackers. Made by the leading digital rights nonprofit [EFF](https://www.eff.org/) to stop companies from spying on you. |
+| 537,303    | [ClearURLs](https://addons.mozilla.org/en-US/firefox/addon/clearurls/)                      | Removes tracking elements from URLs. |
+| 378,338    | [Multi-Account Containers](https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/) | Keep parts of your online life separated in color-coded tabs. Cookies are separated by container.                                                           |
+| 264,525    | [NoScript](https://addons.mozilla.org/en-US/firefox/addon/noscript/)                        | Only run web content from sites you trust. Protect against cross-site scripting and other web security exploits.                                                                   |
+| 250,837    | [Decentraleyes](https://addons.mozilla.org/en-US/firefox/addon/decentraleyes/)              | Protect against tracking through "free", centralized, content delivery.                                                                   |
+| 184,798    | [Cookie AutoDelete](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/)      | When a tab closes, any cookies not being used are automatically deleted. Keep the ones you trust (forever/until restart) while deleting the rest.                                                                   |
 
 ## External Tools
 
-A couple firewall tools were mentioned as helpful for getting a clear view of the connections made by Firefox:
+A couple firewall applications were mentioned as helpful for monitoring and managing the connections made by Firefox:
 
 - "The [Little Snitch](https://www.obdev.at/products/littlesnitch/index.html) Network Monitor shows you where your Mac connects to on the Internet. You decide what you want to allow or deny."
 - "[OpenSnitch](https://github.com/evilsocket/opensnitch) is a GNU/Linux interactive application firewall inspired by Little Snitch."
 
-## Config
+## AI and CPU Usage
 
-/** AI ***/
-user_pref("browser.ml.enable", false);
-user_pref("browser.ml.chat.enabled", false);
-
-"After reading some article recently, I found around 5 settings in about:config that pertain to FF's new built in AI. I changed them all from "true" to "false"."
-
+A number of readers suggested turning off Firefox's new built-in AI features. I found this article from Neowin especially informative: [Mozilla under fire for Firefox AI "bloat" that blows up CPU and drains battery](https://www.neowin.net/news/mozilla-under-fire-for-firefox-ai-bloat-that-blows-up-cpu-and-drains-battery/). TLDR: When Firefox introduced their AI features, they also introduced a performance bug. I am currently running Firefox version 143.0.1 and I haven't seen any performance issues with the AI features turned on. That being said, the AI features don't sound that useful so I see how turning them off makes a lot of sense.
