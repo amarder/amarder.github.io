@@ -1,5 +1,5 @@
 ---
-title: "Firefox Privacy Checklist: Additional Context"
+title: "Firefox Privacy Checklist - Additional Context"
 description: "A checklist for configuring Mozilla Firefox for a more private browsing experience."
 publishDate: "2025-09-21"
 # updatedDate: "2025-08-29"
