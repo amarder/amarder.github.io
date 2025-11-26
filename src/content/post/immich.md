@@ -24,7 +24,7 @@ One of the big challenges of moving from Google Photos to Immich is figuring out
 model to prevent files from being deleted during a customer-determined retention period, providing immutable ransomware protection to protect data from modification, manipulation, 
 or deletion." I decided against Object Lock to keep things simple and keep storage costs down.
 
-I use [restic](https://restic.net/) to create encrypted backups in [B2 cloud storage](https://www.backblaze.com/cloud-storage) and [Rclone](https://rclone.org/) to sync to an external hard drive for local redundancy. Both restic and Rclone are excellent tools.
+I use [restic](https://restic.net/) to create encrypted backups in [B2 cloud storage](https://www.backblaze.com/cloud-storage) and [Rclone](https://rclone.org/) to sync to an external hard drive for local redundancy. Both restic and Rclone are excellent tools IMO.
 
 ```mermaid
 graph LR;
