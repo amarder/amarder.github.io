@@ -7,9 +7,9 @@ tags:
   - tools
 ---
 
-> Immich is a self-hosted photo and video management solution
+> Immich is a self-hosted photo and video management solution.
 >
-> Easily back up, organize, and manage your photos on your own server. Immich helps you browse, search and organize your photos and videos with ease, without sacrificing your **privacy**.
+> Easily back up, organize, and manage your photos on your own server. Immich helps you browse, search, and organize your photos and videos with ease, without sacrificing your **privacy**.
 
 I'm running [Immich](https://immich.app/) on a Beelink S12 Pro Mini PC that I bought off Amazon for $180. I'm using Docker Compose to run Immich following [these instructions](https://docs.immich.app/install/docker-compose/). I'm using [Nginx Proxy Manager](https://nginxproxymanager.com/) to set up a nice URL and handle SSL certificates.
 
@@ -20,9 +20,11 @@ One of the big challenges of moving from Google Photos to Immich is figuring out
 - **2** different types of media (cloud storage and external hard drive)
 - **1** copy stored offsite (cloud storage)
 
-[^1]: I like using an external hard drive because it provides protection against ransomware attacks. The downside of an external hard drive is I have to manually connect it to perform the backup, this means I'm less likely to do this backup regularly. A more robust solution might use B2's Object Lock. "Object Lock uses a write once, read many (WORM) model to prevent files from being deleted during a customer-determined retention period, providing immutable ransomware protection to protect data from modification, manipulation, or deletion." I decided against Object Lock to keep things simple and keep storage costs down.
+[^1]: I like using an external hard drive because it provides protection against ransomware attacks. The downside is that I have to manually connect it to perform the backup, which means I'm less likely to do this regularly. A more robust solution might use B2's Object Lock: "Object Lock uses a write once, read many (WORM) 
+model to prevent files from being deleted during a customer-determined retention period, providing immutable ransomware protection to protect data from modification, manipulation, 
+or deletion." I decided against Object Lock to keep things simple and keep storage costs down.
 
-I use [restic](https://restic.net/) to create encrypted backups in [B2 cloud storage](https://www.backblaze.com/cloud-storage) and [Rclone](https://rclone.org/) to sync to an external hard drive for local redundancy. Both restic and Rclone are excellent tools IMO.
+I use [restic](https://restic.net/) to create encrypted backups in [B2 cloud storage](https://www.backblaze.com/cloud-storage) and [Rclone](https://rclone.org/) to sync to an external hard drive for local redundancy. Both restic and Rclone are excellent tools.
 
 ```mermaid
 graph LR;
@@ -38,7 +40,7 @@ graph LR;
 
 ## Motivation
 
-Unfortunately, I have a history of mismanaging photos, see the timeline below:
+Unfortunately, I have a history of mismanaging photos. See the timeline below:
 
 | Month     | Event                                                                                                                                              |
 |-----------|----------------------------------------------------------------------------------------------------------------------------------------------------|
