@@ -1,6 +1,6 @@
 ---
-title: "My Immich Setup"
-description: ""
+title: "Photo Management: My Immich Setup"
+description: "How I self-host Immich to manage my digital photos."
 publishDate: "2025-11-26"
 draft: false
 tags:
@@ -49,4 +49,6 @@ Unfortunately, I have a history of mismanaging photos. See the timeline below:
 | 2015-09   | Andrew convinces Meg to organize wedding photos using Dropbox Carousel. Meg does a lot of work identifying the photos that bring us joy.           |
 | 2016-03   | Carousel is deactivated, all of Meg's work is lost.                                                                                                |
 
-As I move from Google Photos to Immich, I want to make sure I don't repeat my past mistakes. If I recruit Meg to organize photos in Immich, I want to be confident that I won't lose any of her work again.
+As I move from Google Photos to Immich, I want to make sure I don't repeat my past mistakes. If I recruit Meg to organize photos in Immich, I want to be confident that I won't lose any of her work again.[^2]
+
+[^2]: Meg says "I want AI to pick the good photos, not me!" Sounds like a great idea for a future post!
