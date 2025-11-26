@@ -20,7 +20,7 @@ jobs:
       - name: install node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 23
 
       - name: install pnpm
         uses: pnpm/action-setup@v2
