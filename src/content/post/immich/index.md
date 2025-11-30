@@ -11,7 +11,7 @@ tags:
 >
 > Easily back up, organize, and manage your photos on your own server. Immich helps you browse, search, and organize your photos and videos with ease, without sacrificing your **privacy**.
 
-I'm running [Immich](https://immich.app/) on a Beelink S12 Pro Mini PC that I bought off Amazon for $180. I'm using Docker Compose to run Immich following [these instructions](https://docs.immich.app/install/docker-compose/). I'm using [Nginx Proxy Manager](https://nginxproxymanager.com/) to set up a nice URL and handle SSL certificates.
+I'm running [Immich](https://immich.app/) on a Beelink S12 Pro Mini PC that I bought from Amazon for $180. I'm using Docker Compose to run Immich following [these instructions](https://docs.immich.app/install/docker-compose/). I'm using [Nginx Proxy Manager](https://nginxproxymanager.com/) to set up a nice URL and handle SSL certificates.
 
 ## Backups
 
@@ -20,9 +20,7 @@ One of the big challenges of moving from Google Photos to Immich is figuring out
 - **2** different types of media (cloud storage and external hard drive)
 - **1** copy stored offsite (cloud storage)
 
-[^1]: I like using an external hard drive because it provides protection against ransomware attacks. The downside is that I have to manually connect it to perform the backup, which means I'm less likely to do this regularly. A more robust solution might use B2's Object Lock: "Object Lock uses a write once, read many (WORM) 
-model to prevent files from being deleted during a customer-determined retention period, providing immutable ransomware protection to protect data from modification, manipulation, 
-or deletion." I decided against Object Lock to keep things simple and keep storage costs down.
+[^1]: I like using an external hard drive because it provides protection against ransomware attacks. The downside is that I have to manually connect it to perform the backup, which means I'm less likely to do this regularly. A more robust solution might use B2's Object Lock, which uses a write-once, read-many (WORM) model to prevent files from being deleted during a customer-determined retention period. I decided against Object Lock to keep things simple and keep storage costs down.
 
 I use [restic](https://restic.net/) to create encrypted backups in [B2 cloud storage](https://www.backblaze.com/cloud-storage) and [Rclone](https://rclone.org/) to sync to an external hard drive for local redundancy. Both restic and Rclone are excellent tools IMO.
 
@@ -40,10 +38,10 @@ graph LR;
 
 ### restic
 
-Below is the bash script I use to backup Immich using restic. I modified the backup script template from the [Immich docs](https://docs.immich.app/guides/template-backup-script). Here are the modifications I made:
-- Use restic instead of borg
+Below is the bash script I use to back up Immich using restic. I modified the backup script template from the [Immich docs](https://docs.immich.app/guides/template-backup-script). Here are the modifications I made:
+- Use restic instead of Borg
 - Perform remote backup only (don't make a local copy)
-- Stop/start server during backup to guarantee sql dump and files are consistent
+- Stop/start server during backup to guarantee SQL dump and files are consistent
 
 ```bash title=backup.sh
 #!/bin/bash
@@ -57,7 +55,7 @@ POSTGRES_VERSION=$(docker exec immich_postgres postgres --version | sed 's/.*Pos
 # Stop Immich server to ensure a consistent backup
 docker stop immich_server
 
-# Create Postgres database dump
+# Create PostgreSQL database dump
 docker exec -t immich_postgres pg_dumpall --clean --if-exists --username=postgres > ${MY_LIBRARY}/backups/immich-database-${IMMICH_VERSION}-pg${POSTGRES_VERSION}.sql
 
 # Backup to Restic repository
@@ -70,7 +68,7 @@ restic forget --path ${MY_LIBRARY} --keep-weekly 4 --keep-monthly 3 --prune
 docker start immich_server
 ```
 
-I set up a cron job to run every night at 2AM. I put this in the root user's crontab using `sudo crontab -e`:
+I set up a cron job to run every night at 2 AM. I put this in the root user's crontab using `sudo crontab -e`:
 
 ```
 0 2 * * * /absolute/path/to/backup.sh >> /var/log/immich-backup.log 2>&1
@@ -87,6 +85,6 @@ Unfortunately, I have a history of mismanaging photos. See the timeline below:
 | 2015-09   | Andrew convinces Meg to organize wedding photos using Dropbox Carousel. Meg does a lot of work identifying the photos that bring us joy.           |
 | 2016-03   | Carousel is deactivated, all of Meg's work is lost.                                                                                                |
 
-As I move from Google Photos to Immich, I want to make sure I don't repeat my past mistakes. If I recruit Meg to organize photos in Immich, I want to be confident that I won't lose any of her work again.[^2]
+As I move from Google Photos to Immich, I want to make sure I don't repeat my past mistakes. If I recruit Meg to organize photos in Immich, I want to be confident I won't lose any of her work again.[^2]
 
 [^2]: Meg says "I want AI to pick the good photos, not me!" Sounds like a great idea for a future post!
