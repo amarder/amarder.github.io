@@ -38,6 +38,44 @@ graph LR;
     Server -- "Rclone" --> ExternalHD;
 ```
 
+### restic
+
+Below is the bash script I use to backup Immich using restic. I modified the backup script template from the [Immich docs](https://docs.immich.app/guides/template-backup-script). Here are the modifications I made:
+- Use restic instead of borg
+- Perform remote backup only (don't make a local copy)
+- Stop/start server during backup to guarantee sql dump and files are consistent
+
+```bash title=backup.sh
+#!/bin/bash
+
+MY_LIBRARY="/mnt/evo/photos/library"
+
+# Get version information for tagging backups
+IMMICH_VERSION=$(docker exec immich_server immich-admin version | tail -1)
+POSTGRES_VERSION=$(docker exec immich_postgres postgres --version | sed 's/.*PostgreSQL) \([0-9.]*\).*/\1/')
+
+# Stop Immich server to ensure a consistent backup
+docker stop immich_server
+
+# Create Postgres database dump
+docker exec -t immich_postgres pg_dumpall --clean --if-exists --username=postgres > ${MY_LIBRARY}/backups/immich-database-${IMMICH_VERSION}-pg${POSTGRES_VERSION}.sql
+
+# Backup to Restic repository
+restic backup ${MY_LIBRARY} --exclude ${MY_LIBRARY}/thumbs/ --exclude ${MY_LIBRARY}/encoded-video/
+
+# Keep four weekly backups and three monthly backups
+restic forget --path ${MY_LIBRARY} --keep-weekly 4 --keep-monthly 3 --prune
+
+# Restart Immich server
+docker start immich_server
+```
+
+I set up a cron job to run every night at 2AM. I put this in the root user's crontab using `sudo crontab -e`:
+
+```
+0 2 * * * /absolute/path/to/backup.sh >> /var/log/immich-backup.log 2>&1
+```
+
 ## Motivation
 
 Unfortunately, I have a history of mismanaging photos. See the timeline below:
