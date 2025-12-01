@@ -11,18 +11,20 @@ tags:
 >
 > Easily back up, organize, and manage your photos on your own server. Immich helps you browse, search, and organize your photos and videos with ease, without sacrificing your **privacy**.
 
-I'm running [Immich](https://immich.app/) on a Beelink S12 Pro Mini PC that I bought from Amazon for $180. I'm using Docker Compose to run Immich following [these instructions](https://docs.immich.app/install/docker-compose/). I'm using [Nginx Proxy Manager](https://nginxproxymanager.com/) to set up a nice URL and handle SSL certificates.
+I'm running [Immich](https://immich.app/) on a Beelink S12 Pro Mini PC that I bought from Amazon for $180. I'm using Docker Compose to run Immich following [these instructions](https://docs.immich.app/install/docker-compose/). I'm using [Nginx Proxy Manager](https://nginxproxymanager.com/) to set up a nice URL and handle SSL certificates.[^sockets]
+
+[^sockets]: When setting up Immich in Nginx Proxy Manager be sure to enable "Websockets Support".
 
 ## Backups
 
 One of the big challenges of moving from Google Photos to Immich is figuring out a reasonable backup strategy. This is my backup strategy. There are many like it, but this one is mine. I follow the 3-2-1 backup rule:
-- **3** copies of the data (server, cloud storage, and external hard drive[^1])
+- **3** copies of the data (server, cloud storage, and external hard drive[^ransom])
 - **2** different types of media (cloud storage and external hard drive)
 - **1** copy stored offsite (cloud storage)
 
-[^1]: I like using an external hard drive because it provides protection against ransomware attacks. The downside is that I have to manually connect it to perform the backup, which means I'm less likely to do this regularly. A more robust solution might use B2's Object Lock, which uses a write-once, read-many (WORM) model to prevent files from being deleted during a customer-determined retention period. I decided against Object Lock to keep things simple and keep storage costs down.
+[^ransom]: I like using an external hard drive because it provides protection against ransomware attacks. The downside is that I have to manually connect it to perform the backup, which means I'm less likely to do this regularly. A more robust solution might use B2's Object Lock, which uses a write-once, read-many (WORM) model to prevent files from being deleted during a customizable retention period. I decided against Object Lock to keep things simple and keep storage costs down.
 
-I use [restic](https://restic.net/) to create encrypted backups in [B2 cloud storage](https://www.backblaze.com/cloud-storage) and [Rclone](https://rclone.org/) to sync to an external hard drive for local redundancy. Both restic and Rclone are excellent tools IMO.
+I use [restic](https://restic.net/) to create encrypted backups in [B2 cloud storage](https://www.backblaze.com/cloud-storage) and [rclone](https://rclone.org/) to sync to an external hard drive for local redundancy. Both restic and rclone are excellent tools IMO.
 
 ```mermaid
 graph LR;
@@ -31,9 +33,9 @@ graph LR;
     CloudStorage["Cloud Storage"];
     ExternalHD["External Hard Drive"];
 
-    Phone -- "Android App" --> Server;
+    Phone -- "app" --> Server;
     Server -- "restic" --> CloudStorage;
-    Server -- "Rclone" --> ExternalHD;
+    Server -- "rclone" --> ExternalHD;
 ```
 
 ### restic
@@ -42,6 +44,7 @@ Below is the bash script I use to back up Immich using restic. I modified the ba
 - Use restic instead of Borg
 - Perform remote backup only (don't make a local copy)
 - Stop/start server during backup to guarantee SQL dump and files are consistent
+- Add Immich and Postgres version numbers to SQL dump
 
 ```bash title=backup.sh
 #!/bin/bash
@@ -74,6 +77,18 @@ I set up a cron job to run every night at 2 AM. I put this in the root user's cr
 0 2 * * * /absolute/path/to/backup.sh >> /var/log/immich-backup.log 2>&1
 ```
 
+Since my cron job will create a database dump, we don't need Immich to create an additional dump every night. I turned off "Enable database dumps" via the Immich web interface (Administration > Settings > Database Dump Settings).
+
+### rclone
+
+Here is the rclone command I run on my laptop to sync files from my server to an external hard drive (connected to the laptop):
+
+```shell
+rclone sync beelink:/mnt/evo/photos/library local:/Volumes/Photos/library --progress
+```
+
+Note: it's quite probable that the database dump and files copied in this way will be out of sync. This isn't ideal, but for ease of use I'm comfortable making this compromise at the moment.
+
 ## Motivation
 
 Unfortunately, I have a history of mismanaging photos. See the timeline below:
@@ -85,6 +100,14 @@ Unfortunately, I have a history of mismanaging photos. See the timeline below:
 | 2015-09   | Andrew convinces Meg to organize wedding photos using Dropbox Carousel. Meg does a lot of work identifying the photos that bring us joy.           |
 | 2016-03   | Carousel is deactivated, all of Meg's work is lost.                                                                                                |
 
-As I move from Google Photos to Immich, I want to make sure I don't repeat my past mistakes. If I recruit Meg to organize photos in Immich, I want to be confident I won't lose any of her work again.[^2]
+As I move from Google Photos to Immich, I want to make sure I don't repeat my past mistakes. If I recruit Meg to organize photos in Immich, I want to be confident I won't lose any of her work again.[^ai]
 
-[^2]: Meg says "I want AI to pick the good photos, not me!" Sounds like a great idea for a future post!
+[^ai]: Meg says "I want AI to pick the good photos, not me!" Sounds like a great idea for a future post!
+
+## References
+
+These pages from the Immich docs were super helpful:
+
+- [Install > Docker Compose [Recommended]](https://docs.immich.app/install/docker-compose/)
+- [Administration > Backup and Restore](https://docs.immich.app/administration/backup-and-restore/)
+- [Guides > Backup Script](https://docs.immich.app/guides/template-backup-script)
