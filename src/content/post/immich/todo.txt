@@ -1,0 +1,2 @@
+- Figure out way to test backup
+- Figure out way to clear out files from phone
