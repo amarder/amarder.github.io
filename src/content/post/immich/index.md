@@ -2,6 +2,7 @@
 title: "Photo Management: My Immich Setup"
 description: "How I self-host Immich to manage my digital photos."
 publishDate: "2025-11-26"
+updatedDate: "2025-12-01"
 draft: false
 tags:
   - tools
