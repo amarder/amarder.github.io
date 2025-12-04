@@ -2,12 +2,12 @@
 title: "My Obsidian Setup"
 description: "A concise overview of the core plugins I use in Obsidian and how they fit into my workflow."
 publishDate: "2025-07-06"
-updatedDate: "2025-07-07"
+updatedDate: "2025-12-04"
 tags:
   - tools
 ---
 
-My Obsidian workflow relies on two plugins and one browser extension.
+My Obsidian workflow relies on three plugins and one browser extension.
 
 ## Obsidian Tasks
 
@@ -67,3 +67,14 @@ graph TD;
     PhonePersonal <-- "Remotely Save" --> B2Personal;
     PersonalPC <-- "Remotely Save" --> B2Personal;
 ```
+
+## Outliner
+
+If you want to reorganize outlines quickly, then [Obsidian Outliner](https://github.com/vslinko/obsidian-outliner) is the way to go. On my computer it lets me drag and drop list items, so I can re-order lists and modify how items are nested. On my phone, Outliner provides four mobile quick actions:
+
+1. Move list and sublists up
+2. Move list and sublists down
+3. Indent the list and sublists
+4. Outdent the list and sublists
+
+I've configured my mobile toolbar so these four actions are readily available, allowing me to edit my outlines quickly when I'm on my phone.
