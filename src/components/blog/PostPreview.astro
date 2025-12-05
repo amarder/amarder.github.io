@@ -6,14 +6,16 @@ import type { HTMLTag, Polymorphic } from "astro/types";
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 	post: CollectionEntry<"post">;
 	withDesc?: boolean;
+	dateTimeOptions?: Intl.DateTimeFormatOptions;
 };
 
-const { as: Tag = "div", post, withDesc = false } = Astro.props;
+const { as: Tag = "div", post, withDesc = false, dateTimeOptions } = Astro.props;
 ---
 
 <FormattedDate
 	class="min-w-30 font-semibold text-gray-600 dark:text-gray-400"
 	date={post.data.publishDate}
+	dateTimeOptions={dateTimeOptions}
 />
 <Tag>
 	{post.data.draft && <span class="text-red-500">(Draft) </span>}

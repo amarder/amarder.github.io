@@ -38,7 +38,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 						<ul class="mt-5 mb-16 space-y-6 text-start">
 							{groupedByYear[yearKey]?.map((p) => (
 								<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
-									<PostPreview post={p} />
+									<PostPreview post={p} dateTimeOptions={{ day: "2-digit" }} />
 								</li>
 							))}
 						</ul>
