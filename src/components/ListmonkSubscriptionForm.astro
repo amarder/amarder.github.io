@@ -167,14 +167,14 @@ const { listmonkUrl, listId, listName, showNameField = true, showListCheckbox = 
 		const forms = document.querySelectorAll('.listmonk-form');
 		
 		forms.forEach((form) => {
-			if (form.dataset.listmonkInitialized) return;
-			form.dataset.listmonkInitialized = 'true';
-
 			const formElement = form as HTMLFormElement;
+			if (formElement.dataset.listmonkInitialized) return;
+			formElement.dataset.listmonkInitialized = 'true';
+
 			const submitButton = formElement.querySelector('.listmonk-submit') as HTMLButtonElement;
 			const messageDiv = formElement.querySelector('.listmonk-message') as HTMLDivElement;
 			
-			formElement.addEventListener('submit', (e) => {
+			formElement.addEventListener('submit', () => {
 				// Don't prevent default - let it submit to iframe
 				// Show loading state
 				submitButton.disabled = true;
