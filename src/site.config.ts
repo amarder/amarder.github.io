@@ -25,7 +25,7 @@ export const siteConfig: SiteConfig = {
 		- The link value found in src/components/layout/Header.astro L:35
 		- In the footer found in src/components/layout/Footer.astro L:12
 	*/
-	title: "Andrew Marder",
+	title: "Marder He Wrote",
 	// ! Please remember to replace the following site property with your own domain, used in astro.config.ts
 	url: "https://andrewmarder.net/",
 };
@@ -33,14 +33,20 @@ export const siteConfig: SiteConfig = {
 // Used to generate links in both the Header & Footer.
 export const menuLinks: { path: string; title: string }[] = [
 	{
-		path: "/",
-		title: "Home",
-	},
-	{
 		path: "/posts/",
 		title: "Archive",
 	},
+	{
+		path: "/",
+		title: "Subscribe",
+	},
 ];
+
+// Newsletter configuration for ListmonkSubscriptionForm component
+export const listmonkConfig = {
+	url: "https://newsletter.andrewmarder.net",
+	listId: "5ec3b9a1-32be-4920-8330-03ff6251efd2",
+};
 
 // https://expressive-code.com/reference/configuration/
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
