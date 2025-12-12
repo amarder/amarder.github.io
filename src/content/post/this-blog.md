@@ -12,7 +12,7 @@ This post walks through the [Five Ws](https://en.wikipedia.org/wiki/Five_Ws) to 
 
 2.  What will this blog be about?
 
-    Tough question. I have many interests. I plan to write about whatever rabbit holes I find myself exploring. Recently, I've been writing a lot about tech stuff. I value data privacy, so I've moved from Gmail to [Proton Mail](/degoogle/) and from Google Photos to [Immich](/immich/). Writing has helped refine my approaches to using these tools.
+    Tough question. I have many interests. I plan to write about whatever rabbit holes I find myself exploring. Recently, I've been writing a lot about tech stuff. I value data privacy, so I've moved from Gmail to [Proton Mail](/degoogle/#email) and from Google Photos to [Immich](/immich/). Writing has helped refine my approaches to using these tools.
 
 3.  When will I be writing?
 
