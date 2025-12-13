@@ -23,14 +23,17 @@ For both the battery and the antenna, the cheapest option at the time was a four
 
 ## Update
 
-I shared my post on the [Meshtastic Subreddit](https://www.reddit.com/r/meshtastic/comments/1pl12u6/questions_from_an_ineffectual_meshtastic_user/) and received very helpful feedback. There are two maps that are great for finding nodes near you:
+I shared my post on the [Meshtastic Subreddit](https://www.reddit.com/r/meshtastic/comments/1pl12u6/questions_from_an_ineffectual_meshtastic_user/) and received very helpful feedback. There are multiple maps that are great for finding nodes near you:
 
 | Map Link | Data Source | # Nodes |
 |----------|-------------|--------:|
 | [meshmap.net](https://meshmap.net/) | mqtt.meshtastic.org | 10,529 |
 | [meshtastic.liamcottle.net](https://meshtastic.liamcottle.net/) | mqtt.meshtastic.liamcottle.net | 26,411 |
+| [meshsense.affirmatech.com](https://meshsense.affirmatech.com/) | [MeshSense](https://github.com/Affirmatech/MeshSense) | 6,594 |
 
-There are regional groups near me that might be good ways to make connections:
+The regional maps for [New Hampshire](https://nhmesh.live/) and the [Bay Area](https://meshview.bayme.sh/map) are particularly impressive.
+
+There are also regional groups near me that might be good ways to make connections:
 
 | Platform | Group Link | # Members |
 |----------|------------|----------:|
