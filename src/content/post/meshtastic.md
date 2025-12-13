@@ -2,6 +2,7 @@
 title: "Meshtastic: Off-Grid Messaging"
 description: ""
 publishDate: "2025-12-12"
+updatedDate: "2025-12-13"
 ---
 
 What is [Meshtastic](https://meshtastic.org/)?
@@ -19,3 +20,22 @@ For both the battery and the antenna, the cheapest option at the time was a four
 1. What should I do with my Meshtastic radio?
 2. For new users with a budget around $100, what Meshtastic products would you suggest? I would suggest not following in my footsteps.
 3. Are you a Meshtastic user near Wayland, Massachusetts? If so, please reach out - I'd love to connect!
+
+## Update
+
+I shared my post on the [Meshtastic Subreddit](https://www.reddit.com/r/meshtastic/comments/1pl12u6/questions_from_an_ineffectual_meshtastic_user/) and received very helpful feedback. There are two maps that are great for finding nodes near you:
+
+| Map Link | Data Source | # Nodes |
+|----------|-------------|--------:|
+| [meshmap.net](https://meshmap.net/) | mqtt.meshtastic.org | 10,529 |
+| [meshtastic.liamcottle.net](https://meshtastic.liamcottle.net/) | mqtt.meshtastic.liamcottle.net | 26,411 |
+
+There are regional groups near me that might be good ways to make connections:
+
+| Platform | Group Link | # Members |
+|----------|------------|----------:|
+| Facebook | [New England Meshtastic Users (Unofficial)](https://www.facebook.com/groups/956183615402630) | 613  |
+| Facebook | [Boston Meshnet (Meshtastic/Meshcore)](https://www.facebook.com/groups/376287875353461/) | 366   |
+| Discord | [New England Mesh & Outdoors](https://discord.gg/hsb9zFqNe) | 46 |
+
+If you're interested in Meshtastic, the [r/meshtastic](https://www.reddit.com/r/meshtastic/) subreddit is a great first stop. It has great information and really helpful people.
