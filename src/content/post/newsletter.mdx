@@ -24,12 +24,12 @@ I've set up my newsletter using:
 This costs me $0 per month!
 I think listmonk is very good, but the signup process for new subscribers is a little clunky.
 I might try [Keila](https://github.com/pentacent/keila/) next (it looks a little smoother than listmonk, though less mature).
-If the number of subscribers to my newsletter grows dramatically then I'll have to switch to a bulk email sender.
+If the number of subscribers to my newsletter grows dramatically, I'll have to switch to a bulk email sender.
 I've used [Mailgun](https://www.mailgun.com/) in the past and found it quite user-friendly.
 
 ## Double vs Single Opt-In
 
-Personally, I found listmonk's double opt-in process confusing. An email would be sent to users to confirm their subscription but pressing the blue button to "Confirm subscription" wouldn't immediately confirm the subscription. Instead it would take the user to a website where they would have to actually confirm their subscription by submitting a form. I would have preferred the button in the email to immediately submit the confirmation. I couldn't find a way to get that behavior with listmonk so I've moved to a single opt-in process.
+Personally, I found listmonk's double opt-in process confusing. An email would be sent to users to confirm their subscription, but pressing the blue "Confirm subscription" button wouldn't immediately confirm it. Instead, it would take the user to a website where they'd have to submit a form. I would have preferred the button in the email to immediately submit the confirmation. I couldn't find a way to get that behavior with listmonk, so I've moved to a single opt-in process.
 
 ## CORS Configuration
 
@@ -37,7 +37,7 @@ CORS (Cross-Origin Resource Sharing) is a browser security feature that restrict
 
 If you're using a Cloudflare Tunnel to expose listmonk and want your subscription form to work via JavaScript `fetch()` requests, you'll need to configure CORS headers. Without this, browsers will block the response - both in local development *and* in production.
 
-In your Cloudflare dashboard, select the domain you want to modify, go to **Rules → Overview → Create rule → Response Header Transform Rule** and create a new rule:
+In your Cloudflare dashboard, select the domain you want to modify, then go to **Rules → Overview → Create rule → Response Header Transform Rule**:
 
 - **When:** Hostname equals your listmonk domain (e.g., `newsletter.yourdomain.com`)
 - **Then:** Set these static response headers:
