@@ -13,17 +13,11 @@ const {
 ---
 
 <div class="listmonk-subscription-form">
-	<iframe name="listmonk-iframe" style="display: none;"></iframe>
 	<form 
 		class="listmonk-form" 
-		method="post"
-		action={`${listmonkUrl}/subscription/form`}
-		target="listmonk-iframe"
 		data-listmonk-url={listmonkUrl} 
 		data-list-id={listId}
 	>
-		<input type="hidden" name="nonce" />
-		<input type="hidden" name="l" value={listId} />
 		<div class="form-field email-submit-row">
 			<input
 				type="email"
@@ -125,6 +119,11 @@ const {
 		border: 1px solid #f5c6cb;
 	}
 
+	.listmonk-message.error a {
+		color: #721c24;
+		font-weight: 600;
+	}
+
 	.listmonk-message.loading {
 		background: #d1ecf1;
 		color: #0c5460;
@@ -143,22 +142,44 @@ const {
 
 			const submitButton = formElement.querySelector('.listmonk-submit') as HTMLButtonElement;
 			const messageDiv = formElement.querySelector('.listmonk-message') as HTMLDivElement;
+			const emailInput = formElement.querySelector('.listmonk-input') as HTMLInputElement;
+			const listmonkUrl = formElement.dataset.listmonkUrl;
+			const listId = formElement.dataset.listId;
 			
-			formElement.addEventListener('submit', () => {
-				// Don't prevent default - let it submit to iframe
+			formElement.addEventListener('submit', async (e) => {
+				e.preventDefault();
+				
 				// Show loading state
 				submitButton.disabled = true;
 				messageDiv.textContent = 'Subscribing...';
 				messageDiv.className = 'listmonk-message show loading';
 				
-				// Since we can't read the iframe response due to CORS,
-				// we'll show a success message after a short delay
-				setTimeout(() => {
-					messageDiv.textContent = 'Success! Your email address has been subscribed.';
-					messageDiv.className = 'listmonk-message show success';
-					formElement.reset();
+				try {
+					const response = await fetch(`${listmonkUrl}/subscription/form`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded',
+						},
+						body: new URLSearchParams({
+							email: emailInput.value,
+							l: listId || '',
+							nonce: '',
+						}),
+					});
+
+					if (response.ok) {
+						messageDiv.textContent = 'Success! Your email address has been subscribed.';
+						messageDiv.className = 'listmonk-message show success';
+						formElement.reset();
+					} else {
+						throw new Error(`Server responded with ${response.status}`);
+					}
+				} catch (error) {
+					messageDiv.innerHTML = 'Sorry, something went wrong. Please email <a href="mailto:support@andrewmarder.net">support@andrewmarder.net</a> to subscribe.';
+					messageDiv.className = 'listmonk-message show error';
+				} finally {
 					submitButton.disabled = false;
-				}, 1500);
+				}
 			});
 		});
 	}
