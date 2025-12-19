@@ -10,9 +10,6 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 ## Potential Upcoming Changes
 
 - **Added** [Locovote](https://locovote.com/) slides
-
----
-
 - **Added** [death plan](https://www.pcmag.com/how-to/how-to-prepare-your-digital-life-accounts-for-your-death#) post
 - **Added** [Beelink](https://www.amazon.com/stores/Beelink/page/E76F7A4A-070E-428C-9129-832B18C1493F) post
 - **Added** [Baïkal](https://sabre.io/baikal/) post
@@ -22,17 +19,13 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 - **Added** Reddit post
 - **Added** [Cursor](https://cursor.com/) post
 
----
+&nbsp;
 
-- **Updated** [questions](/questions) post
+- **Updated** [Books](/books) post with request for 2025 books
 - **Updated** [newsletter](/newsletter) post to use [Keila](https://github.com/pentacent/keila/)
 - **Updated** [Firefox](/firefox) post to address new AI features
-- **Updated** [Books](/books) post with 2025 books
 - **Updated** [AI](/ai) post to reflect current practice
-
----
-
-- **Deprecated** [whispy](/whispy) post
+- **Updated** [questions](/questions) post
 
 ## 2025-12-19
 
@@ -40,6 +33,7 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
     - Changed CPU from 14700K to 265K
     - Switched to budget motherboard
 - **Deprecated** [RSS](/rss) post
+- **Deprecated** [whispy](/whispy) post
 
 ## 2025-12-18
 

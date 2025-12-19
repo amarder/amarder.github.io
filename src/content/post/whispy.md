@@ -3,8 +3,12 @@ title: "Introducing whispy: Easy Speech-to-Text on Mac"
 description: "Introducing whispy, a Python wrapper around whisper.cpp that makes speech-to-text transcription effortless on Mac. Record, transcribe, and paste - perfect for writers who want to avoid over-editing their first drafts."
 publishDate: "2025-07-08"
 tags:
-  - tools
+  - deprecated
 ---
+
+:::warning{title=Deprecated}
+I am no longer using whispy. [Cursor's](https://cursor.com/) voice input satisfies my needs. If you're interested in resurrecting this project, please let me know - I’d be happy to help out.
+:::
 
 If you're a writer who tends to over-edit while drafting (like me), or you simply want an easy way to convert speech to text on your Mac, I've built a tool that might help: **whispy**.
 
