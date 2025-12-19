@@ -39,3 +39,7 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 ## 2025-12-18
 
 - **Added** this [changelog](.)
+
+## 2025-12-15
+
+- **Added** review of [Proton](/proton)
