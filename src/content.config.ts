@@ -69,4 +69,23 @@ const tag = defineCollection({
 	}),
 });
 
-export const collections = { post, note, tag };
+const slides = defineCollection({
+	loader: glob({ base: "./src/content/slides", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		title: titleSchema,
+		description: z.string(),
+		publishDate: z
+			.string()
+			.or(z.date())
+			.transform((val) => {
+				if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
+					return new Date(val + 'T00:00:00');
+				}
+				return new Date(val);
+			}),
+		draft: z.boolean().default(false),
+		theme: z.enum(['black', 'white', 'league', 'beige', 'sky', 'night', 'serif', 'simple', 'solarized', 'blood', 'moon']).default('black'),
+	}),
+});
+
+export const collections = { post, note, tag, slides };

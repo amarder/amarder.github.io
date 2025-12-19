@@ -1,0 +1,76 @@
+---
+import { type CollectionEntry } from "astro:content";
+import BaseHead from "@/components/BaseHead.astro";
+import ThemeProvider from "@/components/ThemeProvider.astro";
+import RevealSlides from "@/components/slides/RevealSlides.astro";
+import { siteConfig } from "@/site.config";
+
+interface Props {
+	post: CollectionEntry<"slides">;
+	theme?: 'black' | 'white' | 'league' | 'beige' | 'sky' | 'night' | 'serif' | 'simple' | 'solarized' | 'blood' | 'moon';
+}
+
+const { post, theme = 'black' } = Astro.props;
+const { title, description, publishDate } = post.data;
+
+// Format the date nicely
+const formattedDate = publishDate.toLocaleDateString('en-US', { 
+	year: 'numeric', 
+	month: 'long', 
+	day: 'numeric' 
+});
+---
+
+<html lang={siteConfig.lang}>
+	<head>
+		<BaseHead 
+			description={description} 
+			title={`${title} - Slides`} 
+		/>
+	</head>
+	<body>
+		<ThemeProvider />
+		<RevealSlides theme={theme}>
+			<!-- Title slide from frontmatter -->
+			<section>
+				<h1>{title}</h1>
+				{description && <p>{description}</p>}
+				{publishDate && <p><small>{formattedDate}</small></p>}
+			</section>
+			
+			<!-- Slides content from markdown -->
+			<slot />
+		</RevealSlides>
+	</body>
+</html>
+
+<style is:global>
+	/* Remove default body styling for full-screen slides */
+	body {
+		margin: 0;
+		padding: 0;
+	}
+</style>
+
+<script type="module">
+	// Load Reveal.js from CDN
+	import Reveal from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.esm.js';
+	import Markdown from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.esm.js';
+	import Highlight from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.esm.js';
+	import Notes from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.esm.js';
+	
+	// Initialize Reveal.js
+	Reveal.initialize({
+		// Display options
+		controls: true,
+		progress: true,
+		center: true,
+		hash: true,
+		
+		// Transition style
+		transition: 'slide', // none/fade/slide/convex/concave/zoom
+		
+		// Plugins
+		plugins: [ Markdown, Highlight, Notes ]
+	});
+</script>

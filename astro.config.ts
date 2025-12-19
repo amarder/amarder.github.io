@@ -26,6 +26,7 @@ import rehypeExternalLinks from "rehype-external-links";
 import rehypeKatex from "rehype-katex"; /* Render math with KaTeX */
 import rehypeMermaid from "rehype-mermaid"; /* Render Mermaid diagrams */
 import rehypeUnwrapImages from "rehype-unwrap-images";
+import { rehypeSlides } from "./src/plugins/rehype-slides"; /* Convert slides to sections */
 
 // Load redirects from generated file
 function loadRedirects() {
@@ -112,6 +113,7 @@ export default defineConfig({
 			rehypeUnwrapImages,
 			rehypeKatex,
 			rehypeMermaid,
+			rehypeSlides, // Convert H1/H2 to Reveal.js sections for slides
 		],
 		remarkPlugins: [
 			remarkReadingTime,
