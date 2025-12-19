@@ -34,7 +34,7 @@ const getSamplePostIds = (): string[] => {
     
     return entries
       .filter(entry => entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.mdx')))
-      .map(entry => entry.name.replace(/\.(md|mdx)$/, ''))
+      .map(entry => entry.name.replace(/\.(md|mdx)$/, '').toLowerCase())
       .slice(0, 5); // Test first 5 posts
   } catch (error) {
     console.warn('Could not read post directory, using fallback posts');

@@ -2,11 +2,15 @@
 title: "My RSS Setup"
 description: "My current RSS setup, including the software I use and the feeds I follow for staying up-to-date with data science, programming, and other fun content."
 publishDate: "2025-08-18"
-updatedDate: "2025-08-21"
+updatedDate: "2025-12-19"
 draft: false
 tags:
-  - tools
+  - deprecated
 ---
+
+:::warning{title=Deprecated}
+I am no longer using an RSS reader. I think Miniflux is an awesome piece of software. But, at the moment, I prefer consuming content via Reddit and Bluesky.
+:::
 
 - Remember Google Reader before it was shut down? That was awesome.
 - Remember Twitter before it was sold? That was awesome.

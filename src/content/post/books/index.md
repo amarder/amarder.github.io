@@ -12,6 +12,10 @@ I like good books. I like short books. But finding good short books can be chall
 
 Given a book's ISBN, Amazon's Product Advertising API lets you retrieve information such as the number of pages, sales rank, price, title, and author. I downloaded this information for [NPR's Best Books](https://apps.npr.org/best-books/) from 2013 through 2024.
 
+:::note{title=Help}
+I no longer have access to [Amazon's Product Advertising API](https://webservices.amazon.com/paapi5/documentation/). If you have access to the API and would be interested in helping me update this page with NPR's latest picks, please get in touch: [andrew@andrewmarder.net](mailto:andrew@andrewmarder.net)
+:::
+
 The visualization below shows each book as a point on a scatterplot, the x-axis displays the logarithm of the number of pages and the y-axis displays the logarithm of the sales rank. Click any point to see detailed information about the book, and use the filters below to explore books by year and topic. The plot supports zooming and panning to make clicking points a little easier.
 
 <details class="filter-section">
