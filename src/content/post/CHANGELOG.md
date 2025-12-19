@@ -21,10 +21,9 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 
 &nbsp;
 
-- **Updated** [Books](/books) post with request for 2025 books
-- **Updated** [newsletter](/newsletter) post to use [Keila](https://github.com/pentacent/keila/)
+- **Updated** [AI](/ai) post to reflect my current practice
 - **Updated** [Firefox](/firefox) post to address new AI features
-- **Updated** [AI](/ai) post to reflect current practice
+- **Updated** [newsletter](/newsletter) post to use [Keila](https://github.com/pentacent/keila/)
 - **Updated** [questions](/questions) post
 
 ## 2025-12-19
@@ -34,6 +33,7 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
     - Switched to budget motherboard
 - **Deprecated** [RSS](/rss) post
 - **Deprecated** [whispy](/whispy) post
+- **Updated** [books](/books) post with request for 2025 books
 
 ## 2025-12-18
 
