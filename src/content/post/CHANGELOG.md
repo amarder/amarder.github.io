@@ -19,6 +19,7 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 - **Added** [GrapheneOS](https://grapheneos.org/) post
 - **Added** Reddit post
 - **Added** [Cursor](https://cursor.com/) post
+- **Added** [Umami](https://umami.is/) post
 
 &nbsp;
 
