@@ -1,111 +1,56 @@
 ---
-title: "Example Reveal.js Slideshow"
-publishDate: "2025-12-19"
-description: "A demonstration of Reveal.js slideshows in Astro using Islands architecture"
+title: "Locovote"
+publishDate: "2026-01-06"
+author: "Andrew Marder"
+description: "Massachusetts Schools and Taxes Dashboard"
 draft: false
 theme: "black"
 ---
 
-# Welcome to Reveal.js
+# Objectives
 
-This is an example slideshow built with Astro and Reveal.js!
+- Describe Locovote
+- Introduce cool tools
+    - Observable Framework
+    - Cloudflare Pages
+    - marimo
+- Recruit collaborators?
 
-Use arrow keys or swipe to navigate →
+# Locovote
 
-# What is Reveal.js?
+- [locovote.com](https://locovote.com/)
+- Dashboard to compare cities and towns.
+- What towns have the best schools? (MCAS scores)
+- What towns have the lowest property tax rates?
 
-Reveal.js is a powerful framework for creating beautiful presentations using HTML.
+# Features
 
-## Key Features
+- [Compare Municipalities](https://locovote.com/municipalities)
+- [Compare School Districts](https://locovote.com/school-districts)
 
-- Markdown support
-- Code syntax highlighting  
-- Speaker notes
-- Export to PDF
-- Touch and keyboard navigation
+    Municipalities != School Districts
+- [Race and Test Scores](https://locovote.com/school-metrics)
+- [Data Sources Documented](https://locovote.com/)
+- [Cambridge Schools](https://locovote.com/analysis/cambridge-public-schools)
 
-## Astro Islands
+# Architecture
 
-This slideshow demonstrates **Astro Islands**:
+- Source code: [github.com/amarder/locovote](https://github.com/amarder/locovote)
+- Python code downloads and cleans data
+- [Observable Framework](https://observablehq.com/framework/) creates dashboard
+- [Cloudflare Pages](https://pages.cloudflare.com/) deploys website
+    - Unlimited bandwidth
+    - 25 MiB maximum file size (DuckDB-Wasm blocker)
 
-- 🏝️ Interactive component (Reveal.js) loads only on slide pages
-- ⚡ Rest of your blog stays fast and static
-- 📦 No JavaScript bloat on regular posts
-- 🎯 Progressive enhancement
+# Observable Framework
 
-# Creating Slides
+- Static site generator for data apps
+- Write Markdown - literate programming
+- Great D3 support: [Sankey diagram](https://locovote.com/data/municipalities)
+- Built on React
 
-Use H1 headers for horizontal slides and H2 headers for vertical slides.
+# Bonus Tool
 
-## Markdown Structure
+- [marimo](https://marimo.io/): Jupyter Notebooks improved!
 
-Write your slides like this:
-
-```markdown
-# Horizontal Slide 1
-
-Content here
-
-# Horizontal Slide 2
-
-## Vertical Slide 2.1
-
-More content
-
-## Vertical Slide 2.2
-
-Even more content
-```
-
-## No Separators Needed
-
-You don't need `---` anymore! Just use heading levels:
-- **H1** = New horizontal slide →
-- **H2** = New vertical slide ↓
-
-# Code Highlighting
-
-Reveal.js includes syntax highlighting out of the box.
-
-## JavaScript Example
-
-```javascript
-function helloWorld() {
-  console.log("Hello from a slideshow!");
-  return "Awesome!";
-}
-```
-
-## Python Example
-
-```python
-def greet(name):
-    """Say hello in Python"""
-    return f"Hello, {name}!"
-```
-
-# Tips & Tricks
-
-**Keyboard shortcuts:**
-- Arrow keys: Navigate
-- F: Fullscreen
-- S: Speaker notes
-- ESC: Overview mode
-- ?: Help
-
-## Navigation
-
-- Use **arrow keys** to move between slides
-- **Right arrow** moves to next horizontal slide
-- **Down arrow** moves to next vertical slide
-- Press **ESC** for an overview of all slides
-
-# Thank You!
-
-Questions?
-
-## Built With
-
-- [Astro](https://astro.build)
-- [Reveal.js](https://revealjs.com)  
-- ❤️ and markdown
+# Discuss
