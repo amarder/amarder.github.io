@@ -1,0 +1,30 @@
+---
+title: "Astro + reveal.js = Convert Markdown into Stunning Slides"
+publishDate: "2025-12-22"
+description: "Create beautiful presentation slides from Markdown using Astro and reveal.js"
+---
+import ReadFile from "@/components/ReadFile.astro";
+
+I'll lead with the punchline: check out these slides. I think they're pretty sweet. They're made with [reveal.js](https://revealjs.com/).
+
+<div style={{ position: "relative", width: "100%", paddingTop: "56.25%", marginBottom: "1.5rem" }}>
+  <iframe
+    src="/slides/locovote/"
+    style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      border: 0,
+    }}
+    allowFullScreen
+    title="Locovote Slides"
+  />
+</div>
+
+My blog is built using [Astro](https://astro.build/). Here's the Markdown that Astro converted into the slides above:
+
+<ReadFile file="src/content/slides/locovote.md" lang="markdown" title="locovote.md" />
+
+I vibe coded the conversion code - happy to share if you're interested.

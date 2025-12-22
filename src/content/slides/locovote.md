@@ -27,7 +27,7 @@ theme: "black"
 - [Compare Municipalities](https://locovote.com/municipalities)
 - [Compare School Districts](https://locovote.com/school-districts)
 
-    Note: Municipalities ≠ School Districts
+  Note: Municipalities ≠ School Districts
 - [Race and Test Scores](https://locovote.com/school-metrics)
 - [Data Sources Documented](https://locovote.com/)
 - [Cambridge Schools Analysis](https://locovote.com/analysis/cambridge-public-schools)
