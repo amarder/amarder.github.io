@@ -10,7 +10,6 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 
 ## Potential Upcoming Changes
 
-- **Added** [Locovote](https://locovote.com/) slides
 - **Added** [death plan](https://www.pcmag.com/how-to/how-to-prepare-your-digital-life-accounts-for-your-death#) post
 - **Added** [Beelink](https://www.amazon.com/stores/Beelink/page/E76F7A4A-070E-428C-9129-832B18C1493F) post
 - **Added** [Baïkal](https://sabre.io/baikal/) post
@@ -19,13 +18,15 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 - **Added** [GrapheneOS](https://grapheneos.org/) post
 - **Added** Reddit post
 - **Added** [Cursor](https://cursor.com/) post
-
-&nbsp;
-
+- **Added** [Umami](https://umami.is/) post
 - **Updated** [AI](/ai) post to reflect my current practice
 - **Updated** [Firefox](/firefox) post to address new AI features
 - **Updated** [newsletter](/newsletter) post to use [Keila](https://github.com/pentacent/keila/)
 - **Updated** [questions](/questions) post
+
+## 2025-12-22
+
+- **Added** [reveal.js](/revealjs) post
 
 ## 2025-12-19
 

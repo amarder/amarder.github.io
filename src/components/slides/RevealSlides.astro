@@ -1,0 +1,51 @@
+---
+/**
+ * RevealSlides - A simple wrapper component for Reveal.js presentations
+ * 
+ * This component provides the HTML structure for Reveal.js slides.
+ * The initialization script is in the Slides layout.
+ * 
+ * Dependencies: Reveal.js loaded from CDN
+ */
+
+interface Props {
+	theme?: 'black' | 'white' | 'league' | 'beige' | 'sky' | 'night' | 'serif' | 'simple' | 'solarized' | 'blood' | 'moon';
+}
+
+const { theme = 'black' } = Astro.props;
+---
+
+<!-- Reveal.js CSS from CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href={`https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/${theme}.css`}>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+<!-- Reveal.js container - the slot will contain your markdown-generated slides -->
+<div class="reveal">
+	<div class="slides">
+		<slot />
+	</div>
+</div>
+
+<style is:global>
+	/* Ensure the presentation takes full viewport */
+	html, body {
+		height: 100%;
+		overflow: hidden;
+	}
+	
+	/* Fix for markdown content in slides */
+	.reveal .slides section {
+		text-align: left;
+	}
+	
+	.reveal .slides section > h1,
+	.reveal .slides section > h2 {
+		text-align: center;
+	}
+	
+	/* Better code block styling */
+	.reveal pre code {
+		max-height: 500px;
+	}
+</style>

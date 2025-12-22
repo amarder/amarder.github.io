@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from "astro:content";
+import SlidesLayout from "@/layouts/Slides.astro";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+
+export const getStaticPaths = (async () => {
+	const slidesEntries = await getCollection("slides", ({ data }) => {
+		return import.meta.env.PROD ? !data.draft : true;
+	});
+	
+	return slidesEntries.map((slide) => ({
+		params: { slug: slide.id },
+		props: { slide },
+	}));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { slide } = Astro.props;
+const { Content } = await render(slide);
+const theme = slide.data.theme || 'black';
+---
+
+<SlidesLayout post={slide} theme={theme}>
+	<Content />
+</SlidesLayout>
