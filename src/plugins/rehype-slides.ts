@@ -9,7 +9,7 @@
  * This plugin runs globally but only processes files in src/content/slides/
  */
 
-import type { Root, Element, RootContent } from 'hast';
+import type { Element, ElementContent, Root, RootContent } from 'hast';
 import type { Plugin } from 'unified';
 
 export const rehypeSlides: Plugin<[], Root> = () => (tree, file) => {
@@ -22,19 +22,22 @@ export const rehypeSlides: Plugin<[], Root> = () => (tree, file) => {
 	}
 
 	const newChildren: RootContent[] = [];
-	let currentSection: RootContent[] = [];
+	let currentSection: ElementContent[] = [];
 	let currentH1: Element | null = null;
-	let h2Slides: RootContent[][] = [];
-	let currentH2Slide: RootContent[] = [];
+	let h2Slides: ElementContent[][] = [];
+	let currentH2Slide: ElementContent[] = [];
 	let inH2 = false;
 
 	for (const node of tree.children) {
 		if (node.type !== 'element') {
 			// Handle text nodes and other non-element content
-			if (inH2) {
-				currentH2Slide.push(node);
-			} else if (currentH1) {
-				currentSection.push(node);
+			// Only ElementContent types (text, comment, element) should be added
+			if (node.type === 'text' || node.type === 'comment') {
+				if (inH2) {
+					currentH2Slide.push(node);
+				} else if (currentH1) {
+					currentSection.push(node);
+				}
 			}
 			continue;
 		}
