@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { post, theme = 'black' } = Astro.props;
-const { title, description, publishDate } = post.data;
+const { title, description, publishDate, author } = post.data;
 
 // Format the date nicely
 const formattedDate = publishDate.toLocaleDateString('en-US', { 
@@ -32,9 +32,10 @@ const formattedDate = publishDate.toLocaleDateString('en-US', {
 		<ThemeProvider />
 		<RevealSlides theme={theme}>
 			<!-- Title slide from frontmatter -->
-			<section>
+			<section class="title-slide">
 				<h1>{title}</h1>
 				{description && <p>{description}</p>}
+				{author && <p>{author}</p>}
 				{publishDate && <p><small>{formattedDate}</small></p>}
 			</section>
 			
@@ -49,6 +50,16 @@ const formattedDate = publishDate.toLocaleDateString('en-US', {
 	body {
 		margin: 0;
 		padding: 0;
+	}
+
+	/* Center content on title slide */
+	.reveal .title-slide {
+		text-align: center !important;
+	}
+	
+	.reveal .title-slide h1,
+	.reveal .title-slide p {
+		text-align: center !important;
 	}
 </style>
 

@@ -74,6 +74,7 @@ const slides = defineCollection({
 	schema: z.object({
 		title: titleSchema,
 		description: z.string(),
+		author: z.string().optional(),
 		publishDate: z
 			.string()
 			.or(z.date())
