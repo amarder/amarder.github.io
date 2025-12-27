@@ -1,28 +1,16 @@
 ---
 title: "Changelog"
 publishDate: "2025-12-18"
-updatedDate: "2025-12-19"
+updatedDate: "2025-12-27"
 description: "A log of changes to this blog"
 toc: false
 ---
 
 Starting 2025-12-18, all notable changes to this blog will be documented in this file. I like to keep posts up to date. As I learn new things, I update old posts. I'll record those changes here so you can see how posts have evolved over time. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## Potential Upcoming Changes
+## 2025-12-27
 
-- **Added** [death plan](https://www.pcmag.com/how-to/how-to-prepare-your-digital-life-accounts-for-your-death#) post
-- **Added** [Beelink](https://www.amazon.com/stores/Beelink/page/E76F7A4A-070E-428C-9129-832B18C1493F) post
-- **Added** [Baïkal](https://sabre.io/baikal/) post
-- **Added** [Vaultwarden](https://github.com/dani-garcia/vaultwarden) post
-- **Added** [HackRF](https://greatscottgadgets.com/hackrf/) post
-- **Added** [GrapheneOS](https://grapheneos.org/) post
-- **Added** Reddit post
-- **Added** [Cursor](https://cursor.com/) post
-- **Added** [Umami](https://umami.is/) post
-- **Updated** [AI](/ai) post to reflect my current practice
-- **Updated** [Firefox](/firefox) post to address new AI features
-- **Updated** [newsletter](/newsletter) post to use [Keila](https://github.com/pentacent/keila/)
-- **Updated** [questions](/questions) post
+- **Updated** [newsletter](/newsletter) to send emails via Mailgun
 
 ## 2025-12-22
 
@@ -40,3 +28,19 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 ## 2025-12-18
 
 - **Added** this [changelog](.)
+
+## Potential Upcoming Changes
+
+- **Added** [death plan](https://www.pcmag.com/how-to/how-to-prepare-your-digital-life-accounts-for-your-death#) post
+- **Added** [Beelink](https://www.amazon.com/stores/Beelink/page/E76F7A4A-070E-428C-9129-832B18C1493F) post
+- **Added** [Baïkal](https://sabre.io/baikal/) post
+- **Added** [Vaultwarden](https://github.com/dani-garcia/vaultwarden) post
+- **Added** [HackRF](https://greatscottgadgets.com/hackrf/) post
+- **Added** [GrapheneOS](https://grapheneos.org/) post
+- **Added** Reddit post
+- **Added** [Cursor](https://cursor.com/) post
+- **Added** [Umami](https://umami.is/) post
+- **Updated** [AI](/ai) post to reflect my current practice
+- **Updated** [Firefox](/firefox) post to address new AI features
+- **Updated** [newsletter](/newsletter) post to use [Keila](https://github.com/pentacent/keila/)
+- **Updated** [questions](/questions) post
