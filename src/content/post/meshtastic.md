@@ -2,8 +2,14 @@
 title: "Meshtastic: Off-Grid Messaging"
 description: "A beginner's guide to Meshtastic with tips for getting started."
 publishDate: "2025-12-12"
-updatedDate: "2025-12-17"
+updatedDate: "2025-12-30"
+tags:
+  - deprecated
 ---
+
+:::warning{title=Deprecated}
+I'm taking a break from Meshtastic. If you're looking to expand the mesh into Wayland, MA, please let me know - I’d be happy to help out.
+:::
 
 I blame [Jeff Geerling](https://www.youtube.com/c/JeffGeerling) for getting me into [Meshtastic](https://meshtastic.org/) - not really, but kind of. Jeff has an impressive ability to make tech look fun. Unfortunately, my experience with Meshtastic has been more disappointment than fun. This post aims to:
 
