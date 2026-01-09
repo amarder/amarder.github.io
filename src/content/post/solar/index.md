@@ -6,7 +6,7 @@ tags:
   - d3js
 ---
 
-This calculator is designed to help readers decide whether to invest in solar panels. It aims to address two questions:
+This calculator helps you decide whether to invest in solar panels. It addresses two questions:
 
 1. How much electricity will my system generate?
 
@@ -14,17 +14,17 @@ This calculator is designed to help readers decide whether to invest in solar pa
 
 ## Step 1: Calculate Expected Electricity Generation
 
-The calculator in this section is designed to estimate how much electricity your solar system will produce annually. Where you live matters. Folks in Maine should expect about 2/3 the amount of sunshine folks in Southern Arizona receive over the year, as shown in the following map.
+This calculator estimates how much electricity your solar system will produce annually. Where you live matters - folks in Maine receive about two-thirds the sunshine of Southern Arizona, as shown in the map below.
 
 <a href="/solar/solar-annual-ghi-2018-usa-scale-01.jpg" target="_blank">
   <img src="/solar/solar-annual-ghi-2018-usa-scale-01.jpg" alt="">
 </a>
 
-To estimate how much electricity your system will generate we need three things:
+To estimate how much electricity your system will generate, we need three things:
 
-1. How much sun you get?
-2. How big your system will be?
-3. How efficient is the system?
+1. How much sun do you get?
+2. How big is your system?
+3. How efficient is your system?
 
 | Variable | Value | Unit | Typical Range |
 |----------|-------|------|:-------------:|
@@ -60,7 +60,7 @@ This [HomeGuide page](https://homeguide.com/costs/solar-panel-cost) has some use
   <svg id="solar-chart"></svg>
 </div>
 
-Assuming the system runs perfectly for thirty years, here are how the two strategies compare:
+Assuming the system runs perfectly, here is how things stand after thirty years:
 
 | Metric | Value |
 |--------|------:|
