@@ -88,12 +88,11 @@ table input[type="number"] {
 
 #chart-container {
   margin: 2rem 0;
-  min-height: 400px;
 }
 
 #solar-chart {
   width: 100%;
-  height: 500px;
+  aspect-ratio: 4 / 3;
   background-color: white;
 }
 
@@ -110,26 +109,38 @@ table input[type="number"] {
   z-index: 1000;
 }
 
-.point-solar {
-  fill: #FF9800;
+.line-solar {
+  fill: none;
+  stroke: #4CAF50;
+  stroke-width: 2;
 }
 
 .point-stocks {
-  fill: #2196F3;
+  fill: #000000;
 }
 
 .axis-label {
   font-size: 0.875rem;
   font-weight: 600;
+  fill: #000000;
 }
 
-.grid line {
+#solar-chart .domain,
+#solar-chart .tick line {
+  stroke: #000000;
+}
+
+#solar-chart .tick text {
+  fill: #000000;
+}
+
+#solar-chart .grid line {
   stroke: #e0e0e0;
   stroke-opacity: 0.7;
   shape-rendering: crispEdges;
 }
 
-.grid path {
+#solar-chart .grid path {
   stroke-width: 0;
 }
 </style>
@@ -217,15 +228,17 @@ function drawChart(data) {
   // Clear previous chart
   d3.select('#solar-chart').selectAll('*').remove();
   
-  // Set up dimensions
-  const margin = { top: 20, right: 120, bottom: 50, left: 80 };
+  // Set up dimensions (4:3 aspect ratio)
+  const margin = { top: 40, right: 20, bottom: 50, left: 80 };
   const container = document.getElementById('chart-container');
-  const width = container.clientWidth - margin.left - margin.right;
-  const height = 500 - margin.top - margin.bottom;
+  const totalWidth = container.clientWidth;
+  const totalHeight = totalWidth * (3 / 4);
+  const width = totalWidth - margin.left - margin.right;
+  const height = totalHeight - margin.top - margin.bottom;
   
   // Create SVG
   const svg = d3.select('#solar-chart')
-    .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+    .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
   
@@ -243,7 +256,7 @@ function drawChart(data) {
     .domain([yMin, yMax])
     .range([height, 0]);
   
-  // Add grid lines
+  // Add horizontal grid lines
   svg.append('g')
     .attr('class', 'grid')
     .call(d3.axisLeft(y)
@@ -251,10 +264,20 @@ function drawChart(data) {
       .tickFormat('')
     );
   
+  // Add vertical grid lines at 5-year marks
+  svg.append('g')
+    .attr('class', 'grid')
+    .attr('transform', `translate(0,${height})`)
+    .call(d3.axisBottom(x)
+      .tickValues([0, 5, 10, 15, 20, 25, 30])
+      .tickSize(-height)
+      .tickFormat('')
+    );
+  
   // Add axes
   svg.append('g')
     .attr('transform', `translate(0,${height})`)
-    .call(d3.axisBottom(x).ticks(10));
+    .call(d3.axisBottom(x).tickValues([0, 5, 10, 15, 20, 25, 30]));
   
   svg.append('g')
     .call(d3.axisLeft(y).tickFormat(d => formatCurrency(d)));
@@ -275,15 +298,15 @@ function drawChart(data) {
     .attr('text-anchor', 'middle')
     .text('Liquid Assets ($)');
   
-  // Draw points for solar
-  svg.selectAll('.point-solar')
-    .data(data)
-    .enter()
-    .append('circle')
-    .attr('class', 'point-solar')
-    .attr('cx', d => x(d.year))
-    .attr('cy', d => y(d.solar))
-    .attr('r', 4);
+  // Draw line for solar
+  const solarLine = d3.line()
+    .x(d => x(d.year))
+    .y(d => y(d.solar));
+  
+  svg.append('path')
+    .datum(data)
+    .attr('class', 'line-solar')
+    .attr('d', solarLine);
   
   // Draw points for stocks
   svg.selectAll('.point-stocks')
@@ -293,32 +316,34 @@ function drawChart(data) {
     .attr('class', 'point-stocks')
     .attr('cx', d => x(d.year))
     .attr('cy', d => y(d.stocks))
-    .attr('r', 4);
+    .attr('r', 3);
   
-  // Add legend
+  // Add legend (above chart, horizontal layout)
   const legend = svg.append('g')
-    .attr('transform', `translate(${width + 10}, 20)`);
+    .attr('transform', `translate(${width / 2 - 70}, -25)`);
   
-  legend.append('circle')
-    .attr('cx', 15)
-    .attr('cy', 0)
-    .attr('r', 6)
-    .attr('fill', '#FF9800');
+  legend.append('line')
+    .attr('x1', -10)
+    .attr('y1', 0)
+    .attr('x2', 10)
+    .attr('y2', 0)
+    .attr('stroke', '#4CAF50')
+    .attr('stroke-width', 2);
   
   legend.append('text')
-    .attr('x', 30)
+    .attr('x', 12)
     .attr('y', 5)
     .text('Solar');
   
   legend.append('circle')
-    .attr('cx', 15)
-    .attr('cy', 25)
-    .attr('r', 6)
-    .attr('fill', '#2196F3');
+    .attr('cx', 80)
+    .attr('cy', 0)
+    .attr('r', 4)
+    .attr('fill', '#000000');
   
   legend.append('text')
-    .attr('x', 30)
-    .attr('y', 30)
+    .attr('x', 92)
+    .attr('y', 5)
     .text('Stocks');
   
   // Add tooltip
