@@ -3,7 +3,7 @@ title: Solar vs Stocks
 publishDate: "2026-01-08"
 description: "A back-of-the-envelope calculator for comparing the financial returns of investing in solar panels versus the stock market."
 tags:
-  - d3js
+  - observable-plot
 ---
 
 This calculator helps you decide whether to invest in solar panels. It addresses two questions:
@@ -56,9 +56,7 @@ This [HomeGuide page](https://homeguide.com/costs/solar-panel-cost) has some use
 | Electricity Inflation Rate | <input type="number" id="inflation-rate" value="3" min="0" max="10" step="0.1"> | % / year | 2 - 5 |
 | Expected Stock Market Return | <input type="number" id="stock-return" value="7" min="0" max="20" step="0.1"> | % / year | 7 - 10 |
 
-<div id="chart-container">
-  <svg id="solar-chart"></svg>
-</div>
+<div id="chart-container"></div>
 
 Assuming the system runs perfectly, here is how things stand after thirty years:
 
@@ -88,65 +86,25 @@ table input[type="number"] {
 
 #chart-container {
   margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-#solar-chart {
-  width: 100%;
-  aspect-ratio: 4 / 3;
+.chart-panel {
   background-color: white;
-}
-
-.tooltip {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 8px 12px;
   border-radius: 4px;
-  font-size: 0.875rem;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s;
-  z-index: 1000;
 }
 
-.line-solar {
-  fill: none;
-  stroke: #4CAF50;
-  stroke-width: 2;
+.chart-panel figure {
+  margin: 12px;
 }
 
-.point-stocks {
-  fill: #000000;
-}
-
-.axis-label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  fill: #000000;
-}
-
-#solar-chart .domain,
-#solar-chart .tick line {
-  stroke: #000000;
-}
-
-#solar-chart .tick text {
-  fill: #000000;
-}
-
-#solar-chart .grid line {
-  stroke: #e0e0e0;
-  stroke-opacity: 0.7;
-  shape-rendering: crispEdges;
-}
-
-#solar-chart .grid path {
-  stroke-width: 0;
-}
 </style>
 
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script>
+<script type="module">
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+
 // Electricity Generation Calculator
 function calculateElectricityGeneration() {
   const systemSize = parseFloat(document.getElementById('system-size').value);
@@ -225,161 +183,122 @@ function formatCurrency(value) {
 }
 
 function drawChart(data) {
-  // Clear previous chart
-  d3.select('#solar-chart').selectAll('*').remove();
-  
-  // Set up dimensions (4:3 aspect ratio)
-  const margin = { top: 40, right: 20, bottom: 50, left: 80 };
   const container = document.getElementById('chart-container');
-  const totalWidth = container.clientWidth;
-  const totalHeight = totalWidth * (3 / 4);
-  const width = totalWidth - margin.left - margin.right;
-  const height = totalHeight - margin.top - margin.bottom;
+  container.innerHTML = '';
   
-  // Create SVG
-  const svg = d3.select('#solar-chart')
-    .attr('viewBox', `0 0 ${totalWidth} ${totalHeight}`)
-    .append('g')
-    .attr('transform', `translate(${margin.left},${margin.top})`);
+  // Transform data for plotting annual returns
+  const returnsData = data.filter(d => d.year > 0).flatMap(d => [
+    { year: d.year, value: d.energyCost, strategy: "Solar", electricityProduced: d.electricityProduced },
+    { year: d.year, value: d.stockReturns, strategy: "Stocks", stocks: d.stocks }
+  ]);
   
-  // Set up scales
-  const x = d3.scaleLinear()
-    .domain([0, 30])
-    .range([0, width]);
+  // Transform data for plotting liquid assets
+  const assetsData = data.flatMap(d => [
+    { year: d.year, value: d.solar, strategy: "Solar", energyCost: d.energyCost, electricityProduced: d.electricityProduced },
+    { year: d.year, value: d.stocks, strategy: "Stocks", stockReturns: d.stockReturns }
+  ]);
   
-  const maxStocks = d3.max(data, d => d.stocks);
-  const minStocks = d3.min(data, d => d.stocks);
-  const yMin = minStocks < 0 ? minStocks * 1.1 : 0;
-  const yMax = maxStocks * 1.1;
+  // Top chart: Annual Returns
+  const returnsChart = Plot.plot({
+    width: container.clientWidth,
+    height: 300,
+    marginLeft: 60,
+    marginRight: 20,
+    marginBottom: 40,
+    style: { background: "white", color: "black" },
+    color: {
+      domain: ["Solar", "Stocks"],
+      range: ["#4CAF50", "#000000"]
+    },
+    symbol: {
+      domain: ["Solar", "Stocks"],
+      range: ["circle", "circle"],
+      legend: true
+    },
+    x: {
+      label: null,
+      domain: [0, 30],
+      ticks: [0, 5, 10, 15, 20, 25, 30]
+    },
+    y: {
+      label: "Annual Returns ($)",
+      tickFormat: d => `$${(d/1000).toFixed(1)}k`
+    },
+    marks: [
+      Plot.gridX({ stroke: "#ccc" }),
+      Plot.gridY({ stroke: "#ccc" }),
+      Plot.ruleY([0], { stroke: "#ccc" }),
+      Plot.dot(returnsData, {
+        x: "year",
+        y: "value",
+        fill: "strategy",
+        symbol: "strategy",
+        r: 3,
+        tip: true,
+        title: d => d.strategy === "Solar" 
+          ? `Year ${d.year}\nSolar Return: ${formatCurrency(d.value)}\nElectricity: ${Math.round(d.electricityProduced).toLocaleString()} kWh`
+          : `Year ${d.year}\nStock Return: ${formatCurrency(d.value)}`
+      })
+    ]
+  });
   
-  const y = d3.scaleLinear()
-    .domain([yMin, yMax])
-    .range([height, 0]);
+  // Bottom chart: Liquid Assets
+  const minValue = Math.min(...assetsData.map(d => d.value));
+  const maxValue = Math.max(...assetsData.map(d => d.value));
   
-  // Add horizontal grid lines
-  svg.append('g')
-    .attr('class', 'grid')
-    .call(d3.axisLeft(y)
-      .tickSize(-width)
-      .tickFormat('')
-    );
+  const assetsChart = Plot.plot({
+    width: container.clientWidth,
+    height: 300,
+    marginLeft: 60,
+    marginRight: 20,
+    marginBottom: 40,
+    style: { background: "white", color: "black" },
+    color: {
+      domain: ["Solar", "Stocks"],
+      range: ["#4CAF50", "#000000"]
+    },
+    symbol: {
+      domain: ["Solar", "Stocks"],
+      range: ["circle", "circle"],
+      legend: false,
+      caption: "asdf"
+    },
+    x: {
+      label: "Year",
+      domain: [0, 30],
+      ticks: [0, 5, 10, 15, 20, 25, 30]
+    },
+    y: {
+      label: "Liquid Value ($)",
+      domain: [Math.min(0, minValue * 1.1), maxValue * 1.1],
+      tickFormat: d => `$${(d/1000).toFixed(0)}k`
+    },
+    marks: [
+      Plot.gridX({ stroke: "#ccc" }),
+      Plot.gridY({ stroke: "#ccc" }),
+      Plot.ruleY([0], { stroke: "#ccc" }),
+      Plot.dot(assetsData, {
+        x: "year",
+        y: "value",
+        fill: "strategy",
+        symbol: "strategy",
+        r: 3,
+        tip: true,
+        title: d => d.strategy === "Solar"
+          ? `Year ${d.year}\nSolar Liquid Value: ${formatCurrency(d.value)}\nElectricity: ${Math.round(d.electricityProduced).toLocaleString()} kWh\nEnergy Cost Saved: ${formatCurrency(d.energyCost)}`
+          : `Year ${d.year}\nStock Value: ${formatCurrency(d.value)}\nStock Returns: ${formatCurrency(d.stockReturns)}`
+      })
+    ]
+  });
   
-  // Add vertical grid lines at 5-year marks
-  svg.append('g')
-    .attr('class', 'grid')
-    .attr('transform', `translate(0,${height})`)
-    .call(d3.axisBottom(x)
-      .tickValues([0, 5, 10, 15, 20, 25, 30])
-      .tickSize(-height)
-      .tickFormat('')
-    );
-  
-  // Add axes
-  svg.append('g')
-    .attr('transform', `translate(0,${height})`)
-    .call(d3.axisBottom(x).tickValues([0, 5, 10, 15, 20, 25, 30]));
-  
-  svg.append('g')
-    .call(d3.axisLeft(y).tickFormat(d => formatCurrency(d)));
-  
-  // Add axis labels
-  svg.append('text')
-    .attr('class', 'axis-label')
-    .attr('x', width / 2)
-    .attr('y', height + 40)
-    .attr('text-anchor', 'middle')
-    .text('Year');
-  
-  svg.append('text')
-    .attr('class', 'axis-label')
-    .attr('transform', 'rotate(-90)')
-    .attr('x', -height / 2)
-    .attr('y', -60)
-    .attr('text-anchor', 'middle')
-    .text('Liquid Assets ($)');
-  
-  // Draw line for solar
-  const solarLine = d3.line()
-    .x(d => x(d.year))
-    .y(d => y(d.solar));
-  
-  svg.append('path')
-    .datum(data)
-    .attr('class', 'line-solar')
-    .attr('d', solarLine);
-  
-  // Draw points for stocks
-  svg.selectAll('.point-stocks')
-    .data(data)
-    .enter()
-    .append('circle')
-    .attr('class', 'point-stocks')
-    .attr('cx', d => x(d.year))
-    .attr('cy', d => y(d.stocks))
-    .attr('r', 3);
-  
-  // Add legend (above chart, horizontal layout)
-  const legend = svg.append('g')
-    .attr('transform', `translate(${width / 2 - 70}, -25)`);
-  
-  legend.append('line')
-    .attr('x1', -10)
-    .attr('y1', 0)
-    .attr('x2', 10)
-    .attr('y2', 0)
-    .attr('stroke', '#4CAF50')
-    .attr('stroke-width', 2);
-  
-  legend.append('text')
-    .attr('x', 12)
-    .attr('y', 5)
-    .text('Solar');
-  
-  legend.append('circle')
-    .attr('cx', 80)
-    .attr('cy', 0)
-    .attr('r', 4)
-    .attr('fill', '#000000');
-  
-  legend.append('text')
-    .attr('x', 92)
-    .attr('y', 5)
-    .text('Stocks');
-  
-  // Add tooltip
-  const tooltip = d3.select('body').append('div')
-    .attr('class', 'tooltip');
-  
-  // Add invisible overlay for hover
-  const bisect = d3.bisector(d => d.year).left;
-  
-  svg.append('rect')
-    .attr('width', width)
-    .attr('height', height)
-    .attr('fill', 'none')
-    .attr('pointer-events', 'all')
-    .on('mousemove', function(event) {
-      const [xPos] = d3.pointer(event);
-      const year = Math.round(x.invert(xPos));
-      const dataPoint = data[year];
-      
-      if (dataPoint) {
-        tooltip
-          .style('opacity', 1)
-          .html(`
-            <strong>Year ${dataPoint.year}</strong><br/>
-            Electricity Produced: ${Math.round(dataPoint.electricityProduced).toLocaleString()} kWh<br/>
-            Electricity Cost: ${formatCurrency(dataPoint.energyCost)}<br/>
-            Stock Returns: ${formatCurrency(dataPoint.stockReturns)}<br/>
-            Stock Value: ${formatCurrency(dataPoint.stocks)}
-          `)
-          .style('left', (event.pageX + 10) + 'px')
-          .style('top', (event.pageY - 28) + 'px');
-      }
-    })
-    .on('mouseout', function() {
-      tooltip.style('opacity', 0);
-    });
+  // Create single panel container with both charts
+  const chartPanel = document.createElement('div');
+  chartPanel.className = 'chart-panel';
+  chartPanel.appendChild(returnsChart);
+  const fig = document.createElement('figure');
+  fig.appendChild(assetsChart);
+  chartPanel.appendChild(fig);
+  container.appendChild(chartPanel);
   
   // Update summary statistics
   updateSummary(data);
@@ -405,8 +324,8 @@ function updateSummary(data) {
   document.getElementById('stock-returns').textContent = formatCurrency(totalStockReturns);
 }
 
-// Calculate and draw on page load
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize immediately - ES modules are deferred so DOM is already ready
+function init() {
   // Initialize electricity calculator
   updateElectricityOutput();
   
@@ -462,5 +381,12 @@ document.addEventListener('DOMContentLoaded', function() {
       drawChart(data);
     }, 250);
   });
-});
+}
+
+// Run initialization - DOM is ready since ES modules are deferred
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 </script>
