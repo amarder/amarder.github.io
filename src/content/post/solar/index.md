@@ -422,13 +422,19 @@ function init() {
     });
   });
   
-  // Recalculate on window resize
+  // Recalculate on window resize (width changes only)
   let resizeTimer;
+  let lastWidth = window.innerWidth;
   window.addEventListener('resize', function() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function() {
-      const data = calculateStrategies();
-      drawChart(data);
+      const currentWidth = window.innerWidth;
+      // Only redraw if width changed (ignore height changes from mobile browser chrome)
+      if (currentWidth !== lastWidth) {
+        lastWidth = currentWidth;
+        const data = calculateStrategies();
+        drawChart(data);
+      }
     }, 250);
   });
 }
