@@ -64,6 +64,8 @@ Assuming the system runs perfectly, here is how things stand after thirty years:
 |--------|------:|
 | Total Electricity Produced | <span id="electricity-produced">0 kWh</span> |
 | Total Electricity Value | <span id="energy-savings">$0</span> |
+| Solar Internal Rate of Return (IRR) | <span id="solar-irr">0%</span> |
+| Solar Net Present Value (NPV) | <span id="solar-npv">$0</span> |
 | Total Stock Returns | <span id="stock-returns">$0</span> |
 | Stocks at Year 30 | <span id="stocks-final">$0</span> |
 
@@ -180,6 +182,39 @@ function formatCurrency(value) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   }).format(value);
+}
+
+// Calculate Internal Rate of Return using bisection method
+function calculateIRR(initialInvestment, cashFlows, tolerance = 0.0001, maxIterations = 100) {
+  // NPV function: sum of cash flows discounted at rate r
+  function npv(rate) {
+    let total = -initialInvestment;
+    for (let t = 0; t < cashFlows.length; t++) {
+      total += cashFlows[t] / Math.pow(1 + rate, t + 1);
+    }
+    return total;
+  }
+  
+  // Bisection method to find rate where NPV = 0
+  let low = -0.99;
+  let high = 10.0;
+  
+  for (let i = 0; i < maxIterations; i++) {
+    const mid = (low + high) / 2;
+    const npvMid = npv(mid);
+    
+    if (Math.abs(npvMid) < tolerance) {
+      return mid;
+    }
+    
+    if (npv(low) * npvMid < 0) {
+      high = mid;
+    } else {
+      low = mid;
+    }
+  }
+  
+  return (low + high) / 2;
 }
 
 function drawChart(data) {
@@ -306,6 +341,7 @@ function drawChart(data) {
 
 function updateSummary(data) {
   const finalYear = data[data.length - 1];
+  const initialInvestment = parseFloat(document.getElementById('initial-investment').value);
   
   // Calculate total energy savings from solar over 30 years
   const totalEnergySavings = data.reduce((sum, d) => sum + d.energyCost, 0);
@@ -316,12 +352,26 @@ function updateSummary(data) {
   // Calculate total electricity produced
   const totalElectricity = data.reduce((sum, d) => sum + d.electricityProduced, 0);
   
+  // Calculate IRR for solar investment
+  // Cash flows are the annual electricity savings (years 1-30)
+  const cashFlows = data.filter(d => d.year > 0).map(d => d.energyCost);
+  const solarIRR = calculateIRR(initialInvestment, cashFlows);
+  
+  // Calculate NPV using expected stock market return as discount rate
+  const stockReturn = parseFloat(document.getElementById('stock-return').value) / 100;
+  let solarNPV = -initialInvestment;
+  for (let t = 0; t < cashFlows.length; t++) {
+    solarNPV += cashFlows[t] / Math.pow(1 + stockReturn, t + 1);
+  }
+  
   // Update table cells
   document.getElementById('stocks-final').textContent = formatCurrency(finalYear.stocks);
   document.getElementById('energy-savings').textContent = formatCurrency(totalEnergySavings);
   document.getElementById('electricity-produced').textContent = 
     Math.round(totalElectricity).toLocaleString() + ' kWh';
   document.getElementById('stock-returns').textContent = formatCurrency(totalStockReturns);
+  document.getElementById('solar-irr').textContent = (solarIRR * 100).toFixed(1) + '%';
+  document.getElementById('solar-npv').textContent = formatCurrency(solarNPV);
 }
 
 // Initialize immediately - ES modules are deferred so DOM is already ready
