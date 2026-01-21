@@ -1,5 +1,5 @@
 ---
-title: "App Defaults"
+title: "My App Defaults"
 publishDate: "2026-01-15"
 description: "The default apps I use at home."
 ---

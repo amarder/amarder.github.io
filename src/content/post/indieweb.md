@@ -1,5 +1,5 @@
 ---
-title: "IndieWeb"
+title: "The IndieWeb"
 publishDate: "2026-01-20"
 description: "When you post something on the web, it should belong to you, not a corporation."
 ---
