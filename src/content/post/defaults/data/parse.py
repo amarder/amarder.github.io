@@ -8,6 +8,7 @@ Usage:
 """
 
 import json
+import logging
 import os
 import time
 import argparse
@@ -17,52 +18,60 @@ import requests
 from openai import OpenAI
 from pydantic import BaseModel, Field
 from bs4 import BeautifulSoup
+from tqdm import tqdm
+
+# Configure logging - warnings go to console
+logging.basicConfig(
+    level=logging.WARNING,
+    format="%(levelname)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 
 class AppDefaults(BaseModel):
     """Structured output for app defaults extraction."""
 
-    mail_client: str | None = Field(default=None, serialization_alias="Mail Client")
-    mail_server: str | None = Field(default=None, serialization_alias="Mail Server")
-    notes: str | None = Field(default=None, serialization_alias="Notes")
-    to_do: str | None = Field(default=None, serialization_alias="To-Do")
-    photo_shooting: str | None = Field(
-        default=None, serialization_alias="Phone Photo Shooting"
+    mail_client: list[str] = Field(default_factory=list, serialization_alias="Mail Client")
+    mail_server: list[str] = Field(default_factory=list, serialization_alias="Mail Server")
+    notes: list[str] = Field(default_factory=list, serialization_alias="Notes")
+    to_do: list[str] = Field(default_factory=list, serialization_alias="To-Do")
+    photo_shooting: list[str] = Field(
+        default_factory=list, serialization_alias="Phone Photo Shooting"
     )
-    photo_management: str | None = Field(
-        default=None, serialization_alias="Photo Management"
+    photo_management: list[str] = Field(
+        default_factory=list, serialization_alias="Photo Management"
     )
-    calendar: str | None = Field(default=None, serialization_alias="Calendar")
-    cloud_file_storage: str | None = Field(
-        default=None, serialization_alias="Cloud File Storage"
+    calendar: list[str] = Field(default_factory=list, serialization_alias="Calendar")
+    cloud_file_storage: list[str] = Field(
+        default_factory=list, serialization_alias="Cloud File Storage"
     )
-    rss: str | None = Field(default=None, serialization_alias="RSS")
-    contacts: str | None = Field(default=None, serialization_alias="Contacts")
-    browser: str | None = Field(default=None, serialization_alias="Browser")
-    chat: str | None = Field(default=None, serialization_alias="Chat")
-    bookmarks: str | None = Field(default=None, serialization_alias="Bookmarks")
-    read_it_later: str | None = Field(
-        default=None, serialization_alias="Read It Later"
+    rss: list[str] = Field(default_factory=list, serialization_alias="RSS")
+    contacts: list[str] = Field(default_factory=list, serialization_alias="Contacts")
+    browser: list[str] = Field(default_factory=list, serialization_alias="Browser")
+    chat: list[str] = Field(default_factory=list, serialization_alias="Chat")
+    bookmarks: list[str] = Field(default_factory=list, serialization_alias="Bookmarks")
+    read_it_later: list[str] = Field(
+        default_factory=list, serialization_alias="Read It Later"
     )
-    word_processing: str | None = Field(
-        default=None, serialization_alias="Word Processing"
+    word_processing: list[str] = Field(
+        default_factory=list, serialization_alias="Word Processing"
     )
-    spreadsheets: str | None = Field(default=None, serialization_alias="Spreadsheets")
-    presentations: str | None = Field(
-        default=None, serialization_alias="Presentations"
+    spreadsheets: list[str] = Field(default_factory=list, serialization_alias="Spreadsheets")
+    presentations: list[str] = Field(
+        default_factory=list, serialization_alias="Presentations"
     )
-    shopping_lists: str | None = Field(
-        default=None, serialization_alias="Shopping Lists"
+    shopping_lists: list[str] = Field(
+        default_factory=list, serialization_alias="Shopping Lists"
     )
-    meal_planning: str | None = Field(default=None, serialization_alias="Meal Planning")
-    budgeting: str | None = Field(
-        default=None, serialization_alias="Budgeting and Personal Finance"
+    meal_planning: list[str] = Field(default_factory=list, serialization_alias="Meal Planning")
+    budgeting: list[str] = Field(
+        default_factory=list, serialization_alias="Budgeting and Personal Finance"
     )
-    news: str | None = Field(default=None, serialization_alias="News")
-    music: str | None = Field(default=None, serialization_alias="Music")
-    podcasts: str | None = Field(default=None, serialization_alias="Podcasts")
-    password_management: str | None = Field(
-        default=None, serialization_alias="Password Management"
+    news: list[str] = Field(default_factory=list, serialization_alias="News")
+    music: list[str] = Field(default_factory=list, serialization_alias="Music")
+    podcasts: list[str] = Field(default_factory=list, serialization_alias="Podcasts")
+    password_management: list[str] = Field(
+        default_factory=list, serialization_alias="Password Management"
     )
 
 # File paths
@@ -92,7 +101,7 @@ def save_results(results: dict) -> None:
 
 
 def fetch_page_content(url: str, timeout: int = 30) -> str | None:
-    """Fetch and extract text content from a URL."""
+    """Fetch and extract HTML content from a URL, preserving semantic tags."""
     try:
         headers = {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
@@ -102,32 +111,53 @@ def fetch_page_content(url: str, timeout: int = 30) -> str | None:
 
         soup = BeautifulSoup(response.content, "html.parser")
 
-        # Remove script and style elements
-        for element in soup(["script", "style", "nav", "header", "footer"]):
+        # Remove non-content elements but keep semantic structure
+        for element in soup(["script", "style", "nav", "header", "footer", "aside", "iframe", "noscript"]):
             element.decompose()
 
-        # Get text content
-        text = soup.get_text(separator="\n", strip=True)
+        # Try to find the main content area
+        main_content = (
+            soup.find("main")
+            or soup.find("article")
+            or soup.find(class_=lambda x: x and ("content" in x.lower() or "post" in x.lower()))
+            or soup.find("body")
+            or soup
+        )
 
-        # Limit text length to avoid token limits (roughly 15k chars ≈ 4k tokens)
-        if len(text) > 15000:
-            text = text[:15000] + "\n... [truncated]"
+        # Get cleaned HTML (preserves tags like <del>, <s>, <strong>, <em>, <ul>, <li>, etc.)
+        html = str(main_content)
 
-        return text
+        # Limit length to avoid token limits (roughly 20k chars for HTML)
+        if len(html) > 20000:
+            logger.warning(f"Content truncated for {url} (was {len(html)} chars)")
+            html = html[:20000] + "\n<!-- truncated -->"
+
+        return html
+    except requests.exceptions.Timeout:
+        logger.warning(f"Timeout fetching {url}")
+        return None
+    except requests.exceptions.HTTPError as e:
+        logger.warning(f"HTTP {e.response.status_code} for {url}")
+        return None
     except Exception as e:
-        print(f"  Error fetching {url}: {e}")
+        logger.warning(f"Error fetching {url}: {e}")
         return None
 
 
 def parse_with_openai(client: OpenAI, content: str, name: str) -> dict | None:
     """Use OpenAI to extract app defaults from page content."""
-    prompt = f"""Analyze this blog post about someone's default apps and extract what apps/services they use for each category.
+    prompt = f"""Analyze this blog post about someone's default apps and extract what apps/services they currently use for each category.
 
 The post is by: {name}
 
-For each field, extract the app/service name they mention. If they list multiple apps for a category, include all of them separated by commas. If a category is not mentioned or they explicitly say they don't use anything for it, leave it as null.
+The content is HTML. Pay attention to semantic markup:
+- Apps wrapped in <del>, <s>, or <strike> tags are NO LONGER USED - do not include these
+- Apps marked as "former", "previous", "stopped using", "switched from", etc. should not be included
+- Only include apps they currently use as their defaults
 
-Blog post content:
+For each field, extract the app/service names as a list. If they use multiple apps for a category, include each as a separate item. If a category is not mentioned or they don't use anything for it, return an empty list.
+
+HTML content:
 {content}"""
 
     try:
@@ -136,7 +166,7 @@ Blog post content:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a helpful assistant that extracts structured data from blog posts about app defaults.",
+                    "content": "You are a helpful assistant that extracts structured data from blog posts about app defaults. You understand HTML and pay attention to semantic markup like <del> tags indicating discontinued usage.",
                 },
                 {"role": "user", "content": prompt},
             ],
@@ -147,7 +177,7 @@ Blog post content:
         result = response.choices[0].message.parsed
         return result.model_dump(by_alias=True)
     except Exception as e:
-        print(f"  OpenAI error: {e}")
+        logger.warning(f"OpenAI error for {name}: {e}")
         return None
 
 
@@ -156,15 +186,10 @@ def process_site(client: OpenAI, site: dict) -> dict | None:
     url = site["url"]
     name = site["name"]
 
-    print(f"Processing: {name}")
-    print(f"  URL: {url}")
-
     # Fetch content
     content = fetch_page_content(url)
     if not content:
         return {"error": "Failed to fetch content", "url": url, "name": name}
-
-    print(f"  Fetched {len(content)} characters")
 
     # Parse with OpenAI
     result = parse_with_openai(client, content, name)
@@ -179,7 +204,6 @@ def process_site(client: OpenAI, site: dict) -> dict | None:
         "processed_at": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
 
-    print(f"  Successfully extracted data")
     return result
 
 
@@ -203,8 +227,7 @@ def main():
     sites = load_sites()
     results = {} if args.reprocess else load_results()
 
-    print(f"Found {len(sites)} sites")
-    print(f"Already processed: {len(results)}")
+    print(f"Found {len(sites)} sites, {len(results)} already processed")
 
     # Filter to unprocessed sites
     if not args.reprocess:
@@ -213,22 +236,30 @@ def main():
     if args.limit:
         sites = sites[: args.limit]
 
-    print(f"Processing {len(sites)} sites")
-    print("-" * 50)
+    if not sites:
+        print("No sites to process.")
+        return
 
-    for i, site in enumerate(sites):
+    # Track statistics
+    success_count = 0
+    error_count = 0
+
+    # Process with progress bar
+    for site in tqdm(sites, desc="Processing sites", unit="site"):
         result = process_site(client, site)
         if result:
             results[site["url"]] = result
+            if "error" in result:
+                error_count += 1
+            else:
+                success_count += 1
             # Save after each site (for resumability)
             save_results(results)
 
         # Small delay to be nice to servers and API
-        if i < len(sites) - 1:
-            time.sleep(1)
+        time.sleep(0.5)
 
-    print("-" * 50)
-    print(f"Done! Processed {len(sites)} sites")
+    print(f"\nDone! {success_count} succeeded, {error_count} failed")
     print(f"Total results: {len(results)}")
     print(f"Results saved to: {RESULTS_FILE}")
 
