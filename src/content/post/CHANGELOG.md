@@ -8,6 +8,10 @@ toc: false
 
 Starting 2025-12-18, all notable changes to this blog will be documented in this file. I like to keep posts up to date. As I learn new things, I update old posts. I'll record those changes here so you can see how posts have evolved over time. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-21
+
+- **Added** [app defaults data](/defaults/data) post
+
 ## 2026-01-20
 
 - **Added** [IndieWeb](/indieweb) post
@@ -53,8 +57,7 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 
 ## Potential Upcoming Changes
 
-- Security post for listmonk
-- Scrape [app defaults data](https://github.com/rknightuk/app-defaults/blob/main/_data/sites.json)
+- **Added** [listmonk security](/secure-self-hosting) post
 - **Added** [HackRF](https://greatscottgadgets.com/hackrf/) post
 - **Added** [death plan](https://www.pcmag.com/how-to/how-to-prepare-your-digital-life-accounts-for-your-death#) post
 - **Added** [Beelink](https://www.amazon.com/stores/Beelink/page/E76F7A4A-070E-428C-9129-832B18C1493F) post
