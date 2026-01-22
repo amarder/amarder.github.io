@@ -16,5 +16,6 @@
   "/posts/profile-pic/": "/profile-pic/",
   "/posts/ssh-key-bindings/": "/ssh-key-bindings/",
   "/posts/stata-tutorial/": "/stata-tutorial/",
-  "/posts/whispy/": "/whispy/"
+  "/posts/whispy/": "/whispy/",
+  "/slashes/": "/tags/slashpages/"
 }

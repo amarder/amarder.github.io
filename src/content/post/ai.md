@@ -3,6 +3,8 @@ title: "My AI Usage"
 publishDate: "2025-07-21"
 description: "How I use AI for coding and writing."
 toc: false
+tags:
+  - slashpages
 ---
 
 This page discusses how I use AI.
