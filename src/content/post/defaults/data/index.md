@@ -1,5 +1,5 @@
 ---
-title: "IndieWeb App Defaults - Data Edition"
+title: "App Defaults - Data Edition"
 publishDate: "2026-01-21"
 description: "Browse the default apps used by 400+ IndieWebbers."
 ---

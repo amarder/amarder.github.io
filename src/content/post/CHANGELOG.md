@@ -10,6 +10,10 @@ tags:
 
 Starting 2025-12-18, all notable changes to this blog will be documented in this file. I like to keep posts up to date. As I learn new things, I update old posts. I'll record those changes here so you can see how posts have evolved over time. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-22
+
+- **Added** [POSSE](/posse) post
+
 ## 2026-01-21
 
 - **Added** [app defaults data](/defaults/data) post
@@ -79,7 +83,6 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 - **Added** `/colophon` page
 - **Added** `/contact` page
 - **Added** `/follow`, `/subscribe`, `/feeds` pages
-- **Added** `/posse` page
 - **Added** `/blogroll` page
 - **Added** `/self-hosting` page
 - **Added** `/verify` page
