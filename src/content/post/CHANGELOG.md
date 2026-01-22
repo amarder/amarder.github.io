@@ -13,7 +13,7 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 ## 2026-01-21
 
 - **Added** [app defaults data](/defaults/data) post
-- **Added** `slashpages` tag
+- **Added** [slashpages](/slashes) tag
 
 ## 2026-01-20
 
