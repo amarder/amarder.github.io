@@ -1,7 +1,7 @@
 ---
 title: "Changelog"
 publishDate: "2025-12-18"
-updatedDate: "2026-01-15"
+updatedDate: "2026-01-22"
 description: "A log of changes to this blog"
 toc: false
 tags:
@@ -13,6 +13,7 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 ## 2026-01-22
 
 - **Added** [POSSE](/posse) post
+- **Added** [Umami](https://umami.is/) analytics
 
 ## 2026-01-21
 
@@ -64,20 +65,19 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 
 ## Potential Upcoming Changes
 
+- **Updated** [Immich](/immich) post to improve portability
 - **Added** [listmonk security](/secure-self-hosting) post
+- **Added** [Fastmail](https://www.fastmail.com/) post
+
 - **Added** [HackRF](https://greatscottgadgets.com/hackrf/) post
 - **Added** [death plan](https://www.pcmag.com/how-to/how-to-prepare-your-digital-life-accounts-for-your-death#) post
 - **Added** [Beelink](https://www.amazon.com/stores/Beelink/page/E76F7A4A-070E-428C-9129-832B18C1493F) post
-- **Added** [Baïkal](https://sabre.io/baikal/) post
 - **Added** [Vaultwarden](https://github.com/dani-garcia/vaultwarden) post
 - **Added** [GrapheneOS](https://grapheneos.org/) post
-- **Added** Reddit post
 - **Added** [Cursor](https://cursor.com/) post
-- **Added** [Umami](https://umami.is/) post
-- **Updated** [Immich](/immich) post to improve portability
 - **Updated** [AI](/ai) post to reflect my current practice
 - **Updated** [Firefox](/firefox) post to address new AI features
-- **Updated** [newsletter](/newsletter) post to use [Keila](https://github.com/pentacent/keila/)
+- **Updated** [newsletter](/newsletter) post to use [Keila](https://github.com/pentacent/keila/) or [Notifuse](https://www.notifuse.com/)
 - **Updated** [questions](/questions) post
 - **Added** `/about` page
 - **Added** `/colophon` page
