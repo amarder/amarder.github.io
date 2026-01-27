@@ -1,27 +1,23 @@
 ---
 title: "Web Analytics with Umami"
 publishDate: "2026-01-27"
-description: ""
+description: "Why I switched from Plausible Analytics to Umami for my blog's web analytics."
 tags:
   - analytics
 ---
 
-Insert Umami post here.
+I've switched my web analytics provider again! I moved from Plausible Analytics to [Umami](https://umami.is/).
 
-TLDR: I now use Plausible for my web analytics. I've made my blog's analytics public [here](https://plausible.io/andrewmarder.net?period=all&keybindHint=A).
+The main reason I switched was cost. Umami gives me all the features I want for free, saving me about $9 a month compared to Plausible. And if I ever want to self-host, Umami makes that easy too.
 
-In February of 2016, I wrote about [why I left Google Analytics for Piwik](/piwik) (to avoid referral spam). About four months later, I wrote an R package to do [custom analytics with Piwik](/piwikr/). I had five main objectives for my analytics:
+I've made my blog's analytics public [here](https://cloud.umami.is/analytics/us/share/Q8x1pqSdeT9IQ5sY?date=range%3A1769130000000%3A1769536800000%3Aall).
+
+Here are the analytics features I care about:
 
 1. Traffic over time
 2. Most popular pages
-3. Where is traffic coming from?
-4. How big are the browser screens?
-5. Conditional on being on one page, where do users go next?
+3. Traffic sources
+4. Browser screen sizes
+5. 404 error tracking
 
-Fast forward to today and I'm back at it again! Piwik is now Matomo, and I've switched analytics providers a second time. Here's [why I chose Plausible Analytics over Matomo](https://plausible.io/vs-matomo):
-
-> Plausible doesn't use any cookies and we don't collect any personal data so by using Plausible you don't need to obtain a cookie consent or the GDPR consent at all.
-
-Plausible quickly addresses the first four of my five analytics objectives. Plausible doesn't track how users navigate from page to page on my site (objective 5), but that's a fine price to pay to be privacy-friendly.
-
-PS Thanks to [Jeff Palmer (artist)](https://jpalmer.art/) for introducing me to Plausible.
+Umami can do all of this and more, so I'm as happy as a clam!
