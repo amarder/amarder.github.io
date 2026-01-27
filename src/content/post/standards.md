@@ -1,7 +1,8 @@
 ---
-title: "Hey Google, Got Standards?"
+title: "Email, Calendars, and Standards"
 publishDate: "2026-01-24"
 description: ""
+draft: true
 ---
 
 Currently, I have three email accounts!
@@ -14,6 +15,10 @@ I just ran an experiment where I created a Google Calendar event inviting my Pro
 
 - Are there web standards that outline how these services should communicate?
 - If yes, who isn't following the standards / who can I blame?
+
+:::note{title=Update}
+I ran a simpler test where I sent an invite from Gmail to Fastmail, and responded from Fastmail. Everything worked smoothly in this easier test.
+:::
 
 The answers below come from Claude Opus 4.5.
 
