@@ -18,5 +18,8 @@
   "/posts/stata-tutorial/": "/stata-tutorial/",
   "/posts/whispy/": "/whispy/",
   "/slashes/": "/tags/slashpages/",
-  "/stata-clustered-standard-errors/": "/clustered-standard-errors/"
+  "/stata-clustered-standard-errors/": "/clustered-standard-errors/",
+  "/plausible/": "/analytics/plausible/",
+  "/piwikr/": "/analytics/piwikr/",
+  "/piwik/": "/analytics/piwik/"
 }

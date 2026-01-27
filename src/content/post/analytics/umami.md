@@ -1,14 +1,14 @@
 ---
-title: "My Web Analytics Journey to Plausible"
-publishDate: "2025-07-20"
-description: "After switching from Google Analytics to Piwik in 2016, I've now moved to Plausible Analytics so readers can focus on the content without thinking about cookies."
+title: "Web Analytics with Umami"
+publishDate: "2026-01-27"
+description: ""
 tags:
   - analytics
 ---
 
-TLDR: I now use Plausible for my web analytics. I've made my blog's analytics public [here](https://plausible.io/andrewmarder.net?period=all&keybindHint=A).
+Insert Umami post here.
 
-![Number of daily visitors to my blog](/plausible.png)
+TLDR: I now use Plausible for my web analytics. I've made my blog's analytics public [here](https://plausible.io/andrewmarder.net?period=all&keybindHint=A).
 
 In February of 2016, I wrote about [why I left Google Analytics for Piwik](/piwik) (to avoid referral spam). About four months later, I wrote an R package to do [custom analytics with Piwik](/piwikr/). I had five main objectives for my analytics:
 
