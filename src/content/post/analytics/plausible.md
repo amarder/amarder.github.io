@@ -1,5 +1,5 @@
 ---
-title: "My Web Analytics Journey to Plausible"
+title: "Web Analytics with Plausible"
 publishDate: "2025-07-20"
 description: "After switching from Google Analytics to Piwik in 2016, I've now moved to Plausible Analytics so readers can focus on the content without thinking about cookies."
 tags:

@@ -1,7 +1,7 @@
 ---
 title: "Changelog"
 publishDate: "2025-12-18"
-updatedDate: "2026-01-22"
+updatedDate: "2026-01-27"
 description: "A log of changes to this blog"
 toc: false
 tags:
@@ -10,10 +10,13 @@ tags:
 
 Starting 2025-12-18, all notable changes to this blog will be documented in this file. I like to keep posts up to date. As I learn new things, I update old posts. I'll record those changes here so you can see how posts have evolved over time. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-27
+
+- **Added** [Umami](/analytics/umami) post
+
 ## 2026-01-22
 
 - **Added** [POSSE](/posse) post
-- **Added** [Umami](https://umami.is/) analytics
 
 ## 2026-01-21
 
@@ -87,3 +90,8 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 - **Added** `/self-hosting` page
 - **Added** `/verify` page
 - **Added** `/why` page
+
+- More data, less tech
+- Machine learning post? Photos
+- Figure out PGP, post publickey.txt
+- old pages to resurrect: `/module-graph/` `/responsive-d3js/` `/visualizing-sound/` `/power-analysis/`

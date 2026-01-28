@@ -1,17 +1,33 @@
 ---
 title: "Securing Self-Hosted Apps with Cloudflare Tunnel"
-publishDate: "2026-01-16"
+publishDate: "2026-01-23"
 description: "A practical guide to securing self-hosted services like listmonk behind Cloudflare Tunnel."
 draft: true
 ---
 
 I'm running [listmonk](https://listmonk.app/) on a computer at home and using [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) to expose it to the internet. This setup avoids opening ports on my router, but there are still important security steps to take.
 
-**The good news**: you only need to do two things to cover 90% of your risk. Everything else is nice-to-have.
+## Security Checklist
 
-## The Two Things That Actually Matter
+| | Task | Value | Time |
+|---|------|-------|------|
+| ☐ | [Change default credentials](#1-change-default-credentials) | 🔴 Critical — bots actively scan for defaults | ~5 min |
+| ☐ | [Set up Cloudflare Access](#2-set-up-cloudflare-access) | 🔴 Critical — blocks attacks before they reach your server | ~10 min |
+| ☐ | [Protect API endpoints](#3-protect-api-endpoints) | 🟡 Medium — prevents unauthorized API access | ~5 min |
+| ☐ | [Enable WAF](#4-enable-waf) | 🟡 Medium — blocks common attack patterns | ~2 min |
+| ☐ | [Bind to localhost](#5-bind-to-localhost) | 🟢 Low — defense in depth if tunnel is bypassed | ~2 min |
+| ☐ | [Keep software updated](#6-keep-software-updated) | 🟢 Low — patches known vulnerabilities over time | ~5 min |
+| ☐ | [Set up backups](#7-set-up-backups) | 🟢 Low — recovery from data loss, not security | ~30 min |
 
-### 1. Change the Default Credentials
+**The first two items cover ~90% of your risk.** Everything else is defense in depth.
+
+---
+
+## Critical Steps
+
+### 1. Change Default Credentials
+
+> ⏱️ ~5 minutes · 🔴 Critical
 
 The [default docker-compose.yml](https://github.com/knadh/listmonk/blob/master/docker-compose.yml) ships with `listmonk` as the database username, password, and database name. Bots actively scan for default credentials.
 
@@ -38,9 +54,9 @@ x-db-credentials: &db-credentials
   POSTGRES_DB: &db-name listmonk
 ```
 
-If you do nothing else, do this.
-
 ### 2. Set Up Cloudflare Access
+
+> ⏱️ ~10 minutes · 🔴 Critical
 
 [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/policies/access/) adds authentication *before* traffic reaches your server. Even if someone discovers your URL or a vulnerability exists in listmonk, they can't reach it without logging in through Cloudflare first.
 
@@ -50,37 +66,33 @@ If you do nothing else, do this.
 4. Set **Path** to `/admin/*`
 5. Create a policy that allows only your email address
 
-Now Cloudflare prompts for authentication before anyone can reach your admin panel. This is the single most impactful security improvement you can make.
-
 **Important**: Don't protect these paths (they need to be public for emails to work):
-- `/subscription/*` - subscribe/unsubscribe links
-- `/link/*` - tracked links in emails
+- `/subscription/*` — subscribe/unsubscribe links
+- `/link/*` — tracked links in emails
 
 ---
 
-## Everything Else (Nice to Have)
+## Recommended Steps
 
-The steps below add defense in depth. They're worth doing if you have time, but they're not critical if you've done the two things above.
+### 3. Protect API Endpoints
 
-### Keep Software Updated
+> ⏱️ ~5 minutes · 🟡 Medium
 
-Periodically pull the latest images:
+Add another Cloudflare Access rule for `/api/*` with the same policy. This prevents unauthorized API access even if someone has a valid API key.
 
-```bash
-docker compose pull && docker compose up -d
-```
+### 4. Enable WAF
 
-Enable automatic security updates on your host OS.
+> ⏱️ ~2 minutes · 🟡 Medium
 
-### Protect API Endpoints
+In Cloudflare's dashboard: **Security** → **WAF** → Enable the managed ruleset. This blocks common attack patterns (SQL injection, XSS, etc.) automatically.
 
-Add another Cloudflare Access rule for `/api/*` with the same policy. This prevents unauthorized API access.
+---
 
-### Enable WAF
+## Optional Steps
 
-In Cloudflare's dashboard: **Security** → **WAF** → Enable the managed ruleset. This blocks common attack patterns automatically.
+### 5. Bind to Localhost
 
-### Bind to Localhost
+> ⏱️ ~2 minutes · 🟢 Low
 
 The default `docker-compose.yml` listens on `0.0.0.0:9000`. If cloudflared runs on the same machine, change it to only accept local connections:
 
@@ -89,22 +101,27 @@ environment:
   LISTMONK_app__address: 127.0.0.1:9000  # Was 0.0.0.0:9000
 ```
 
-### Backups
+This only matters if someone bypasses Cloudflare Tunnel entirely (unlikely if you haven't opened ports on your router).
 
-Set up automated PostgreSQL backups and test that you can restore from them.
+### 6. Keep Software Updated
+
+> ⏱️ ~5 minutes to set up · 🟢 Low
+
+Periodically pull the latest images:
+
+```bash
+docker compose pull && docker compose up -d
+```
+
+Consider setting a calendar reminder to do this monthly. Also enable automatic security updates on your host OS.
+
+### 7. Set Up Backups
+
+> ⏱️ ~30 minutes · 🟢 Low
+
+Set up automated PostgreSQL backups and test that you can restore from them. This protects against data loss rather than security breaches, but it's still important.
 
 ---
-
-## Quick Reference
-
-| Priority | Action | Time |
-|----------|--------|------|
-| **Essential** | Change default credentials (admin + database) | 5 minutes |
-| **Essential** | Set up Cloudflare Access for `/admin/*` | 10 minutes |
-| Nice to have | Protect `/api/*` with Access | 5 minutes |
-| Nice to have | Enable WAF | 2 minutes |
-| Nice to have | Bind to localhost | 2 minutes |
-| Nice to have | Set up backups | 30 minutes |
 
 ## Resources
 

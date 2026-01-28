@@ -1,5 +1,5 @@
 ---
-title: "Custom Web Analytics"
+title: "Custom Web Analytics: Piwik + R"
 description: "piwikr: an R package for analyzing pageviews."
 author: "Andrew Marder"
 publishDate: "2016-06-16"
