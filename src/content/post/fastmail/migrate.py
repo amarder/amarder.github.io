@@ -1,5 +1,9 @@
 import os
-from typing import Annotated, Optional
+from datetime import datetime
+from email import message_from_bytes
+from email.utils import parsedate_to_datetime
+from pathlib import Path
+from typing import Annotated
 
 import typer
 from dotenv import load_dotenv
@@ -13,6 +17,43 @@ app = typer.Typer()
 IMAP_SERVER = os.getenv("IMAP_SERVER", "imap.fastmail.com")
 IMAP_USER = os.getenv("IMAP_USER")
 IMAP_PASSWORD = os.getenv("IMAP_PASSWORD")
+
+# Progress tracking files
+UPLOADED_FILE = Path("uploaded.txt")
+FAILED_FILE = Path("failed.txt")
+
+
+def load_uploaded() -> set[str]:
+    """Load the set of already-uploaded filenames."""
+    if UPLOADED_FILE.exists():
+        return set(UPLOADED_FILE.read_text().splitlines())
+    return set()
+
+
+def append_to_file(filepath: Path, filename: str) -> None:
+    """Append a filename to a tracking file."""
+    with filepath.open("a") as f:
+        f.write(filename + "\n")
+
+
+def iter_eml_files(folder_path: str, uploaded: set[str]):
+    """Yield .eml filenames that haven't been uploaded yet."""
+    with os.scandir(folder_path) as entries:
+        for entry in entries:
+            if entry.is_file() and entry.name.endswith(".eml") and entry.name not in uploaded:
+                yield entry.name
+
+
+def parse_email_date(raw_msg: bytes) -> datetime | None:
+    """Extract the Date header from an email and return as datetime."""
+    msg = message_from_bytes(raw_msg)
+    date_str = msg.get("Date")
+    if date_str:
+        try:
+            return parsedate_to_datetime(date_str)
+        except (ValueError, TypeError):
+            return None
+    return None
 
 
 @app.command()
@@ -30,12 +71,9 @@ def upload_eml(
         typer.echo("Error: IMAP_USER must be set in .env file")
         raise typer.Exit(1)
 
-    # Get list of .eml files
-    eml_files = sorted(f for f in os.listdir(folder_path) if f.endswith(".eml"))
-
-    if not eml_files:
-        typer.echo("No .eml files found in the specified folder.")
-        raise typer.Exit(1)
+    # Load already-uploaded files to skip
+    uploaded = load_uploaded()
+    typer.echo(f"Loaded {len(uploaded)} already-uploaded emails, scanning for remaining...")
 
     with IMAPClient(IMAP_SERVER, ssl=True) as server:
         server.login(IMAP_USER, imap_password)
@@ -46,19 +84,35 @@ def upload_eml(
 
         server.select_folder(target_folder)
 
-        for filename in tqdm(eml_files, desc="Uploading emails"):
+        success_count = 0
+        fail_count = 0
+        skip_count = len(uploaded)
+
+        for filename in tqdm(iter_eml_files(folder_path, uploaded), desc="Uploading emails", unit="email"):
             path = os.path.join(folder_path, filename)
-            with open(path, "rb") as f:
-                raw_msg = f.read()
+            try:
+                with open(path, "rb") as f:
+                    raw_msg = f.read()
 
-            # Default flags; adjust if you parse JSON metadata
-            flags = []
+                # Parse the Date header to set the correct internal date
+                msg_time = parse_email_date(raw_msg)
 
-            server.append(
-                target_folder,
-                raw_msg,
-                flags=flags,
-            )
+                # Default flags; adjust if you parse JSON metadata
+                flags = []
+
+                server.append(
+                    target_folder,
+                    raw_msg,
+                    flags=flags,
+                    msg_time=msg_time,
+                )
+                append_to_file(UPLOADED_FILE, filename)
+                success_count += 1
+            except Exception as e:
+                append_to_file(FAILED_FILE, f"{filename}\t{e}")
+                fail_count += 1
+
+        typer.echo(f"\nDone! {success_count} uploaded, {fail_count} failed, {skip_count} previously uploaded.")
 
 
 if __name__ == "__main__":
