@@ -1,6 +1,7 @@
 ---
 title: "My App Defaults"
 publishDate: "2026-01-15"
+updatedDate: "2026-02-04"
 description: "The default apps I use at home."
 tags:
   - slashpages

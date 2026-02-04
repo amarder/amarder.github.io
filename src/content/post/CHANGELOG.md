@@ -1,7 +1,7 @@
 ---
 title: "Changelog"
 publishDate: "2025-12-18"
-updatedDate: "2026-01-27"
+updatedDate: "2026-02-04"
 description: "A log of changes to this blog"
 toc: false
 tags:
@@ -12,6 +12,7 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 
 ## 2026-02-04
 
+- **Added** [Fastmail](/fastmail) post
 - **Updated** [app defaults](/defaults) - replaced Proton Mail with Fastmail
 
 ## 2026-01-27
@@ -72,9 +73,8 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 
 ## Potential Upcoming Changes
 
-- **Updated** [Immich](/immich) post to improve portability
 - **Added** [listmonk security](/secure-self-hosting) post
-- **Added** [Fastmail](https://www.fastmail.com/) post
+- **Updated** [Immich](/immich) post to improve portability
 
 - **Added** [HackRF](https://greatscottgadgets.com/hackrf/) post
 - **Added** [death plan](https://www.pcmag.com/how-to/how-to-prepare-your-digital-life-accounts-for-your-death#) post
