@@ -1,6 +1,7 @@
 ---
 title: "My App Defaults"
 publishDate: "2026-01-15"
+updatedDate: "2026-02-04"
 description: "The default apps I use at home."
 tags:
   - slashpages
@@ -10,8 +11,8 @@ Here's a quick rundown of the default apps I currently use at home:
 
 | Category                 | Default                                                                            |
 |--------------------------|------------------------------------------------------------------------------------|
-| 📨 Mail Client           | [Proton Mail](https://proton.me/) web and mobile apps                              |
-| 📮 Mail Server           | Proton Mail with a custom domain                                                   |
+| 📨 Mail Client           | [Fastmail](https://www.fastmail.com/) web and mobile apps                          |
+| 📮 Mail Server           | Fastmail with custom domains                                                       |
 | 📝 Notes                 | [Obsidian](https://obsidian.md/)                                                   |
 | ✅ To-Do                 | [Obsidian Tasks](https://publish.obsidian.md/tasks/Introduction)                   |
 | 📷 Photo Shooting        | Android camera app                                                                 |
@@ -37,7 +38,6 @@ Here's a quick rundown of the default apps I currently use at home:
 
 I'm considering some changes to my defaults:
 
-- I'm thinking about moving from Proton Mail to [Fastmail](https://www.fastmail.com/).
 - I might set up a bookmarks manager like [linkding](https://linkding.link/).
 - I'm also considering [GrapheneOS](https://grapheneos.org/) for my phone, which could affect some of my defaults.
 
