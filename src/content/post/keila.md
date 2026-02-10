@@ -4,7 +4,7 @@ description: "A step-by-step guide to self-hosting Keila with Docker Compose and
 publishDate: 2026-02-10
 ---
 
-I want to self-host an email newsletter. This post gives instructions on how to set up [Keila](https://www.keila.io/) on a home server, exposing it to the internet with a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/). These instructions aim to be (1) easy to follow and (2) reasonably secure.
+I want to self-host an email newsletter. This post walks through setting up [Keila](https://www.keila.io/) on a home server and exposing it to the internet with a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/). These instructions aim to be (1) easy to follow and (2) reasonably secure.
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ I want to self-host an email newsletter. This post gives instructions on how to 
 
 Before setting up Keila, create a tunnel in Cloudflare's dashboard:
 
-1. Go to the [Cloudflare Zero Trust Dashboard](https://one.dash.cloudflare.com/)
+1. Go to [Cloudflare One](https://one.dash.cloudflare.com/)
 2. Navigate to **Networks** → **Connectors** → **Create a tunnel**
 3. Choose **Cloudflared** as the connector type
 4. Name your tunnel (e.g. `keila`)
@@ -27,9 +27,22 @@ Before setting up Keila, create a tunnel in Cloudflare's dashboard:
    - Service Type: `HTTP`
    - URL: `keila:4000`
 
-## 2. Create docker-compose.yml
+## 2. Secure with Cloudflare Access
 
-Create a project directory and add a `docker-compose.yml` file:
+Keila's admin interface should not be open to the public internet without an additional layer of authentication. [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/policies/access/) adds authentication *before* traffic reaches your server.
+
+1. In the [Cloudflare One Dashboard](https://one.dash.cloudflare.com/), go to **Access controls** → **Applications** → **Add an application** → **Self-hosted**
+2. Set the **Application domain** to your Keila subdomain
+3. Create a policy that allows only your email address (e.g. Email is `you@example.com`)
+4. Under **Path**, enter `/auth*` (this protects the login page so only you can authenticate with Keila)
+
+Add a second public hostname, setting **Path** to `/api*` to protect the API as well.
+
+Public-facing paths like `/unsubscribe/*`, `/campaigns/*`, and `/forms/*` should remain unprotected so newsletter links and signup forms continue to work.
+
+## 3. Create docker-compose.yml
+
+Create a project directory and move into it:
 
 ```bash
 mkdir keila && cd keila
@@ -51,7 +64,9 @@ echo "KEILA_USER=you@example.com" >> .env
 echo "KEILA_PASSWORD=$(head -c 24 /dev/urandom | base64)" >> .env
 ```
 
-NOTE: I like using `/dev/urandom | base64` to create random passwords but it can create passwords with unfortunate special characters. For instance, my first `POSTGRES_PASSWORD` had a `/` in it, which created problems when trying to setup the database. I regenerated the password to make sure it didn't contain a forward slash.
+:::warning{title=Warning}
+I like using `/dev/urandom | base64` to create random passwords, but it can create passwords with unfortunate special characters. For instance, my first `POSTGRES_PASSWORD` had a `/` in it, which created problems when trying to spin up the database. I regenerated the password to make sure it didn't contain a forward slash.
+:::
 
 Then create `docker-compose.yml`:
 
@@ -109,19 +124,19 @@ A few things to note:
 - **`URL_SCHEMA`** is set to `https` because Cloudflare handles TLS termination.
 - **Secrets live in `.env`**, not in the compose file. Add `.env` to your `.gitignore`.
 
-## 3. Start Keila
+## 4. Start Keila
 
 ```bash
 docker compose up -d
 ```
 
-On first launch, Keila creates a root user using the `KEILA_USER` and `KEILA_PASSWORD` values from your `.env` file. To retrieve your generated password:
+On first launch, Keila creates a root user using the `KEILA_USER` and `KEILA_PASSWORD` values from your `.env` file. To see your password:
 
 ```bash
 grep KEILA_PASSWORD .env
 ```
 
-## 4. Log In and Configure a Sender
+## 5. Log In and Configure a Sender
 
 1. Open `https://newsletter.yourdomain.com` in your browser
 2. Log in with the `KEILA_USER` and `KEILA_PASSWORD` credentials from above
@@ -130,22 +145,9 @@ grep KEILA_PASSWORD .env
 5. Configure your SMTP sender (Mailgun, SES, Postmark, etc.)
 6. Send a test email to verify it works (I had to create a new campaign and send a preview email)
 
-## 5. Secure with Cloudflare Access
-
-Keila's admin interface should not be open to the public internet without an additional layer of authentication. [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/policies/access/) adds authentication *before* traffic reaches your server.
-
-1. In the [Zero Trust Dashboard](https://one.dash.cloudflare.com/), go to **Access controls** → **Applications** → **Add an application** → **Self-hosted**
-2. Set the **Application domain** to your Keila subdomain
-3. Create a policy that allows only your email address (e.g. Email is `you@example.com`)
-4. Under **Path**, enter `/auth*` (this protects the login page so only you can authenticate with Keila)
-
-Add a second public hostname for `/api*` to protect the API as well.
-
-Public-facing paths like `/unsubscribe/*`, `/campaigns/*`, and `/forms/*` should remain unprotected so newsletter links and signup forms continue to work.
-
 ## 6. Keep It Updated
 
-I like using [dockcheck](https://github.com/mag37/dockcheck) to periodically pull the latest images. I should (but have not) set up a calendar reminder to do this monthly.
+I like using [dockcheck](https://github.com/mag37/dockcheck) to periodically pull the latest images. I should probably set up a calendar reminder to do this monthly, but I haven't yet.
 
 ## References
 
