@@ -1,7 +1,7 @@
 ---
 title: "Self-Hosting an Email Newsletter with Keila"
-description: "A step-by-step guide to self-hosting Keila with Docker Compose and Cloudflare Tunnel."
-publishDate: 2026-02-10
+description: "A step-by-step guide to self-hosting Keila with Docker Compose and a Cloudflare Tunnel."
+publishDate: "2026-02-10"
 ---
 
 I want to self-host an email newsletter. This post walks through setting up [Keila](https://www.keila.io/) on a home server and exposing it to the internet with a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/). These instructions aim to be (1) easy to follow and (2) reasonably secure.
