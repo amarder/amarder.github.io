@@ -9,6 +9,8 @@ tags:
 #   src: "robots.png"
 #   alt: ""
 ogImage: "/bluesky-robots/robots.png"
+posse:
+  - "[Reddit](https://www.reddit.com/r/dataisbeautiful/comments/1m1f7q1/oc_interactive_radial_tree_robots_on_bluesky/)"
 ---
 
 I was recently entertained by a form of chain letter on Bluesky. It all started with a post by Mithrilmist:

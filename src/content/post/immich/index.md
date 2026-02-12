@@ -6,6 +6,9 @@ updatedDate: "2025-12-01"
 draft: false
 tags:
   - tools
+posse:
+  - "[Reddit 2025-12-02](https://www.reddit.com/r/immich/comments/1pc8ad2/thanks_for_the_feedback_on_my_321_backup_strategy/)"
+  - "[Reddit 2025-11-28](https://www.reddit.com/r/immich/comments/1p8s103/feedback_on_my_321_backup_strategy/)"
 ---
 
 > Immich is a self-hosted photo and video management solution.

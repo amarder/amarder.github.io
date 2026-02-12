@@ -5,6 +5,8 @@ publishDate: "2025-07-03"
 updatedDate: "2025-09-21"
 tags:
   - tools
+posse:
+  - "[Hacker News](https://news.ycombinator.com/item?id=45073746)"
 ---
 
 This checklist will walk you (and me) through the settings and extensions I use to increase my privacy when using [Firefox](https://www.firefox.com/).

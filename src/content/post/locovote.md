@@ -2,6 +2,8 @@
 title: "Introducing Locovote: Making Municipal Data Accessible"
 description: "A new web app that makes Massachusetts municipal data easy to explore and compare"
 publishDate: 2025-06-14
+posse:
+  - "[Reddit](https://www.reddit.com/r/dataisbeautiful/comments/1m32p64/oc_boston_2024_the_flow_of_money_through_city/)"
 ---
 
 ## What is Locovote?
