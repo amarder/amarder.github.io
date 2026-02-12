@@ -2,6 +2,9 @@
 title: "Self-Hosting an Email Newsletter with Keila"
 description: "A step-by-step guide to self-hosting Keila with Docker Compose and a Cloudflare Tunnel."
 publishDate: "2026-02-10"
+updatedDate: "2026-02-12"
+posse:
+  - "[Reddit](https://www.reddit.com/r/selfhosted/comments/1r19yvo/selfhosting_securely_with_docker_compose_and/)"
 ---
 
 I want to self-host an email newsletter. This post walks through setting up [Keila](https://www.keila.io/) on a home server and exposing it to the internet with a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/). These instructions aim to be (1) easy to follow and (2) reasonably secure.
@@ -40,7 +43,7 @@ Add a second public hostname, setting **Path** to `/api*` to protect the API as 
 
 Public-facing paths like `/unsubscribe/*`, `/campaigns/*`, and `/forms/*` should remain unprotected so newsletter links and signup forms continue to work.
 
-## 3. Create docker-compose.yml
+## 3. Create docker-compose.yaml
 
 Create a project directory and move into it:
 
@@ -52,23 +55,23 @@ Create a `.env` file with your secrets:
 
 ```bash
 # Generate a secret key
-echo "SECRET_KEY_BASE=$(head -c 48 /dev/urandom | base64)" >> .env
+echo "SECRET_KEY_BASE=$(openssl rand -base64 48)" >> .env
 
 # Add your other secrets
-echo "POSTGRES_PASSWORD=$(head -c 24 /dev/urandom | base64)" >> .env
+echo "POSTGRES_PASSWORD=$(openssl rand -base64 24)" >> .env
 echo "TUNNEL_TOKEN=your-cloudflare-tunnel-token" >> .env
 echo "URL_HOST=newsletter.yourdomain.com" >> .env
 
 # User credentials to login to Keila
 echo "KEILA_USER=you@example.com" >> .env
-echo "KEILA_PASSWORD=$(head -c 24 /dev/urandom | base64)" >> .env
+echo "KEILA_PASSWORD=$(openssl rand -base64 24)" >> .env
 ```
 
 :::warning{title=Warning}
-I like using `/dev/urandom | base64` to create random passwords, but it can create passwords with unfortunate special characters. For instance, my first `POSTGRES_PASSWORD` had a `/` in it, which created problems when trying to spin up the database. I regenerated the password to make sure it didn't contain a forward slash.
+I like using `openssl rand -base64` to create random passwords, but it can create passwords with unfortunate special characters. For instance, my first `POSTGRES_PASSWORD` had a `/` in it, which created problems when trying to spin up the database. I regenerated the password to make sure it didn't contain a forward slash.
 :::
 
-Then create `docker-compose.yml`:
+Then create `docker-compose.yaml`:
 
 ```yaml
 services:
