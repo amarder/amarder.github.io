@@ -47,6 +47,7 @@ const post = defineCollection({
 					}
 					return new Date(str);
 				}),
+			posse: z.array(z.string()).optional(),
 		}),
 });
 
