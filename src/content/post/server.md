@@ -3,6 +3,9 @@ title: "Home Server"
 description: "Building a $1,000 home server focused on upgradability"
 publishDate: "2025-12-05"
 updatedDate: "2025-12-19"
+posse:
+  - "[Reddit 2025-12-10](https://www.reddit.com/r/buildapc/comments/1pji4ac/what_do_you_think_about_this_1000_home_server/)"
+  - "[Reddit 2025-12-05](https://www.reddit.com/r/buildapc/comments/1pevxd4/feedback_on_a_1000_home_server_build_list/)"
 ---
 
 I've been having fun going down a [self-hosting](https://selfh.st/) rabbit hole. My current server is a Beelink S12 Pro Mini PC; it's been excellent value for money (\$180 in September 2024). However, while migrating my photos from Google to Immich, it became clear I could benefit from a more powerful machine. I'd like to spend around \$1,000 to build a new home server. Here are my priorities:

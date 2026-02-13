@@ -42,11 +42,8 @@ export const menuLinks: { path: string; title: string }[] = [
 	},
 ];
 
-// Newsletter configuration for ListmonkSubscriptionForm component
-export const listmonkConfig = {
-	url: "https://newsletter.andrewmarder.net",
-	listId: "5ec3b9a1-32be-4920-8330-03ff6251efd2",
-};
+// Newsletter subscription form URL (Keila)
+export const keilaFormUrl = "https://keila.andrewmarder.net/forms/nfrm_BzLMaLXv";
 
 // https://expressive-code.com/reference/configuration/
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {

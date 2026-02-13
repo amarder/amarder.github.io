@@ -5,6 +5,8 @@ publishDate: "2025-11-16"
 draft: false
 tags:
   - tools
+posse:
+  - "[Reddit](https://www.reddit.com/r/degoogle/comments/1oyqt3b/notes_from_a_degoogling_newb/)"
 ---
 
 I've decided to start breaking up with Google. The prospect of big tech collaborating with an authoritarian US government freaks me out. So, I'm working on moving my data from Google to other providers that will better protect my privacy.

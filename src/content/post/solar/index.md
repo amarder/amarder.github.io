@@ -5,6 +5,9 @@ updatedDate: "2026-01-14"
 description: "A back-of-the-envelope calculator for comparing the financial returns of investing in solar panels versus the stock market."
 tags:
   - observable-plot
+posse:
+  - "[Reddit 2026-01-14](https://www.reddit.com/r/solar/comments/1qco9uw/feedback_on_a_solar_investment_calculator/)"
+  - "[Reddit 2026-01-09](https://www.reddit.com/r/solar/comments/1q8fosa/feedback_on_a_solar_investment_calculator/)"
 ---
 
 This calculator helps you decide whether to invest in solar panels. It addresses two questions:

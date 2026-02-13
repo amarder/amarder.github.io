@@ -5,6 +5,8 @@ publishDate: "2025-12-12"
 updatedDate: "2025-12-30"
 tags:
   - deprecated
+posse:
+  - "[Reddit](https://www.reddit.com/r/meshtastic/comments/1pl12u6/questions_from_an_ineffectual_meshtastic_user/)"
 ---
 
 :::warning{title=Deprecated}

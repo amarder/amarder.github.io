@@ -2,6 +2,8 @@
 title: "Goodbye Gmail, Hello Fastmail!"
 publishDate: "2026-02-04"
 description: "Why I switched from Gmail to Fastmail, and why Proton Mail didn't work for me."
+posse:
+  - "[Reddit](https://www.reddit.com/r/degoogle/comments/1qwq6gw/i_really_like_fastmail/)"
 ---
 
 If you're looking to leave Gmail, I think Fastmail is the best option for most people.[^1] This blurb from Fastmail captures why I left:

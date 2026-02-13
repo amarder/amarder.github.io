@@ -2,6 +2,8 @@
 title: A Review of Proton Products
 description: "My no-nonsense review of Proton"
 publishDate: "2025-12-15"
+posse:
+  - "[Reddit](https://www.reddit.com/r/degoogle/comments/1pn9h3e/my_experience_using_proton_products/)"
 ---
 
 ## VPN: A

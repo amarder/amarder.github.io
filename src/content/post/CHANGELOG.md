@@ -1,7 +1,7 @@
 ---
 title: "Changelog"
 publishDate: "2025-12-18"
-updatedDate: "2026-02-04"
+updatedDate: "2026-02-12"
 description: "A log of changes to this blog"
 toc: false
 tags:
@@ -9,6 +9,16 @@ tags:
 ---
 
 Starting 2025-12-18, all notable changes to this blog will be documented in this file. I like to keep posts up to date. As I learn new things, I update old posts. I'll record those changes here so you can see how posts have evolved over time. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## 2026-02-12
+
+- **Switched** newsletter from listmonk to Keila
+- **Removed** giscus comments section
+- **Added** links for external comments
+
+## 2026-02-10
+
+- **Added** [Keila](/keila) post
 
 ## 2026-02-04
 
