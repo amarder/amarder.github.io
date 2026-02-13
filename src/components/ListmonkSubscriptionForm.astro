@@ -28,7 +28,7 @@ const {
 			<button type="submit" class="keila-submit">Subscribe</button>
 		</div>
 		<!-- Honeypot field to prevent spam -->
-		<input aria-hidden="true" autocomplete="off" name="h[url]" novalidate style="display: none" />
+		<input aria-hidden="true" autocomplete="off" name="h[url]" style="display: none" />
 		<div class="keila-message" role="alert" aria-live="polite"></div>
 	</form>
 </div>
@@ -143,7 +143,6 @@ const {
 
 			const submitButton = formElement.querySelector('.keila-submit') as HTMLButtonElement;
 			const messageDiv = formElement.querySelector('.keila-message') as HTMLDivElement;
-			const emailInput = formElement.querySelector('.keila-input') as HTMLInputElement;
 
 			formElement.addEventListener('submit', async (e) => {
 				e.preventDefault();
