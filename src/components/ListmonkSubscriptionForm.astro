@@ -1,44 +1,45 @@
 ---
-import { listmonkConfig } from "@/site.config";
+import { keilaFormUrl } from "@/site.config";
 
 interface Props {
-	listmonkUrl?: string;
-	listId?: string;
+	formUrl?: string;
 }
 
-const { 
-	listmonkUrl = listmonkConfig.url, 
-	listId = listmonkConfig.listId, 
+const {
+	formUrl = keilaFormUrl,
 } = Astro.props;
 ---
 
-<div class="listmonk-subscription-form">
-	<form 
-		class="listmonk-form" 
-		data-listmonk-url={listmonkUrl} 
-		data-list-id={listId}
+<div class="keila-subscription-form">
+	<form
+		action={formUrl}
+		method="post"
+		class="keila-form"
 	>
 		<div class="form-field email-submit-row">
 			<input
 				type="email"
-				name="email"
+				id="contact_email"
+				name="contact[email]"
 				required
 				placeholder="Type your email..."
-				class="listmonk-input"
+				class="keila-input"
 			/>
-			<button type="submit" class="listmonk-submit">Subscribe</button>
+			<button type="submit" class="keila-submit">Subscribe</button>
 		</div>
-		<div class="listmonk-message" role="alert" aria-live="polite"></div>
+		<!-- Honeypot field to prevent spam -->
+		<input aria-hidden="true" autocomplete="off" name="h[url]" novalidate style="display: none" />
+		<div class="keila-message" role="alert" aria-live="polite"></div>
 	</form>
 </div>
 
 <style>
-	.listmonk-subscription-form {
+	.keila-subscription-form {
 		max-width: 400px;
 		margin: 2rem auto;
 	}
 
-	.listmonk-form {
+	.keila-form {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
@@ -54,15 +55,15 @@ const {
 		gap: 0;
 	}
 
-	.email-submit-row .listmonk-input {
+	.email-submit-row .keila-input {
 		border-radius: 8px 0 0 8px;
 	}
 
-	.email-submit-row .listmonk-submit {
+	.email-submit-row .keila-submit {
 		border-radius: 0 8px 8px 0;
 	}
 
-	.listmonk-input {
+	.keila-input {
 		flex: 1;
 		padding: 0.75rem;
 		border: 1px solid #6b7280;
@@ -73,11 +74,11 @@ const {
 		color: var(--theme-text, #000);
 	}
 
-	.listmonk-input:focus {
+	.keila-input:focus {
 		outline: none;
 	}
 
-	.listmonk-submit {
+	.keila-submit {
 		padding: 0.75rem 1.5rem;
 		background: #6b7280;
 		color: white;
@@ -91,40 +92,40 @@ const {
 		flex-shrink: 0;
 	}
 
-	.listmonk-submit:disabled {
+	.keila-submit:disabled {
 		opacity: 0.6;
 		cursor: not-allowed;
 	}
 
-	.listmonk-message {
+	.keila-message {
 		padding: 0.75rem;
 		border-radius: 8px;
 		font-size: inherit;
 		display: none;
 	}
 
-	.listmonk-message.show {
+	.keila-message.show {
 		display: block;
 	}
 
-	.listmonk-message.success {
+	.keila-message.success {
 		background: #d4edda;
 		color: #155724;
 		border: 1px solid #c3e6cb;
 	}
 
-	.listmonk-message.error {
+	.keila-message.error {
 		background: #f8d7da;
 		color: #721c24;
 		border: 1px solid #f5c6cb;
 	}
 
-	.listmonk-message.error a {
+	.keila-message.error a {
 		color: #721c24;
 		font-weight: 600;
 	}
 
-	.listmonk-message.loading {
+	.keila-message.loading {
 		background: #d1ecf1;
 		color: #0c5460;
 		border: 1px solid #bee5eb;
@@ -132,51 +133,45 @@ const {
 </style>
 
 <script>
-	function initListmonkForms() {
-		const forms = document.querySelectorAll('.listmonk-form');
-		
+	function initKeilaForms() {
+		const forms = document.querySelectorAll('.keila-form');
+
 		forms.forEach((form) => {
 			const formElement = form as HTMLFormElement;
-			if (formElement.dataset.listmonkInitialized) return;
-			formElement.dataset.listmonkInitialized = 'true';
+			if (formElement.dataset.keilaInitialized) return;
+			formElement.dataset.keilaInitialized = 'true';
 
-			const submitButton = formElement.querySelector('.listmonk-submit') as HTMLButtonElement;
-			const messageDiv = formElement.querySelector('.listmonk-message') as HTMLDivElement;
-			const emailInput = formElement.querySelector('.listmonk-input') as HTMLInputElement;
-			const listmonkUrl = formElement.dataset.listmonkUrl;
-			const listId = formElement.dataset.listId;
-			
+			const submitButton = formElement.querySelector('.keila-submit') as HTMLButtonElement;
+			const messageDiv = formElement.querySelector('.keila-message') as HTMLDivElement;
+			const emailInput = formElement.querySelector('.keila-input') as HTMLInputElement;
+
 			formElement.addEventListener('submit', async (e) => {
 				e.preventDefault();
-				
+
 				// Show loading state
 				submitButton.disabled = true;
 				messageDiv.textContent = 'Subscribing...';
-				messageDiv.className = 'listmonk-message show loading';
-				
+				messageDiv.className = 'keila-message show loading';
+
 				try {
-					const response = await fetch(`${listmonkUrl}/subscription/form`, {
+					const response = await fetch(formElement.action, {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/x-www-form-urlencoded',
 						},
-						body: new URLSearchParams({
-							email: emailInput.value,
-							l: listId || '',
-							nonce: '',
-						}),
+						body: new URLSearchParams(new FormData(formElement) as any),
 					});
 
 					if (response.ok) {
 						messageDiv.textContent = 'Success! Your email address has been subscribed.';
-						messageDiv.className = 'listmonk-message show success';
+						messageDiv.className = 'keila-message show success';
 						formElement.reset();
 					} else {
 						throw new Error(`Server responded with ${response.status}`);
 					}
 				} catch (error) {
 					messageDiv.innerHTML = 'Sorry, something went wrong. Please email <a href="mailto:support@andrewmarder.net">support@andrewmarder.net</a> to subscribe.';
-					messageDiv.className = 'listmonk-message show error';
+					messageDiv.className = 'keila-message show error';
 				} finally {
 					submitButton.disabled = false;
 				}
@@ -185,8 +180,8 @@ const {
 	}
 
 	// Initialize on page load
-	initListmonkForms();
+	initKeilaForms();
 
 	// Re-initialize after navigation in SPA-style apps
-	document.addEventListener('astro:page-load', initListmonkForms);
+	document.addEventListener('astro:page-load', initKeilaForms);
 </script>
