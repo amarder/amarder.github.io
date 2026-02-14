@@ -10,6 +10,10 @@ tags:
 
 Starting 2025-12-18, all notable changes to this blog will be documented in this file. I like to keep posts up to date. As I learn new things, I update old posts. I'll record those changes here so you can see how posts have evolved over time. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-02-14
+
+- **Added** [Immich portability](/immich/portability) post
+
 ## 2026-02-12
 
 - **Switched** newsletter from listmonk to Keila
@@ -83,7 +87,6 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 
 ## Potential Upcoming Changes
 
-- **Added** [listmonk security](/secure-self-hosting) post
 - **Updated** [Immich](/immich) post to improve portability
 
 - **Added** [HackRF](https://greatscottgadgets.com/hackrf/) post
@@ -94,7 +97,6 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 - **Added** [Cursor](https://cursor.com/) post
 - **Updated** [AI](/ai) post to reflect my current practice
 - **Updated** [Firefox](/firefox) post to address new AI features
-- **Updated** [newsletter](/newsletter) post to use [Keila](https://github.com/pentacent/keila/) or [Notifuse](https://www.notifuse.com/)
 - **Updated** [questions](/questions) post
 - **Added** `/about` page
 - **Added** `/colophon` page
