@@ -43,7 +43,7 @@ Immich automatically writes to XMP sidecars whenever you edit the following fiel
 4. Location
 5. Tags
 
-After editing any of these in the Immich UI, a Sidecar Write job is queued and the `.xmp` file next to your photo is updated. No extra configuration needed.
+After editing any of these in the Immich UI, a Sidecar Write job is queued, and the `.xmp` file next to your photo is updated. No extra configuration needed.
 
 ## Tags Over Albums
 
@@ -59,7 +59,7 @@ Tags in Immich are hierarchical, so you can create structures like:
 
 This gives you album-like organization that's portable. Other tools that read XMP sidecars (digiKam, Lightroom, etc.) will pick up these tags automatically.
 
-Albums are still important for sharing, but for my primary organizational structure, I'm using tags.
+Albums are still important for sharing, but for my primary organizational structure, I use tags.
 
 ## Summary
 
@@ -75,6 +75,6 @@ The core idea is simple: anything stored only in Immich's database is at risk if
 
 Useful pages from the Immich docs:
 
-- [Storage Template](https://immich.app/docs/administration/storage-template/)
-- [XMP Sidecars](https://docs.immich.app/features/xmp-sidecars/)
-- [Tags](https://docs.immich.app/features/tags/)
+- [Storage Template](https://docs.immich.app/administration/storage-template)
+- [XMP Sidecars](https://docs.immich.app/features/xmp-sidecars)
+- [Tags](https://docs.immich.app/features/tags)
