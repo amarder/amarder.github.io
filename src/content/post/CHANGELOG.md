@@ -15,6 +15,7 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 - **Added** [/contact](/contact) page
 - **Added** [/subscribe](/subscribe) page
 - **Added** [/colophon](/colophon) page
+- **Added** [/slashes](/slashes) page
 
 ## 2026-02-14
 
