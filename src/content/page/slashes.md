@@ -9,6 +9,10 @@ This is an index of my site's [slash pages](https://slashpages.net/):
     
     a page on your website that describes how you use, or don't use, AI
 
+-   [/blogroll](/blogroll)
+
+    a list of other sites that you read, are a follower of, or recommend
+
 -   [/changelog](/changelog)
 
     a summary of changes to your website
