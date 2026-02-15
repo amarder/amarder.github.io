@@ -4,6 +4,8 @@ description: "How to set up Immich so migrating to another tool in the future wi
 publishDate: "2026-02-14"
 tags:
   - tools
+posse:
+  - "[Reddit](https://www.reddit.com/r/immich/comments/1r4j9fr/photo_portability/)"
 ---
 
 I really appreciate this approach from Obsidian:
