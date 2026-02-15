@@ -1,7 +1,7 @@
 ---
 title: "Changelog"
 publishDate: "2025-12-18"
-updatedDate: "2026-02-12"
+updatedDate: "2026-02-14"
 description: "A log of changes to this blog"
 toc: false
 tags:
@@ -9,6 +9,10 @@ tags:
 ---
 
 Starting 2025-12-18, all notable changes to this blog will be documented in this file. I like to keep posts up to date. As I learn new things, I update old posts. I'll record those changes here so you can see how posts have evolved over time. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## 2026-02-15
+
+- **Added** [/contact](/contact) page
 
 ## 2026-02-14
 
@@ -87,8 +91,7 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 
 ## Potential Upcoming Changes
 
-- **Updated** [Immich](/immich) post to improve portability
-
+- **Added** People I Admire post
 - **Added** [HackRF](https://greatscottgadgets.com/hackrf/) post
 - **Added** [death plan](https://www.pcmag.com/how-to/how-to-prepare-your-digital-life-accounts-for-your-death#) post
 - **Added** [Beelink](https://www.amazon.com/stores/Beelink/page/E76F7A4A-070E-428C-9129-832B18C1493F) post
@@ -100,7 +103,6 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 - **Updated** [questions](/questions) post
 - **Added** `/about` page
 - **Added** `/colophon` page
-- **Added** `/contact` page
 - **Added** `/follow`, `/subscribe`, `/feeds` pages
 - **Added** `/blogroll` page
 - **Added** `/self-hosting` page
