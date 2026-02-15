@@ -12,8 +12,9 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 
 ## 2026-02-15
 
-- **Added** [/subscribe](/subscribe) page
 - **Added** [/contact](/contact) page
+- **Added** [/subscribe](/subscribe) page
+- **Added** [/colophon](/colophon) page
 
 ## 2026-02-14
 
@@ -103,7 +104,6 @@ Starting 2025-12-18, all notable changes to this blog will be documented in this
 - **Updated** [Firefox](/firefox) post to address new AI features
 - **Updated** [questions](/questions) post
 - **Added** `/about` page
-- **Added** `/colophon` page
 - **Added** `/blogroll` page
 - **Added** `/self-hosting` page
 - **Added** `/verify` page
