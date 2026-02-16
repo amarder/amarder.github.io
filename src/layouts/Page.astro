@@ -1,0 +1,37 @@
+---
+import { type CollectionEntry, render } from "astro:content";
+
+import TOC from "@/components/blog/TOC.astro";
+import BaseLayout from "./Base.astro";
+
+interface Props {
+	page: CollectionEntry<"page">;
+}
+
+const { page } = Astro.props;
+const { title, description, toc } = page.data;
+const { headings } = await render(page);
+---
+
+<BaseLayout
+	meta={{
+		description,
+		title,
+	}}
+>
+	<article class="grow break-words" data-pagefind-body>
+		<div id="blog-hero" class="mb-12">
+			<h1 class="title">{title}</h1>
+			{toc && !!headings.length && (
+				<div class="mt-2">
+					<TOC headings={headings} />
+				</div>
+			)}
+		</div>
+		<div
+			class="prose prose-sm max-w-none prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-gray-600 prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none"
+		>
+			<slot />
+		</div>
+	</article>
+</BaseLayout>

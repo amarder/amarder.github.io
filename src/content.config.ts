@@ -90,4 +90,13 @@ const slides = defineCollection({
 	}),
 });
 
-export const collections = { post, note, tag, slides };
+const page = defineCollection({
+	loader: glob({ base: "./src/content/page", pattern: "**/*.{md,mdx}" }),
+	schema: baseSchema.extend({
+		description: z.string().default(""),
+		draft: z.boolean().default(false),
+		toc: z.boolean().default(true),
+	}),
+});
+
+export const collections = { post, note, tag, slides, page };

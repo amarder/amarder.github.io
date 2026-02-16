@@ -17,10 +17,10 @@ Here's a quick rundown of the default apps I currently use at home:
 | ✅ To-Do                 | [Obsidian Tasks](https://publish.obsidian.md/tasks/Introduction)                   |
 | 📷 Photo Shooting        | Android camera app                                                                 |
 | 🟦 Photo Management      | [Immich](https://immich.app/)                                                      |
-| 📆 Calendar              | Google Calendar                                                                    |
+| 📆 Calendar              | Fastmail Calendar                                                                  |
 | 📁 Cloud File Storage    | Dropbox, [B2](https://www.backblaze.com/cloud-storage)                             |
 | 📖 RSS                   | [Miniflux](https://miniflux.app/)                                                  |
-| 🙍🏻‍♂️ Contacts              | Google Contacts                                                                    |
+| 🙍🏻‍♂️ Contacts              | Fastmail Contacts                                                                  |
 | 🌐 Browser               | Firefox                                                                            |
 | 💬 Chat                  | Android Messages, [Signal](https://signal.org/)                                    |
 | 🔖 Bookmarks             | None at the moment                                                                 |

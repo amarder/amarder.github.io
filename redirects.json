@@ -17,9 +17,10 @@
   "/posts/ssh-key-bindings/": "/ssh-key-bindings/",
   "/posts/stata-tutorial/": "/stata-tutorial/",
   "/posts/whispy/": "/whispy/",
-  "/slashes/": "/tags/slashpages/",
   "/stata-clustered-standard-errors/": "/clustered-standard-errors/",
   "/plausible/": "/analytics/plausible/",
   "/piwikr/": "/analytics/piwikr/",
-  "/piwik/": "/analytics/piwik/"
+  "/piwik/": "/analytics/piwik/",
+  "/follow/": "/subscribe/",
+  "/feeds/": "/subscribe/"
 }
