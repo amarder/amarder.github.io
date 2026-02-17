@@ -9,7 +9,7 @@ import ReadFile from "@/components/ReadFile.astro";
 This post contains extreme yak shaving. Proceed with caution.
 :::
 
-I want to run a few self-hosted services as cheaply as possible. [Hetzner Cloud](https://www.hetzner.com/cloud/)'s smallest instance with IPv4 costs about $4.10/month. Combined with [hetzner-k3s](https://github.com/vitobotta/hetzner-k3s) for cluster management, [Helmfile](https://helmfile.readthedocs.io/) for declarative deployments, and k3s's built-in local storage, this is a remarkably cheap way to run production services. This post walks through setting up a single-node k3s cluster, deploying [Keila](https://www.keila.io/) (email newsletter) with automated backups, and securing everything with a wildcard TLS certificate from [Let's Encrypt](https://letsencrypt.org/).
+I want to run a few self-hosted services as cheaply as possible. [Hetzner Cloud](https://www.hetzner.com/cloud/)'s smallest instance with IPv4 costs about $4.10/month. Combined with [hetzner-k3s](https://github.com/vitobotta/hetzner-k3s) for cluster management, [Helmfile](https://helmfile.readthedocs.io/) for declarative deployments, and k3s's built-in local storage, this is a remarkably cheap way to run production services. This post walks through setting up a single-node k3s cluster, deploying [Keila](https://www.keila.io/) (an email newsletter tool), and securing everything with a wildcard TLS certificate from [Let's Encrypt](https://letsencrypt.org/).
 
 ## Prerequisites
 
@@ -39,7 +39,7 @@ A few things to note:
 
 - **IPv4 included.** You could save $0.60/month by going IPv6-only (`public_network.ipv4: false`), but IPv4 means you can SSH in from any network, all visitors can reach your services regardless of their ISP, and you don't have to troubleshoot IPv6 connectivity issues. It's €6/year well spent.
 - **`schedule_workloads_on_masters: true`** is required for a single-node cluster so pods can run on the master node.
-- **CSI driver disabled.** We're using k3s's built-in [local-path-provisioner](https://github.com/rancher/local-path-provisioner) instead of Hetzner block storage. Data is stored directly on the node's disk at `/var/lib/rancher/k3s/storage/`. This saves money but means data is lost if the node's disk fails — set up backups.
+- **CSI driver disabled.** We're using k3s's built-in [local-path-provisioner](https://github.com/rancher/local-path-provisioner) instead of Hetzner block storage. Data is stored directly on the node's disk at `/var/lib/rancher/k3s/storage/`. This saves money but means data is lost if the node's disk fails.
 - **Traefik and ServiceLB enabled.** Traefik handles ingress routing; ServiceLB exposes ports 80 and 443 on the node.
 - **Firewall.** Hetzner's Cloud Firewall allows only SSH, HTTP, HTTPS, and the Kubernetes API. Everything else is blocked.
 
@@ -105,12 +105,10 @@ We use [Helmfile](https://helmfile.readthedocs.io/) to manage all cluster servic
 │   │       ├── cloudflare-secret.yaml
 │   │       ├── cluster-issuer.yaml
 │   │       └── wildcard-certificate.yaml
-│   └── keila/                 # Keila app + Postgres + backup CronJob
+│   └── keila/                 # Keila app + Postgres
 │       ├── Chart.yaml
 │       ├── values.yaml
 │       └── templates/
-│           ├── backup-cronjob.yaml
-│           ├── backup-secrets.yaml
 │           ├── ingress.yaml
 │           ├── keila-deployment.yaml
 │           ├── keila-secrets.yaml
@@ -223,16 +221,6 @@ creation_rules:
 3. Under **Zone Resources**, select your domain
 4. Click **Continue to summary** → **Create Token**
 
-### Set Up Backblaze B2
-
-Local storage means data lives on a single disk. [Restic](https://restic.net/) with [Backblaze B2](https://www.backblaze.com/cloud-storage) gives us encrypted, deduplicated, off-site backups for next to nothing ($0.006/GB-month — orders of magnitude cheaper than Hetzner block storage). The backup CronJob is built into the Keila chart and backs up both the PostgreSQL database and the uploads directory.
-
-1. Sign up at [backblaze.com](https://www.backblaze.com/) and enable **B2 Cloud Storage**
-2. Create a **private** bucket (e.g. `your-k3s-backups`)
-3. Go to **Application Keys** → **Add a New Application Key**
-4. Restrict it to your bucket with **Read and Write** access
-5. Save the **keyID** and **applicationKey**
-
 ### Fill in and encrypt the secrets files
 
 Edit `secrets/hetzner.yaml` with your Hetzner API token:
@@ -248,7 +236,7 @@ cloudflare:
   apiToken: <your-cloudflare-api-token>
 ```
 
-Edit `secrets/keila.yaml` with generated passwords and your B2 credentials:
+Edit `secrets/keila.yaml` with generated passwords:
 
 ```yaml
 secrets:
@@ -256,10 +244,6 @@ secrets:
   secretKeyBase: <generate-with-openssl-rand>
   keilaUser: you@example.com
   keilaPassword: <generate-with-openssl-rand>
-  resticRepository: "b2:your-k3s-backups:keila"
-  resticPassword: <generate-with-openssl-rand>
-  b2AccountId: <your-b2-key-id>
-  b2AccountKey: <your-b2-application-key>
 ```
 
 You can generate random passwords with:
@@ -284,7 +268,7 @@ sops secrets/keila.yaml
 
 ## 6. Deploy Everything
 
-A single command installs cert-manager, the wildcard TLS certificate, and Keila with its backup CronJob. Helmfile decrypts the secrets files on the fly via helm-secrets:
+A single command installs cert-manager, the wildcard TLS certificate, and Keila. Helmfile decrypts the secrets files on the fly via helm-secrets:
 
 ```bash
 helmfile apply
@@ -309,39 +293,6 @@ kubectl get ingress -n keila
 ```
 
 Open `https://keila.k3s.andrewmarder.net` in your browser and log in with the credentials from your secret. Configure an SMTP sender under **Senders** → **Create** to start sending emails.
-
-### Test the Backup
-
-Trigger a manual run and verify:
-
-```bash
-kubectl create job --from=cronjob/backup -n keila backup-test
-
-kubectl logs -n keila job/backup-test -c pg-dump --follow
-kubectl logs -n keila job/backup-test -c restic --follow
-
-kubectl delete job -n keila backup-test
-```
-
-The CronJob runs nightly at 2 AM. The init container dumps PostgreSQL, then the main container encrypts and uploads both the database dump and the uploads directory to B2 via restic. The `forget` command prunes old snapshots — keeping 7 daily, 4 weekly, and 6 monthly backups.
-
-### Restore
-
-```bash
-# List available snapshots (run from a machine with restic installed)
-export RESTIC_REPOSITORY="b2:your-k3s-backups:keila"
-export RESTIC_PASSWORD="your-restic-password"
-export B2_ACCOUNT_ID="your-b2-key-id"
-export B2_ACCOUNT_KEY="your-b2-application-key"
-restic snapshots
-
-# Restore the latest snapshot
-restic restore latest --target /tmp/restore
-
-# Load the database dump into PostgreSQL
-gunzip -c /tmp/restore/backup/keila.sql.gz \
-  | kubectl exec -i -n keila deploy/postgres -- psql -U keila keila
-```
 
 ## 8. Security
 
@@ -397,7 +348,6 @@ Any time you modify `helmfile.yaml`, chart templates, or values files, run `helm
 | CX23 (2 vCPU, 4 GB RAM, 40 GB disk) | $3.50 |
 | Primary IPv4 address | $0.60 |
 | Local storage (instead of block storage) | €0 |
-| Backblaze B2 backups (first 10 GB free) | ~$0 |
 | Let's Encrypt certificates | Free |
 | **Total** | **$4.10/month** |
 
@@ -440,7 +390,7 @@ sops -e -i secrets/my-new-service.yaml
 helmfile apply
 ```
 
-Every service chart should include an Ingress referencing the shared `wildcard-tls` secret, and optionally a backup CronJob following the same restic + B2 pattern.
+Every service chart should include an Ingress referencing the shared `wildcard-tls` secret.
 
 ## References
 
@@ -453,6 +403,4 @@ Every service chart should include an Ingress referencing the shared `wildcard-t
 - [cert-manager Cloudflare DNS-01 Docs](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/)
 - [k3s Local Path Provisioner](https://github.com/rancher/local-path-provisioner)
 - [Keila Configuration Docs](https://www.keila.io/docs/configuration)
-- [Restic Documentation](https://restic.readthedocs.io/)
-- [Backblaze B2 + Restic Guide](https://www.backblaze.com/docs/cloud-storage-integrate-restic-with-backblaze-b2)
 - [Hetzner Cloud Pricing](https://www.hetzner.com/cloud/)
