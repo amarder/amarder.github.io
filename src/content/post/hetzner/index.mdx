@@ -17,7 +17,7 @@ I want to run a few self-hosted services as cheaply as possible. [Hetzner Cloud]
 - A domain managed by [Cloudflare](https://www.cloudflare.com/)
 - An SSH key pair (`~/.ssh/id_ed25519`)
 - [hetzner-k3s](https://github.com/vitobotta/hetzner-k3s#installation) installed
-- [kubectl](https://kubernetes.io/docs/tasks/tools/), [helm](https://helm.sh/docs/intro/install/), [helmfile](https://helmfile.readthedocs.io/en/latest/#installation), and the [helm-secrets](https://github.com/jkroepke/helm-secrets) plugin installed
+- [kubectl](https://kubernetes.io/docs/tasks/tools/), [helm](https://helm.sh/docs/intro/install/), [helmfile](https://helmfile.readthedocs.io/en/latest/#installation), and the [helm-secrets](https://github.com/jkroepke/helm-secrets) and [helm-diff](https://github.com/databus23/helm-diff) plugins installed
 - [sops](https://github.com/getsops/sops) and [age](https://github.com/FiloSottile/age) installed (for encrypting secrets)
 - An SMTP provider for sending emails (e.g. [Mailgun](https://www.mailgun.com/), [Amazon SES](https://aws.amazon.com/ses/), [Postmark](https://postmarkapp.com/))
 
@@ -182,10 +182,11 @@ A few things to note:
 
 All secrets are stored encrypted in the `secrets/` directory using [SOPS](https://github.com/getsops/sops) with [age](https://github.com/FiloSottile/age) encryption. This means secrets live in git alongside your charts — encrypted at rest, decrypted on the fly during `helmfile apply`.
 
-### Install helm-secrets
+### Install Helm plugins
 
 ```bash
-helm plugin install https://github.com/jkroepke/helm-secrets
+helm plugin install --verify=false https://github.com/jkroepke/helm-secrets
+helm plugin install --verify=false https://github.com/databus23/helm-diff
 ```
 
 ### Generate an age key
@@ -236,7 +237,7 @@ cloudflare:
   apiToken: <your-cloudflare-api-token>
 ```
 
-Edit `secrets/keila.yaml` with generated passwords:
+Edit `secrets/keila.yaml` with generated passwords and your SMTP credentials:
 
 ```yaml
 secrets:
@@ -244,12 +245,22 @@ secrets:
   secretKeyBase: <generate-with-openssl-rand>
   keilaUser: you@example.com
   keilaPassword: <generate-with-openssl-rand>
+  mailerSmtpHost: <your-smtp-host>
+  mailerSmtpPort: "587"
+  mailerSmtpUser: <your-smtp-username>
+  mailerSmtpPassword: <your-smtp-password>
 ```
 
 You can generate random passwords with:
 
 ```bash
 openssl rand -base64 24 | tr -d '/+='
+```
+
+Use a longer value for `secretKeyBase` — Keila requires at least 64 bytes:
+
+```bash
+openssl rand -base64 64 | tr -d '/+='
 ```
 
 Encrypt all secrets files in place:
@@ -292,7 +303,7 @@ kubectl get certificate -n cert-manager
 kubectl get ingress -n keila
 ```
 
-Open `https://keila.k3s.andrewmarder.net` in your browser and log in with the credentials from your secret. Configure an SMTP sender under **Senders** → **Create** to start sending emails.
+Open `https://keila.k3s.andrewmarder.net` in your browser and log in with the credentials from your secret. SMTP is configured at deploy time via `secrets/keila.yaml`, so you can create a sender under **Senders** → **Create** right away.
 
 ## 8. Security
 
