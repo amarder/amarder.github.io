@@ -9,23 +9,62 @@ import ReadFile from "@/components/ReadFile.astro";
 This post contains extreme yak shaving. Proceed with caution.
 :::
 
-I want to run a few self-hosted services as cheaply as possible. [Hetzner Cloud](https://www.hetzner.com/cloud/)'s smallest instance with IPv4 costs about $4.10/month. Combined with [hetzner-k3s](https://github.com/vitobotta/hetzner-k3s) for cluster management, [Helmfile](https://helmfile.readthedocs.io/) for declarative deployments, and k3s's built-in local storage, this is a remarkably cheap way to run production services. This post walks through setting up a single-node k3s cluster, deploying [Keila](https://www.keila.io/) (an email newsletter tool), and securing everything with a wildcard TLS certificate from [Let's Encrypt](https://letsencrypt.org/).
+Why did I do this!?
+
+1. I've been self-hosting an email newsletter from home. With power outages, internet outages, home server outages, the server downtime was going to be a bit much for my taste. I wanted to deploy to the cloud for better uptime.
+
+2. I'm cheap. I had spun up a two node Kubernetes cluster on DigitalOcean and that was costing about $20 a month. It didn't feel like I was getting much for my money.
+
+3. I like declarative deployments.
+
+When I learned I could run Kubernetes for $4.10 a month on Hetzner, I decided it checked all my boxes.
+
+- Better uptime (compared to my homeserver) ✔️
+- Cheap ✔️
+- Declarative deployments ✔️
+
+So, I decided to go down a rabbit hole and deploy Keila with Kubernetes on Hetzner. This post will walk through the key things I learned in the process. If you have any suggestions on how I can improve this setup, I'm all ears! I plan to add additional services like [Uptime Kuma](https://github.com/louislam/uptime-kuma) to my "cluster".
 
 ## Prerequisites
+
+Here's a quick list of everything I needed to set up:
 
 - A [Hetzner Cloud](https://www.hetzner.com/cloud/) account
 - A domain managed by [Cloudflare](https://www.cloudflare.com/)
 - An SSH key pair (`~/.ssh/id_ed25519`)
-- [hetzner-k3s](https://github.com/vitobotta/hetzner-k3s#installation) installed
-- [kubectl](https://kubernetes.io/docs/tasks/tools/), [helm](https://helm.sh/docs/intro/install/), [helmfile](https://helmfile.readthedocs.io/en/latest/#installation), and the [helm-secrets](https://github.com/jkroepke/helm-secrets) and [helm-diff](https://github.com/databus23/helm-diff) plugins installed
-- [sops](https://github.com/getsops/sops) and [age](https://github.com/FiloSottile/age) installed (for encrypting secrets)
+- [hetzner-k3s](https://github.com/vitobotta/hetzner-k3s?tab=readme-ov-file#quick-start) installed
+- [kubectl](https://kubernetes.io/docs/tasks/tools/), [helm](https://helm.sh/docs/intro/install/), [helmfile](https://helmfile.readthedocs.io/en/latest/#installation), and the [helm-secrets](https://github.com/jkroepke/helm-secrets/wiki/Installation) and [helm-diff](https://github.com/databus23/helm-diff?tab=readme-ov-file#install) plugins installed
+- [sops](https://github.com/getsops/sops/releases) and [age](https://github.com/FiloSottile/age?tab=readme-ov-file#installation) installed (for encrypting secrets)
 - An SMTP provider for sending emails (e.g. [Mailgun](https://www.mailgun.com/), [Amazon SES](https://aws.amazon.com/ses/), [Postmark](https://postmarkapp.com/))
+
+For fellow macOS users, here are the commands I used to install these tools:
+
+```bash
+brew install vitobotta/tap/hetzner_k3s
+brew install kubectl
+brew install helm
+brew install helmfile
+export PATH="$PATH:/opt/homebrew/bin"
+
+# helm-secrets has 3 components
+helm plugin install https://github.com/jkroepke/helm-secrets/releases/download/v4.7.5/secrets-4.7.5.tgz --verify=false
+helm plugin install https://github.com/jkroepke/helm-secrets/releases/download/v4.7.5/secrets-getter-4.7.5.tgz --verify=false
+helm plugin install https://github.com/jkroepke/helm-secrets/releases/download/v4.7.5/secrets-post-renderer-4.7.5.tgz --verify=false
+
+helm plugin install https://github.com/databus23/helm-diff --verify=false
+
+curl -L -o sops https://github.com/getsops/sops/releases/download/v3.11.0/sops-v3.11.0.darwin.arm64
+chmod +x sops
+sudo mv sops /usr/local/bin/
+
+brew install age
+```
 
 ## 1. Create a Hetzner API Token
 
 1. Log in to [Hetzner Cloud Console](https://console.hetzner.cloud/)
 2. Create a new project (e.g. `k3s`)
-3. Go to **Security** → **API Tokens** → **Generate API Token**
+3. Go to **Security** → **API tokens** → **Generate API token**
 4. Give it **Read & Write** permissions
 5. Save the token
 
@@ -37,7 +76,7 @@ Create a file called `cluster.yaml`:
 
 A few things to note:
 
-- **IPv4 included.** You could save $0.60/month by going IPv6-only (`public_network.ipv4: false`), but IPv4 means you can SSH in from any network, all visitors can reach your services regardless of their ISP, and you don't have to troubleshoot IPv6 connectivity issues. It's €6/year well spent.
+- **IPv4 included.** I was tempted save $0.60/month by going IPv6-only (`public_network.ipv4: false`), but IPv4 means you can SSH in from any network, all visitors can reach your services regardless of their ISP, and you don't have to troubleshoot IPv6 connectivity issues. Overall, I think it's money well-spent.
 - **`schedule_workloads_on_masters: true`** is required for a single-node cluster so pods can run on the master node.
 - **CSI driver disabled.** We're using k3s's built-in [local-path-provisioner](https://github.com/rancher/local-path-provisioner) instead of Hetzner block storage. Data is stored directly on the node's disk at `/var/lib/rancher/k3s/storage/`. This saves money but means data is lost if the node's disk fails.
 - **Traefik and ServiceLB enabled.** Traefik handles ingress routing; ServiceLB exposes ports 80 and 443 on the node.
