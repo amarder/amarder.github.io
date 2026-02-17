@@ -82,12 +82,12 @@ A few things to note:
 - **Traefik and ServiceLB enabled.** Traefik handles ingress routing; ServiceLB exposes ports 80 and 443 on the node.
 - **Firewall.** Hetzner's Cloud Firewall allows only SSH, HTTP, HTTPS, and the Kubernetes API. Everything else is blocked.
 
-Note that `hetzner_token` is not in the config file. Instead, hetzner-k3s reads it from the `HCLOUD_TOKEN` environment variable, which we'll store encrypted in `secrets/hetzner.yaml` (see [step 5](#5-configure-secrets-with-sops--age)).
+Note that `hetzner_token` is not in the config file. Instead, hetzner-k3s reads it from the `HCLOUD_TOKEN` environment variable.
 
 Create the cluster:
 
 ```bash
-export HCLOUD_TOKEN=$(sops -d --extract '["hetzner_token"]' secrets/hetzner.yaml)
+export HCLOUD_TOKEN=<your-hetzner-api-token>
 hetzner-k3s create --config cluster.yaml | tee create.log
 ```
 
@@ -100,7 +100,7 @@ kubectl get nodes
 
 You can check the available k3s versions with `hetzner-k3s releases`.
 
-hetzner-k3s deploys a cluster autoscaler, but it's not needed for a single-node cluster with no worker pools. It will sit in `CrashLoopBackOff` indefinitely, so remove it:
+hetzner-k3s deploys a cluster autoscaler, but it's not needed for a single-node cluster with no worker pools. It will sit in `CrashLoopBackOff` indefinitely, so I chose to remove it:
 
 ```bash
 kubectl delete deployment cluster-autoscaler -n kube-system
@@ -178,44 +178,9 @@ The key ideas:
 - **`secrets/` files are SOPS-encrypted** with [age](https://github.com/FiloSottile/age). They're safe to commit to git. The [helm-secrets](https://github.com/jkroepke/helm-secrets) plugin decrypts them on the fly during `helmfile apply`.
 - **`values/` files are plain-text** configuration (image versions, storage sizes, schedules) — no sensitive data.
 
-Here's [helmfile.yaml](helmfile.yaml):
+Here's my helmfile.yaml:
 
-```yaml
-repositories:
-  - name: jetstack
-    url: https://charts.jetstack.io
-
-releases:
-  - name: cert-manager
-    namespace: cert-manager
-    createNamespace: true
-    chart: jetstack/cert-manager
-    version: v1.17.2
-    values:
-      - crds:
-          enabled: true
-
-  - name: cluster-tls
-    namespace: cert-manager
-    chart: ./charts/cluster-tls
-    needs:
-      - cert-manager/cert-manager
-    values:
-      - ./values/cluster-tls.yaml
-    secrets:
-      - ./secrets/cluster-tls.yaml
-
-  - name: keila
-    namespace: keila
-    createNamespace: true
-    chart: ./charts/keila
-    needs:
-      - cert-manager/cluster-tls
-    values:
-      - ./values/keila.yaml
-    secrets:
-      - ./secrets/keila.yaml
-```
+<ReadFile file="src/content/post/hetzner/helmfile.yaml" lang="yaml" title="helmfile.yaml" />
 
 A few things to note:
 
@@ -231,8 +196,10 @@ All secrets are stored encrypted in the `secrets/` directory using [SOPS](https:
 ### Install Helm plugins
 
 ```bash
-helm plugin install --verify=false https://github.com/jkroepke/helm-secrets
-helm plugin install --verify=false https://github.com/databus23/helm-diff
+helm plugin install https://github.com/jkroepke/helm-secrets/releases/download/v4.7.5/secrets-4.7.5.tgz --verify=false
+helm plugin install https://github.com/jkroepke/helm-secrets/releases/download/v4.7.5/secrets-getter-4.7.5.tgz --verify=false
+helm plugin install https://github.com/jkroepke/helm-secrets/releases/download/v4.7.5/secrets-post-renderer-4.7.5.tgz --verify=false
+helm plugin install https://github.com/databus23/helm-diff --verify=false
 ```
 
 ### Generate an age key
@@ -261,11 +228,12 @@ creation_rules:
 
 ### Create the Cloudflare API Token
 
-[cert-manager](https://cert-manager.io/) uses [DNS-01 challenges](https://cert-manager.io/docs/configuration/acme/dns01/) via Cloudflare to issue TLS certificates. This avoids HTTP-01 challenge routing issues and lets us use a single wildcard certificate for all services.
+For certificate issuance, I chose [DNS-01 challenges](https://cert-manager.io/docs/configuration/acme/dns01/) (supported by [cert-manager](https://cert-manager.io/)) via Cloudflare. This lets us get a single wildcard certificate for all services and avoids some common routing issues associated with HTTP-01.
 
 1. Go to [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens)
 2. Click **Create Token** → use the **Edit zone DNS** template
 3. Under **Zone Resources**, select your domain
+4. (Optional) I chose to set up Client IP Address Filtering, setting the Operator to "Is in" and adding my server's public IP address to the Value list. This way the API token should only work from that one IP address.
 4. Click **Continue to summary** → **Create Token**
 
 ### Fill in and encrypt the secrets files
@@ -339,11 +307,10 @@ Wait a minute or two for everything to start, then check:
 
 ```bash
 # All pods should be Running
-kubectl get pods -n cert-manager
-kubectl get pods -n keila
+kubectl get pods -A
 
 # Wildcard certificate should be Ready (may take a minute for DNS-01 validation)
-kubectl get certificate -n cert-manager
+kubectl get certificate -n default
 
 # Check the ingress
 kubectl get ingress -n keila
@@ -386,6 +353,10 @@ export HCLOUD_TOKEN=$(sops -d --extract '["hetzner_token"]' secrets/hetzner.yaml
 hetzner-k3s upgrade --config cluster.yaml
 ```
 
+:::tip{title="Minor Gotcha"}
+I like hetzner-k3s, but... I wish it could modify existing clusters. There were a couple times when my cluster wasn't doing what I wanted. I edited my `cluster.yaml` file, but there was no way to have hetzner-k3s update my existing cluster. If I knew how to assign existing and available Primary IPs in Hetzner that could be another way to solve this problem.
+:::
+
 ### Updating Container Images
 
 Update the pinned image versions in your values files (e.g. `values/keila.yaml`), then apply:
@@ -403,12 +374,12 @@ Any time you modify `helmfile.yaml`, chart templates, or values files, run `helm
 | Item | Monthly Cost |
 |------|-------------|
 | CX23 (2 vCPU, 4 GB RAM, 40 GB disk) | $3.50 |
-| Primary IPv4 address | $0.60 |
-| Local storage (instead of block storage) | €0 |
-| Let's Encrypt certificates | Free |
-| **Total** | **$4.10/month** |
+| Public IPv4 address | $0.60 |
+| Local storage (instead of block storage) | $0.00 |
+| Let's Encrypt certificates | $0.00 |
+| **Total** | **$4.10** |
 
-Prices are for the `fsn1` (Falkenstein, Germany) location, excluding VAT. Check [Hetzner's pricing page](https://www.hetzner.com/cloud/) for current rates. You can list available instance types with:
+Prices are for the `nbg1` (Nuremberg, Germany) location, excluding VAT. Check [Hetzner's pricing page](https://www.hetzner.com/cloud/) for current rates. You can list available instance types with:
 
 ```bash
 curl -H "Authorization: Bearer $HCLOUD_TOKEN" 'https://api.hetzner.cloud/v1/server_types'
