@@ -1,0 +1,456 @@
+---
+title: "Hetzner: Kubernetes for $4.10 a Month"
+publishDate: "2026-02-16"
+description: "A single-node Kubernetes cluster on Hetzner Cloud for about $4/month using hetzner-k3s, Helmfile, and cert-manager."
+---
+
+:::warning
+This post contains extreme yak shaving. Proceed with caution.
+:::
+
+I want to run a few self-hosted services as cheaply as possible. [Hetzner Cloud](https://www.hetzner.com/cloud/)'s smallest instance with IPv4 costs about $4.10/month. Combined with [hetzner-k3s](https://github.com/vitobotta/hetzner-k3s) for cluster management, [Helmfile](https://helmfile.readthedocs.io/) for declarative deployments, and k3s's built-in local storage, this is a remarkably cheap way to run production services. This post walks through setting up a single-node k3s cluster, deploying [Keila](https://www.keila.io/) (email newsletter) with automated backups, and securing everything with a wildcard TLS certificate from [Let's Encrypt](https://letsencrypt.org/).
+
+## Prerequisites
+
+- A [Hetzner Cloud](https://www.hetzner.com/cloud/) account
+- A domain managed by [Cloudflare](https://www.cloudflare.com/)
+- An SSH key pair (`~/.ssh/id_ed25519`)
+- [hetzner-k3s](https://github.com/vitobotta/hetzner-k3s#installation) installed
+- [kubectl](https://kubernetes.io/docs/tasks/tools/), [helm](https://helm.sh/docs/intro/install/), [helmfile](https://helmfile.readthedocs.io/en/latest/#installation), and the [helm-secrets](https://github.com/jkroepke/helm-secrets) plugin installed
+- [sops](https://github.com/getsops/sops) and [age](https://github.com/FiloSottile/age) installed (for encrypting secrets)
+- An SMTP provider for sending emails (e.g. [Mailgun](https://www.mailgun.com/), [Amazon SES](https://aws.amazon.com/ses/), [Postmark](https://postmarkapp.com/))
+
+## 1. Create a Hetzner API Token
+
+1. Log in to [Hetzner Cloud Console](https://console.hetzner.cloud/)
+2. Create a new project (e.g. `k3s`)
+3. Go to **Security** → **API Tokens** → **Generate API Token**
+4. Give it **Read & Write** permissions
+5. Save the token
+
+## 2. Create the Cluster
+
+Create a file called `cluster.yaml`:
+
+
+A few things to note:
+
+- **IPv4 included.** You could save $0.60/month by going IPv6-only (`public_network.ipv4: false`), but IPv4 means you can SSH in from any network, all visitors can reach your services regardless of their ISP, and you don't have to troubleshoot IPv6 connectivity issues. It's €6/year well spent.
+- **`schedule_workloads_on_masters: true`** is required for a single-node cluster so pods can run on the master node.
+- **CSI driver disabled.** We're using k3s's built-in [local-path-provisioner](https://github.com/rancher/local-path-provisioner) instead of Hetzner block storage. Data is stored directly on the node's disk at `/var/lib/rancher/k3s/storage/`. This saves money but means data is lost if the node's disk fails — set up backups.
+- **Traefik and ServiceLB enabled.** Traefik handles ingress routing; ServiceLB exposes ports 80 and 443 on the node.
+- **Firewall.** Hetzner's Cloud Firewall allows only SSH, HTTP, HTTPS, and the Kubernetes API. Everything else is blocked.
+
+Note that `hetzner_token` is not in the config file. Instead, hetzner-k3s reads it from the `HCLOUD_TOKEN` environment variable, which we'll store encrypted in `secrets/hetzner.yaml` (see [step 5](#5-configure-secrets-with-sops--age)).
+
+Create the cluster:
+
+```bash
+export HCLOUD_TOKEN=$(sops -d --extract '["hetzner_token"]' secrets/hetzner.yaml)
+hetzner-k3s create --config cluster.yaml | tee create.log
+```
+
+This takes a few minutes. When finished, your kubeconfig is saved to `./kubeconfig`:
+
+```bash
+export KUBECONFIG=./kubeconfig
+kubectl get nodes
+```
+
+You can check the available k3s versions with `hetzner-k3s releases`.
+
+## 3. Set Up DNS on Cloudflare
+
+Get your server's IPv4 address:
+
+```bash
+kubectl get nodes -o wide
+```
+
+Look for the `EXTERNAL-IP` column.
+
+In the [Cloudflare dashboard](https://dash.cloudflare.com/):
+
+1. Select your domain
+2. Go to **DNS** → **Records** → **Add Record**
+3. Create a wildcard A record:
+   - **Type**: `A`
+   - **Name**: `*.k3s`
+   - **IPv4 address**: your server's IP address
+   - **Proxy status**: **DNS only** (grey cloud)
+4. Click **Save**
+
+:::note{title=Why DNS only?}
+Cloudflare's free plan doesn't proxy wildcard records. The grey cloud (DNS only) means traffic goes directly to your server. TLS termination is handled by Traefik and cert-manager on the server itself.
+:::
+
+Now any subdomain of `k3s.andrewmarder.net` resolves to your server. Adding a new service later is just creating a new Kubernetes Ingress — no DNS changes needed.
+
+## 4. Project Structure
+
+We use [Helmfile](https://helmfile.readthedocs.io/) to manage all cluster services declaratively. The project is organized as follows:
+
+```
+.
+├── .sops.yaml                 # SOPS config (age public key)
+├── cluster.yaml               # hetzner-k3s cluster config (no secrets)
+├── helmfile.yaml              # declares all Helm releases
+├── charts/
+│   ├── cluster-tls/           # ClusterIssuer + wildcard certificate
+│   │   ├── Chart.yaml
+│   │   ├── values.yaml
+│   │   └── templates/
+│   │       ├── cloudflare-secret.yaml
+│   │       ├── cluster-issuer.yaml
+│   │       └── wildcard-certificate.yaml
+│   └── keila/                 # Keila app + Postgres + backup CronJob
+│       ├── Chart.yaml
+│       ├── values.yaml
+│       └── templates/
+│           ├── backup-cronjob.yaml
+│           ├── backup-secrets.yaml
+│           ├── ingress.yaml
+│           ├── keila-deployment.yaml
+│           ├── keila-secrets.yaml
+│           ├── keila-service.yaml
+│           ├── postgres-deployment.yaml
+│           ├── postgres-pvc.yaml
+│           ├── postgres-service.yaml
+│           └── uploads-pvc.yaml
+├── secrets/                   # SOPS-encrypted (safe to commit)
+│   ├── cluster-tls.yaml
+│   ├── hetzner.yaml
+│   └── keila.yaml
+└── values/                    # plain-text config (no secrets)
+    ├── cluster-tls.yaml
+    └── keila.yaml
+```
+
+The key ideas:
+
+- **`helmfile.yaml` is the single source of truth** for what's deployed. Adding a service means adding a chart (or reusing an existing one), a values file, and a secrets file, then running `helmfile apply`.
+- **`secrets/` files are SOPS-encrypted** with [age](https://github.com/FiloSottile/age). They're safe to commit to git. The [helm-secrets](https://github.com/jkroepke/helm-secrets) plugin decrypts them on the fly during `helmfile apply`.
+- **`values/` files are plain-text** configuration (image versions, storage sizes, schedules) — no sensitive data.
+
+Here's [helmfile.yaml](helmfile.yaml):
+
+```yaml
+repositories:
+  - name: jetstack
+    url: https://charts.jetstack.io
+
+releases:
+  - name: cert-manager
+    namespace: cert-manager
+    createNamespace: true
+    chart: jetstack/cert-manager
+    version: v1.17.2
+    values:
+      - crds:
+          enabled: true
+
+  - name: cluster-tls
+    namespace: cert-manager
+    chart: ./charts/cluster-tls
+    needs:
+      - cert-manager/cert-manager
+    values:
+      - ./values/cluster-tls.yaml
+    secrets:
+      - ./secrets/cluster-tls.yaml
+
+  - name: keila
+    namespace: keila
+    createNamespace: true
+    chart: ./charts/keila
+    needs:
+      - cert-manager/cluster-tls
+    values:
+      - ./values/keila.yaml
+    secrets:
+      - ./secrets/keila.yaml
+```
+
+A few things to note:
+
+- **`needs`** ensures releases are installed in order: cert-manager first, then the ClusterIssuer and wildcard certificate, then Keila.
+- **`createNamespace: true`** creates the namespace automatically.
+- **`secrets`** references SOPS-encrypted files. Helmfile (via helm-secrets) decrypts them at deploy time and merges the values with the plain-text `values` files.
+- **Pinned versions.** The cert-manager chart version is pinned; image versions are pinned in the values files.
+
+## 5. Configure Secrets with SOPS + age
+
+All secrets are stored encrypted in the `secrets/` directory using [SOPS](https://github.com/getsops/sops) with [age](https://github.com/FiloSottile/age) encryption. This means secrets live in git alongside your charts — encrypted at rest, decrypted on the fly during `helmfile apply`.
+
+### Install helm-secrets
+
+```bash
+helm plugin install https://github.com/jkroepke/helm-secrets
+```
+
+### Generate an age key
+
+```bash
+age-keygen -o key.txt
+```
+
+This creates `key.txt` containing your private key and prints the public key (starting with `age1...`). **Store `key.txt` somewhere safe** (e.g. password manager, secure backup). Without it you can't decrypt your secrets.
+
+Set the environment variable so SOPS can find your key:
+
+```bash
+export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
+```
+
+### Configure SOPS
+
+Update [.sops.yaml](.sops.yaml) with your age public key:
+
+```yaml
+creation_rules:
+  - path_regex: secrets/.*\.yaml$
+    age: age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+### Create the Cloudflare API Token
+
+[cert-manager](https://cert-manager.io/) uses [DNS-01 challenges](https://cert-manager.io/docs/configuration/acme/dns01/) via Cloudflare to issue TLS certificates. This avoids HTTP-01 challenge routing issues and lets us use a single wildcard certificate for all services.
+
+1. Go to [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens)
+2. Click **Create Token** → use the **Edit zone DNS** template
+3. Under **Zone Resources**, select your domain
+4. Click **Continue to summary** → **Create Token**
+
+### Set Up Backblaze B2
+
+Local storage means data lives on a single disk. [Restic](https://restic.net/) with [Backblaze B2](https://www.backblaze.com/cloud-storage) gives us encrypted, deduplicated, off-site backups for next to nothing ($0.006/GB-month — orders of magnitude cheaper than Hetzner block storage). The backup CronJob is built into the Keila chart and backs up both the PostgreSQL database and the uploads directory.
+
+1. Sign up at [backblaze.com](https://www.backblaze.com/) and enable **B2 Cloud Storage**
+2. Create a **private** bucket (e.g. `your-k3s-backups`)
+3. Go to **Application Keys** → **Add a New Application Key**
+4. Restrict it to your bucket with **Read and Write** access
+5. Save the **keyID** and **applicationKey**
+
+### Fill in and encrypt the secrets files
+
+Edit `secrets/hetzner.yaml` with your Hetzner API token:
+
+```yaml
+hetzner_token: <your-hetzner-api-token>
+```
+
+Edit `secrets/cluster-tls.yaml` with your Cloudflare API token:
+
+```yaml
+cloudflare:
+  apiToken: <your-cloudflare-api-token>
+```
+
+Edit `secrets/keila.yaml` with generated passwords and your B2 credentials:
+
+```yaml
+secrets:
+  postgresPassword: <generate-with-openssl-rand>
+  secretKeyBase: <generate-with-openssl-rand>
+  keilaUser: you@example.com
+  keilaPassword: <generate-with-openssl-rand>
+  resticRepository: "b2:your-k3s-backups:keila"
+  resticPassword: <generate-with-openssl-rand>
+  b2AccountId: <your-b2-key-id>
+  b2AccountKey: <your-b2-application-key>
+```
+
+You can generate random passwords with:
+
+```bash
+openssl rand -base64 24 | tr -d '/+='
+```
+
+Encrypt all secrets files in place:
+
+```bash
+sops -e -i secrets/hetzner.yaml
+sops -e -i secrets/cluster-tls.yaml
+sops -e -i secrets/keila.yaml
+```
+
+The files are now safe to commit to git. To view or edit them later:
+
+```bash
+sops secrets/keila.yaml
+```
+
+## 6. Deploy Everything
+
+A single command installs cert-manager, the wildcard TLS certificate, and Keila with its backup CronJob. Helmfile decrypts the secrets files on the fly via helm-secrets:
+
+```bash
+helmfile apply
+```
+
+This installs the releases in dependency order: cert-manager → ClusterIssuer + wildcard certificate → Keila.
+
+## 7. Verify
+
+Wait a minute or two for everything to start, then check:
+
+```bash
+# All pods should be Running
+kubectl get pods -n cert-manager
+kubectl get pods -n keila
+
+# Wildcard certificate should be Ready (may take a minute for DNS-01 validation)
+kubectl get certificate -n cert-manager
+
+# Check the ingress
+kubectl get ingress -n keila
+```
+
+Open `https://keila.k3s.andrewmarder.net` in your browser and log in with the credentials from your secret. Configure an SMTP sender under **Senders** → **Create** to start sending emails.
+
+### Test the Backup
+
+Trigger a manual run and verify:
+
+```bash
+kubectl create job --from=cronjob/backup -n keila backup-test
+
+kubectl logs -n keila job/backup-test -c pg-dump --follow
+kubectl logs -n keila job/backup-test -c restic --follow
+
+kubectl delete job -n keila backup-test
+```
+
+The CronJob runs nightly at 2 AM. The init container dumps PostgreSQL, then the main container encrypts and uploads both the database dump and the uploads directory to B2 via restic. The `forget` command prunes old snapshots — keeping 7 daily, 4 weekly, and 6 monthly backups.
+
+### Restore
+
+```bash
+# List available snapshots (run from a machine with restic installed)
+export RESTIC_REPOSITORY="b2:your-k3s-backups:keila"
+export RESTIC_PASSWORD="your-restic-password"
+export B2_ACCOUNT_ID="your-b2-key-id"
+export B2_ACCOUNT_KEY="your-b2-application-key"
+restic snapshots
+
+# Restore the latest snapshot
+restic restore latest --target /tmp/restore
+
+# Load the database dump into PostgreSQL
+gunzip -c /tmp/restore/backup/keila.sql.gz \
+  | kubectl exec -i -n keila deploy/postgres -- psql -U keila keila
+```
+
+## 8. Security
+
+The setup above covers the basics. Here's what's in place and what you should consider hardening.
+
+**Already configured:**
+
+- **Firewall.** The Hetzner Cloud Firewall only allows SSH (22), HTTP (80), HTTPS (443), and the Kubernetes API (6443). All other ports are blocked.
+- **SSH keys only.** Hetzner Cloud disables password authentication when servers are created with SSH keys.
+- **TLS everywhere.** A wildcard certificate covers all `*.k3s.andrewmarder.net` subdomains. All HTTP traffic is encrypted.
+- **Secrets encrypted at rest.** All secrets are SOPS-encrypted with age and safe to commit to git.
+- **No exposed databases.** PostgreSQL is only reachable within the cluster via its ClusterIP service.
+- **Registration disabled.** `DISABLE_REGISTRATION=true` prevents strangers from creating Keila accounts.
+
+**Recommended hardening:**
+
+- **Restrict SSH and API access.** The config above allows SSH and API access from any IP (`0.0.0.0/0` and `::/0`). If you have a stable IP address, replace these with your specific address in `allowed_networks`.
+- **Enable automatic OS updates.** SSH into the node and enable unattended upgrades:
+
+  ```bash
+  ssh root@<server-ip>
+  apt install -y unattended-upgrades
+  dpkg-reconfigure -plow unattended-upgrades
+  ```
+
+## 9. Maintenance
+
+### Upgrading k3s
+
+hetzner-k3s installs the [System Upgrade Controller](https://github.com/rancher/system-upgrade-controller) by default. To upgrade k3s, update `k3s_version` in `cluster.yaml` and run:
+
+```bash
+export HCLOUD_TOKEN=$(sops -d --extract '["hetzner_token"]' secrets/hetzner.yaml)
+hetzner-k3s upgrade --config cluster.yaml
+```
+
+### Updating Container Images
+
+Update the pinned image versions in your values files (e.g. `values/keila.yaml`), then apply:
+
+```bash
+helmfile apply
+```
+
+### Syncing After Changes
+
+Any time you modify `helmfile.yaml`, chart templates, or values files, run `helmfile apply` to reconcile the cluster state. Use `helmfile diff` first to preview changes.
+
+## 10. Cost
+
+| Item | Monthly Cost |
+|------|-------------|
+| CX23 (2 vCPU, 4 GB RAM, 40 GB disk) | $3.50 |
+| Primary IPv4 address | $0.60 |
+| Local storage (instead of block storage) | €0 |
+| Backblaze B2 backups (first 10 GB free) | ~$0 |
+| Let's Encrypt certificates | Free |
+| **Total** | **$4.10/month** |
+
+Prices are for the `fsn1` (Falkenstein, Germany) location, excluding VAT. Check [Hetzner's pricing page](https://www.hetzner.com/cloud/) for current rates. You can list available instance types with:
+
+```bash
+curl -H "Authorization: Bearer $HCLOUD_TOKEN" 'https://api.hetzner.cloud/v1/server_types'
+```
+
+## 11. Adding New Services
+
+The wildcard DNS record and wildcard TLS certificate mean adding a new service requires no DNS or certificate changes. For any new app:
+
+1. Create a Helm chart in `charts/<service>/` (or use a public chart). Include Secret templates so Helm manages Kubernetes Secrets.
+2. Add a values file at `values/<service>.yaml` (plain-text config)
+3. Add a secrets file at `secrets/<service>.yaml`, fill in sensitive values, and encrypt it:
+
+```bash
+sops -e -i secrets/my-new-service.yaml
+```
+
+4. Add a release to `helmfile.yaml`:
+
+```yaml
+  - name: my-new-service
+    namespace: my-new-service
+    createNamespace: true
+    chart: ./charts/my-new-service
+    needs:
+      - cert-manager/cluster-tls
+    values:
+      - ./values/my-new-service.yaml
+    secrets:
+      - ./secrets/my-new-service.yaml
+```
+
+5. Deploy:
+
+```bash
+helmfile apply
+```
+
+Every service chart should include an Ingress referencing the shared `wildcard-tls` secret, and optionally a backup CronJob following the same restic + B2 pattern.
+
+## References
+
+- [hetzner-k3s Documentation](https://vitobotta.github.io/hetzner-k3s/)
+- [hetzner-k3s Source Code](https://github.com/vitobotta/hetzner-k3s)
+- [Helmfile Documentation](https://helmfile.readthedocs.io/)
+- [helm-secrets Plugin](https://github.com/jkroepke/helm-secrets)
+- [SOPS: Secrets OPerationS](https://github.com/getsops/sops)
+- [age Encryption](https://github.com/FiloSottile/age)
+- [cert-manager Cloudflare DNS-01 Docs](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/)
+- [k3s Local Path Provisioner](https://github.com/rancher/local-path-provisioner)
+- [Keila Configuration Docs](https://www.keila.io/docs/configuration)
+- [Restic Documentation](https://restic.readthedocs.io/)
+- [Backblaze B2 + Restic Guide](https://www.backblaze.com/docs/cloud-storage-integrate-restic-with-backblaze-b2)
+- [Hetzner Cloud Pricing](https://www.hetzner.com/cloud/)

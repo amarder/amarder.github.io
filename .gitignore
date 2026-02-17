@@ -16,6 +16,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# kubernetes
+kubeconfig
+
 # macOS-specific files
 .DS_Store
 
