@@ -1,6 +1,6 @@
 ---
 title: "Hetzner: Kubernetes for $4.10 a Month"
-publishDate: "2026-02-16"
+publishDate: "2026-02-17"
 description: "A single-node Kubernetes cluster on Hetzner Cloud for about $4/month using hetzner-k3s, Helmfile, and cert-manager."
 ---
 import ReadFile from "@/components/ReadFile.astro";
@@ -11,15 +11,15 @@ This post contains extreme yak shaving. Proceed with caution.
 
 Why did I do this!?
 
-1. I've been self-hosting an email newsletter from home. With power outages, internet outages, home server outages, the server downtime was going to be a bit much for my taste. I wanted to deploy to the cloud for better uptime.
+1. I've been self-hosting an email newsletter from home. With power outages, internet outages, home server outages, the server downtime was getting to be a bit much for my taste. I wanted to deploy to the cloud for better uptime.
 
-2. I'm cheap. I had spun up a two node Kubernetes cluster on DigitalOcean and that was costing about $20 a month. It didn't feel like I was getting much for my money.
+2. I'm cheap. I had spun up a two-node Kubernetes cluster on DigitalOcean and that was costing about $20 a month. It didn't feel like I was getting much for my money.
 
 3. I like declarative deployments.
 
 When I learned I could run Kubernetes for $4.10 a month on Hetzner, I decided it checked all my boxes.
 
-- Better uptime (compared to my homeserver) ✔️
+- Better uptime (compared to my homelab) ✔️
 - Cheap ✔️
 - Declarative deployments ✔️
 
@@ -76,7 +76,7 @@ Create a file called `cluster.yaml`:
 
 A few things to note:
 
-- **IPv4 included.** I was tempted save $0.60/month by going IPv6-only (`public_network.ipv4: false`), but IPv4 means you can SSH in from any network, all visitors can reach your services regardless of their ISP, and you don't have to troubleshoot IPv6 connectivity issues. Overall, I think it's money well-spent.
+- **IPv4 included.** I was tempted to save $0.60/month by going IPv6-only (`public_network.ipv4: false`), but IPv4 means you can SSH in from any network, all visitors can reach your services regardless of their ISP, and you don't have to troubleshoot IPv6 connectivity issues. Overall, I think it's money well-spent.
 - **`schedule_workloads_on_masters: true`** is required for a single-node cluster so pods can run on the master node.
 - **CSI driver disabled.** We're using k3s's built-in [local-path-provisioner](https://github.com/rancher/local-path-provisioner) instead of Hetzner block storage. Data is stored directly on the node's disk at `/var/lib/rancher/k3s/storage/`. This saves money but means data is lost if the node's disk fails.
 - **Traefik and ServiceLB enabled.** Traefik handles ingress routing; ServiceLB exposes ports 80 and 443 on the node.
@@ -178,7 +178,7 @@ The key ideas:
 - **`secrets/` files are SOPS-encrypted** with [age](https://github.com/FiloSottile/age). They're safe to commit to git. The [helm-secrets](https://github.com/jkroepke/helm-secrets) plugin decrypts them on the fly during `helmfile apply`.
 - **`values/` files are plain-text** configuration (image versions, storage sizes, schedules) — no sensitive data.
 
-Here's my helmfile.yaml:
+Here's my `helmfile.yaml`:
 
 <ReadFile file="src/content/post/hetzner/helmfile.yaml" lang="yaml" title="helmfile.yaml" />
 
@@ -208,7 +208,7 @@ helm plugin install https://github.com/databus23/helm-diff --verify=false
 age-keygen -o key.txt
 ```
 
-This creates `key.txt` containing your private key and prints the public key (starting with `age1...`). **Store `key.txt` somewhere safe** (e.g. password manager, secure backup). Without it you can't decrypt your secrets.
+This creates `key.txt` containing your private key and prints the public key (starting with `age1...`). **Store `key.txt` somewhere safe** (e.g. password manager, secure backup). Without it, you can't decrypt your secrets.
 
 Set the environment variable so SOPS can find your key:
 
@@ -234,7 +234,7 @@ For certificate issuance, I chose [DNS-01 challenges](https://cert-manager.io/do
 2. Click **Create Token** → use the **Edit zone DNS** template
 3. Under **Zone Resources**, select your domain
 4. (Optional) I chose to set up Client IP Address Filtering, setting the Operator to "Is in" and adding my server's public IP address to the Value list. This way the API token should only work from that one IP address.
-4. Click **Continue to summary** → **Create Token**
+5. Click **Continue to summary** → **Create Token**
 
 ### Fill in and encrypt the secrets files
 
@@ -326,7 +326,7 @@ The setup above covers the basics. Here's what's in place and what you should co
 
 - **Firewall.** The Hetzner Cloud Firewall only allows SSH (22), HTTP (80), HTTPS (443), and the Kubernetes API (6443). All other ports are blocked.
 - **SSH keys only.** Hetzner Cloud disables password authentication when servers are created with SSH keys.
-- **TLS everywhere.** A wildcard certificate covers all `*.k3s.andrewmarder.net` subdomains. All HTTP traffic is encrypted.
+- **TLS everywhere.** A wildcard certificate covers all `*.k3s.andrewmarder.net` subdomains.
 - **Secrets encrypted at rest.** All secrets are SOPS-encrypted with age and safe to commit to git.
 - **No exposed databases.** PostgreSQL is only reachable within the cluster via its ClusterIP service.
 - **Registration disabled.** `DISABLE_REGISTRATION=true` prevents strangers from creating Keila accounts.
@@ -354,7 +354,7 @@ hetzner-k3s upgrade --config cluster.yaml
 ```
 
 :::tip{title="Minor Gotcha"}
-I like hetzner-k3s, but... I wish it could modify existing clusters. There were a couple times when my cluster wasn't doing what I wanted. I edited my `cluster.yaml` file, but there was no way to have hetzner-k3s update my existing cluster. If I knew how to assign existing and available Primary IPs in Hetzner that could be another way to solve this problem.
+I like hetzner-k3s, but... I wish it could modify existing clusters. There were a couple times when my cluster wasn't doing what I wanted. I edited my `cluster.yaml` file, but there was no way to have hetzner-k3s update my existing cluster. If I knew how to assign Primary IPs in Hetzner, that could be another way to solve this problem.
 :::
 
 ### Updating Container Images
