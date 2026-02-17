@@ -3,6 +3,7 @@ title: "Hetzner: Kubernetes for $4.10 a Month"
 publishDate: "2026-02-16"
 description: "A single-node Kubernetes cluster on Hetzner Cloud for about $4/month using hetzner-k3s, Helmfile, and cert-manager."
 ---
+import ReadFile from "@/components/ReadFile.astro";
 
 :::warning
 This post contains extreme yak shaving. Proceed with caution.
@@ -32,6 +33,7 @@ I want to run a few self-hosted services as cheaply as possible. [Hetzner Cloud]
 
 Create a file called `cluster.yaml`:
 
+<ReadFile file="src/content/post/hetzner/cluster.yaml" lang="yaml" title="cluster.yaml" />
 
 A few things to note:
 
@@ -80,7 +82,7 @@ In the [Cloudflare dashboard](https://dash.cloudflare.com/):
    - **Proxy status**: **DNS only** (grey cloud)
 4. Click **Save**
 
-:::note{title=Why DNS only?}
+:::note{title="Why DNS only?"}
 Cloudflare's free plan doesn't proxy wildcard records. The grey cloud (DNS only) means traffic goes directly to your server. TLS termination is handled by Traefik and cert-manager on the server itself.
 :::
 
