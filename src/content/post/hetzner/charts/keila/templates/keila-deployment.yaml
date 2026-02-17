@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keila
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keila
+  template:
+    metadata:
+      labels:
+        app: keila
+    spec:
+      containers:
+        - name: keila
+          image: {{ .Values.keila.image }}
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keila.secretName }}
+                  key: db-url
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keila.secretName }}
+                  key: secret-key-base
+            - name: URL_HOST
+              value: {{ .Values.host }}
+            - name: URL_SCHEMA
+              value: https
+            - name: PORT
+              value: {{ .Values.keila.port | quote }}
+            - name: DISABLE_REGISTRATION
+              value: "true"
+            - name: KEILA_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keila.secretName }}
+                  key: keila-user
+            - name: KEILA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keila.secretName }}
+                  key: keila-password
+            - name: MAILER_SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keila.secretName }}
+                  key: mailer-smtp-host
+            - name: MAILER_SMTP_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keila.secretName }}
+                  key: mailer-smtp-port
+            - name: MAILER_SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keila.secretName }}
+                  key: mailer-smtp-user
+            - name: MAILER_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keila.secretName }}
+                  key: mailer-smtp-password
+          ports:
+            - containerPort: {{ .Values.keila.port }}
+          volumeMounts:
+            - name: uploads
+              mountPath: /opt/app/uploads
+          resources:
+            {{- toYaml .Values.keila.resources | nindent 12 }}
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: keila-uploads

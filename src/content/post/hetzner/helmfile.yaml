@@ -1,0 +1,34 @@
+repositories:
+  - name: jetstack
+    url: https://charts.jetstack.io
+
+releases:
+  - name: cert-manager
+    namespace: cert-manager
+    createNamespace: true
+    chart: jetstack/cert-manager
+    version: v1.17.2
+    values:
+      - crds:
+          enabled: true
+
+  - name: cluster-tls
+    namespace: cert-manager
+    chart: ./charts/cluster-tls
+    needs:
+      - cert-manager/cert-manager
+    values:
+      - ./values/cluster-tls.yaml
+    secrets:
+      - ./secrets/cluster-tls.yaml
+
+  - name: keila
+    namespace: keila
+    createNamespace: true
+    chart: ./charts/keila
+    needs:
+      - cert-manager/cluster-tls
+    values:
+      - ./values/keila.yaml
+    secrets:
+      - ./secrets/keila.yaml

@@ -61,6 +61,12 @@ kubectl get nodes
 
 You can check the available k3s versions with `hetzner-k3s releases`.
 
+hetzner-k3s deploys a cluster autoscaler, but it's not needed for a single-node cluster with no worker pools. It will sit in `CrashLoopBackOff` indefinitely, so remove it:
+
+```bash
+kubectl delete deployment cluster-autoscaler -n kube-system
+```
+
 ## 3. Set Up DNS on Cloudflare
 
 Get your server's IPv4 address:
@@ -98,12 +104,13 @@ We use [Helmfile](https://helmfile.readthedocs.io/) to manage all cluster servic
 ├── cluster.yaml               # hetzner-k3s cluster config (no secrets)
 ├── helmfile.yaml              # declares all Helm releases
 ├── charts/
-│   ├── cluster-tls/           # ClusterIssuer + wildcard certificate
+│   ├── cluster-tls/           # ClusterIssuer + wildcard cert + TLSStore
 │   │   ├── Chart.yaml
 │   │   ├── values.yaml
 │   │   └── templates/
 │   │       ├── cloudflare-secret.yaml
 │   │       ├── cluster-issuer.yaml
+│   │       ├── tls-store.yaml
 │   │       └── wildcard-certificate.yaml
 │   └── keila/                 # Keila app + Postgres
 │       ├── Chart.yaml

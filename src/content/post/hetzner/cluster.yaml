@@ -1,6 +1,6 @@
 cluster_name: k3s
 kubeconfig_path: "./kubeconfig"
-k3s_version: v1.32.0+k3s1
+k3s_version: v1.35.1+k3s1
 
 networking:
   ssh:
@@ -51,6 +51,8 @@ worker_node_pools: []
 addons:
   csi_driver:
     enabled: false
+  local_path_storage_class:
+    enabled: true
   traefik:
     enabled: true
   servicelb:

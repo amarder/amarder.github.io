@@ -1,0 +1,4 @@
+apiVersion: v2
+name: keila
+description: Keila email newsletter with PostgreSQL, and TLS ingress
+version: 0.1.0

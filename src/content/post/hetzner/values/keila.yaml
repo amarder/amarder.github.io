@@ -1,0 +1,11 @@
+host: keila.k3s.andrewmarder.net
+
+keila:
+  image: pentacent/keila:0.14.7
+
+postgres:
+  image: postgres:16-alpine
+  storageSize: 5Gi
+
+uploads:
+  storageSize: 1Gi
