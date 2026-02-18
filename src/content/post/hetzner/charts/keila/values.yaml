@@ -1,0 +1,26 @@
+host: keila.k3s.example.com
+
+keila:
+  image: pentacent/keila:0.14.7
+  port: 4000
+  secretName: keila-secrets
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+
+postgres:
+  image: postgres:16-alpine
+  secretName: keila-secrets
+  storageSize: 5Gi
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+
+uploads:
+  storageSize: 1Gi
