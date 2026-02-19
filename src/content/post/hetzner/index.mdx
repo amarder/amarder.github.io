@@ -1,7 +1,10 @@
 ---
 title: "Hetzner: Kubernetes for $4.10 a Month"
 publishDate: "2026-02-17"
+updatedDate: "2026-02-18"
 description: "A single-node Kubernetes cluster on Hetzner Cloud for about $4/month using hetzner-k3s, Helmfile, and cert-manager."
+posse:
+  - "[Reddit](https://www.reddit.com/r/hetzner/comments/1r83iqb/kubernetes_in_the_cloud_for_410_a_month/)"
 ---
 import ReadFile from "@/components/ReadFile.astro";
 
@@ -106,7 +109,7 @@ hetzner-k3s deploys a cluster autoscaler, but it's not needed for a single-node 
 kubectl delete deployment cluster-autoscaler -n kube-system
 ```
 
-## 3. Create DNS Record on Cloudflare
+## 3. Create DNS Records on Cloudflare
 
 Get your server's IPv4 address:
 
@@ -123,12 +126,22 @@ In the [Cloudflare dashboard](https://dash.cloudflare.com/):
 3. Create a wildcard A record:
    - **Type**: `A`
    - **Name**: `*.k3s`
-   - **IPv4 address**: your server's IP address
+   - **IPv4 address**: your server's IPv4 address
    - **Proxy status**: **DNS only** (grey cloud)
 4. Click **Save**
 
+Optionally, add an IPv6 record as well. You can find your server's IPv6 address in the [Hetzner Console](https://console.hetzner.com/):
+
+5. Click **Add Record** again
+6. Create a wildcard AAAA record:
+   - **Type**: `AAAA`
+   - **Name**: `*.k3s`
+   - **IPv6 address**: your server's IPv6 address
+   - **Proxy status**: **DNS only** (grey cloud)
+7. Click **Save**
+
 :::note{title="Why DNS only?"}
-Cloudflare's free plan doesn't proxy wildcard records. The grey cloud (DNS only) means traffic goes directly to your server. TLS termination is handled by Traefik on the server itself, with certificates managed by cert-manager.
+Cloudflare supports proxying wildcard records on all plans, but we use DNS only (grey cloud) here so traffic goes directly to your server. TLS termination is handled by Traefik on the server itself, with certificates managed by cert-manager.
 :::
 
 Now any subdomain of `k3s.andrewmarder.net` resolves to your server. Adding a new service later is just creating a new Kubernetes Ingress — no DNS changes needed.
