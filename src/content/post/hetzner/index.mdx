@@ -345,8 +345,8 @@ export HCLOUD_TOKEN=$(sops -d --extract '["hetzner_token"]' secrets/hetzner.yaml
 hetzner-k3s upgrade --config cluster.yaml
 ```
 
-:::tip{title="Minor Gotcha"}
-I like hetzner-k3s, but... I wish it could modify existing clusters. There were a couple of times when my cluster wasn't doing what I wanted. I edited my `cluster.yaml` file, but there was no way to have hetzner-k3s update my existing cluster. If I knew how to assign Primary IPs in Hetzner, that could be another way to solve this problem.
+:::tip{title="Updating a Cluster"}
+You can re-run `hetzner-k3s create` with an updated `cluster.yaml` to update an existing cluster. Many, but not all, configuration changes are supported after initial creation.
 :::
 
 ##### Updating Container Images
