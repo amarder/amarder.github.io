@@ -4,7 +4,7 @@ import PostPreview from "@/components/blog/PostPreview.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
-import ListmonkSubscriptionForm from "../components/ListmonkSubscriptionForm.astro";
+import SubscriptionForm from "../components/SubscriptionForm.astro";
 
 // Posts
 const MAX_POSTS = 10;
@@ -21,7 +21,7 @@ const allPostsByDate = allPosts
 			My name is Andrew Marder. I like to play with data and code - come join me! Add your email to my newsletter, and I'll update you once a week with the latest posts.
 		</p>
 		<!-- Newsletter Subscription Form -->
-		<ListmonkSubscriptionForm />
+		<SubscriptionForm />
 	</section>
 	<section class="mt-16">
 		<h2 class="title text-accent mb-6 text-xl"><a href="/posts">Posts</a></h2>
