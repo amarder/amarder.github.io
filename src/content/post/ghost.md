@@ -1,7 +1,7 @@
 ---
 title: "Ghost: My New Newsletter Platform"
 publishDate: "2026-02-21"
-description: ""
+description: "Ghost is my top pick for a self-hosted newsletter."
 toc: false
 ---
 
@@ -15,7 +15,7 @@ Here are some thoughts on why I prefer Ghost.
 
 ##### listmonk
 
-listmonk is solid free open source software created by [Kailash Nadh](https://nadh.in/). However, I found the double opt-in process for listmonk a little clunky. Here's how the subscription flow went:
+listmonk is solid free open source software created by [Kailash Nadh](https://nadh.in/). However, I found the double opt-in process a little clunky. Here's how the subscription flow went:
 
 1. Submit form with email address
 2. Receive email with link to confirm
@@ -26,23 +26,23 @@ If I could change one thing about listmonk, it would be streamlining the double 
 
 ##### Keila
 
-Keila is also solid. My main complaint here, is I didn't love how the emails looked and there was no easy way to change the look. Keila is more opinionated than listmonk. Some opinions I liked, others I found pretty frustrating.
+Keila is also solid. My main complaint is that I didn't love how the emails looked, and there was no easy way to change their appearance. Keila is more opinionated than listmonk. Some opinions I liked, others I found pretty frustrating.
 
 ##### Ghost
 
-Ghost markets itself as "the best open source blog & newsletter platform" and I agree. I had been avoiding Ghost because I like having complete control over my blog content. I hadn't considered that I could use Ghost for the newsletter platform only. I'm currently self-hosting Ghost on a VPS (virtual private server).
+Ghost markets itself as "the best open source blog & newsletter platform" and I agree. I had been avoiding Ghost because I like having complete control over my blog content. I hadn't considered that I could use Ghost solely as a newsletter platform. I'm currently self-hosting Ghost on a VPS (virtual private server).
 
-A slight downside of Ghost is I cannot customize my emails for each recipient. This was a feature I was using in both listmonk and Keila - it reminded me that each email I sent was going to a real person! Upon further review, I think Ghost has made a smart choice, this way it's easy to send emails and publish an exact copy of the email to the web. In general, I'm really loving Ghost. There are so many places where they've made great decisions (like not customizing emails).
+A slight downside of Ghost is that I cannot customize my emails for each recipient. This was a feature I was using in both listmonk and Keila — it reminded me that each email I sent was going to a real person! On reflection, I think Ghost has made a smart choice: this way it's easy to send emails and publish an exact copy to the web. In general, I'm really loving Ghost. There are so many places where they've made great decisions (like not customizing emails).
 
-Another awesome feature is their signup forms. I had put together a custom signup form that I was using for both listmonk and Keila. It worked but it wasn't awesome. Ghost's signup forms are awesome and easy to embed. That has been a really nice upgrade.
+Another great feature is their signup forms. I had put together a custom signup form that I was using for both listmonk and Keila. It worked but it wasn't awesome. Ghost's signup forms are awesome and easy to embed. That has been a really nice upgrade.
 
-Ghost is opinionated about the signup flow, all subscribers must double opt-in. That adds a little hurdle, but the whole process with Ghost is very smooth. It doesn't have a clunky signup process like listmonk. That makes sense since over "$100 million in revenue is earned each year by publications running on Ghost."
+Ghost is opinionated about the signup flow - all subscribers must complete a double opt-in. That adds a small hurdle, but the whole process with Ghost is very smooth. It doesn't have a clunky signup process like listmonk. That makes sense since over "$100 million in revenue is earned each year by publications running on Ghost."
 
-There was one place where I didn't love their decision. To use Ghost’s built-in newsletter delivery feature you must use [Mailgun](https://docs.ghost.org/faq/mailgun-newsletters). Luckily, I was already using Mailgun for my newsletter. The one downside of Mailgun is it can get "expensive" quick. If I get over 100 subscribers, then I'll need to upgrade to their basic subscription for ($15/month). I think Ghost's perspective is refreshing:
+There was one place where I didn't love their decision. To use Ghost’s built-in newsletter delivery feature you must use [Mailgun](https://docs.ghost.org/faq/mailgun-newsletters). Luckily, I was already using Mailgun for my newsletter. The one downside of Mailgun is it can get "expensive" quickly. If I get over 100 subscribers, I'll need to upgrade to their basic subscription at $15/month. I think Ghost's perspective is refreshing:
 
 > We’re a small team with limited resources, and supporting multiple bulk-mail APIs is too much overhead for us to manage. We build and support Ghost on one clear stack that we know works reliably. We would rather have a product that can only be configured one way and works reliably, than being configured lots of different ways but is unreliable.
 
-I think this is another example of an opinionated decision that I'll be happy with in the long-run.
+I think this is another example of an opinionated decision that I'll be happy with in the long run.
 
 Like Keila, Ghost doesn't make it easy to fully customize the look of emails. But, I really like how Ghost emails look. Overall, moving my newsletter has been a big upgrade:
 
@@ -50,7 +50,4 @@ Like Keila, Ghost doesn't make it easy to fully customize the look of emails. Bu
 - Signup process smoothed out
 - Email styling improved
 
-Ghost is more opinionated than listmonk and Keila, but my experience so far is Ghost has really good opinions and I appreciate the decisions they made. Let's Ghost!!
-
-
-
+Ghost is more opinionated than listmonk and Keila, but my experience so far is that Ghost has really good opinions and I appreciate the decisions they made. Let's Ghost!!
