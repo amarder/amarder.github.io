@@ -1,6 +1,7 @@
 ---
 title: "Ghost: My New Newsletter Platform"
 publishDate: "2026-02-21"
+updatedDate: "2026-02-22"
 description: "Ghost is my top pick for a self-hosted newsletter."
 toc: false
 posse:
@@ -41,7 +42,7 @@ Another great feature is their signup forms. I had put together a custom signup 
 
 Ghost is opinionated about the signup flow - all subscribers must complete a double opt-in. That adds a small hurdle, but the whole process with Ghost is very smooth. It doesn't have a clunky signup process like listmonk. That makes sense since over "$100 million in revenue is earned each year by publications running on Ghost."
 
-There was one place where I didn't love their decision. To use Ghost’s built-in newsletter delivery feature you must use [Mailgun](https://docs.ghost.org/faq/mailgun-newsletters). Luckily, I was already using Mailgun for my newsletter. The one downside of Mailgun is it can get "expensive" quickly. If I get over 100 subscribers, I'll need to upgrade to their basic subscription at $15/month. I think Ghost's perspective is refreshing:
+There was one place where I didn't love their decision. To use Ghost’s built-in newsletter delivery feature you must use [Mailgun](https://docs.ghost.org/faq/mailgun-newsletters). Luckily, I was already using Mailgun for my newsletter. The one downside of Mailgun is it can get "expensive" quickly. If I get over 100 subscribers, I'll need to upgrade to their basic subscription at $15/month.[^1] I think Ghost's perspective is refreshing:
 
 > We’re a small team with limited resources, and supporting multiple bulk-mail APIs is too much overhead for us to manage. We build and support Ghost on one clear stack that we know works reliably. We would rather have a product that can only be configured one way and works reliably, than being configured lots of different ways but is unreliable.
 
@@ -54,3 +55,5 @@ Like Keila, Ghost doesn't make it easy to fully customize the look of emails. Bu
 - Email styling improved
 
 Ghost is more opinionated than listmonk and Keila, but my experience so far is that Ghost has really good opinions and I appreciate the decisions they made. Let's Ghost!!
+
+[^1]: I got a great tip on the Ghost subreddit: "You don't need \$15/month Mailgun. You need to sign up for a trial of their foundation plan, then when you cancel it (before it bills), they'll offer you the flex plan, which is much cheaper for small newsletters." Here are some more [details](https://jonathanmh.com/p/cheap-email-api-mailgun-flex-plan/). As of 2025-12-01, the flex plan cost \$2.00/1000 emails, which will be totally fine by me.
