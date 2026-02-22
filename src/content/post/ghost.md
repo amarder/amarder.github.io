@@ -3,6 +3,9 @@ title: "Ghost: My New Newsletter Platform"
 publishDate: "2026-02-21"
 description: "Ghost is my top pick for a self-hosted newsletter."
 toc: false
+posse:
+  - "[r/Ghost](https://www.reddit.com/r/Ghost/comments/1ratihx/im_selfhosting_ghost_for_my_email_newsletter_its/)"
+  - "[r/selfhosted](https://www.reddit.com/r/selfhosted/comments/1rasaap/why_i_chose_ghost_for_selfhosting_an_email/)"
 ---
 
 I'm hopeful that I've finally landed on a newsletter platform that I can stick with. Here's a timeline of the tools I've used:
