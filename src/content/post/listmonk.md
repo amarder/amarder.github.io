@@ -2,10 +2,14 @@
 title: "Self-Hosting an Email Newsletter"
 description: "How I'm hosting my new newsletter for free"
 publishDate: "2025-12-08"
-updatedDate: "2025-12-27"
+updatedDate: "2026-02-21"
 posse:
   - "[Reddit](https://www.reddit.com/r/selfhosted/comments/1pi53gf/selfhosting_a_newsletter_and_mailing_list_manager/)"
 ---
+
+:::warning{title=Deprecated}
+I'm no longer using listmonk. I'm now self-hosting [Ghost](/ghost) on [Hetzner](/hetzner).
+:::
 
 My friend [Cory](https://www.coryzue.com/) asked if there was a way to subscribe to blog updates via email.
 Now I can proudly say: Yes, I have a newsletter!

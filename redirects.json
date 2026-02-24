@@ -22,5 +22,6 @@
   "/piwikr/": "/analytics/piwikr/",
   "/piwik/": "/analytics/piwik/",
   "/follow/": "/subscribe/",
-  "/feeds/": "/subscribe/"
+  "/feeds/": "/subscribe/",
+  "/newsletter/": "/listmonk/"
 }
