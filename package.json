@@ -56,27 +56,27 @@
 		"unist-util-visit": "^5.1.0"
 	},
 	"devDependencies": {
-		"@astrojs/check": "^0.9.4",
-		"@biomejs/biome": "^2.2.4",
+		"@astrojs/check": "^0.9.6",
+		"@biomejs/biome": "^2.4.4",
 		"@iconify-json/mdi": "^1.2.2",
 		"@pagefind/default-ui": "^1.4.0",
-		"@playwright/test": "^1.55.1",
+		"@playwright/test": "^1.58.2",
 		"@resvg/resvg-js": "^2.6.2",
 		"@tailwindcss/typography": "^0.5.19",
 		"@types/hast": "^3.0.4",
 		"@types/katex": "^0.16.7",
 		"@types/mdast": "^4.0.4",
-		"@vitest/ui": "^3.2.4",
-		"autoprefixer": "^10.4.21",
-		"happy-dom": "^19.0.2",
+		"@vitest/ui": "^4.0.18",
+		"autoprefixer": "^10.4.27",
+		"happy-dom": "^20.7.0",
 		"pagefind": "^1.4.0",
-		"prettier": "^3.6.2",
+		"prettier": "^3.8.1",
 		"prettier-plugin-astro": "0.14.1",
-		"prettier-plugin-tailwindcss": "^0.6.14",
+		"prettier-plugin-tailwindcss": "^0.7.2",
 		"reading-time": "^1.5.0",
-		"tailwindcss": "4.1.13",
+		"tailwindcss": "4.2.1",
 		"typescript": "^5.9.3",
-		"vitest": "^3.2.4"
+		"vitest": "^4.0.18"
 	},
 	"pnpm": {
 		"overrides": {

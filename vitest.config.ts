@@ -46,12 +46,6 @@ export default defineConfig({
     // Test timeout (shorter for CI)
     testTimeout: process.env.CI ? 5000 : 10000,
     
-    // Pool options for better performance
     pool: 'threads',
-    poolOptions: {
-      threads: {
-        singleThread: false,
-      },
-    },
   },
 });
