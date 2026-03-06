@@ -1,37 +1,53 @@
 ---
-title: "My Super Productivity Setup"
+title: "My Super Productivity Notes"
 description: "How I organize work and personal tasks in Super Productivity with cross-device sync."
 publishDate: "2026-03-06"
 tags:
   - tools
 ---
 
-I've been searching for a task manager that checks all my boxes: open source, recurring tasks, calendar integration, and cross-device sync. After using [Obsidian Tasks](/post/obsidian/) and a brief stint with TickTick, I landed on [Super Productivity](https://super-productivity.com/). It's local-first, keyboard-driven, and has apps for macOS, Linux, and Android — no account required.
+I've used my fair share of task managers. When I used to use Emacs, I really enjoyed [Org Mode](https://orgmode.org/). More recently, I had been using [Obsidian Tasks](https://publish.obsidian.md/tasks/Introduction). Obsidian Tasks is a great lightweight solution for keeping track of a todo list, but I wanted a more powerful tool to start tracking my time like Org Mode. I spent a day playing around with [TickTick](https://ticktick.com/), but I've decided [Super Productivity](https://super-productivity.com/) is where it's at! Here are some of the features I really value:
+
+TODO: Clean up this list.
+
+- open source
+- recurring tasks
+- calendar integration
+- cross-device sync
+- local-first (I control my data)
+- keyboard-driven
+- apps for all the major platforms
+- no account required
+
+This post will walk through how I've set up Super Productivity.
 
 ## Projects
 
-I keep all my tasks — work and personal — on my personal machines so everything lives in one place. To keep them organized I use two top-level project folders:
+I keep all my tasks - work and personal - on my personal machines so everything lives in one place. When I'm working on my work computer, I use my phone to track my time. To keep projects organized I use two top-level project folders:
 
 - **Work**
 - **Personal**
 
-Create a project from the sidebar menu (☰ → Projects). Each project has a flat task list where you capture everything. Each morning I drag a few items into the global **Today** view — that's my commitment for the day. The project lists themselves act as backlogs.
+Inside those folders I have projects. Each project has a flat task list where you capture everything. At the end of each day I schedule tasks for tomorrow (press `s` on a task), so when I open the app in the morning my **Today** view is already populated and I can start working immediately. The project lists themselves act as backlogs.
 
-There's an "Enable Project Backlog" toggle when creating a project, but I leave it off. Turning it on adds a backlog drawer at the bottom of the project page for sprint-style planning — it's slick and unobtrusive, but more structure than I need.
+I'm using the "Enable Project Backlog" feature on some projects where I have tasks I might do someday but don't need to see every day. Turning this on adds a backlog drawer at the bottom of the project page—it's a convenient way to stash "someday/maybe" tasks out of my daily view.
 
-I assign tasks to a project with the `+` button when adding a task:
+## Tags
+
+Tags let you categorize tasks across projects. I use them for life areas that don't need their own project — things like `#Health`, `#Finances`, and `#Career`. Instead of creating near-empty projects for each of these, I keep them as tags on tasks in my Personal project:
 
 ```
-Review PR for auth refactor #Work
+Schedule dentist appointment #Health
+Rebalance 401k #Finances
 ```
 
-Within each project I use **tags** to slice across contexts (`#email`, `#deep-work`, `#errand`) so I can filter by what kind of work I'm in the mood for.
+Clicking a tag in the sidebar shows all tasks with that tag regardless of which project they're in, which is useful for checking on a life area without digging through individual projects. A reasonable rule of thumb: if a category consistently has fewer than 3-5 tasks, it's better as a tag than a project. You can always promote it later if it grows.
 
-## Syncing Across Devices
+## Sync
 
-Super Productivity's built-in WebDAV sync option is labeled "experimental" and have reports of data loss from conflict resolution failures ([#4737](https://github.com/johannesjo/super-productivity/issues/4737), [#3361](https://github.com/johannesjo/super-productivity/issues/3361), [#5965](https://github.com/super-productivity/super-productivity/issues/5965)). I'm using WebDAV sync with [Fastmail's WebDAV server](https://www.fastmail.help/hc/en-us/articles/1500000277882-Remote-file-access-WebDAV).
+Super Productivity's built-in WebDAV sync option is labeled as "experimental" and has reports of data loss from conflict resolution failures ([#3361](https://github.com/johannesjo/super-productivity/issues/3361), [#4737](https://github.com/johannesjo/super-productivity/issues/4737), [#5965](https://github.com/super-productivity/super-productivity/issues/5965)). I still think WebDAV is the best sync option. I'm using WebDAV sync with [Fastmail's WebDAV server](https://www.fastmail.help/hc/en-us/articles/1500000277882-Remote-file-access-WebDAV).
 
-### Fastmail WebDAV Setup
+##### Fastmail WebDAV Setup
 
 1. In Fastmail, go to **Settings → Privacy & Security → Integrations**.
 2. Click **New App Password**, enter your password to verify, and give it a name (e.g. "Super Productivity").
@@ -39,7 +55,7 @@ Super Productivity's built-in WebDAV sync option is labeled "experimental" and h
 4. Copy the generated password.
 5. In Super Productivity, go to **Settings → Sync** and configure:
    - **Sync provider:** WebDAV
-   - **Base URL:** `https://webdav.fastmail.com/username.fastmail.com/files/` (replace `username.fastmail.com` with your email, substituting `.` for `@`)
+   - **Base URL:** `https://myfiles.fastmail.com/`
    - **Username:** your full Fastmail email address
    - **Password:** the app password from step 4
    - **Only sync manually:** enabled
@@ -48,20 +64,27 @@ Under the hood, sync uploads a single `sync-data.json` file to your WebDAV serve
 
 To keep this safe I enable **"only sync manually"** in the WebDAV settings, which turns sync into an explicit pull/push workflow:
 
-1. **Stop any running timers** — syncing while a task is being timed can corrupt the data. I learned this the hard way: the receiving device flagged the database as corrupted and "fixed" it by duplicating every task.
-2. Open the app on whatever device you want to use.
-3. **Sync** to pull the latest data.
-4. Work — add tasks, track time, whatever.
-5. **Stop any running timers**, then **sync** to push your changes.
-6. Switch devices and repeat.
+:::warning
+**Stop any running timers** — syncing while a task is being timed can corrupt the data. I learned this the hard way. The receiving device flagged the database as corrupt and "fixed" it by duplicating every task.
+:::
+
+1. Open the app on whatever device you want to use.
+2. **Sync** to pull the latest data.
+3. Work — add tasks, track time, whatever.
+4. **Stop any running timers**, then **sync** to push your changes.
+5. Switch devices and repeat.
 
 This avoids background syncs racing between devices. It's the same mental model as `git pull` / `git push` — you're always in control of when data moves.
 
-A few more precautions:
+### App Updates
 
-- **Disable auto-updates** on Android (F-Droid doesn't auto-update by default; on Google Play, disable it per-app).
-- **Upgrade all devices together.** Different versions can use different sync file formats, so update desktop and Android at the same time.
-- **Export a backup before upgrading** (Settings → Import/Export → Export). The export is a JSON file you can reimport if something goes wrong.
+Be cautious when upgrading the app, especially if you’re using sync across multiple devices. To avoid sync issues or potential data loss:
+
+- **Turn off auto-updates** on Android (F-Droid doesn't auto-update by default; for Google Play, disable auto-update for Super Productivity in your app settings).
+- **Update all your devices at the same time.** Sync can break if versions get out of step, since new releases may change the sync file format. Make sure you upgrade desktop and mobile apps together, not one at a time.
+- **Always export a backup before upgrading** (Settings → Sync & Backup → Import/Export → Export Data). This gives you a JSON file you can restore from if something goes wrong.
+
+Staying in control of updates will help keep your data safe and your sync working smoothly.
 
 ## Calendar Integration
 
@@ -70,27 +93,63 @@ Super Productivity can overlay calendar events on your task timeline, which is h
 - **Fastmail** — my personal calendar via an ICS URL (using "iCal Other").
 - **Outlook 365 (work)** — also via an ICS URL.
 
-Both only show busy/free times, not event titles. I prefer this over CalDAV since it avoids exposing the titles of all my events to the app.
+My work calendar only supports ICS URLs, which show busy/free times but not event titles. I use ICS for Fastmail too so both calendars are setup the same way — I'd rather set things up consistently than see titles from only one calendar.
 
-The calendar overlay is read-only — events appear alongside your tasks, but tasks don't sync back to the calendar.
+The calendar overlay is read-only regardless of whether you use ICS or CalDAV — events appear alongside your tasks, but tasks don't sync back to the calendar.
 
-## Android
+## Due Dates
 
-The app is available on [Google Play](https://play.google.com/store/apps/details?id=com.superproductivity.superproductivity) and [F-Droid](https://f-droid.org/packages/com.superproductivity.superproductivity/). Both the CalDAV calendar overlay and WebDAV sync work on the native Android app without the cross-origin restrictions you might hit using Super Productivity in the browser.
+Super Productivity has a scheduled date (when the task appears in your planner) but no separate due date field. This has been [requested](https://github.com/johannesjo/super-productivity/issues/5643) [multiple](https://github.com/super-productivity/super-productivity/issues/6078) [times](https://github.com/super-productivity/super-productivity/issues/726) but hasn't been implemented. My workaround is to put the due date in the task title:
+
+```
+Submit expense report due 3/15
+```
+
+Then I schedule the task for when I actually want to work on it. It's not as clean as TickTick's separate due date field, but it's totally fine for me.
+
+## Recurring Tasks
+
+TODO: Document how to set up recurring tasks with a specific start date and repeat interval.
+
+## Notes
+
+Super Productivity has a notes feature separate from tasks. Notes don't show up in your Today view or project task lists, so they won't clutter your to-do list. I use them for things I want to remember but don't need to act on — the equivalent of TickTick's "convert task to note" feature.
+
+Each project has its own notes, which is great for keeping reference info close to the relevant work (e.g. deploy steps on the Blog project). The Tags section also has notes, but they're shared across all tags in one bucket rather than per-tag.
+
+## Idle Handling
+
+If you have a timer running and step away from your computer, Super Productivity will detect the inactivity and prompt you with "you have been idle for..." when you come back. This is on by default. The prompt gives you three options:
+
+- **Discard** — remove the idle time from tracking (you were away from work)
+- **Keep** — count it toward the task (you were thinking or reading offline)
+- **Split** — partially keep and partially discard
+
+You can adjust the idle threshold or turn it off entirely in **Settings → Time & Tracking → Idle Handling**. I'm debating whether I want this on or not.
+
+## Cross-Origin Restrictions
+
+If you're interested in connecting calendars or syncing via WebDAV, then I would suggest using the desktop and mobile apps instead of the web app.
+
+> Due to cross-origin restrictions **[connecting calendars] will likely NOT work with the web browser version of Super Productivity. Please download the desktop version to use this feature!**
+
+> **Making [WebDAV sync] work in a web browser:** Allow Super Productivity to make CORS requests to your WebDAV server. This can have negative security implications! Use at your own risk!
 
 ## Keyboard Shortcuts
 
-The keyboard-first design is one of my favorite things about this app. Here are the shortcuts I use most:
+Super Produtivity supports a ton of keyboard shortcuts, here are some of my favorites:
 
-**Global (application-wide):**
+##### Global (application-wide)
 
 | Shortcut          | Action                            |
 |-------------------|-----------------------------------|
 | `Shift+A`         | Add new task                      |
+| `n`               | Add new note                      |
+| `Shift+N`         | Show/hide notes                   |
 | `w`               | Focus on first task               |
 | `f`               | Enter focus mode                  |
 
-**Task (applies to selected task):**
+##### Task (applies to selected task)
 
 | Shortcut              | Action                        |
 |-----------------------|-------------------------------|
