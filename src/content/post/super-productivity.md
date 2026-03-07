@@ -1,12 +1,12 @@
 ---
-title: "My Super Productivity Notes"
+title: "Super Productivity: My Approach"
 description: "How I organize work and personal tasks in Super Productivity with cross-device sync."
-publishDate: "2026-03-06"
+publishDate: "2026-03-07"
 tags:
   - tools
 ---
 
-I've used my fair share of todo list systems. When I used Emacs, I really enjoyed [Org Mode](https://orgmode.org/). More recently, I had been using [Obsidian Tasks](https://publish.obsidian.md/tasks/Introduction). Obsidian Tasks is a great lightweight solution for keeping track of a todo list, but I wanted a more powerful tool to start tracking my time like Org Mode. I spent a day playing around with [TickTick](https://ticktick.com/), but I've decided [Super Productivity](https://super-productivity.com/) is where it's at! Here are some of the features I really value:
+I've used my fair share of todo list systems. When I used Emacs, I really enjoyed [Org Mode](https://orgmode.org/). More recently, I was using [Obsidian Tasks](https://publish.obsidian.md/tasks/Introduction). Obsidian Tasks is a great lightweight solution for keeping track of a todo list, but I wanted a more powerful tool that could also track my time. I spent a day playing around with [TickTick](https://ticktick.com/), but I've decided [Super Productivity](https://super-productivity.com/) is where it's at! Here are some of the features I really value:
 
 - combined tasks with time tracking
 - full control of my data
@@ -17,15 +17,15 @@ This post will walk through how I'm using Super Productivity.
 
 ## Tasks
 
-The core building block in Super Productivity is the task. A task is something I want to do. I create a new task by pressing the `+` button or using the keyboard shortcut `Shift-A`. When I create a task it's helpful to add a time estimate of how long I think it might take. When I start working on a task, I start tracking time on that task so I can get an idea of where I'm spending my time. Generally, I like to break my work down into tasks that take an hour or less.
+The core building block in Super Productivity is the task. A task is something I want to do. I create a new task by pressing the `+` button or using the keyboard shortcut `Shift+A`. When I create a task, it's helpful to add a time estimate of how long I think it might take. When I start working on a task, I track my time so I can see where I'm spending time. Generally, I like to break my work down into tasks that take an hour or less.
 
 ## Projects
 
-I like to organize my tasks into projects. For instance, I like to have one project named "Blog" for all the tasks I want to do around blogging, and one project named "Home" for all the chores I "want" to do around the house.[^1] Each project is a list of tasks. I prioritize my tasks in a project by ordering that list, the tasks at the top of the list are higher priority.
+I like to organize my tasks into projects. For instance, I have one project named "Blog" for all the tasks I want to do around blogging, and one project named "Home" for all the chores I "want" to do around the house. Each project is a list of tasks. I prioritize my tasks in a project by ordering that list; the tasks at the top of the list are higher priority.
 
-[^1]: I keep all my tasks - work and personal - on my personal machines so everything lives in one place. When I'm working on my work computer, I use my phone to track my time. To keep projects organized I use two top-level project folders: **Work**, **Personal**.
+I keep all my tasks — work and personal — on my personal machines so everything lives in one place. When I'm working on my work computer, I use my phone to track my time. To keep projects organized, I use two top-level project folders: **Work** and **Personal**.
 
-I'm using the "Enable Project Backlog" feature on some projects where I have tasks I might do someday but don't need to see every day. Turning this on adds a backlog drawer at the bottom of the project page - it's a convenient way to stash "someday/maybe" tasks out of my daily view.
+I'm using the "Enable Project Backlog" feature on some projects where I have tasks I might do someday but don't need to see every day. Turning this on adds a backlog drawer at the bottom of the project page — it's a convenient way to stash "someday/maybe" tasks out of my daily view.
 
 ## Tags
 
@@ -49,7 +49,7 @@ Clicking on a tag in the sidebar instantly shows you every task marked with that
 
 ## Sync
 
-Super Productivity's built-in WebDAV sync option is labeled as "experimental" and has reports of data loss from conflict resolution failures ([#3361](https://github.com/johannesjo/super-productivity/issues/3361), [#4737](https://github.com/johannesjo/super-productivity/issues/4737), [#5965](https://github.com/super-productivity/super-productivity/issues/5965)). I still think WebDAV is the best sync option for me. I'm using WebDAV sync with [Fastmail's WebDAV server](https://www.fastmail.help/hc/en-us/articles/1500000277882-Remote-file-access-WebDAV).
+Super Productivity's built-in WebDAV sync option is labeled "experimental" and there are reports of data loss from conflict resolution failures ([#3361](https://github.com/johannesjo/super-productivity/issues/3361), [#4737](https://github.com/johannesjo/super-productivity/issues/4737), [#5965](https://github.com/super-productivity/super-productivity/issues/5965)). I still think WebDAV is the best sync option for me. I'm using WebDAV sync with [Fastmail's WebDAV server](https://www.fastmail.help/hc/en-us/articles/1500000277882-Remote-file-access-WebDAV).
 
 ##### Fastmail WebDAV Setup
 
@@ -66,7 +66,7 @@ Super Productivity's built-in WebDAV sync option is labeled as "experimental" an
 
 Under the hood, sync uploads a single `sync-data.json` file to your WebDAV server. Conflicts happen when two devices both write between syncs — the app makes you pick one side and throws the other away.
 
-To keep things safe I enable **"only sync manually"** in the WebDAV settings, which turns sync into an explicit pull/push workflow:
+To keep things safe, I enable **"only sync manually"** in the WebDAV settings, which turns sync into an explicit pull/push workflow:
 
 :::warning
 **Stop any running timers** — syncing while a task is being timed can corrupt the data. I learned this the hard way. The receiving device flagged the database as corrupt and "fixed" it by duplicating every task.
@@ -95,9 +95,9 @@ Staying in control of updates will help keep your data safe and your sync workin
 Super Productivity can overlay calendar events on your task timeline, which is helpful for planning your day around meetings. I have two calendars connected:
 
 - **Outlook 365** — my work calendar via an ICS URL
-- **iCal Other** — my personal Fastmail calendar via an ICS URL 
+- **iCal Other** — my personal Fastmail calendar via an ICS URL
 
-My work calendar only supports ICS URLs, which show busy/free times but not event titles. I use ICS for Fastmail too so both calendars are setup the same way — I'd rather set things up consistently than see titles from only one calendar. The calendar overlay is read-only regardless of whether you use ICS or CalDAV — events appear alongside your tasks, but tasks don't sync back to the calendar.
+My work calendar only supports ICS URLs that show busy/free times (no event titles). I use ICS for Fastmail too, so both calendars are set up the same way — keep it simple. The calendar overlay is read-only regardless of whether you use ICS or CalDAV — events appear alongside your tasks, but tasks don't sync back to the calendar.
 
 ## Due Dates
 
@@ -119,7 +119,7 @@ To set up a recurring task, open the task's additional info panel and click "Rec
 - **Start date:** your desired start date
 - **Days:** Wednesday only
 
-There's a bug where the first occurrence ignores the start date and schedules for the next matching day instead ([#5281](https://github.com/super-productivity/super-productivity/issues/5281)). For example, setting a start date of 3/18/2026 on Friday 3/6/2026 =will schedule the first task for 3/11 (the next Wednesday) rather than 3/18.
+There's a bug where the first occurrence ignores the start date and schedules for the next matching day instead ([#5281](https://github.com/super-productivity/super-productivity/issues/5281)). On Friday 3/6/2026, I tried to set up a recurring task to happen every fourth Wednesday starting 3/18/2026, but Super Productivity scheduled the first task for 3/11 (the next Wednesday) rather than 3/18.
 
 ## Notes
 
@@ -139,7 +139,7 @@ You can adjust the idle threshold or turn it off entirely in **Settings → Time
 
 ## Cross-Origin Restrictions
 
-If you're interested in connecting calendars or syncing via WebDAV, then I would suggest using the desktop and mobile apps instead of the web app. Here are some warnings I've copied from the web app:
+If you're interested in connecting calendars or syncing via WebDAV, I'd suggest using the desktop and mobile apps instead of the web app. Here are some warnings I've copied from the web app:
 
 > Due to cross-origin restrictions **[connecting calendars] will likely NOT work with the web browser version of Super Productivity. Please download the desktop version to use this feature!**
 
@@ -147,7 +147,7 @@ If you're interested in connecting calendars or syncing via WebDAV, then I would
 
 ## Keyboard Shortcuts
 
-Super Produtivity supports a ton of keyboard shortcuts, here are some of my favorites:
+Super Productivity supports a ton of keyboard shortcuts. Here are some of my favorites:
 
 ##### Global (application-wide)
 
@@ -172,10 +172,6 @@ Super Produtivity supports a ton of keyboard shortcuts, here are some of my favo
 | `Ctrl+Shift+↑/↓`      | Move task up/down in the list |
 | `Delete`              | Delete task                   |
 
-## Workflow
-
-At the end of each day I schedule tasks for the next day (press `s` on a task), so when I open the app in the morning my **Today** view is already populated and I can start working immediately.
-
 ## Conclusion
 
-Super Productivity is an excellent piece of Free Open Source Software (FOSS). Like Org Mode, I think the killer feature is combining task management with time tracking. Another similarity to Org Mode, Super Productivity is not great for collaboration. If you need to coordinate with multiple people, Super Productivity probably isn't the right tool. In general, I think Super Productivity will be a great tool for me given my current needs.
+Super Productivity is an excellent piece of Free Open Source Software (FOSS). As with Org Mode, I think the killer feature is combining task management with time tracking. Also like Org Mode, Super Productivity is not great for collaboration. If you need to coordinate with multiple people, Super Productivity probably isn't the right tool. In general, I think Super Productivity will be a great tool for me.
