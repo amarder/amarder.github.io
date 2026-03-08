@@ -147,7 +147,7 @@ If you're interested in connecting calendars or syncing via WebDAV, I'd suggest 
 
 ## Keyboard Shortcuts
 
-Super Productivity supports a ton of keyboard shortcuts. Here are some of my favorites:
+Super Productivity supports a ton of keyboard shortcuts. Here are some of my favorites (all keyboard shortcuts can be customized in the settings):
 
 ##### Global (application-wide)
 
