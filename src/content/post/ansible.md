@@ -2,6 +2,7 @@
 title: An Ansible Playbook for a Secure VPS
 publishDate: "2026-03-09"
 description: ""
+draft: true
 ---
 
 :::note{title="Note"}

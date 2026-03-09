@@ -2,6 +2,7 @@
 title: "Super Productivity: My Approach"
 description: "How I organize work and personal tasks in Super Productivity with cross-device sync."
 publishDate: "2026-03-07"
+updatedDate: "2026-03-09"
 tags:
   - tools
 ---
@@ -68,14 +69,14 @@ Under the hood, sync uploads a single `sync-data.json` file to your WebDAV serve
 
 To keep things safe, I enable **"only sync manually"** in the WebDAV settings, which turns sync into an explicit pull/push workflow:
 
-:::warning
-**Stop any running timers** — syncing while a task is being timed can corrupt the data. I learned this the hard way. The receiving device flagged the database as corrupt and "fixed" it by duplicating every task.
+:::note
+I've experienced one sync issue. Once when I pulled data down to my phone, the app flagged the database as corrupt and "fixed" it by duplicating every task. I thought that maybe this was because I left a task timer running on my computer, so I like stopping any running timers before pushing my data up. I tested this again today but could not recreate the issue. Big thanks to Super Productivity's author [Johannes Millan](https://github.com/johannesjo) for reaching out to discuss this issue.
 :::
 
 1. Open the app on whatever device you want to use.
 2. **Sync** to pull the latest data.
 3. Work — add tasks, track time, whatever.
-4. **Stop any running timers**, then **sync** to push your changes.
+4. Stop any running timers, then **sync** to push your changes.
 5. Switch devices and repeat.
 
 This avoids background syncs racing between devices. It's the same mental model as `git pull` / `git push` — you're always in control of when data moves.
