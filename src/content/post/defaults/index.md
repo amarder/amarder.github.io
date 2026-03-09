@@ -1,7 +1,7 @@
 ---
 title: "My App Defaults"
 publishDate: "2026-01-15"
-updatedDate: "2026-03-08"
+updatedDate: "2026-03-09"
 description: "The default apps I use at home."
 tags:
   - slashpages
@@ -12,18 +12,18 @@ Here's a quick rundown of the default apps I currently use at home:
 | Category                 | Default                                                                            |
 |--------------------------|------------------------------------------------------------------------------------|
 | 📨 Mail Client           | [Fastmail](https://www.fastmail.com/) web and mobile apps                          |
-| 📮 Mail Server           | Fastmail with custom domains                                                       |
+| 📮 Mail Server           | Fastmail with custom domain                                                       |
 | 📝 Notes                 | [Obsidian](https://obsidian.md/)                                                   |
 | ✅ To-Do                 | [Super Productivity](https://super-productivity.com/)                              |
 | 📷 Photo Shooting        | Android camera app                                                                 |
 | 🟦 Photo Management      | [Immich](https://immich.app/)                                                      |
-| 📆 Calendar              | Fastmail Calendar                                                                  |
+| 📆 Calendar              | Fastmail with [Fossify Calendar](https://github.com/FossifyOrg/Calendar)           |
 | 📁 Cloud File Storage    | Dropbox, [B2](https://www.backblaze.com/cloud-storage)                             |
 | 📖 RSS                   | [Miniflux](https://miniflux.app/)                                                  |
 | 🙍🏻‍♂️ Contacts              | Fastmail Contacts                                                                  |
 | 🌐 Browser               | Firefox                                                                            |
 | 💬 Chat                  | Android Messages, [Signal](https://signal.org/)                                    |
-| 🔖 Bookmarks             | None at the moment                                                                 |
+| 🔖 Bookmarks             | [linkding](https://linkding.link/)                                                 |
 | 📑 Read It Later         | [Obsidian Web Clipper](https://obsidian.md/clipper)                                |
 | 🧑‍💻 Code Editor           | [Cursor](https://cursor.com/)                                                      |
 | 📜 Word Processing       | Cursor                                                                             |
@@ -36,9 +36,6 @@ Here's a quick rundown of the default apps I currently use at home:
 | 🎤 Podcasts              | I'm not into podcasts                                                              |
 | 🔐 Password Management   | [Bitwarden](https://bitwarden.com/)                                                |
 
-I'm considering some changes to my defaults:
-
-- I might set up a bookmarks manager like [linkding](https://linkding.link/).
-- I'm also considering [GrapheneOS](https://grapheneos.org/) for my phone, which could affect some of my defaults.
+I'm considering [GrapheneOS](https://grapheneos.org/) for my phone, which could affect some of my defaults.
 
 There's an awesome collection of app defaults organized by [Robb Knight](https://defaults.rknight.me/) - I scraped that data and put together a bird's-eye view [here](/defaults/data/). I learned about this blogging trend at [cobb.land/defaults](https://cobb.land/defaults/).
