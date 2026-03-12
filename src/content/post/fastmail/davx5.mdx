@@ -1,0 +1,72 @@
+---
+title: "How to Sync Fastmail Contacts and Calendars with Android"
+publishDate: "2026-03-11"
+description: "Step-by-step guide to syncing your Fastmail contacts and calendars on Android using DAVx⁵."
+tags:
+  - tools
+---
+
+import { Icon } from "astro-icon/components";
+
+Android doesn't natively support the CalDAV and CardDAV protocols used to sync calendars and contacts. [DAVx⁵](https://www.davx5.com/) bridges that gap — it's an open-source sync adapter that connects your Android device to any CalDAV/CardDAV server, including Fastmail. Once set up, your Fastmail contacts and calendars appear in whatever Android apps you already use (Google Contacts, Google Calendar, Fossify Contacts, Fossify Calendar, etc.).
+
+DAVx⁵ is available on [Google Play](https://play.google.com/store/apps/details?id=at.bitfire.davdroid&hl=en_US) (currently $6.49) and on [F-Droid](https://f-droid.org/packages/at.bitfire.davdroid/) (donations encouraged). Below is a nice diagram illustrating how the DAVx⁵ app keeps your contacts and calendars in sync with the server (copied from the [introduction](https://manual.davx5.com/introduction.html) in the DAVx⁵ manual).
+
+![](./how_davx5_interacts_with_other_components.png)
+
+## Setup
+
+DAVx⁵ supports two ways to connect to Fastmail: OAuth and app passwords. You'll need a Fastmail Standard plan or higher for this to work. Fastmail Basic plans don't include app passwords, CalDAV, or CardDAV access.
+
+### Option A: OAuth (recommended)
+
+I used this option.
+
+Since DAVx⁵ 4.5.1, you can authenticate through Fastmail's OAuth flow without entering any credentials directly in DAVx⁵.
+
+1. Open DAVx⁵ and tap the **+** button to create a new account.
+2. Choose **Fastmail** in the login dialog.
+3. Click **Sign in with Fastmail** — this opens a browser window.
+4. Enter your Fastmail credentials and grant DAVx⁵ access.
+5. Close the browser when authentication is complete.
+
+### Option B: App password
+
+I haven't tried this option yet, but I've used app passwords for other integrations with Fastmail and they have worked well.
+
+If OAuth doesn't work for you, you can use an app password instead. Fastmail requires an app password for third-party apps like DAVx⁵, so your regular password won't work here.
+
+1. In Fastmail, go to **Settings → Privacy & Security → App passwords**.
+2. Click **New app password**, verify with your password, and give it a name (e.g. "DAVx⁵").
+3. Under data access, select **Mail, calendars and contacts**.
+4. Copy the generated password.
+5. In DAVx⁵, tap the **+** button and choose **Login with email address**.
+6. Enter your Fastmail email and the app password from step 4.
+
+If you use a custom domain without SRV records, choose **Login with URL and user name** instead and enter:
+
+- **Base URL:** `https://fastmail.com`
+- **User name:** your email address
+- **Password:** your app password
+
+If autodiscovery still fails, Fastmail's [Server names and ports](https://www.fastmail.help/hc/en-us/articles/1500000278342-Server-names-and-ports) page has the full CalDAV/CardDAV settings and URL paths.
+
+## Selecting What to Sync
+
+After adding your account, DAVx⁵ shows a list of your Fastmail calendars and address books. Tap the ones you want to sync and hit the sync button. From this point on, DAVx⁵ handles sync in the background — any changes you make on your phone or in Fastmail's web interface will appear on both sides.
+
+## Manual Sync
+
+Each account in DAVx⁵ has separate tabs for CardDAV (address books) and CalDAV (calendars), but you don't need to sync each tab individually. Tap the **<Icon name="mdi:sync" class="inline h-[1em] w-[1em]" /> Synchronize now** button at the bottom of the screen and DAVx⁵ will sync all tabs at once. There's also a **Sync all** button on the main accounts screen that syncs all accounts in one tap.
+
+If something goes wrong, DAVx⁵ posts a notification with a summary of the error. Tap the notification to see details. For deeper investigation, go to **DAVx⁵ → Settings → Verbose logging** and toggle it on. DAVx⁵ will write a detailed log of every HTTP request and response to a file. A persistent notification appears with a **Share** action you can use to send the log to an email app or file manager. Turn verbose logging off when you're done — the log is deleted automatically.
+
+## Things to Know
+
+- **Allow unrestricted battery usage.** Android will throttle or stop DAVx⁵'s background sync to save battery unless you exempt it. Go to **Settings → Apps → DAVx⁵ → Battery** (or **App battery usage**) and select **Unrestricted**. Without this, syncs may only happen when you manually open the app.
+- **Manufacturer-specific app killing.** Even after setting "Unrestricted" in stock Android, phones from Xiaomi, Huawei, OnePlus, Oppo, Samsung, and others layer on their own autostart prevention and background restrictions that can silently kill DAVx⁵. Check [dontkillmyapp.com](https://dontkillmyapp.com/) for device-specific instructions.
+- **Existing device contacts don't sync up automatically.** If you already have contacts stored locally on your phone, DAVx⁵ won't copy them to Fastmail. You'll need to [import them into Fastmail](https://www.fastmail.help/hc/en-us/articles/1500000280081) separately.
+- **Sync interval.** DAVx⁵ can sync on change and on a schedule, but exact timing depends on your sync interval settings and Android's battery/network restrictions. You can adjust the interval in DAVx⁵'s account settings or trigger a manual sync at any time.
+- **Contact group method.** Set the contact group method to **Groups are separate vCards** in DAVx⁵'s account settings to match Fastmail's format. This was the default setting when I set things up using OAuth.
+- **Read-only subscription calendars.** If you subscribe to external calendar feeds in Fastmail (e.g. a shared team calendar or a public holiday feed), those sync as read-only. If you add a reminder to an event in one of those calendars on your phone, DAVx⁵ will try to push the change, get an HTTP 403 Forbidden error from Fastmail, and keep retrying every sync cycle until you remove the reminder.
+- **VPN battery drain.** If you use a persistent VPN (like WireGuard) and lose your network connection, DAVx⁵ can enter a loop of failed connection attempts that drains your battery. The VPN reports a connected tunnel but there's no actual internet, so DAVx⁵ keeps retrying.
