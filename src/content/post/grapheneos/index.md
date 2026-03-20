@@ -1,7 +1,7 @@
 ---
 title: "GrapheneOS: An Introduction"
-publishDate: "2026-03-19"
-description: ""
+publishDate: "2026-03-20"
+description: "Notes from my first few days with GrapheneOS"
 ---
 
 I was having some issues syncing my contacts from Fastmail with my Google Pixel. As I dug into the issue, I started to suspect that Google's flavor of Android might be making things difficult. I decided it was time to give [GrapheneOS](https://grapheneos.org/) a try.
