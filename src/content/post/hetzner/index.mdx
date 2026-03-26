@@ -1,7 +1,7 @@
 ---
 title: "Hetzner: Kubernetes for $4.10 a Month"
 publishDate: "2026-02-17"
-updatedDate: "2026-02-18"
+updatedDate: "2026-03-26"
 description: "A single-node Kubernetes cluster on Hetzner Cloud for about $4/month using hetzner-k3s, Helmfile, and cert-manager."
 posse:
   - "[Reddit](https://www.reddit.com/r/hetzner/comments/1r83iqb/kubernetes_in_the_cloud_for_410_a_month/)"
@@ -135,18 +135,6 @@ Cloudflare supports proxying wildcard records on all plans, but we use DNS only 
 :::
 
 Now any subdomain of `k3s.andrewmarder.net` resolves to your server. Adding a new service later is just creating a new Kubernetes Ingress — no DNS changes needed.
-
-##### Optional AAAA Record
-
-Your Hetzner server also has an IPv6 address. If you set up an AAAA record with that address, then users will be able to connect to the server faster (I recently learned about DNS dual-stack). You can find your server's IPv6 address in the [Hetzner Console](https://console.hetzner.com/):
-
-1. Click **Add Record** again
-2. Create a wildcard AAAA record:
-   - **Type**: `AAAA`
-   - **Name**: `*.k3s`
-   - **IPv6 address**: your server's IPv6 address
-   - **Proxy status**: **DNS only** (grey cloud)
-3. Click **Save**
 
 ## 4. Project Structure
 
