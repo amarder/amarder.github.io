@@ -58,7 +58,7 @@ The built-in keyboard is meant to be replaced. I tried a few options:
 - [HeliBoard](https://github.com/HeliBorg/HeliBoard): good (but not great) glide typing
 - [Gboard](https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin): excellent glide typing
 
-Initially, I set up Gboard with no network permissions hoping this would prevent it from sending data back to Google. Thankfully, a super helpful reader pointed out that's not how Gboard sends data to Google. Gboard logs the data through inter-process communication (IPC), and Google Mobile Services (GMS) sends the data back to Google. There's a great discussion on the [GrapheneOS Discussion Forum](https://discuss.grapheneos.org/d/33022-gboard-data-collection). Here's what I've done to try to lockdown Gboard:
+Initially, I set up Gboard with no network permissions, hoping this would prevent it from sending data back to Google. Thankfully, a super helpful reader pointed out that's not how Gboard sends data to Google. Gboard logs the data through inter-process communication (IPC), and Google Mobile Services (GMS) sends the data back to Google. There's great info on the [GrapheneOS Discussion Forum](https://discuss.grapheneos.org/d/33022-gboard-data-collection). Here's what I've done to try to lock down Gboard:
 
 - [ ] Remove network permissions
 - [ ] `Gboard > Privacy > Share usage statistics` toggled off
@@ -69,7 +69,7 @@ Initially, I set up Gboard with no network permissions hoping this would prevent
 
 The AOSP camera app is a major downgrade from what shipped with the Pixel. So I installed [Pixel Camera](https://play.google.com/store/apps/details?id=com.google.android.GoogleCamera). I'm also playing around with [Open Camera](https://play.google.com/store/apps/details?id=net.sourceforge.opencamera), but it's less of a point-and-shoot app and more suited for hardcore photographers. If there are any camera apps you like, please let me know!
 
-Like Gboard, Pixel Camera faces the same IPC concern — data can potentially flow to Google through inter-process communication via GMS, independent of network permissions. There's some discussion on the [GrapheneOS Discussion Forum](https://discuss.grapheneos.org/d/12924-any-other-ways-to-secure-the-use-of-the-pixel-camera-and-gboard-from-ipc). I haven't found any privacy settings like Gboard, so all I've done to try to lock down Pixel Camera is:
+Like Gboard, Pixel Camera faces the same IPC concern — data can potentially flow to Google through inter-process communication and GMS, independent of network permissions. There's some discussion on the [GrapheneOS Forum](https://discuss.grapheneos.org/d/12924-any-other-ways-to-secure-the-use-of-the-pixel-camera-and-gboard-from-ipc). I haven't found any privacy settings like those in Gboard, so all I've done to try to lock down Pixel Camera is:
 
 - [ ] Remove network permissions
 
@@ -81,7 +81,7 @@ Google's weather app is very good. I've replaced it with [WeatherMaster](https:/
 
 I'm trying out [OsmAnd](https://osmand.net/) for maps. I haven't tested it much, and I wouldn't be surprised if I went back to using Google Maps.
 
-I like using Android Auto in the car. I set up a separate user account on my phone specifically for the car. I installed Android Auto and Google Maps. I messed around for a bit and got everything working! The reason I set up a separate user account is you need to give Android Auto a lot of permissions, and I wanted that separate from my personal data. I decided to create a burner Google account to connect to the play store and download those apps, it was interesting that I had to enter credit card information to use the play store. So, even with my "burner" account Google knows exactly who it is.
+I like using Android Auto in the car. I set up a separate user account on my phone specifically for the car, I installed Android Auto and Google Maps and got everything working! The reason I set up a separate user account is that Android Auto requires a lot of permissions, and I wanted to prevent those apps from accessing my personal data. I also created a burner Google account to connect to the Play Store and download those apps. Unfortunately, I had to enter credit card information to use the Play Store. So, even with my "burner" account, Google knows exactly who it is.
 
 ##### Smart Home
 
