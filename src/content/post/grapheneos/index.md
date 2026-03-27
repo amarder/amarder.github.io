@@ -1,14 +1,17 @@
 ---
 title: "GrapheneOS: An Introduction"
 publishDate: "2026-03-20"
+updatedDate: "2026-03-27"
 description: "Notes from my first few days with GrapheneOS"
+posse:
+  - "[Reddit](https://www.reddit.com/r/GrapheneOS/comments/1ryxjyp/notes_from_a_newb/)"
 ---
 
 I was having some issues syncing my contacts from Fastmail with my Google Pixel. As I dug into the issue, I started to suspect that Google's flavor of Android might be making things difficult. I decided it was time to give [GrapheneOS](https://grapheneos.org/) a try.
 
 > GrapheneOS is a privacy and security focused mobile OS with Android app compatibility developed as a non-profit open source project. It's focused on the research and development of privacy and security technology including substantial improvements to sandboxing, exploit mitigations and the permission model. It was founded in 2014 and was formerly known as CopperheadOS.
 
-I'm a few days into using GrapheneOS and it is a breath of fresh air. Google's Android has surveillance baked in. They watch everything I do on my phone, record that data, and use it to bombard me with ads. Moving to GrapheneOS has transformed my phone into a tool that works for me, not Google.
+I'm about a week into using GrapheneOS and it is a breath of fresh air. Google's Android has surveillance baked in. They watch everything I do on my phone, record that data, and use it to bombard me with ads. Moving to GrapheneOS has transformed my phone into a tool that works for me, not Google.
 
 ## Privacy
 
@@ -42,7 +45,9 @@ I don't think it will be possible to set up visual voicemail with GrapheneOS on 
 The built-in web browser [Vanadium](https://grapheneos.org/features#vanadium) is great. "Vanadium is a hardened variant of Chromium providing enhanced privacy and security, similar to how GrapheneOS compares to Android Open Source Project (AOSP)." I had previously been using Firefox on my phone with some security tweaks - Vanadium is way better out of the box, it's a nice upgrade for me.
 
 :::note
-Vanadium does not support Chrome extensions. This could be a dealbreaker for some users, but it's not a big deal for me.
+- Vanadium does not support Chrome extensions. This could be a dealbreaker for some users, but it's not a big deal for me.
+
+- If you want a reading mode in Vanadium you need to turn it on: `Settings > Accessibility > Simplified view for web pages`
 :::
 
 ##### Writing
@@ -53,11 +58,20 @@ The built-in keyboard is meant to be replaced. I tried a few options:
 - [HeliBoard](https://github.com/HeliBorg/HeliBoard): good (but not great) glide typing
 - [Gboard](https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin): excellent glide typing
 
-I've decided to use Gboard with no network permissions so it can't send data back to Google.
+Initially, I set up Gboard with no network permissions hoping this would prevent it from sending data back to Google. Thankfully, a super helpful reader pointed out that's not how Gboard sends data to Google. Gboard logs the data through inter-process communication (IPC), and Google Mobile Services (GMS) sends the data back to Google. There's a great discussion on the [GrapheneOS Discussion Forum](https://discuss.grapheneos.org/d/33022-gboard-data-collection). Here's what I've done to try to lockdown Gboard:
+
+- [ ] Remove network permissions
+- [ ] `Gboard > Privacy > Share usage statistics` toggled off
+- [ ] `Gboard > Privacy > Improve for everyone` toggled off
+- [ ] `Gboard > Privacy > Audio donations` toggled off
 
 ##### Photos
 
-The AOSP camera app is a major downgrade from what shipped with the Pixel. So I installed [Pixel Camera](https://play.google.com/store/apps/details?id=com.google.android.GoogleCamera) with no network permissions. I'm also playing around with [Open Camera](https://play.google.com/store/apps/details?id=net.sourceforge.opencamera), but it's less of a point-and-shoot app and more suited for hardcore photographers. If there are any camera apps you like, please let me know!
+The AOSP camera app is a major downgrade from what shipped with the Pixel. So I installed [Pixel Camera](https://play.google.com/store/apps/details?id=com.google.android.GoogleCamera). I'm also playing around with [Open Camera](https://play.google.com/store/apps/details?id=net.sourceforge.opencamera), but it's less of a point-and-shoot app and more suited for hardcore photographers. If there are any camera apps you like, please let me know!
+
+Like Gboard, Pixel Camera faces the same IPC concern — data can potentially flow to Google through inter-process communication via GMS, independent of network permissions. There's some discussion on the [GrapheneOS Discussion Forum](https://discuss.grapheneos.org/d/12924-any-other-ways-to-secure-the-use-of-the-pixel-camera-and-gboard-from-ipc). I haven't found any privacy settings like Gboard, so all I've done to try to lock down Pixel Camera is:
+
+- [ ] Remove network permissions
 
 ##### Weather
 
@@ -67,9 +81,7 @@ Google's weather app is very good. I've replaced it with [WeatherMaster](https:/
 
 I'm trying out [OsmAnd](https://osmand.net/) for maps. I haven't tested it much, and I wouldn't be surprised if I went back to using Google Maps.
 
-:::note
-It sounds like Android Auto can work on GrapheneOS, but it might be a little flaky and require a lot of permissions. I'm planning to set up another user profile on my phone just for Android Auto, but I haven't tried this yet.
-:::
+I like using Android Auto in the car. I set up a separate user account on my phone specifically for the car. I installed Android Auto and Google Maps. I messed around for a bit and got everything working! The reason I set up a separate user account is you need to give Android Auto a lot of permissions, and I wanted that separate from my personal data. I decided to create a burner Google account to connect to the play store and download those apps, it was interesting that I had to enter credit card information to use the play store. So, even with my "burner" account Google knows exactly who it is.
 
 ##### Smart Home
 
