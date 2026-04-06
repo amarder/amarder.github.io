@@ -16,20 +16,40 @@ publishDate: "2026-04-06"
   ></iframe>
 </div>
 
-Recently, I've been eyeing the [TRMNL X](https://youtu.be/D0wQ8gCxCvw?si=YwOn7qDHiALbWdZM) - it looks like some sweet hardware. As, I've read up on it, I learned that I could transform an old Kindle (which I had) into a TRMNL. I used TRMNL's open source code to transform my Kindle into a TRMNL, code [here](https://github.com/usetrmnl/trmnl-kindle). I also self-hosted [Terminus](https://github.com/usetrmnl/terminus) - TRMNL's "flagship" Bring Your Own Server (BYOS). I was disappointed with both open source offerings:
+I've been eyeing the [TRMNL X](https://youtu.be/D0wQ8gCxCvw?si=YwOn7qDHiALbWdZM) -- it looks like some sweet hardware. But I'm cheap. When I learned it was possible to transform an old Kindle into a TRMNL, I had to try it before shelling out for the real thing. I had an old Kindle sitting on a shlef, so off I went. Here's how it went.
 
-1. When running TRMNL's code on my Kindle, the clock would be drawn over my dashboard. Not great. So, I modified their code using AI to make it more reliable. I've posted the results [here](https://github.com/amarder/trmnl-kindle).
+**Things That Didn't Work Well**
 
-2. After spinning up Terminus, I discovered that it does not currently support plugins (one of TRMNL's main features). Not great. I moved over to using [LaraPaper](https://github.com/usetrmnl/larapaper), which supports plugins.
+I tried a few approaches before landing on a setup I was happy with:
 
-Following the common tradition of blogging about blogging, I wanted disply my web analytics on my new dashboard. Building on a plugin created by [Nick Winans](https://nick.winans.io/), I put together [trmnl-umami](https://github.com/amarder/trmnl-umami).
+1. **[Terminus](https://github.com/usetrmnl/terminus)** -- TRMNL's open source Bring Your Own Server (BYOS). After spinning it up, I discovered it doesn't currently support plugins, which is one of TRMNL's main features.
 
-There are some big TODOs left on the software I've posted:
+2. **[TRMNL's trmnl-kindle code](https://github.com/usetrmnl/trmnl-kindle)** -- This code kind of works, but the Kindle OS was still drawing its clock over my dashboard.
+
+3. **[Nick Winans' Umami plugin](https://github.com/Nicell/trmnl-umami)** -- Following the common tradition of blogging about blogging, I wanted to display my web analytics on the dashboard. Nick's plugin was a helpful starting point, but it didn't seem to work with Umami Cloud.
+
+**What I Landed On**
+
+After some tinkering, I settled on three open source tools that now power my setup:
+
+1. **[LaraPaper](https://github.com/usetrmnl/larapaper)** -- A TRMNL BYOS alternative that actually supports plugins. This replaced Terminus.
+
+2. **[trmnl-kindle](https://github.com/amarder/trmnl-kindle)** -- My modified version of TRMNL's Kindle code, tweaked with the help of AI to be more reliable.
+
+3. **[trmnl-umami](https://github.com/amarder/trmnl-umami)** -- A custom Umami analytics plugin, built on Nick Winans' work.
+
+![A screenshot of trmnl-umami](umami.png)
+
+**A Word of Warning**
+
+The software I've posted still has some rough edges:
 
 1. trmnl-kindle crashes when I try to start it via KUAL.
 2. trmnl-kindle has not been optimized to extend battery life.
 3. trmnl-umami only supports full layout (not half or quadrant layouts).
 
-![A screenshot of trmnl-umami](umami.png)
+If you're interested in using any of this, please reach out. Knowing someone else wants to use it would motivate me to fix these issues.
 
-If you're curious about turning an old Kindle into a TRMNL, let me know. The current open source solutions are a quite rough so it might help to have a companion to go down this rabbit hole.
+**Overall**
+
+I'm very happy with my new dashboard. It gives me a dedicated place to glance at things I'd otherwise pull out my phone to check -- weather, web analytics, finances. Now I can see all of that without getting sucked into my phone.
