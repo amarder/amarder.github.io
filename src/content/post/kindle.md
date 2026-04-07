@@ -2,6 +2,8 @@
 title: "WinterBreak: Unlocking Kindle's Full Potential"
 description: 'How I set up KOReader on my Kindle and phone, with books synced across both devices via Calibre-Web and OPDS.'
 publishDate: '2026-04-01'
+tags:
+  - "e-ink"
 ---
 
 Oops!... I did it again! I went down another rabbit hole. This time I jailbroke my Kindle using [WinterBreak](https://kindlemodding.org/jailbreaking/WinterBreak/). Why did I do this?

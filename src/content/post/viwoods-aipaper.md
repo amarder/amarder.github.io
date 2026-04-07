@@ -3,6 +3,7 @@ title: "Using an E-Ink Tablet for Notes and Reading"
 description: "Some notes on how I use the Viwoods AiPaper."
 publishDate: "2025-09-13"
 tags:
+  - "e-ink"
   - tools
 ---
 
@@ -100,3 +101,9 @@ Here are the places where the AiPaper excels:
     When I take notes with the AiPaper in meetings, people are less likely to worry that I'm multitasking or not paying attention.
 
 The iPad is like a great chef's knife: super versatile. The AiPaper is like a great paring knife: it's luxurious to have around, but cooking a meal with it would be painful.
+
+<!-- 
+https://riddle.press/some-e-ink-workflows-for-mac-users-2/
+
+https://www.reddit.com/r/viwoods/comments/1s8in60/guide_understanding_your_files_my_files_vs/
+-->

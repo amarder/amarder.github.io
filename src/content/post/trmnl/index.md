@@ -1,5 +1,5 @@
 ---
-title: "TRMNL: My New ePaper Dashboard"
+title: "TRMNL: My New E-Ink Dashboard"
 description: ""
 publishDate: "2026-04-06"
 updatedDate: "2026-04-07"
