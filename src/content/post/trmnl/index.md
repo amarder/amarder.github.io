@@ -2,6 +2,11 @@
 title: "TRMNL: My New ePaper Dashboard"
 description: ""
 publishDate: "2026-04-06"
+updatedDate: "2026-04-07"
+tags:
+  - "e-ink"
+posse:
+  - "[Reddit](https://www.reddit.com/r/trmnl/comments/1sdyp58/some_notes_on_bringing_your_own_device_and_server/)"
 ---
 
 <div style="position: relative; width: 100%; padding-top: 56.25%; margin-bottom: 1.5em;">
@@ -24,7 +29,7 @@ I tried a few things that didn't work for me:
 
 1. **[Terminus](https://github.com/usetrmnl/terminus)** -- TRMNL's open source Bring Your Own Server (BYOS). After spinning it up, I discovered it doesn't currently support plugins, which was a dealbreaker for me.
 
-2. **[TRMNL's trmnl-kindle code](https://github.com/usetrmnl/trmnl-kindle)** -- This code kind of works, but the Kindle OS was still drawing its clock over my dashboard, another dealbreaker.
+2. **[TRMNL's trmnl-kindle code](https://github.com/usetrmnl/trmnl-kindle)** -- This code kind of works, but the Kindle OS was drawing its clock over my dashboard.
 
 3. **[Nick Winans' Umami plugin](https://github.com/Nicell/trmnl-umami)** -- Following the longstanding tradition of blogging about blogging, I wanted to display my web analytics on my dashboard. Nick's plugin was a helpful starting point, but it didn't seem to work with Umami Cloud.
 
@@ -32,23 +37,17 @@ I tried a few things that didn't work for me:
 
 After some tinkering, I settled on three open source tools that now power my setup:
 
-1. **[LaraPaper](https://github.com/usetrmnl/larapaper)** -- A TRMNL BYOS alternative that supports plugins. This replaced Terminus.
+1. **[LaraPaper](https://github.com/usetrmnl/larapaper)** -- A TRMNL BYOS that supports plugins. This replaced Terminus.
 
-2. **[trmnl-kindle](https://github.com/amarder/trmnl-kindle)** -- My modified version of TRMNL's Kindle code, tweaked so the Kindle OS doesn't draw on my dashboard.
+2. **[trmnl-koreader](https://github.com/usetrmnl/trmnl-koreader)** -- TRMNL's display plugin for KOReader. I wrote some notes on how I set this up [here](https://github.com/amarder/trmnl-koreader/blob/main/faq.md).
 
 3. **[trmnl-umami](https://github.com/amarder/trmnl-umami)** -- A custom Umami Analytics plugin, built on Nick's work.
 
 ![A screenshot of trmnl-umami](umami.png)
 
-**A Word of Warning**
-
-The software I've posted still has many rough edges:
-
-1. trmnl-kindle crashes when I try to start it via KUAL.
-2. trmnl-kindle has not been optimized to extend battery life.
-3. trmnl-umami only supports full layout (not half or quadrant layouts).
-
-If you're interested in using any of this, please reach out. Knowing someone else wants to use it would motivate me to fix these issues.
+:::warning
+Only the full layout is working in my trmnl-umami plugin (half and quadrant layouts are broken). If you need those layouts, please reach out. Knowing someone else wants to use it would motivate me to fix these issues.
+:::
 
 **Overall**
 
