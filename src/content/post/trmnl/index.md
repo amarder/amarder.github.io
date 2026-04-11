@@ -1,8 +1,8 @@
 ---
 title: "TRMNL: My New E-Ink Dashboard"
-description: ""
+description: "Turning an old Kindle into a TRMNL e-ink dashboard"
 publishDate: "2026-04-06"
-updatedDate: "2026-04-10"
+updatedDate: "2026-04-11"
 tags:
   - "e-ink"
 posse:
@@ -27,7 +27,7 @@ I've been eyeing the TRMNL X - it looks like some sweet hardware. But I'm frugal
 
 1. **[usetrmnl/terminus](https://github.com/usetrmnl/terminus)** - TRMNL's open source Bring Your Own Server (BYOS). After spinning it up, I discovered it doesn't currently support plugins, which was a dealbreaker for me.
 
-2. **[usetrmnl/trmnl-kindle](https://github.com/usetrmnl/trmnl-kindle)** - This code kind of works, but the Kindle OS was drawing its clock over my dashboard.
+2. **[usetrmnl/trmnl-kindle](https://github.com/usetrmnl/trmnl-kindle)** - This code kind of works, but the Kindle OS kept drawing its clock over my dashboard.
 
 3. **[usetrmnl/trmnl-koreader](https://github.com/usetrmnl/trmnl-koreader)** - A TRMNL display plugin for KOReader. This code works reliably, but its battery life wasn't great.
 
@@ -35,20 +35,16 @@ I've been eyeing the TRMNL X - it looks like some sweet hardware. But I'm frugal
 
 **What I Landed On**
 
-After a lot of tinkering, I settled on three open source tools that now power my setup:
+After quite a bit of tinkering, I settled on three open source tools that now power my setup:
 
 1. **[usetrmnl/larapaper](https://github.com/usetrmnl/larapaper)** - A TRMNL BYOS that supports plugins.
 
-2. **[amarder/kindle-trmnl](https://github.com/amarder/kindle-trmnl)** - A custom TRMNL client that takes battery efficiency to the max. After the client fetches and displays the dashboard, it immediately puts the Kindle to sleep. Pressing the power button wakes the device, updates the dashboard, and puts it back to sleep. By requiring a manual press of the power button to refresh the dashboard, we can dramatically extend the runtime on a single charge.
+2. **[amarder/ktrm](https://github.com/amarder/ktrm)** - A custom TRMNL client that takes battery efficiency to the max. After the client fetches and displays the dashboard, it immediately puts the Kindle to sleep. Pressing the power button wakes the device, updates the dashboard, and puts it back to sleep. By requiring a manual button press to refresh, this approach dramatically extends runtime on a single charge.
 
 3. **[amarder/trmnl-umami](https://github.com/amarder/trmnl-umami)** - A custom Umami Analytics plugin, built on Nick's work.
 
 ![A screenshot of trmnl-umami](umami.png)
 
-:::note
-The kindle-trmnl and trmnl-umami projects I've posted on GitHub are works in progress. If you're interested in trying them, feel free to reach out, since there are lots of rough edges.
-:::
-
 **Overall**
 
-I'm very happy with my new dashboard. It gives me a dedicated place to get a feel for reader engagement. By pressing a button, I can quickly see my latest web analytics. I'm hopeful this will help me spend less time browsing analytics data on my phone.
+I'm very happy with my new dashboard. It gives me a dedicated place to get a feel for reader engagement. By pressing a button, I can quickly see my latest web analytics.
