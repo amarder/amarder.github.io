@@ -1,7 +1,8 @@
 ---
-title: "Using an E-Ink Tablet for Notes and Reading"
+title: "Viwoods AiPaper: An E-Ink Tablet for Notes and Reading"
 description: "Some notes on how I use the Viwoods AiPaper."
 publishDate: "2025-09-13"
+updatedDate: "2026-04-12"
 tags:
   - "e-ink"
   - tools
@@ -52,6 +53,10 @@ graph TB;
     class Dropbox dropboxStyle
 ```
 
+:::warning
+I found [this Reddit post](https://www.reddit.com/r/viwoods/comments/1s8in60/guide_understanding_your_files_my_files_vs/) helpful in understanding why there are so many manual steps in the sync process. TLDR: Viwoods divides the device storage into two areas (1) My Files and (2) Internal Storage. The Learning app stores its files in My Files; to interact with those files you need to export them to Internal Storage. This means I can't use the Learning app directly with files stored in Dropbox. This is very annoying. For this reason, I would advise against buying this tablet. Instead, I think the [BOOX Go 10.3](https://shop.boox.com/products/go103) is a better buy.
+:::
+
 ## Stylus
 
 The stylus that comes with the Viwoods AiPaper is okay.
@@ -66,8 +71,9 @@ I tried (and returned) two other styluses:
 The Noris Classic was solid (no button, no eraser, no rattle), but it was too light, and too thin to be held by the loop on the case.
 The Noris Jumbo had an eraser and a slight rattle.
 The Jumbo was probably *slightly* better than the Viwoods stylus, but not enough to justify the price.
-I wish rOtring made an EMR stylus, I love their mechanical pencils.
-If you have any stylus suggestions, definitely let me know in the comments.
+I wish rOtring made an EMR stylus; I love their mechanical pencils.
+If you have any stylus suggestions, definitely let me know.
+I've recently heard good things about the [Viwoods C1 Ceramic Stylus](https://viwoods.com/collections/accessories/products/viwoods-c1-ceramics-stylus).
 
 ## iPad Comparison
 
@@ -75,7 +81,7 @@ Back in 2019, I bought a second-generation Apple Pencil and a first-generation 1
 They both work great.
 As a general-purpose tablet, the iPad crushes the AiPaper:
 
-- I prefer the Apple Pencil to the Viwoods stylus
+- I prefer the Apple Pencil to the Viwoods stylus.
 - The software available on the iPad is superb.
     - [Notability](https://notability.com/) is way better than Viwoods Paper.
     - [PDF Expert](https://pdfexpert.com/) is way better than Viwoods Learning.
@@ -104,6 +110,4 @@ The iPad is like a great chef's knife: super versatile. The AiPaper is like a gr
 
 <!-- 
 https://riddle.press/some-e-ink-workflows-for-mac-users-2/
-
-https://www.reddit.com/r/viwoods/comments/1s8in60/guide_understanding_your_files_my_files_vs/
 -->
