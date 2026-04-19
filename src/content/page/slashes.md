@@ -36,3 +36,7 @@ This is an index of my site's [slash pages](https://slashpages.net/):
 -   [/subscribe](/subscribe)
 
     a page listing your RSS/Atom/JSON feeds and other way to subscribe to your posts
+
+-   [/why](/why)
+
+    an opportunity to say what you care about, what direction you’re heading, and how you hope to exist in the world. A minifesto on the purpose of your site, or your work
