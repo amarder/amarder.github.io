@@ -32,7 +32,7 @@ Here's a quick rundown of the default apps I currently use at home:
 | 🛒 Shopping Lists        | Obsidian                                                                           |
 | 💰 Budgeting             | [Actual Budget](https://actualbudget.org/)                                         |
 | 📰 News                  | [The Guardian](https://www.theguardian.com/us)                                     |
-| 🎵 Music                 | [TIDAL](https://tidal.com/)                                                        |
+| 🎵 Music                 | [Deezer](https://www.deezer.com/)                                                  |
 | 🎤 Podcasts              | I'm not into podcasts                                                              |
 | 🔐 Password Management   | [Bitwarden](https://bitwarden.com/)                                                |
 
