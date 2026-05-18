@@ -26,3 +26,5 @@ kubeconfig
 *.pem
 .cache
 .astro
+
+.pnpm-store

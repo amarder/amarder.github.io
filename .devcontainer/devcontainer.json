@@ -1,0 +1,30 @@
+{
+	"name": "amarder.github.io",
+	"image": "mcr.microsoft.com/devcontainers/javascript-node:24",
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/pnpm:2": {},
+		// Optional: remove the line below if you don't want Pi (https://pi.dev/)
+		"./features/pi": {}
+	},
+	"postCreateCommand": "pnpm install",
+	"forwardPorts": [4321],
+	"portsAttributes": {
+		"4321": {
+			"label": "Astro Dev Server",
+			"onAutoForward": "notify"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"astro-build.astro-vscode",
+				"biomejs.biome",
+				"bradlc.vscode-tailwindcss"
+			],
+			"settings": {
+				"editor.formatOnSave": true,
+				"editor.defaultFormatter": "biomejs.biome"
+			}
+		}
+	}
+}

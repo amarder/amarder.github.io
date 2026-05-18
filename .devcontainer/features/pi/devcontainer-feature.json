@@ -1,0 +1,20 @@
+{
+	"id": "pi",
+	"version": "1.0.0",
+	"name": "Pi Coding Agent",
+	"description": "Installs the Pi terminal coding agent (https://pi.dev/)",
+	"documentationURL": "https://pi.dev/docs",
+	"licenseURL": "https://github.com/earendil-works/pi/blob/main/LICENSE",
+	"installsAfter": [
+		"ghcr.io/devcontainers/features/node:1",
+		"ghcr.io/devcontainers-contrib/features/pnpm:2"
+	],
+	"options": {
+		"version": {
+			"type": "string",
+			"proposals": ["latest"],
+			"default": "latest",
+			"description": "npm package version to install (e.g. 'latest' or a specific version)"
+		}
+	}
+}
