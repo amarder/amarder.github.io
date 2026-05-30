@@ -8,7 +8,7 @@
 		// Optional: remove the line below if you don't want Pi (https://pi.dev/)
 		// "./features/pi": {}
 	},
-	"postCreateCommand": "pnpm install",
+	"postCreateCommand": "bash .devcontainer/postCreate.sh",
 	"forwardPorts": [4321],
 	"portsAttributes": {
 		"4321": {
