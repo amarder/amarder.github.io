@@ -5,6 +5,7 @@
 	"engines": {
 		"node": ">=24"
 	},
+	"packageManager": "pnpm@11.5.0",
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
@@ -80,16 +81,5 @@
 		"tailwindcss": "4.2.1",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"
-	},
-	"pnpm": {
-		"overrides": {
-			"sharp": "^0.34.2"
-		},
-		"onlyBuiltDependencies": [
-			"@biomejs/biome",
-			"@tailwindcss/oxide",
-			"esbuild",
-			"sharp"
-		]
 	}
 }

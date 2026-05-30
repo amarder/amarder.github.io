@@ -2,9 +2,11 @@
 	"name": "amarder.github.io",
 	"image": "mcr.microsoft.com/devcontainers/javascript-node:24",
 	"features": {
-		"ghcr.io/devcontainers-contrib/features/pnpm:2": {},
+		"ghcr.io/devcontainers-contrib/features/pnpm:2": {
+			"version": "11.5.0"
+		}
 		// Optional: remove the line below if you don't want Pi (https://pi.dev/)
-		"./features/pi": {}
+		// "./features/pi": {}
 	},
 	"postCreateCommand": "pnpm install",
 	"forwardPorts": [4321],
