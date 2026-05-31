@@ -60,26 +60,26 @@
 		"unist-util-visit": "^5.1.0"
 	},
 	"devDependencies": {
-		"@astrojs/check": "^0.9.6",
-		"@biomejs/biome": "^2.4.4",
+		"@astrojs/check": "^0.9.9",
+		"@biomejs/biome": "^2.4.16",
 		"@iconify-json/mdi": "^1.2.2",
-		"@pagefind/default-ui": "^1.4.0",
+		"@pagefind/default-ui": "^1.5.2",
 		"@playwright/test": "^1.60.0",
 		"@resvg/resvg-js": "^2.6.2",
 		"@tailwindcss/typography": "^0.5.19",
 		"@types/hast": "^3.0.4",
 		"@types/katex": "^0.16.7",
 		"@types/mdast": "^4.0.4",
-		"@vitest/ui": "^4.0.18",
-		"autoprefixer": "^10.4.27",
-		"happy-dom": "^20.7.0",
-		"pagefind": "^1.4.0",
-		"prettier": "^3.8.1",
+		"@vitest/ui": "^4.1.7",
+		"autoprefixer": "^10.5.0",
+		"happy-dom": "^20.9.0",
+		"pagefind": "^1.5.2",
+		"prettier": "^3.8.3",
 		"prettier-plugin-astro": "0.14.1",
-		"prettier-plugin-tailwindcss": "^0.7.2",
+		"prettier-plugin-tailwindcss": "^0.8.0",
 		"reading-time": "^1.5.0",
-		"tailwindcss": "4.2.1",
-		"typescript": "^5.9.3",
-		"vitest": "^4.0.18"
+		"tailwindcss": "4.3.0",
+		"typescript": "^6.0.3",
+		"vitest": "^4.1.7"
 	}
 }
