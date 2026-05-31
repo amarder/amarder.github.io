@@ -1,7 +1,7 @@
 ---
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { Code } from "astro:components";
+import { Code } from "astro-expressive-code/components";
 
 export interface Props {
   /** Path to the file to read, relative to the project root */
@@ -39,5 +39,9 @@ try {
     <strong>Error:</strong> {error}
   </div>
 ) : (
-  <Code code={fileContent} lang={lang as any} title={title} />
+  <Code
+    code={fileContent}
+    lang={lang}
+    meta={title ? `title="${title}"` : undefined}
+  />
 )} 
