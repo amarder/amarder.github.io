@@ -1,8 +1,7 @@
 ---
 title: "Goodbye ChatGPT, Hello Open WebUI!"
 description: "How I replaced ChatGPT with a self-hosted Open WebUI setup using OpenRouter for zero-retention LLM access, SearXNG for web search, and more."
-publishDate: "2026-06-10"
-draft: true
+publishDate: "2026-06-11"
 ---
 
 I've been using ChatGPT for about three years. I think it's quite useful. But, I haven't been paying for ChatGPT, and I've started to worry that if I'm not paying for the product, then I am the product.
