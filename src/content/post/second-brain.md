@@ -2,6 +2,8 @@
 title: "My Second Brain Playbook"
 description: "A simple operating procedure for maintaining a second brain."
 publishDate: "2026-06-19"
+posse:
+  - "[Reddit](https://www.reddit.com/r/PKMS/comments/1ua25wx/my_second_brain_playbook/)"
 ---
 
 I recently read [Building a Second Brain: A Proven Method to Organize Your Digital Life and Unlock Your Creative Potential](https://www.amazon.com/Building-Second-Brain-Organize-Potential/dp/1982167386) by Tiago Forte. It was pretty good! But one thing that was missing for me was a clear operating procedure for how to interact with my second brain. This post outlines how I use my second brain.
