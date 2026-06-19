@@ -1,24 +1,104 @@
 <div class="mt-12 border-t border-gray-200 dark:border-gray-700"></div>
-<div class="mx-auto max-w-md pt-12 text-center">
+<div class="mx-auto max-w-md pt-12 text-center ec-theme-root">
 	<p class="text-lg font-semibold text-accent-2">Email Updates</p>
 	<p class="mt-1 mb-4 text-sm">
 		Get a weekly summary of my new posts on data, code, and self-hosting. No spam, unsubscribe
 		anytime.
 	</p>
-	<div class="ghost-signup-form" style="min-height: 58px">
-		<script
-			src="https://cdn.jsdelivr.net/ghost/signup-form@~0.3/umd/signup-form.min.js"
-			data-button-color="#6b7280"
-			data-button-text-color="#FFFFFF"
-			data-site="https://newsletter.andrewmarder.net/"
-			data-locale="en"
-			async></script>
+	<form id="subscription-form" class="ec-surface flex items-stretch overflow-hidden p-1">
+		<label for="subscription-email" class="sr-only">Email address</label>
+		<input
+			type="email"
+			id="subscription-email"
+			name="email"
+			required
+			autocomplete="email"
+			placeholder="Your email address"
+			class="min-w-0 flex-1 border-0 bg-transparent px-3 py-2 text-sm text-global-text placeholder:text-gray-400 focus:outline-none dark:placeholder:text-gray-500"
+		/>
+		<button
+			type="submit"
+			class="shrink-0 cursor-pointer rounded-sm bg-gray-500 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-600"
+		>
+			Subscribe
+		</button>
+	</form>
+	<div id="subscription-instructions" class="ec-panel mt-6 hidden text-left text-sm" hidden>
+		<p class="text-sm">
+			I am thrilled you want to join my newsletter! Unfortunately, spammers were abusing my public signup form, so I've moved my newsletter to invite-only. To join, please send me an email so I can be certain that you want to subscribe. Here's an example message you could send:
+		</p>
+		<pre id="subscription-message" class="ec-code-block mt-4"></pre>
+		<button type="button" id="subscription-copy-all" class="ec-inline-btn mt-4 cursor-pointer px-3 py-2 text-sm">
+			Copy message
+		</button>
+		<p class="mt-4 text-xs text-gray-500 dark:text-gray-400">
+			I'll manually add your address when I receive your email and let you know you've been added.
+		</p>
 	</div>
 </div>
 
-<style is:global>
-	.ghost-signup-form iframe {
-		background: transparent !important;
-		color-scheme: normal;
+<script>
+	const form = document.getElementById("subscription-form");
+	const emailInput = document.getElementById("subscription-email");
+	const instructions = document.getElementById("subscription-instructions");
+	const messageEl = document.getElementById("subscription-message");
+	const copyAllButton = document.getElementById("subscription-copy-all");
+
+	const subscriptionTo = "andrew@andrewmarder.net";
+	const subscriptionSubject = "new newsletter subscriber";
+
+	function buildMessage(email: string) {
+		return `To: ${subscriptionTo}
+Subject: ${subscriptionSubject}
+
+Hi Andrew,
+
+Please subscribe the following email address to your newsletter:
+
+${email}
+
+Thank you!`;
 	}
-</style>
+
+	if (
+		form instanceof HTMLFormElement &&
+		emailInput instanceof HTMLInputElement &&
+		instructions instanceof HTMLElement &&
+		messageEl instanceof HTMLElement &&
+		copyAllButton instanceof HTMLButtonElement
+	) {
+		form.addEventListener("submit", (event) => {
+			event.preventDefault();
+
+			if (!form.checkValidity()) {
+				form.reportValidity();
+				return;
+			}
+
+			const email = emailInput.value.trim();
+			messageEl.textContent = buildMessage(email);
+			instructions.hidden = false;
+			instructions.classList.remove("hidden");
+			instructions.scrollIntoView({ behavior: "smooth", block: "nearest" });
+		});
+
+		copyAllButton.addEventListener("click", async () => {
+			const text = messageEl.textContent?.trim() ?? "";
+			if (!text) return;
+
+			try {
+				await navigator.clipboard.writeText(text);
+				const original = copyAllButton.textContent;
+				copyAllButton.textContent = "Copied!";
+				window.setTimeout(() => {
+					copyAllButton.textContent = original;
+				}, 1500);
+			} catch {
+				copyAllButton.textContent = "Copy failed";
+				window.setTimeout(() => {
+					copyAllButton.textContent = "Copy message";
+				}, 1500);
+			}
+		});
+	}
+</script>

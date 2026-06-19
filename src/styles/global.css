@@ -119,6 +119,64 @@
 			}
 		}
 	}
+
+	.ec-theme-root {
+		--ec-brdCol: #e1e4e8;
+		--ec-brdRad: 4px;
+		--ec-brdWd: 1.5px;
+		--ec-codeBg: #fff;
+		--ec-codeFg: #24292e;
+		--ec-codeFontFml: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+			"Courier New", monospace;
+		--ec-codeFontSize: 0.875rem;
+		--ec-codeLineHt: 1.7142857rem;
+		--ec-codePadBlk: 1rem;
+		--ec-codePadInl: 1rem;
+	}
+
+	html[data-theme="dark"] .ec-theme-root {
+		--ec-brdCol: #3c3f51;
+		--ec-codeBg: #282a36;
+		--ec-codeFg: #f8f8f2;
+	}
+
+	.ec-surface {
+		border-radius: var(--ec-brdRad);
+		border: var(--ec-brdWd) solid var(--ec-brdCol);
+		background-color: var(--ec-codeBg);
+	}
+
+	.ec-panel {
+		border-radius: var(--ec-brdRad);
+		border: 1px solid color-mix(in srgb, var(--ec-brdCol) 55%, transparent);
+		padding: 1rem;
+	}
+
+	.ec-code-block {
+		overflow-x: auto;
+		white-space: pre-wrap;
+		overflow-wrap: break-word;
+		border-radius: var(--ec-brdRad);
+		border: var(--ec-brdWd) solid var(--ec-brdCol);
+		background-color: var(--ec-codeBg);
+		color: var(--ec-codeFg);
+		font-family: var(--ec-codeFontFml);
+		font-size: var(--ec-codeFontSize);
+		line-height: var(--ec-codeLineHt);
+		padding: var(--ec-codePadBlk) var(--ec-codePadInl);
+		text-align: left;
+	}
+
+	.ec-inline-btn {
+		border-radius: var(--ec-brdRad);
+		border: var(--ec-brdWd) solid color-mix(in srgb, var(--ec-codeFg) 40%, transparent);
+		background-color: transparent;
+		color: var(--ec-codeFg);
+	}
+
+	.ec-inline-btn:hover {
+		background-color: color-mix(in srgb, var(--ec-codeFg) 10%, transparent);
+	}
 }
 
 @layer utilities {
