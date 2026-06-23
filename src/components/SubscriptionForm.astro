@@ -75,6 +75,11 @@ Thank you!`;
 				return;
 			}
 
+			const umami = (window as Window & { umami?: { track: (event: string) => void } }).umami;
+			if (umami && typeof umami.track === "function") {
+				umami.track("Subscribe");
+			}
+
 			const email = emailInput.value.trim();
 			messageEl.textContent = buildMessage(email);
 			instructions.hidden = false;
