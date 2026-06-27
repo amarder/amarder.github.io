@@ -41,5 +41,9 @@ export const menuLinks: { path: string; title: string }[] = [
 	},
 ];
 
-// Newsletter subscription form URL (Keila)
-export const keilaFormUrl = "https://keila.andrewmarder.net/forms/nfrm_BzLMaLXv";
+export const surveySubscription = {
+	responseUrl:
+		"https://surveys.andrewmarder.net/api/v1/client/cmqv2922w000301ypsz05w87q/responses",
+	surveyId: "cmqv296ta000a01ypv4bhl0m9",
+	emailFieldId: "hs3avz7lxabnw0xugjwl7t73",
+} as const;

@@ -1,3 +1,7 @@
+---
+import { surveySubscription } from "@/site.config";
+---
+
 <div class="mt-12 border-t border-gray-200 dark:border-gray-700"></div>
 <div class="mx-auto max-w-md pt-12 text-center ec-theme-root">
 	<p class="text-lg font-semibold text-accent-2">Email Updates</p>
@@ -18,56 +22,44 @@
 		/>
 		<button
 			type="submit"
-			class="shrink-0 cursor-pointer rounded-sm bg-gray-500 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-600"
+			id="subscription-submit"
+			class="shrink-0 cursor-pointer rounded-sm bg-gray-500 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-60"
 		>
 			Subscribe
 		</button>
 	</form>
-	<div id="subscription-instructions" class="ec-panel mt-6 hidden text-left text-sm" hidden>
-		<p class="text-sm">
-			I am thrilled you want to join my newsletter! Unfortunately, spammers were abusing my public signup form, so I've moved my newsletter to invite-only. To join, please send me an email so I can be certain that you want to subscribe. Here's an example message you could send:
-		</p>
-		<pre id="subscription-message" class="ec-code-block mt-4"></pre>
-		<button type="button" id="subscription-copy-all" class="ec-inline-btn mt-4 cursor-pointer px-3 py-2 text-sm">
-			Copy message
-		</button>
-		<p class="mt-4 text-xs text-gray-500 dark:text-gray-400">
-			I'll manually add your address when I receive your email and let you know you've been added.
-		</p>
-	</div>
+	<div id="subscription-status" class="ec-panel mt-6 hidden text-left text-sm" hidden></div>
 </div>
 
-<script>
+<script is:inline define:vars={{ surveySubscription }}>
 	const form = document.getElementById("subscription-form");
 	const emailInput = document.getElementById("subscription-email");
-	const instructions = document.getElementById("subscription-instructions");
-	const messageEl = document.getElementById("subscription-message");
-	const copyAllButton = document.getElementById("subscription-copy-all");
+	const submitButton = document.getElementById("subscription-submit");
+	const status = document.getElementById("subscription-status");
 
-	const subscriptionTo = "andrew@andrewmarder.net";
-	const subscriptionSubject = "new newsletter subscriber";
+	const successMessage = "Thanks for signing up! I'll be in touch.";
+	const errorMessage =
+		'Something went wrong. Please email me at <a href="mailto:subscribe@andrewmarder.net" class="underline">subscribe@andrewmarder.net</a> and I\'ll add you to the newsletter.';
 
-	function buildMessage(email: string) {
-		return `To: ${subscriptionTo}
-Subject: ${subscriptionSubject}
-
-Hi Andrew,
-
-Please subscribe the following email address to your newsletter:
-
-${email}
-
-Thank you!`;
+	function showStatus(message, isHtml = false) {
+		if (!status) return;
+		if (isHtml) {
+			status.innerHTML = message;
+		} else {
+			status.textContent = message;
+		}
+		status.hidden = false;
+		status.classList.remove("hidden");
+		status.scrollIntoView({ behavior: "smooth", block: "nearest" });
 	}
 
 	if (
 		form instanceof HTMLFormElement &&
 		emailInput instanceof HTMLInputElement &&
-		instructions instanceof HTMLElement &&
-		messageEl instanceof HTMLElement &&
-		copyAllButton instanceof HTMLButtonElement
+		submitButton instanceof HTMLButtonElement &&
+		status instanceof HTMLElement
 	) {
-		form.addEventListener("submit", (event) => {
+		form.addEventListener("submit", async (event) => {
 			event.preventDefault();
 
 			if (!form.checkValidity()) {
@@ -75,34 +67,41 @@ Thank you!`;
 				return;
 			}
 
-			const umami = (window as Window & { umami?: { track: (event: string) => void } }).umami;
+			const umami = window.umami;
 			if (umami && typeof umami.track === "function") {
 				umami.track("Subscribe");
 			}
 
 			const email = emailInput.value.trim();
-			messageEl.textContent = buildMessage(email);
-			instructions.hidden = false;
-			instructions.classList.remove("hidden");
-			instructions.scrollIntoView({ behavior: "smooth", block: "nearest" });
-		});
+			const originalLabel = submitButton.textContent;
 
-		copyAllButton.addEventListener("click", async () => {
-			const text = messageEl.textContent?.trim() ?? "";
-			if (!text) return;
+			submitButton.disabled = true;
+			submitButton.textContent = "Subscribing…";
+
+			let succeeded = false;
 
 			try {
-				await navigator.clipboard.writeText(text);
-				const original = copyAllButton.textContent;
-				copyAllButton.textContent = "Copied!";
-				window.setTimeout(() => {
-					copyAllButton.textContent = original;
-				}, 1500);
+				const response = await fetch(surveySubscription.responseUrl, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						data: { [surveySubscription.emailFieldId]: email },
+						finished: true,
+						surveyId: surveySubscription.surveyId,
+					}),
+				});
+				succeeded = response.ok;
 			} catch {
-				copyAllButton.textContent = "Copy failed";
-				window.setTimeout(() => {
-					copyAllButton.textContent = "Copy message";
-				}, 1500);
+				succeeded = false;
+			}
+
+			if (succeeded) {
+				submitButton.textContent = "Success!";
+				showStatus(successMessage);
+			} else {
+				showStatus(errorMessage, true);
+				submitButton.disabled = false;
+				submitButton.textContent = originalLabel;
 			}
 		});
 	}
