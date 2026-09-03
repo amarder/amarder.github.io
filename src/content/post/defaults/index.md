@@ -1,7 +1,7 @@
 ---
 title: "My App Defaults"
 publishDate: "2026-01-15"
-updatedDate: "2026-06-20"
+updatedDate: "2026-09-03"
 description: "The default apps I use at home."
 tags:
   - slashpages
@@ -17,7 +17,7 @@ Here's a quick rundown of the default apps I currently use at home:
 | ✅ To-Do                 | Org Mode                                                                           |
 | 📷 Photo Shooting        | [Pixel Camera](https://play.google.com/store/apps/details?id=com.google.android.GoogleCamera) |
 | 🟦 Photo Management      | [Immich](https://immich.app/)                                                      |
-| 📆 Calendar              | Fastmail Calendar                                                                  |
+| 📆 Calendar              | [Fossify Calendar](https://github.com/FossifyOrg/Calendar)                         |
 | 📁 Cloud File Storage    | Dropbox, [B2](https://www.backblaze.com/cloud-storage)                             |
 | 📖 RSS                   | [Miniflux](https://miniflux.app/)                                                  |
 | 🙍🏻‍♂️ Contacts              | Fastmail, [DAVx⁵](https://www.davx5.com/), [Fossify Contacts](https://github.com/FossifyOrg/Contacts) |
@@ -32,7 +32,7 @@ Here's a quick rundown of the default apps I currently use at home:
 | 🛒 Shopping Lists        | Org Mode                                                                           |
 | 💰 Budgeting             | [Actual Budget](https://actualbudget.org/)                                         |
 | 📰 News                  | [The Guardian](https://www.theguardian.com/us)                                     |
-| 🎵 Music                 | [Qobuz](https://www.qobuz.com/)                                                    |
+| 🎵 Music                 | [Deezer](https://www.deezer.com/)                                                  |
 | 🎤 Podcasts              | I'm not into podcasts                                                              |
 | 🔐 Password Management   | [Bitwarden](https://bitwarden.com/)                                                |
 
