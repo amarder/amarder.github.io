@@ -1,5 +1,5 @@
 ---
-import { surveySubscription } from "@/site.config";
+import { subscription } from "@/site.config";
 ---
 
 <div class="mt-12 border-t border-gray-200 dark:border-gray-700"></div>
@@ -31,7 +31,7 @@ import { surveySubscription } from "@/site.config";
 	<div id="subscription-status" class="ec-panel mt-6 hidden text-left text-sm" hidden></div>
 </div>
 
-<script is:inline define:vars={{ surveySubscription }}>
+<script is:inline define:vars={{ subscription }}>
 	const form = document.getElementById("subscription-form");
 	const emailInput = document.getElementById("subscription-email");
 	const submitButton = document.getElementById("subscription-submit");
@@ -81,14 +81,10 @@ import { surveySubscription } from "@/site.config";
 			let succeeded = false;
 
 			try {
-				const response = await fetch(surveySubscription.responseUrl, {
+				const response = await fetch(subscription.url, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						data: { [surveySubscription.emailFieldId]: email },
-						finished: true,
-						surveyId: surveySubscription.surveyId,
-					}),
+					body: JSON.stringify({ email }),
 				});
 				succeeded = response.ok;
 			} catch {
