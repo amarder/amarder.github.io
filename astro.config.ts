@@ -50,6 +50,9 @@ function loadRedirects() {
 export default defineConfig({
 	site: siteConfig.url,
 	redirects: loadRedirects(),
+	server: {
+		host: true, // listen on 0.0.0.0 so the dev server is reachable from outside a devcontainer
+	},
 	image: {
 		domains: ["webmention.io"],
 	},
