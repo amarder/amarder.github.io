@@ -2,7 +2,7 @@
 title: "Super Productivity: My Approach"
 description: "How I organize work and personal tasks in Super Productivity with cross-device sync."
 publishDate: "2026-03-07"
-updatedDate: "2026-11-17"
+updatedDate: "2026-11-18"
 tags:
   - tools
 ---
