@@ -1,7 +1,7 @@
 ---
 title: "My App Defaults"
 publishDate: "2026-01-15"
-updatedDate: "2026-09-03"
+updatedDate: "2026-11-18"
 description: "The default apps I use at home."
 tags:
   - slashpages
@@ -13,23 +13,23 @@ Here's a quick rundown of the default apps I currently use at home:
 |--------------------------|------------------------------------------------------------------------------------|
 | 📨 Mail Client           | [Fastmail](https://www.fastmail.com/) web and mobile apps                          |
 | 📮 Mail Server           | Fastmail with custom domain                                                        |
-| 📝 Notes                 | [Org Mode](https://orgmode.org/) + [Orgzly Revived](https://github.com/orgzly-revived/orgzly-android-revived) |
-| ✅ To-Do                 | Org Mode                                                                           |
+| 📝 Notes                 | [Obsidian](https://obsidian.md/)                                                   |
+| ✅ To-Do                 | [Super Productivity](https://super-productivity.com/)                              |
 | 📷 Photo Shooting        | [Pixel Camera](https://play.google.com/store/apps/details?id=com.google.android.GoogleCamera) |
 | 🟦 Photo Management      | [Immich](https://immich.app/)                                                      |
-| 📆 Calendar              | [Fossify Calendar](https://github.com/FossifyOrg/Calendar)                         |
+| 📆 Calendar              | Fastmail Calendar                                                                  |
 | 📁 Cloud File Storage    | Dropbox, [B2](https://www.backblaze.com/cloud-storage)                             |
 | 📖 RSS                   | [Miniflux](https://miniflux.app/)                                                  |
 | 🙍🏻‍♂️ Contacts              | Fastmail, [DAVx⁵](https://www.davx5.com/), [Fossify Contacts](https://github.com/FossifyOrg/Contacts) |
 | 🌐 Browser               | Firefox                                                                            |
 | 💬 Chat                  | [QUIK](https://github.com/quik-sms/quik), [Signal](https://signal.org/)            |
-| 🔖 Bookmarks             | Org Mode                                                                           |
-| 📑 Read It Later         | Org Mode                                                                           |
-| 🧑‍💻 Code Editor           | [Cursor](https://cursor.com/)                                                      |
-| 📜 Word Processing       | [Doom Emacs](https://github.com/doomemacs/core)                                    |
+| 🔖 Bookmarks             | [linkding](https://linkding.link/)                                                 |
+| 📑 Read It Later         | [Obsidian Web Clipper](https://obsidian.md/clipper)                                |
+| 🧑‍💻 Code Editor           | [VS Code](https://code.visualstudio.com/)                                          |
+| 📜 Word Processing       | VS Code                                                                            |
 | 📈 Spreadsheets          | [tidyverse](https://tidyverse.org/), [R](https://www.r-project.org/)               |
 | 📊 Presentations         | [reveal.js](/revealjs)                                                             |
-| 🛒 Shopping Lists        | Org Mode                                                                           |
+| 🛒 Shopping Lists        | Super Productivity                                                                 |
 | 💰 Budgeting             | [Actual Budget](https://actualbudget.org/)                                         |
 | 📰 News                  | [The Guardian](https://www.theguardian.com/us)                                     |
 | 🎵 Music                 | [Deezer](https://www.deezer.com/)                                                  |
